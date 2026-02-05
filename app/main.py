@@ -5,6 +5,7 @@ from urllib.parse import quote_plus
 import httpx
 from fastapi import FastAPI, Response, Query
 from fastapi.responses import PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from xml.etree import ElementTree as ET
 
 from playwright.sync_api import sync_playwright
@@ -14,6 +15,13 @@ FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fna
 
 app = FastAPI()
 
+# repo yapısı: /app/main.py ve kökte /frameassets/vatkalilogo.svg var
+BASE_DIR = os.path.dirname(__file__)
+FRAMEASSETS_DIR = os.path.join(BASE_DIR, "..", "frameassets")
+
+# /static/vatkalilogo.svg olarak servis eder
+app.mount("/static", StaticFiles(directory=FRAMEASSETS_DIR), name="static")
+
 
 def norm_price(s: str) -> str:
     if not s:
@@ -22,16 +30,31 @@ def norm_price(s: str) -> str:
 
 
 def choose_images(item: ET.Element):
-    # primary: g:image_link
+    """
+    primary: g:image_link
+    additional: g:additional_image_link (0..n)
+
+    Ek iyileştirme:
+    - additional listesinde primary ile aynı olan (ve tekrar eden) linkleri temizler.
+    - 2 tane secondary seçer, yoksa primary'ye düşer.
+    """
     ns = {"g": "http://base.google.com/ns/1.0"}
     primary = item.findtext("g:image_link", default="", namespaces=ns).strip()
 
-    # additional: g:additional_image_link (0..n)
-    additional = [e.text.strip() for e in item.findall("g:additional_image_link", namespaces=ns) if e.text and e.text.strip()]
+    raw_additional = [
+        e.text.strip()
+        for e in item.findall("g:additional_image_link", namespaces=ns)
+        if e.text and e.text.strip()
+    ]
 
-    # Senin layout: primary + 2 secondary
-    # secondary_1: additional[0] varsa, yoksa primary
-    # secondary_2: additional[1] varsa, yoksa additional[0] yoksa primary
+    seen = set()
+    additional = []
+    for url in raw_additional:
+        if (not url) or (url == primary) or (url in seen):
+            continue
+        seen.add(url)
+        additional.append(url)
+
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
 
@@ -112,7 +135,6 @@ def feed_proxy(limit: int = 10):
 
     root = ET.fromstring(r.text)
 
-    # Google feed namespace yoksa da çalışsın diye:
     channel = root.find("channel")
     if channel is None:
         # bazı feed'ler <rss><channel> değilse:
@@ -131,7 +153,7 @@ def feed_proxy(limit: int = 10):
         primary, s1, s2 = choose_images(item)
         old_hidden, new_hidden, single_hidden = hidden_flags(price, sale)
 
-        # Logo: repo içindeki svg’yi servis edeceğiz (deploy sonrası gerçek url olacak)
+        # Logo: repo içindeki svg’yi /static üzerinden servis ediyoruz
         logo_url = f"{APP_BASE_URL}/static/vatkalilogo.svg"
 
         sig = build_sig(title, price, sale, primary, s1, s2)
@@ -157,6 +179,5 @@ def feed_proxy(limit: int = 10):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-    # sadece test: ilk N item güncelli çıktı
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
