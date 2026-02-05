@@ -10,7 +10,6 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
-
 # ENV
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
@@ -18,7 +17,7 @@ FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fna
 app = FastAPI()
 
 # Static: repo root'taki /frameassets -> /static
-# repo: frameassets/vatkalilogo.svg
+# repo: frameassets/vatkalilogo.svg  ==>  /static/vatkalilogo.svg
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -73,11 +72,11 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
         return content_type.split(";")[0].strip()
     u = (url or "").lower()
-    if u.endswith(".png"):
+    if ".png" in u:
         return "image/png"
-    if u.endswith(".webp"):
+    if ".webp" in u:
         return "image/webp"
-    if u.endswith(".svg"):
+    if ".svg" in u:
         return "image/svg+xml"
     return "image/jpeg"
 
@@ -85,7 +84,7 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 def to_data_uri(url: str) -> str:
     """
     Remote image URL -> data URI
-    Headless Chromium'un dış img yükleme problemini tamamen bypass eder.
+    Headless Chromium'un dış img yükleme problemini bypass eder.
     """
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
@@ -99,6 +98,7 @@ def to_data_uri(url: str) -> str:
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
         "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
     }
 
     try:
@@ -109,14 +109,16 @@ def to_data_uri(url: str) -> str:
             b64 = base64.b64encode(r.content).decode("ascii")
             return f"data:{mime};base64,{b64}"
     except Exception:
-        # Fail olursa boş yerine en azından transparan dön
+        # Fail olursa boş yerine transparan dön
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
 def render_png(html: str, width=1080, height=1350) -> bytes:
     with sync_playwright() as p:
         browser = p.chromium.launch(args=["--no-sandbox"])
-        page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
+        page = browser.new_page(
+            viewport={"width": width, "height": height, "deviceScaleFactor": 2}
+        )
 
         # Data-uri kullandığımız için network problemi kalmayacak
         page.set_content(html, wait_until="domcontentloaded")
@@ -141,9 +143,8 @@ def render_endpoint(
     # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
-    template_path = os.path.join(base_dir, "template.html")
-    css_path = os.path.join(base_dir, "styles.css")
+    template_path = os.path.join(BASE_DIR, "template.html")
+    css_path = os.path.join(BASE_DIR, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -219,6 +220,8 @@ def feed_proxy(request: Request, limit: int = 10):
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
+
+
 @app.get("/probe")
 def probe(url: str = Query(...)):
     headers = {
@@ -230,15 +233,11 @@ def probe(url: str = Query(...)):
     }
 
     try:
-        with httpx.Client(
-            follow_redirects=True,
-            timeout=20,
-            headers=headers
-        ) as client:
+        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
             r = client.get(url)
 
             content_type = r.headers.get("content-type", "")
-            is_text = "text" in content_type or "html" in content_type
+            is_text = ("text" in content_type) or ("html" in content_type)
 
             return {
                 "url": url,
@@ -250,7 +249,4 @@ def probe(url: str = Query(...)):
             }
 
     except Exception as e:
-        return {
-            "url": url,
-            "error": str(e)
-        }
+        return {"url": url, "error": str(e)}
