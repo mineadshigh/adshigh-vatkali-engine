@@ -10,6 +10,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
+
 # ENV
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
@@ -25,6 +26,33 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
+
+
+def format_price(s: str) -> str:
+    """
+    Feed bazen '476,00 TRY' gibi geliyor.
+    Görselde 'TL' görmek için normalize ediyoruz.
+    """
+    if not s:
+        return ""
+    out = " ".join(s.split()).strip()
+    out = out.replace("TRY", "TL")
+    return out
+
+
+def escape_html(s: str) -> str:
+    """
+    Basit HTML escape (title vb. güvenli olsun)
+    """
+    if s is None:
+        return ""
+    return (
+        s.replace("&", "&amp;")
+         .replace("<", "&lt;")
+         .replace(">", "&gt;")
+         .replace('"', "&quot;")
+         .replace("'", "&#39;")
+    )
 
 
 def choose_images(item: ET.Element):
@@ -71,7 +99,10 @@ _TRANSPARENT_PNG = base64.b64decode(
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
         return content_type.split(";")[0].strip()
+
     u = (url or "").lower()
+
+    # query string'li linklerde ".png" gibi içeriyor olabilir
     if ".png" in u:
         return "image/png"
     if ".webp" in u:
@@ -140,6 +171,10 @@ def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
 ):
+    # fiyat formatı: TRY -> TL
+    price = format_price(price)
+    sale_price = format_price(sale_price)
+
     # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -161,19 +196,24 @@ def render_endpoint(
     product_image_secondary_2 = to_data_uri(product_image_secondary_2)
     logo_url = to_data_uri(logo_url)
 
+    # güvenli metin
+    title_safe = escape_html(title)
+    price_safe = escape_html(price)
+    sale_safe = escape_html(sale_price)
+
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
     html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
     html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
     html = html.replace("{{logo_url}}", logo_url)
-    html = html.replace("{{title}}", title)
-    html = html.replace("{{price}}", price)
-    html = html.replace("{{sale_price}}", sale_price)
+    html = html.replace("{{title}}", title_safe)
+    html = html.replace("{{price}}", price_safe)
+    html = html.replace("{{sale_price}}", sale_safe)
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
 
-    png = render_png(html, width=1080, height=1350)
+    png = render_png(html, width=1080, height=1080)
     return Response(content=png, media_type="image/png")
 
 
