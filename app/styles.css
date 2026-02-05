@@ -49,24 +49,23 @@ body {
   display: block;
 }
 
-/* ✅ Footer hizalama fix */
 .bottom {
   height: 240px;
-  padding: 28px 40px 40px 40px;
+  padding: 24px 40px 40px 40px;
   display: flex;
-  gap: 28px;
-  align-items: center;       /* <-- en kritik fix */
+  gap: 24px;
+  align-items: flex-end;
+  justify-content: space-between; /* sol logo, sağ metin */
 }
 
+/* LOGO (büyüttük) */
 .brand {
   width: 200px;
   flex: 0 0 200px;
-  display: flex;
-  align-items: center;
 }
 
 .logo {
-  width: 180px;              /* <-- logo büyüt */
+  width: 180px;
   height: auto;
   display: block;
 }
@@ -75,23 +74,25 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;   /* <-- title+prices dikey ortada */
-  gap: 14px;
+  gap: 12px;
+  align-items: flex-end; /* sağa hizala */
 }
 
 .title {
-  font-size: 34px;
+  font-size: 30px;
   line-height: 1.15;
-  font-weight: 650;
-  max-height: 84px;
+  font-weight: 600;
+  max-height: 70px;
   overflow: hidden;
+  text-align: right;
 }
 
 .prices {
   display: flex;
-  gap: 18px;
+  gap: 16px;
   align-items: baseline;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .old {
@@ -101,15 +102,15 @@ body {
 }
 
 .new {
-  font-size: 40px;
-  font-weight: 850;
+  font-size: 36px;
+  font-weight: 800;
   color: #c01919;
 }
 
-/* indirim yoksa tek fiyat */
+/* İndirim yoksa tek fiyat */
 .single {
-  font-size: 40px;
-  font-weight: 850;
+  font-size: 36px;
+  font-weight: 800;
   color: #111;
 }
 
