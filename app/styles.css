@@ -8,16 +8,17 @@ body {
 
 .frame {
   width: 1080px;
-  height: 1080px;
+  height: 1080px; /* ✅ 1080x1080 */
   background: #fff;
   display: flex;
   flex-direction: column;
 }
 
+/* ÜST BLOK: görseller */
 .top {
   flex: 1;
   display: flex;
-  padding: 40px 40px 20px 40px;
+  padding: 40px;
   gap: 24px;
 }
 
@@ -49,54 +50,59 @@ body {
   display: block;
 }
 
+/* ALT BLOK: logo + metin */
 .bottom {
-  height: 240px;
-  padding: 24px 40px 40px 40px;
+  height: 180px;              /* ✅ 1080 karede daha kompakt */
+  padding: 24px 40px 36px 40px;
   display: flex;
-  gap: 24px;
   align-items: flex-end;
   justify-content: space-between; /* sol logo, sağ metin */
+  gap: 24px;
 }
 
-/* LOGO (büyüttük) */
+/* LOGO */
 .brand {
-  width: 200px;
-  flex: 0 0 200px;
+  width: 320px; /* figma’daki 346px’e yakın, ama güvenli */
+  flex: 0 0 320px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .logo {
-  width: 180px;
+  width: 320px; /* ✅ büyük logo */
   height: auto;
   display: block;
 }
 
+/* SAĞ METİN */
 .meta {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-items: flex-end; /* sağa hizala */
+  gap: 10px;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .title {
-  font-size: 30px;
+  font-size: 28px;
   line-height: 1.15;
-  font-weight: 600;
-  max-height: 70px;
+  font-weight: 500; /* figma medium */
+  max-height: 64px;
   overflow: hidden;
   text-align: right;
 }
 
 .prices {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: baseline;
-  flex-wrap: wrap;
   justify-content: flex-end;
+  flex-wrap: nowrap; /* ✅ fiyatlar tek satır */
 }
 
 .old {
-  font-size: 22px;
+  font-size: 20px;
   color: #8a8a8a;
   text-decoration: line-through;
 }
@@ -107,13 +113,11 @@ body {
   color: #c01919;
 }
 
-/* İndirim yoksa tek fiyat */
+/* indirim yoksa tek fiyat */
 .single {
   font-size: 36px;
   font-weight: 800;
   color: #111;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
