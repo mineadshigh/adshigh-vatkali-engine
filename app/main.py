@@ -214,7 +214,7 @@ def render_endpoint(
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
 
-    png = render_png(html, width=1080, height=1080)
+    png = render_png(html, width=1080, height=1350)
     return Response(content=png, media_type="image/png")
 
 
