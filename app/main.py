@@ -15,33 +15,27 @@ FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fna
 
 app = FastAPI()
 
-# --- Static (logo) ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))          # /srv/app
-STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
-
-# frameassets klasörü yoksa app crash etmesin
-if os.path.isdir(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# Static: repo root'taki /frameassets -> /static
+# repo: frameassets/vatkalilogo.svg
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../srv/frameassets
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 def norm_price(s: str) -> str:
-    if not s:
-        return ""
-    return " ".join(s.split()).strip()
+    return " ".join((s or "").split()).strip()
 
 
 def choose_images(item: ET.Element):
     ns = {"g": "http://base.google.com/ns/1.0"}
-
     primary = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
 
     additional = [
-        e.text.strip()
+        (e.text or "").strip()
         for e in item.findall("g:additional_image_link", namespaces=ns)
-        if e is not None and e.text and e.text.strip()
+        if e is not None and (e.text or "").strip()
     ]
 
-    # layout: 1 büyük + 2 küçük
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
 
@@ -51,8 +45,10 @@ def choose_images(item: ET.Element):
 def hidden_flags(price: str, sale: str):
     p = norm_price(price)
     s = norm_price(sale)
+    # sale yoksa veya aynıysa: sadece tek fiyat göster
     if (not s) or (s == p):
         return ("hidden", "hidden", "")  # old_hidden, new_hidden, single_hidden
+    # sale varsa: old + new göster, single gizle
     return ("", "", "hidden")
 
 
@@ -61,26 +57,39 @@ def build_sig(*parts: str) -> str:
     return hashlib.md5(raw).hexdigest()[:12]
 
 
+def wait_images(page):
+    # tüm img'lerin load/err bitmesini bekle
+    page.evaluate(
+        """() => Promise.all(Array.from(document.images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(res => { img.onload = img.onerror = () => res(); });
+        }))"""
+    )
+
+
 def render_png(html: str, width=1080, height=1350) -> bytes:
     with sync_playwright() as p:
         browser = p.chromium.launch(args=["--no-sandbox"])
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
-        page.set_content(html, wait_until="networkidle")
+
+        page.set_content(html, wait_until="domcontentloaded")
+        # dış görseller için biraz bekle + network idle + img load
+        page.wait_for_load_state("networkidle", timeout=15000)
+        wait_images(page)
+        page.wait_for_timeout(300)
+
         buf = page.screenshot(type="png", full_page=False)
         browser.close()
         return buf
 
 
 def get_base_url(request: Request) -> str:
-    # 1) env varsa onu kullan
-    if APP_BASE_URL:
-        return APP_BASE_URL
-    # 2) yoksa request hostundan üret
-    return str(request.base_url).rstrip("/")
+    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
 @app.get("/render.png")
 def render_endpoint(
+    request: Request,
     title: str = Query(""),
     price: str = Query(""),
     sale_price: str = Query(""),
@@ -88,17 +97,22 @@ def render_endpoint(
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
-    old_hidden: str = Query(""),
-    new_hidden: str = Query(""),
-    single_hidden: str = Query(""),
 ):
-    template_path = os.path.join(BASE_DIR, "template.html")
-    css_path = os.path.join(BASE_DIR, "styles.css")
+    # hidden flag'leri artık backend hesaplıyor (URL'ye parametre yazmana gerek yok)
+    old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
+    template_path = os.path.join(base_dir, "template.html")
+    css_path = os.path.join(base_dir, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
+
+    if not logo_url:
+        base_url = get_base_url(request)
+        logo_url = f"{base_url}/static/vatkalilogo.svg"
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -139,9 +153,7 @@ def feed_proxy(request: Request, limit: int = 10):
         sale = (item.findtext("g:sale_price", default="", namespaces=ns) or "").strip()
 
         primary, s1, s2 = choose_images(item)
-        old_hidden, new_hidden, single_hidden = hidden_flags(price, sale)
 
-        logo = f"{base_url}/static/vatkalilogo.svg"
         sig = build_sig(title, price, sale, primary, s1, s2)
 
         render_url = (
@@ -152,10 +164,6 @@ def feed_proxy(request: Request, limit: int = 10):
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
-            f"&logo_url={quote_plus(logo)}"
-            f"&old_hidden={quote_plus(old_hidden)}"
-            f"&new_hidden={quote_plus(new_hidden)}"
-            f"&single_hidden={quote_plus(single_hidden)}"
             f"&v={sig}"
         )
 
