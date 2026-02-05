@@ -11,14 +11,11 @@ from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
 
-# ENV
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
 app = FastAPI()
 
-# Static: repo root'taki /frameassets -> /static
-# repo: frameassets/vatkalilogo.svg  ==>  /static/vatkalilogo.svg
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -26,33 +23,6 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
-
-
-def format_price(s: str) -> str:
-    """
-    Feed bazen '476,00 TRY' gibi geliyor.
-    Görselde 'TL' görmek için normalize ediyoruz.
-    """
-    if not s:
-        return ""
-    out = " ".join(s.split()).strip()
-    out = out.replace("TRY", "TL")
-    return out
-
-
-def escape_html(s: str) -> str:
-    """
-    Basit HTML escape (title vb. güvenli olsun)
-    """
-    if s is None:
-        return ""
-    return (
-        s.replace("&", "&amp;")
-         .replace("<", "&lt;")
-         .replace(">", "&gt;")
-         .replace('"', "&quot;")
-         .replace("'", "&#39;")
-    )
 
 
 def choose_images(item: ET.Element):
@@ -65,19 +35,17 @@ def choose_images(item: ET.Element):
         if e is not None and (e.text or "").strip()
     ]
 
+    # ilk 2 additional yoksa primary’ye düş
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
-
     return primary, s1, s2
 
 
 def hidden_flags(price: str, sale: str):
     p = norm_price(price)
     s = norm_price(sale)
-    # sale yoksa veya aynıysa: sadece tek fiyat göster
     if (not s) or (s == p):
-        return ("hidden", "hidden", "")  # old_hidden, new_hidden, single_hidden
-    # sale varsa: old + new göster, single gizle
+        return ("hidden", "hidden", "")   # old_hidden, new_hidden, single_hidden
     return ("", "", "hidden")
 
 
@@ -90,7 +58,6 @@ def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
-# 1x1 transparent png (fallback)
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
@@ -99,10 +66,7 @@ _TRANSPARENT_PNG = base64.b64decode(
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
         return content_type.split(";")[0].strip()
-
     u = (url or "").lower()
-
-    # query string'li linklerde ".png" gibi içeriyor olabilir
     if ".png" in u:
         return "image/png"
     if ".webp" in u:
@@ -113,14 +77,9 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 
 
 def to_data_uri(url: str) -> str:
-    """
-    Remote image URL -> data URI
-    Headless Chromium'un dış img yükleme problemini bypass eder.
-    """
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-    # Zaten data-uri ise dokunma
     if url.startswith("data:"):
         return url
 
@@ -133,30 +92,29 @@ def to_data_uri(url: str) -> str:
     }
 
     try:
-        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
+        with httpx.Client(follow_redirects=True, timeout=25, headers=headers) as client:
             r = client.get(url)
             r.raise_for_status()
             mime = _guess_mime(url, r.headers.get("content-type"))
             b64 = base64.b64encode(r.content).decode("ascii")
             return f"data:{mime};base64,{b64}"
     except Exception:
-        # Fail olursa boş yerine transparan dön
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
-def render_png(html: str, width=1080, height=1350) -> bytes:
+def render_png(html: str, width=1080, height=1080) -> bytes:
     with sync_playwright() as p:
         browser = p.chromium.launch(args=["--no-sandbox"])
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
         page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_timeout(200)  # layout stabilize
+        page.wait_for_timeout(200)
 
-        # ✅ KRİTİK: viewport yerine .frame elementini screenshot al (crop biter)
+        # ✅ Crop bitir: .frame elementini screenshot al
         frame = page.locator(".frame")
         frame.wait_for(state="visible", timeout=5000)
-
         buf = frame.screenshot(type="png")
+
         browser.close()
         return buf
 
@@ -172,11 +130,6 @@ def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
 ):
-    # fiyat formatı: TRY -> TL
-    price = format_price(price)
-    sale_price = format_price(sale_price)
-
-    # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
     template_path = os.path.join(BASE_DIR, "template.html")
@@ -191,30 +144,25 @@ def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    # ✅ KRİTİK: Remote image URL'lerini data-uri'ye çevir
+    # Remote URL -> data-uri (görsel yüklenmeme derdi biter)
     product_image_primary = to_data_uri(product_image_primary)
     product_image_secondary_1 = to_data_uri(product_image_secondary_1)
     product_image_secondary_2 = to_data_uri(product_image_secondary_2)
     logo_url = to_data_uri(logo_url)
-
-    # güvenli metin
-    title_safe = escape_html(title)
-    price_safe = escape_html(price)
-    sale_safe = escape_html(sale_price)
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
     html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
     html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
     html = html.replace("{{logo_url}}", logo_url)
-    html = html.replace("{{title}}", title_safe)
-    html = html.replace("{{price}}", price_safe)
-    html = html.replace("{{sale_price}}", sale_safe)
+    html = html.replace("{{title}}", title)
+    html = html.replace("{{price}}", price)
+    html = html.replace("{{sale_price}}", sale_price)
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
 
-    png = render_png(html, width=1080, height=1350)
+    png = render_png(html, width=1080, height=1080)  # ✅ 1080x1080
     return Response(content=png, media_type="image/png")
 
 
@@ -276,7 +224,6 @@ def probe(url: str = Query(...)):
     try:
         with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
             r = client.get(url)
-
             content_type = r.headers.get("content-type", "")
             is_text = ("text" in content_type) or ("html" in content_type)
 
@@ -288,6 +235,5 @@ def probe(url: str = Query(...)):
                 "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
                 "text_preview": r.text[:300] if is_text else None,
             }
-
     except Exception as e:
         return {"url": url, "error": str(e)}
