@@ -219,3 +219,38 @@ def feed_proxy(request: Request, limit: int = 10):
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
+@app.get("/probe")
+def probe(url: str = Query(...)):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
+
+    try:
+        with httpx.Client(
+            follow_redirects=True,
+            timeout=20,
+            headers=headers
+        ) as client:
+            r = client.get(url)
+
+            content_type = r.headers.get("content-type", "")
+            is_text = "text" in content_type or "html" in content_type
+
+            return {
+                "url": url,
+                "status_code": r.status_code,
+                "content_type": content_type,
+                "content_length": len(r.content),
+                "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
+                "text_preview": r.text[:300] if is_text else None,
+            }
+
+    except Exception as e:
+        return {
+            "url": url,
+            "error": str(e)
+        }
