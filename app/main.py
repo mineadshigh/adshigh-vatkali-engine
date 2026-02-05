@@ -10,6 +10,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
+
 # ENV
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
@@ -37,7 +38,6 @@ def choose_images(item: ET.Element):
         if e is not None and (e.text or "").strip()
     ]
 
-    # 1 büyük + 2 küçük
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
 
@@ -64,56 +64,63 @@ def get_base_url(request: Request) -> str:
 
 
 # 1x1 transparent png (fallback)
-_TRANSPARENT_PNG = base64.b64encode(
-    b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89"
-    b"\x00\x00\x00\nIDATx\x9cc`\x00\x00\x00\x02\x00\x01\xe2!\xbc3\x00\x00\x00\x00IEND\xaeB`\x82"
-).decode("utf-8")
+_TRANSPARENT_PNG = base64.b64decode(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
+)
+
+
+def _guess_mime(url: str, content_type: str | None) -> str:
+    if content_type and "image/" in content_type:
+        return content_type.split(";")[0].strip()
+    u = (url or "").lower()
+    if u.endswith(".png"):
+        return "image/png"
+    if u.endswith(".webp"):
+        return "image/webp"
+    if u.endswith(".svg"):
+        return "image/svg+xml"
+    return "image/jpeg"
 
 
 def to_data_uri(url: str) -> str:
     """
-    Dış görseller bazen headless render sırasında gelmiyor.
-    Bu fonksiyon görseli backend'te indirir ve data URI yapar (garanti çözüm).
+    Remote image URL -> data URI
+    Headless Chromium'un dış img yükleme problemini tamamen bypass eder.
     """
-    url = (url or "").strip()
     if not url:
-        return f"data:image/png;base64,{_TRANSPARENT_PNG}"
+        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-    # SVG ise direkt URL kalsın (istersen onu da indirebiliriz ama şimdilik gerek yok)
-    if url.lower().endswith(".svg"):
+    # Zaten data-uri ise dokunma
+    if url.startswith("data:"):
         return url
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        # bazı CDN'ler hotlink kontrolü yapabiliyor → referer eklemek faydalı
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
         "Referer": "https://www.vatkali.com/",
     }
 
     try:
-        with httpx.Client(follow_redirects=True, timeout=20.0, headers=headers) as client:
+        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
             r = client.get(url)
             r.raise_for_status()
-
-            content_type = (r.headers.get("content-type") or "").split(";")[0].strip().lower()
-            # content-type gelmezse jpg varsay
-            if not content_type or not content_type.startswith("image/"):
-                content_type = "image/jpeg"
-
-            b64 = base64.b64encode(r.content).decode("utf-8")
-            return f"data:{content_type};base64,{b64}"
+            mime = _guess_mime(url, r.headers.get("content-type"))
+            b64 = base64.b64encode(r.content).decode("ascii")
+            return f"data:{mime};base64,{b64}"
     except Exception:
-        return f"data:image/png;base64,{_TRANSPARENT_PNG}"
+        # Fail olursa boş yerine en azından transparan dön
+        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
 def render_png(html: str, width=1080, height=1350) -> bytes:
     with sync_playwright() as p:
-        browser = p.chromium.launch(args=["--no-sandbox", "--disable-dev-shm-usage"])
+        browser = p.chromium.launch(args=["--no-sandbox"])
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
-        # data-uri kullandığımız için artık dış görsel bekleme derdi kalmıyor
-        page.set_content(html, wait_until="load")
-        page.wait_for_timeout(150)  # font/layout için mini buffer
+        # Data-uri kullandığımız için network problemi kalmayacak
+        page.set_content(html, wait_until="domcontentloaded")
+        page.wait_for_timeout(150)  # font/layout stabilize
 
         buf = page.screenshot(type="png", full_page=False)
         browser.close()
@@ -134,8 +141,9 @@ def render_endpoint(
     # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    template_path = os.path.join(BASE_DIR, "template.html")
-    css_path = os.path.join(BASE_DIR, "styles.css")
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
+    template_path = os.path.join(base_dir, "template.html")
+    css_path = os.path.join(base_dir, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -146,11 +154,11 @@ def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    # ✅ kritik: dış görselleri data-uri'ye çevir (garanti yüklenir)
+    # ✅ KRİTİK: Remote image URL'lerini data-uri'ye çevir
     product_image_primary = to_data_uri(product_image_primary)
     product_image_secondary_1 = to_data_uri(product_image_secondary_1)
     product_image_secondary_2 = to_data_uri(product_image_secondary_2)
-    # logo svg olduğundan url kalabilir; istersen svg'yi de data-uri yaparız
+    logo_url = to_data_uri(logo_url)
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
