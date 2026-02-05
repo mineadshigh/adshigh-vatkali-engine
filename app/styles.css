@@ -8,7 +8,7 @@ body {
 
 .frame {
   width: 1080px;
-  height: 1350px;
+  height: 1080px;
   background: #fff;
   display: flex;
   flex-direction: column;
