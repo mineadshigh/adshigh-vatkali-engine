@@ -1,44 +1,14 @@
-FROM python:3.11-slim
-
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+FROM mcr.microsoft.com/playwright/python:v1.49.1-jammy
 
 WORKDIR /srv
 
-# System deps for Playwright
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    fonts-liberation \
-    fonts-noto-color-emoji \
-    libnss3 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libpango-1.0-0 \
-    libpangocairo-1.0-0 \
-    libasound2 \
-    libxshmfence1 \
-    libglu1-mesa \
-    && rm -rf /var/lib/apt/lists/*
+COPY app/ /srv/app/
+COPY frameassets/ /srv/frameassets/
 
-# Python deps
-COPY app/requirements.txt /srv/requirements.txt
-RUN pip install --no-cache-dir -r /srv/requirements.txt
+RUN pip install --no-cache-dir -r /srv/app/requirements.txt
 
-# Install Playwright browser
-RUN python -m playwright install chromium
+RUN python -m playwright install --with-deps chromium
 
-# App code
-COPY app /srv/app
-COPY frameassets /srv/frameassets
+ENV PYTHONPATH=/srv
 
-CMD ["bash", "-lc", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD bash -lc "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"
