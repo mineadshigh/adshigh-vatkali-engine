@@ -1,4 +1,6 @@
+import base64
 import hashlib
+import mimetypes
 import os
 from urllib.parse import quote_plus
 from xml.etree import ElementTree as ET
@@ -57,6 +59,36 @@ def build_sig(*parts: str) -> str:
     return hashlib.md5(raw).hexdigest()[:12]
 
 
+def get_base_url(request: Request) -> str:
+    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
+
+
+# --- ✅ Görselleri indirip data-uri yap (Playwright'in dış görsel çekememe sorununu çözer) ---
+def to_data_uri(url: str, timeout: int = 30) -> str:
+    if not url:
+        return ""
+
+    # zaten data: ise dokunma
+    if url.startswith("data:"):
+        return url
+
+    # svg ise text olarak embed
+    if url.lower().split("?")[0].endswith(".svg"):
+        r = httpx.get(url, timeout=timeout, follow_redirects=True)
+        r.raise_for_status()
+        svg_text = r.text
+        b64 = base64.b64encode(svg_text.encode("utf-8")).decode("ascii")
+        return f"data:image/svg+xml;base64,{b64}"
+
+    # normal görsel
+    r = httpx.get(url, timeout=timeout, follow_redirects=True)
+    r.raise_for_status()
+    content = r.content
+    mime = r.headers.get("content-type") or mimetypes.guess_type(url)[0] or "image/jpeg"
+    b64 = base64.b64encode(content).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
+
 def wait_images(page):
     # tüm img'lerin load/err bitmesini bekle
     page.evaluate(
@@ -73,18 +105,13 @@ def render_png(html: str, width=1080, height=1350) -> bytes:
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
         page.set_content(html, wait_until="domcontentloaded")
-        # dış görseller için biraz bekle + network idle + img load
         page.wait_for_load_state("networkidle", timeout=15000)
         wait_images(page)
-        page.wait_for_timeout(300)
+        page.wait_for_timeout(200)
 
         buf = page.screenshot(type="png", full_page=False)
         browser.close()
         return buf
-
-
-def get_base_url(request: Request) -> str:
-    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
 @app.get("/render.png")
@@ -98,7 +125,7 @@ def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
 ):
-    # hidden flag'leri artık backend hesaplıyor (URL'ye parametre yazmana gerek yok)
+    # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
     base_dir = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
@@ -110,9 +137,21 @@ def render_endpoint(
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
+    # logo parametresi gelmezse otomatik ver
     if not logo_url:
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
+
+    # ✅ burası senin anlamadığın kısım: HTML'i doldurmadan önce URL'leri data-uri yapıyoruz
+    # Böylece Playwright dışarıdan resim çekmese bile render'da görünür.
+    try:
+        product_image_primary = to_data_uri(product_image_primary) if product_image_primary else ""
+        product_image_secondary_1 = to_data_uri(product_image_secondary_1) if product_image_secondary_1 else ""
+        product_image_secondary_2 = to_data_uri(product_image_secondary_2) if product_image_secondary_2 else ""
+        logo_url = to_data_uri(logo_url) if logo_url else ""
+    except Exception:
+        # herhangi bir görsel indirilemezse boş geçsin (render yine çalışsın)
+        pass
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -134,7 +173,7 @@ def render_endpoint(
 def feed_proxy(request: Request, limit: int = 10):
     base_url = get_base_url(request)
 
-    r = httpx.get(FEED_URL, timeout=60)
+    r = httpx.get(FEED_URL, timeout=60, follow_redirects=True)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
