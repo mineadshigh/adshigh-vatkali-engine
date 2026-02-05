@@ -1,6 +1,5 @@
 import base64
 import hashlib
-import mimetypes
 import os
 from urllib.parse import quote_plus
 from xml.etree import ElementTree as ET
@@ -38,6 +37,7 @@ def choose_images(item: ET.Element):
         if e is not None and (e.text or "").strip()
     ]
 
+    # 1 büyük + 2 küçük
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
 
@@ -63,51 +63,57 @@ def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
-# --- ✅ Görselleri indirip data-uri yap (Playwright'in dış görsel çekememe sorununu çözer) ---
-def to_data_uri(url: str, timeout: int = 30) -> str:
-    if not url:
-        return ""
+# 1x1 transparent png (fallback)
+_TRANSPARENT_PNG = base64.b64encode(
+    b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89"
+    b"\x00\x00\x00\nIDATx\x9cc`\x00\x00\x00\x02\x00\x01\xe2!\xbc3\x00\x00\x00\x00IEND\xaeB`\x82"
+).decode("utf-8")
 
-    # zaten data: ise dokunma
-    if url.startswith("data:"):
+
+def to_data_uri(url: str) -> str:
+    """
+    Dış görseller bazen headless render sırasında gelmiyor.
+    Bu fonksiyon görseli backend'te indirir ve data URI yapar (garanti çözüm).
+    """
+    url = (url or "").strip()
+    if not url:
+        return f"data:image/png;base64,{_TRANSPARENT_PNG}"
+
+    # SVG ise direkt URL kalsın (istersen onu da indirebiliriz ama şimdilik gerek yok)
+    if url.lower().endswith(".svg"):
         return url
 
-    # svg ise text olarak embed
-    if url.lower().split("?")[0].endswith(".svg"):
-        r = httpx.get(url, timeout=timeout, follow_redirects=True)
-        r.raise_for_status()
-        svg_text = r.text
-        b64 = base64.b64encode(svg_text.encode("utf-8")).decode("ascii")
-        return f"data:image/svg+xml;base64,{b64}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari/537.36",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        # bazı CDN'ler hotlink kontrolü yapabiliyor → referer eklemek faydalı
+        "Referer": "https://www.vatkali.com/",
+    }
 
-    # normal görsel
-    r = httpx.get(url, timeout=timeout, follow_redirects=True)
-    r.raise_for_status()
-    content = r.content
-    mime = r.headers.get("content-type") or mimetypes.guess_type(url)[0] or "image/jpeg"
-    b64 = base64.b64encode(content).decode("ascii")
-    return f"data:{mime};base64,{b64}"
+    try:
+        with httpx.Client(follow_redirects=True, timeout=20.0, headers=headers) as client:
+            r = client.get(url)
+            r.raise_for_status()
 
+            content_type = (r.headers.get("content-type") or "").split(";")[0].strip().lower()
+            # content-type gelmezse jpg varsay
+            if not content_type or not content_type.startswith("image/"):
+                content_type = "image/jpeg"
 
-def wait_images(page):
-    # tüm img'lerin load/err bitmesini bekle
-    page.evaluate(
-        """() => Promise.all(Array.from(document.images).map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(res => { img.onload = img.onerror = () => res(); });
-        }))"""
-    )
+            b64 = base64.b64encode(r.content).decode("utf-8")
+            return f"data:{content_type};base64,{b64}"
+    except Exception:
+        return f"data:image/png;base64,{_TRANSPARENT_PNG}"
 
 
 def render_png(html: str, width=1080, height=1350) -> bytes:
     with sync_playwright() as p:
-        browser = p.chromium.launch(args=["--no-sandbox"])
+        browser = p.chromium.launch(args=["--no-sandbox", "--disable-dev-shm-usage"])
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
-        page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_load_state("networkidle", timeout=15000)
-        wait_images(page)
-        page.wait_for_timeout(200)
+        # data-uri kullandığımız için artık dış görsel bekleme derdi kalmıyor
+        page.set_content(html, wait_until="load")
+        page.wait_for_timeout(150)  # font/layout için mini buffer
 
         buf = page.screenshot(type="png", full_page=False)
         browser.close()
@@ -128,30 +134,23 @@ def render_endpoint(
     # hidden flag'leri backend hesaplıyor
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
-    template_path = os.path.join(base_dir, "template.html")
-    css_path = os.path.join(base_dir, "styles.css")
+    template_path = os.path.join(BASE_DIR, "template.html")
+    css_path = os.path.join(BASE_DIR, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
-    # logo parametresi gelmezse otomatik ver
     if not logo_url:
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    # ✅ burası senin anlamadığın kısım: HTML'i doldurmadan önce URL'leri data-uri yapıyoruz
-    # Böylece Playwright dışarıdan resim çekmese bile render'da görünür.
-    try:
-        product_image_primary = to_data_uri(product_image_primary) if product_image_primary else ""
-        product_image_secondary_1 = to_data_uri(product_image_secondary_1) if product_image_secondary_1 else ""
-        product_image_secondary_2 = to_data_uri(product_image_secondary_2) if product_image_secondary_2 else ""
-        logo_url = to_data_uri(logo_url) if logo_url else ""
-    except Exception:
-        # herhangi bir görsel indirilemezse boş geçsin (render yine çalışsın)
-        pass
+    # ✅ kritik: dış görselleri data-uri'ye çevir (garanti yüklenir)
+    product_image_primary = to_data_uri(product_image_primary)
+    product_image_secondary_1 = to_data_uri(product_image_secondary_1)
+    product_image_secondary_2 = to_data_uri(product_image_secondary_2)
+    # logo svg olduğundan url kalabilir; istersen svg'yi de data-uri yaparız
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -173,7 +172,7 @@ def render_endpoint(
 def feed_proxy(request: Request, limit: int = 10):
     base_url = get_base_url(request)
 
-    r = httpx.get(FEED_URL, timeout=60, follow_redirects=True)
+    r = httpx.get(FEED_URL, timeout=60)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
@@ -192,7 +191,6 @@ def feed_proxy(request: Request, limit: int = 10):
         sale = (item.findtext("g:sale_price", default="", namespaces=ns) or "").strip()
 
         primary, s1, s2 = choose_images(item)
-
         sig = build_sig(title, price, sale, primary, s1, s2)
 
         render_url = (
