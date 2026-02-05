@@ -3,24 +3,25 @@ import os
 from urllib.parse import quote_plus
 
 import httpx
-from fastapi import FastAPI, Response, Query
+from fastapi import FastAPI, Response, Query, Request
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from xml.etree import ElementTree as ET
 
 from playwright.sync_api import sync_playwright
 
-APP_BASE_URL = os.getenv("APP_BASE_URL", "https://YOUR-DOMAIN-HERE")  # deploy edince değişecek
+
+# Railway'de env'den gelecek; gelmezse request üzerinden üretilecek
+APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
 app = FastAPI()
 
-# repo yapısı: /app/main.py ve kökte /frameassets/vatkalilogo.svg var
+# frameassets klasörünü /static altında servis et
+# -> frameassets/vatkalilogo.svg  ==>  /static/vatkalilogo.svg
 BASE_DIR = os.path.dirname(__file__)
-FRAMEASSETS_DIR = os.path.join(BASE_DIR, "..", "frameassets")
-
-# /static/vatkalilogo.svg olarak servis eder
-app.mount("/static", StaticFiles(directory=FRAMEASSETS_DIR), name="static")
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 def norm_price(s: str) -> str:
@@ -30,31 +31,17 @@ def norm_price(s: str) -> str:
 
 
 def choose_images(item: ET.Element):
-    """
-    primary: g:image_link
-    additional: g:additional_image_link (0..n)
-
-    Ek iyileştirme:
-    - additional listesinde primary ile aynı olan (ve tekrar eden) linkleri temizler.
-    - 2 tane secondary seçer, yoksa primary'ye düşer.
-    """
     ns = {"g": "http://base.google.com/ns/1.0"}
-    primary = item.findtext("g:image_link", default="", namespaces=ns).strip()
 
-    raw_additional = [
+    primary = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
+
+    additional = [
         e.text.strip()
         for e in item.findall("g:additional_image_link", namespaces=ns)
-        if e.text and e.text.strip()
+        if e is not None and e.text and e.text.strip()
     ]
 
-    seen = set()
-    additional = []
-    for url in raw_additional:
-        if (not url) or (url == primary) or (url in seen):
-            continue
-        seen.add(url)
-        additional.append(url)
-
+    # layout: 1 büyük + 2 küçük
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
 
@@ -62,7 +49,6 @@ def choose_images(item: ET.Element):
 
 
 def hidden_flags(price: str, sale: str):
-    # sale boşsa / aynıysa: sadece price göster
     p = norm_price(price)
     s = norm_price(sale)
     if (not s) or (s == p):
@@ -85,6 +71,14 @@ def render_png(html: str, width=1080, height=1350) -> bytes:
         return buf
 
 
+def get_base_url(request: Request) -> str:
+    # 1) env varsa onu kullan
+    if APP_BASE_URL:
+        return APP_BASE_URL
+    # 2) yoksa request hostundan üret
+    return str(request.base_url).rstrip("/")
+
+
 @app.get("/render.png")
 def render_endpoint(
     title: str = Query(""),
@@ -98,10 +92,9 @@ def render_endpoint(
     new_hidden: str = Query(""),
     single_hidden: str = Query(""),
 ):
-    # template.html + styles.css repo içinde (app/template.html ve app/styles.css)
-    base_dir = os.path.dirname(__file__)
-    template_path = os.path.join(base_dir, "template.html")
-    css_path = os.path.join(base_dir, "styles.css")
+    # app/template.html + app/styles.css
+    template_path = os.path.join(BASE_DIR, "template.html")
+    css_path = os.path.join(BASE_DIR, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -120,16 +113,17 @@ def render_endpoint(
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
 
-    png = render_png(html)
+    png = render_png(html, width=1080, height=1350)
     return Response(content=png, media_type="image/png")
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
-def feed_proxy(limit: int = 10):
+def feed_proxy(request: Request, limit: int = 10):
     """
     Test için: feed'i çekip ilk N ürüne 'image_link' olarak bizim render URL'imizi basar.
-    (N=10 free test için ideal)
     """
+    base_url = get_base_url(request)
+
     r = httpx.get(FEED_URL, timeout=60)
     r.raise_for_status()
 
@@ -137,7 +131,6 @@ def feed_proxy(limit: int = 10):
 
     channel = root.find("channel")
     if channel is None:
-        # bazı feed'ler <rss><channel> değilse:
         return PlainTextResponse(r.text, media_type="application/xml")
 
     items = channel.findall("item")
@@ -153,13 +146,13 @@ def feed_proxy(limit: int = 10):
         primary, s1, s2 = choose_images(item)
         old_hidden, new_hidden, single_hidden = hidden_flags(price, sale)
 
-        # Logo: repo içindeki svg’yi /static üzerinden servis ediyoruz
-        logo_url = f"{APP_BASE_URL}/static/vatkalilogo.svg"
+        # logo artık gerçekten servis ediliyor:
+        logo_url = f"{base_url}/static/vatkalilogo.svg"
 
         sig = build_sig(title, price, sale, primary, s1, s2)
 
         render_url = (
-            f"{APP_BASE_URL}/render.png"
+            f"{base_url}/render.png"
             f"?title={quote_plus(title)}"
             f"&price={quote_plus(price)}"
             f"&sale_price={quote_plus(sale)}"
@@ -173,7 +166,6 @@ def feed_proxy(limit: int = 10):
             f"&v={sig}"
         )
 
-        # item içindeki g:image_link'i bizim render URL ile değiştir
         img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
