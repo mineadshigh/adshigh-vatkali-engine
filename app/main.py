@@ -1,3 +1,14 @@
+from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI
+import os
+
+app = FastAPI()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "frameassets")
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 import hashlib
 import os
 from urllib.parse import quote_plus
