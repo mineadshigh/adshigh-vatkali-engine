@@ -147,15 +147,16 @@ def to_data_uri(url: str) -> str:
 def render_png(html: str, width=1080, height=1350) -> bytes:
     with sync_playwright() as p:
         browser = p.chromium.launch(args=["--no-sandbox"])
-        page = browser.new_page(
-            viewport={"width": width, "height": height, "deviceScaleFactor": 2}
-        )
+        page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
-        # Data-uri kullandığımız için network problemi kalmayacak
         page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_timeout(150)  # font/layout stabilize
+        page.wait_for_timeout(200)  # layout stabilize
 
-        buf = page.screenshot(type="png", full_page=False)
+        # ✅ KRİTİK: viewport yerine .frame elementini screenshot al (crop biter)
+        frame = page.locator(".frame")
+        frame.wait_for(state="visible", timeout=5000)
+
+        buf = frame.screenshot(type="png")
         browser.close()
         return buf
 
