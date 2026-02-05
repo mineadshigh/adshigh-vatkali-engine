@@ -9,21 +9,19 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
-# Railway'de env'den gelecek; yoksa request üzerinden üretilecek
+# ENV
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
 app = FastAPI()
 
-# -----------------------------
-# Static: /frameassets -> /static
-# repo yapın:
-#   /app/main.py
-#   /frameassets/vatkalilogo.svg
-# -----------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../app
-STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../frameassets
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# --- Static (logo) ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))          # /srv/app
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
+
+# frameassets klasörü yoksa app crash etmesin
+if os.path.isdir(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 def norm_price(s: str) -> str:
@@ -74,8 +72,10 @@ def render_png(html: str, width=1080, height=1350) -> bytes:
 
 
 def get_base_url(request: Request) -> str:
+    # 1) env varsa onu kullan
     if APP_BASE_URL:
         return APP_BASE_URL
+    # 2) yoksa request hostundan üret
     return str(request.base_url).rstrip("/")
 
 
@@ -92,7 +92,6 @@ def render_endpoint(
     new_hidden: str = Query(""),
     single_hidden: str = Query(""),
 ):
-    # app/template.html + app/styles.css
     template_path = os.path.join(BASE_DIR, "template.html")
     css_path = os.path.join(BASE_DIR, "styles.css")
 
@@ -119,16 +118,12 @@ def render_endpoint(
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 def feed_proxy(request: Request, limit: int = 10):
-    """
-    Test için: feed'i çekip ilk N ürüne 'image_link' olarak bizim render URL'imizi basar.
-    """
     base_url = get_base_url(request)
 
     r = httpx.get(FEED_URL, timeout=60)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
-
     channel = root.find("channel")
     if channel is None:
         return PlainTextResponse(r.text, media_type="application/xml")
@@ -146,9 +141,7 @@ def feed_proxy(request: Request, limit: int = 10):
         primary, s1, s2 = choose_images(item)
         old_hidden, new_hidden, single_hidden = hidden_flags(price, sale)
 
-        # logo artık gerçekten servis ediliyor:
-        logo_url = f"{base_url}/static/vatkalilogo.svg"
-
+        logo = f"{base_url}/static/vatkalilogo.svg"
         sig = build_sig(title, price, sale, primary, s1, s2)
 
         render_url = (
@@ -159,7 +152,7 @@ def feed_proxy(request: Request, limit: int = 10):
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
-            f"&logo_url={quote_plus(logo_url)}"
+            f"&logo_url={quote_plus(logo)}"
             f"&old_hidden={quote_plus(old_hidden)}"
             f"&new_hidden={quote_plus(new_hidden)}"
             f"&single_hidden={quote_plus(single_hidden)}"
