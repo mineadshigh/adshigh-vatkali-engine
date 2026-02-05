@@ -1,37 +1,28 @@
-from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI
-import os
-
-app = FastAPI()
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_DIR = os.path.join(BASE_DIR, "frameassets")
-
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
 import hashlib
 import os
 from urllib.parse import quote_plus
-
-import httpx
-from fastapi import FastAPI, Response, Query, Request
-from fastapi.responses import PlainTextResponse
-from fastapi.staticfiles import StaticFiles
 from xml.etree import ElementTree as ET
 
+import httpx
+from fastapi import FastAPI, Query, Request, Response
+from fastapi.responses import PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
-
-# Railway'de env'den gelecek; gelmezse request üzerinden üretilecek
+# Railway'de env'den gelecek; yoksa request üzerinden üretilecek
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
 app = FastAPI()
 
-# frameassets klasörünü /static altında servis et
-# -> frameassets/vatkalilogo.svg  ==>  /static/vatkalilogo.svg
-BASE_DIR = os.path.dirname(__file__)
-STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
+# -----------------------------
+# Static: /frameassets -> /static
+# repo yapın:
+#   /app/main.py
+#   /frameassets/vatkalilogo.svg
+# -----------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../app
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
@@ -83,10 +74,8 @@ def render_png(html: str, width=1080, height=1350) -> bytes:
 
 
 def get_base_url(request: Request) -> str:
-    # 1) env varsa onu kullan
     if APP_BASE_URL:
         return APP_BASE_URL
-    # 2) yoksa request hostundan üret
     return str(request.base_url).rstrip("/")
 
 
