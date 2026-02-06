@@ -1,13 +1,17 @@
 * { box-sizing: border-box; }
 
 :root{
-  /* Yazıyı biraz sola çekmek için: 20-40 arası deneyebilirsin */
-  --rightInset: 28px;
+  /* 🔥 SAĞ BLOĞU SOLA KAYDIRMA AYARI
+     1 cm ≈ 38–42px (Playwright / 1080 canvas)
+     ŞU AN: ~1 cm sola kaydırılmış HALİ */
+  --rightInset: 40px;
 }
 
 html, body {
   margin: 0;
   padding: 0;
+  width: 1080px;
+  height: 1080px;
   background: #fff;
   overflow: hidden;
 }
@@ -21,12 +25,12 @@ body {
   width: 1080px;
   height: 1080px;
   background: #fff;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-/* TOP */
+/* ================= TOP ================= */
 .top {
   height: 940px;
   flex: 0 0 940px;
@@ -35,46 +39,34 @@ body {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
-  align-items: stretch;
 }
 
 .primary,
 .secondary {
   background: #fff;
-  border-radius: 0;
   overflow: hidden;
-  border: 0;
   min-width: 0;
   min-height: 0;
 }
 
-/* Sağ kolon */
 .secondaryCol {
   width: 400px;
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 8px;
-  min-width: 0;
-  min-height: 0;
 }
 
-/* Görsellerin sağ bitişini “içeri al” (yazıyla aynı hizada bitsin) */
-.imgInner {
-  width: calc(100% - var(--rightInset));
-  height: 100%;
-  margin-left: auto;   /* sağdan inset veriyoruz */
-}
-
+/* Görseller */
 .img {
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: contain;
   object-position: center;
+  display: block;
   background: #fff;
 }
 
-/* BOTTOM */
+/* ================= BOTTOM ================= */
 .bottom {
   height: 140px;
   flex: 0 0 140px;
@@ -83,14 +75,13 @@ body {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
-  align-items: stretch;
 }
 
-/* Logo: alt banttaki boşluğun ortası */
+/* LOGO – alt beyaz alanın TAM ortası */
 .brand {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .logo {
@@ -99,29 +90,32 @@ body {
   display: block;
 }
 
-/* Meta: sağa hizalı, ama sağdan inset ile sola çekili */
+/* META – sağ blok, SOLA KAYDIRILMIŞ */
 .meta {
   width: 100%;
   height: 100%;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   align-items: flex-end;
-  justify-content: center;
   text-align: right;
 
+  /* 🔥 BURASI HER ŞEYİ 1 CM SOLA ALIYOR */
   padding-right: var(--rightInset);
+
   gap: 6px;
 }
 
-/* Hepsi aynı “bitiş çizgisi”ni kullansın */
+/* Tüm metinler aynı sağ bitiş çizgisini kullansın */
 .meta > .discount,
 .meta > .title,
 .meta > .prices {
   width: 100%;
 }
 
+/* İNDİRİM */
 .discount {
   font-size: 18px;
   line-height: 1;
@@ -131,6 +125,7 @@ body {
   text-transform: uppercase;
 }
 
+/* TITLE */
 .title {
   font-size: 18px;
   line-height: 1.15;
@@ -142,12 +137,12 @@ body {
   overflow: hidden;
 }
 
+/* FİYATLAR */
 .prices {
   display: flex;
   gap: 10px;
   align-items: baseline;
   justify-content: flex-end;
-  flex-wrap: nowrap;
 }
 
 .old {
