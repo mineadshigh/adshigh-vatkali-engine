@@ -1,8 +1,8 @@
 * { box-sizing: border-box; }
 
 :root{
-  /* yazıları sola çekme – senin çalışan değer */
-  --rightInset: 30px;
+  /* 🔥 SADECE YAZILAR İÇİN: küçült = sola gider */
+  --textInset: 26px;
 }
 
 html, body {
@@ -26,7 +26,8 @@ body {
   flex-direction: column;
 }
 
-/* ✅ TOP: SENİN ESKİ (DOĞRU) HALİNE GERİ DÖNDÜK */
+/* ================= TOP ================= */
+
 .top {
   height: 940px;
   flex: 0 0 940px;
@@ -41,22 +42,20 @@ body {
 .primary,
 .secondary {
   background: #fff;
-  border-radius: 0;
   overflow: hidden;
-  border: 0;
   min-width: 0;
   min-height: 0;
 }
 
+/* Sağ kolon – GÖRSELLER ESKİ HALİ */
 .secondaryCol {
   width: 400px;
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 8px;
-  min-width: 0;
-  min-height: 0;
 }
 
+/* Görseller ASLA kırpılmaz */
 .img {
   width: 100%;
   height: 100%;
@@ -66,7 +65,8 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM: LOGO + YAZILAR (SENİN DOĞRU HİZALI HALİN) */
+/* ================= BOTTOM ================= */
+
 .bottom {
   height: 140px;
   flex: 0 0 140px;
@@ -78,6 +78,7 @@ body {
   align-items: stretch;
 }
 
+/* LOGO – tam ortada */
 .brand {
   display: flex;
   justify-content: center;
@@ -90,10 +91,11 @@ body {
   display: block;
 }
 
-/* sağa hizalı ama inset ile SOLA çekili */
+/* META – SADECE YAZI KAYIYOR */
 .meta {
   width: 100%;
   height: 100%;
+
   display: flex;
   flex-direction: column;
 
@@ -101,28 +103,29 @@ body {
   justify-content: center;
   text-align: right;
 
-  padding-right: var(--rightInset);
-  gap: 8px; /* büyüttüğümüz için biraz nefes */
+  padding-right: var(--textInset);
+  gap: 8px;
 }
 
+/* Aynı bitiş çizgisi */
 .meta > .discount,
 .meta > .title,
 .meta > .prices {
   width: 100%;
 }
 
-/* 🔺 Yazılar (büyütülmüş) */
+/* ================= TYPO ================= */
+
 .discount {
-  font-size: 20px;   /* 18 → 20 */
-  line-height: 1;
+  font-size: 19px;   /* 🔥 +1 */
   font-weight: 600;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
   color: #7a2d2d;
   text-transform: uppercase;
 }
 
 .title {
-  font-size: 20px;   /* 18 → 20 */
+  font-size: 19px;   /* 🔥 +1 */
   line-height: 1.2;
   font-weight: 500;
 
@@ -134,26 +137,25 @@ body {
 
 .prices {
   display: flex;
-  gap: 12px; /* 10 → 12 */
+  gap: 12px;
   align-items: baseline;
   justify-content: flex-end;
-  flex-wrap: nowrap;
 }
 
 .old {
-  font-size: 18px; /* 16 → 18 */
+  font-size: 17px;   /* 🔥 +1 */
   color: #111;
   text-decoration: line-through;
 }
 
 .new {
-  font-size: 30px; /* 28 → 30 */
+  font-size: 30px;   /* 🔥 +2 */
   font-weight: 800;
   color: #7a2d2d;
 }
 
 .single {
-  font-size: 30px; /* 28 → 30 */
+  font-size: 30px;
   font-weight: 800;
   color: #111;
 }
