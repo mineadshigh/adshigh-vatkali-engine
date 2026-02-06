@@ -26,15 +26,16 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+NS = {"g": "http://base.google.com/ns/1.0"}
+
+# ---- Helpers ----
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
 
 def format_currency_tr(s: str) -> str:
-    """
-    Feed bazen 'TRY' gönderiyor. Görselde 'TL' gösterelim.
-    """
+    """Feed bazen 'TRY' gönderiyor. Görselde 'TL' gösterelim."""
     x = norm_price(s)
     if not x:
         return x
@@ -42,7 +43,7 @@ def format_currency_tr(s: str) -> str:
 
 
 def _clean_url(u: str) -> str:
-    """fbclid/utm gibi takip parametrelerini temizle, aynı görselleri yakalayabilelim."""
+    """fbclid/utm gibi takip parametrelerini temizle, duplicate görselleri yakalayalım."""
     if not u:
         return ""
     parts = urlsplit(u)
@@ -61,13 +62,14 @@ def choose_images(item: ET.Element):
     - fbclid/utm temizleyerek duplicate yakalar
     - sırayı koruyarak unique listeden seçer
     """
-    ns = {"g": "http://base.google.com/ns/1.0"}
-
-    primary_raw = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
+    primary_raw = (item.findtext("g:image_link", default="", namespaces=NS) or "").strip()
+    # Bazı feedlerde namespaceless olabiliyor, onu da yakala:
+    if not primary_raw:
+        primary_raw = (item.findtext("image_link", default="") or "").strip()
 
     additional_raw = [
         (e.text or "").strip()
-        for e in item.findall("g:additional_image_link", namespaces=ns)
+        for e in item.findall("g:additional_image_link", namespaces=NS)
         if e is not None and (e.text or "").strip()
     ]
 
@@ -129,30 +131,45 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     return "image/jpeg"
 
 
+_DEFAULT_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+    "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    "Referer": "https://www.vatkali.com/",
+    "Origin": "https://www.vatkali.com",
+}
+
+
 def to_data_uri(url: str) -> str:
+    """
+    Ürün görselini base64 data-uri yapıyoruz.
+    Bazı ürünlerde boş preview gelmesinin ana sebebi: görsel URL'i 200 dönmüyor / HTML dönüyor / timeout.
+    O yüzden: retry + HTML ise transparan fallback.
+    """
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
     if url.startswith("data:"):
         return url
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
+    for _ in range(2):  # retry
+        try:
+            with httpx.Client(follow_redirects=True, timeout=35, headers=_DEFAULT_HEADERS) as client:
+                r = client.get(url)
+                r.raise_for_status()
 
-    try:
-        with httpx.Client(follow_redirects=True, timeout=25, headers=headers) as client:
-            r = client.get(url)
-            r.raise_for_status()
-            mime = _guess_mime(url, r.headers.get("content-type"))
-            b64 = base64.b64encode(r.content).decode("ascii")
-            return f"data:{mime};base64,{b64}"
-    except Exception:
-        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+                ct = (r.headers.get("content-type") or "").lower()
+                # Bazı CDN'ler bot'a HTML döndürüyor, bunu görsel diye basınca boş kalıyor:
+                if "text/html" in ct or "application/json" in ct:
+                    break
+
+                mime = _guess_mime(url, r.headers.get("content-type"))
+                b64 = base64.b64encode(r.content).decode("ascii")
+                return f"data:{mime};base64,{b64}"
+        except Exception:
+            continue
+
+    return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
 def render_png(html: str, width=1080, height=1080) -> bytes:
@@ -163,13 +180,12 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
             page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
             page.set_content(html, wait_until="domcontentloaded")
-            page.wait_for_timeout(200)
+            page.wait_for_timeout(350)  # biraz daha güvenli
 
             frame = page.locator(".frame")
-            frame.wait_for(state="visible", timeout=5000)
+            frame.wait_for(state="visible", timeout=7000)
 
-            buf = frame.screenshot(type="png")
-            return buf
+            return frame.screenshot(type="png")
     finally:
         try:
             if browser:
@@ -177,6 +193,8 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
         except Exception:
             pass
 
+
+# ---- Endpoints ----
 
 @app.get("/render.png")
 def render_endpoint(
@@ -230,7 +248,8 @@ def render_endpoint(
 @app.get("/feed.xml", response_class=PlainTextResponse)
 def feed_proxy(request: Request):
     """
-    ✅ LIMIT KALDIRILDI: tüm ürünlere frame basar.
+    ✅ LIMIT YOK: tüm ürünlere frame basar.
+    ✅ image_link + additional_image_link tamamen frame olur.
     """
     base_url = get_base_url(request)
 
@@ -244,12 +263,10 @@ def feed_proxy(request: Request):
 
     items = channel.findall("item")  # ✅ TAMAMI
 
-    ns = {"g": "http://base.google.com/ns/1.0"}
-
     for item in items:
         title = (item.findtext("title") or "").strip()
-        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
-        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=NS) or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=NS) or "")
 
         primary, s1, s2 = choose_images(item)
         sig = build_sig(title, price, sale, primary, s1, s2)
@@ -265,17 +282,19 @@ def feed_proxy(request: Request):
             f"&v={sig}"
         )
 
-        # image_link'i frame yap
-        img = item.find("g:image_link", ns)
+        # --- image_link'i frame yap (namespace + namespaceless güvence) ---
+        img = item.find("g:image_link", namespaces=NS)
+        if img is None:
+            img = item.find("image_link")  # bazı feedlerde bu var
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # TÜM additional_image_link'leri SİL (Meta bypass etmesin)
-        for extra in item.findall("g:additional_image_link", ns):
+        # --- TÜM additional_image_link'leri SİL ---
+        for extra in list(item.findall("g:additional_image_link", namespaces=NS)):
             item.remove(extra)
 
-        # 2 tane de frame additional ekle (carousel stabilitesi + bypass önleme)
+        # --- 2 tane frame additional ekle (Meta bypass etmesin + carousel stabil) ---
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
@@ -286,16 +305,8 @@ def feed_proxy(request: Request):
 
 @app.get("/probe")
 def probe(url: str = Query(...)):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
     try:
-        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
+        with httpx.Client(follow_redirects=True, timeout=25, headers=_DEFAULT_HEADERS) as client:
             r = client.get(url)
             content_type = r.headers.get("content-type", "")
             is_text = ("text" in content_type) or ("html" in content_type)
