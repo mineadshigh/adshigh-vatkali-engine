@@ -14,16 +14,15 @@ body {
   flex-direction: column;
 }
 
-/* ✅ TOP’u büyüt, padding/gap’i azalt: görseller büyür */
+/* TOP */
 .top {
   flex: 0 0 940px;
   height: 940px;
   display: flex;
-  padding: 18px;     /* daha az padding */
-  gap: 8px;          /* daha az boşluk */
+  padding: 18px;
+  gap: 8px;
 }
 
-/* Beyaz, keskin köşe */
 .primary,
 .secondary {
   background: #fff;
@@ -34,9 +33,8 @@ body {
 
 .primary { flex: 1; }
 
-/* ✅ Sağ kolon biraz dar: primary daha “dolu” görünür */
 .secondaryCol {
-  width: 400px;      /* 420’den 400’e indik */
+  width: 400px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -44,7 +42,6 @@ body {
 
 .secondary { flex: 1; }
 
-/* ✅ Kırpma yok, boşluk rengi beyaz */
 .img {
   width: 100%;
   height: 100%;
@@ -54,7 +51,7 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM’u küçült: top’a alan aç */
+/* BOTTOM */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
@@ -64,7 +61,7 @@ body {
   align-items: center;
 }
 
-/* Logo primary altında ortalı */
+/* Logo */
 .brand {
   flex: 1;
   display: flex;
@@ -73,56 +70,74 @@ body {
 }
 
 .logo {
-  width: 360px;  /* bir tık küçültüp bottom’a sığdırdık */
+  width: 360px;
   height: auto;
   display: block;
 }
 
-/* Meta, sağ kolonla hizalı */
+/* ✅ Meta: sağ kolonla hizalı (birebir) */
 .meta {
-  width: 400px;  /* secondaryCol ile aynı */
+  width: 400px;               /* secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end;      /* sağa hizala */
   justify-content: center;
   gap: 6px;
 }
 
-.title {
-  font-size: 23px;
-  line-height: 1.15;
-  font-weight: 500;
-  max-width: 400px;
-  max-height: 56px;
-  overflow: hidden;
+/* ✅ % İNDİRİM satırı (görseldeki gibi üstte) */
+.discount {
+  font-size: 22px;            /* örneğe yakın */
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #6b3b3b;             /* bordo-kahve */
   text-align: right;
 }
 
-.prices {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
+/* ✅ Title: örnekteki boyut/hizalama */
+.title {
+  font-size: 30px;            /* örneğe yakın */
+  line-height: 1.12;
+  font-weight: 500;
+  max-width: 400px;
+  text-align: right;
+
+  /* 2 satırı geçmesin, sığacak şekilde */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
+/* ✅ Fiyatlar: DİKEY (old üstte, new altta) */
+.prices {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* old price */
 .old {
-  font-size: 18px;
+  font-size: 26px;
   color: #111;
-  opacity: 1; /* soluk değil */
   text-decoration: line-through;
 }
 
+/* sale price */
 .new {
-  font-size: 31px;
+  font-size: 44px;
   font-weight: 800;
-  color: #c01919;
+  color: #6b3b3b;
 }
 
+/* sale yoksa tek fiyat */
 .single {
-  font-size: 31px;
+  font-size: 44px;
   font-weight: 800;
   color: #111;
 }
 
-.hidden { display: none; }
+.hidden { display: none !important; }
