@@ -14,9 +14,10 @@ body {
   flex-direction: column;
 }
 
-/* ÜST BLOK */
+/* ✅ TOP ve BOTTOM'u sabit yükseklikle bölüyoruz */
 .top {
-  flex: 1;
+  flex: 0 0 840px;           /* 1080 - 240 = 840 */
+  height: 840px;
   display: flex;
   padding: 40px 40px 24px 40px;
   gap: 24px;
@@ -50,9 +51,10 @@ body {
   display: block;
 }
 
-/* ALT BLOK */
+/* ✅ Bottom sabit: içerik artık asla crop olmaz */
 .bottom {
-  height: 200px;
+  flex: 0 0 240px;
+  height: 240px;
   padding: 0 40px 40px 40px;
   display: flex;
   align-items: flex-end;
@@ -60,7 +62,7 @@ body {
   gap: 24px;
 }
 
-/* LOGO (Figma: ~346px genişlik) */
+/* LOGO */
 .brand {
   width: 360px;
   flex: 0 0 360px;
