@@ -1,6 +1,6 @@
-import base64
 import hashlib
 import os
+import time
 from urllib.parse import quote_plus
 from xml.etree import ElementTree as ET
 
@@ -10,19 +10,75 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
-
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # .../srv/app
-STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # .../srv/frameassets
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# --- HTTP client (reuse) ---
+HTTP_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+    "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    "Referer": "https://www.vatkali.com/",
+    "Origin": "https://www.vatkali.com",
+}
+http_client = httpx.Client(follow_redirects=True, timeout=25, headers=HTTP_HEADERS)
+
+# --- tiny in-memory cache to reduce repeated downloads ---
+_IMG_CACHE = {}  # url -> (ts, content_type, bytes)
+CACHE_TTL_SECONDS = 10 * 60  # 10 dk
+
+
+def _cache_get(url: str):
+    hit = _IMG_CACHE.get(url)
+    if not hit:
+        return None
+    ts, ct, data = hit
+    if (time.time() - ts) > CACHE_TTL_SECONDS:
+        _IMG_CACHE.pop(url, None)
+        return None
+    return ct, data
+
+
+def _cache_set(url: str, content_type: str, data: bytes):
+    # basit limit
+    if len(_IMG_CACHE) > 400:
+        _IMG_CACHE.clear()
+    _IMG_CACHE[url] = (time.time(), content_type, data)
+
+
+def get_base_url(request: Request) -> str:
+    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
+
+
+def format_price(s: str) -> str:
+    """Feed TRY veriyorsa TL’ye çevir."""
+    x = norm_price(s)
+    # ör: "476,00 TRY" => "476,00 TL"
+    x = x.replace(" TRY", " TL").replace("TRY", "TL")
+    return x
+
+
+def hidden_flags(price: str, sale: str):
+    p = norm_price(price)
+    s = norm_price(sale)
+    if (not s) or (s == p):
+        return ("hidden", "hidden", "")  # old_hidden, new_hidden, single_hidden
+    return ("", "", "hidden")
+
+
+def build_sig(*parts: str) -> str:
+    raw = "|".join([p or "" for p in parts]).encode("utf-8")
+    return hashlib.md5(raw).hexdigest()[:12]
 
 
 def choose_images(item: ET.Element):
@@ -35,71 +91,18 @@ def choose_images(item: ET.Element):
         if e is not None and (e.text or "").strip()
     ]
 
-    # ilk 2 additional yoksa primary’ye düş
     s1 = additional[0] if len(additional) >= 1 else primary
     s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
     return primary, s1, s2
 
 
-def hidden_flags(price: str, sale: str):
-    p = norm_price(price)
-    s = norm_price(sale)
-    if (not s) or (s == p):
-        return ("hidden", "hidden", "")   # old_hidden, new_hidden, single_hidden
-    return ("", "", "hidden")
-
-
-def build_sig(*parts: str) -> str:
-    raw = "|".join([p or "" for p in parts]).encode("utf-8")
-    return hashlib.md5(raw).hexdigest()[:12]
-
-
-def get_base_url(request: Request) -> str:
-    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
-
-
-_TRANSPARENT_PNG = base64.b64decode(
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
-)
-
-
-def _guess_mime(url: str, content_type: str | None) -> str:
-    if content_type and "image/" in content_type:
-        return content_type.split(";")[0].strip()
-    u = (url or "").lower()
-    if ".png" in u:
-        return "image/png"
-    if ".webp" in u:
-        return "image/webp"
-    if ".svg" in u:
-        return "image/svg+xml"
-    return "image/jpeg"
-
-
-def to_data_uri(url: str) -> str:
-    if not url:
-        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
-
-    if url.startswith("data:"):
-        return url
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
-    try:
-        with httpx.Client(follow_redirects=True, timeout=25, headers=headers) as client:
-            r = client.get(url)
-            r.raise_for_status()
-            mime = _guess_mime(url, r.headers.get("content-type"))
-            b64 = base64.b64encode(r.content).decode("ascii")
-            return f"data:{mime};base64,{b64}"
-    except Exception:
-        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+def wait_images(page):
+    page.evaluate(
+        """() => Promise.all(Array.from(document.images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(res => { img.onload = img.onerror = () => res(); });
+        }))"""
+    )
 
 
 def render_png(html: str, width=1080, height=1080) -> bytes:
@@ -108,15 +111,47 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
         page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
         page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_timeout(200)
+        page.wait_for_load_state("networkidle", timeout=20000)
+        wait_images(page)
+        page.wait_for_timeout(120)
 
-        # ✅ Crop bitir: .frame elementini screenshot al
-        frame = page.locator(".frame")
-        frame.wait_for(state="visible", timeout=5000)
-        buf = frame.screenshot(type="png")
-
+        buf = page.screenshot(type="png", full_page=False)
         browser.close()
         return buf
+
+
+def img_proxy_url(request: Request, remote_url: str) -> str:
+    """Remote URL -> bizim domainimizde /img?url=..."""
+    if not remote_url:
+        return ""
+    base_url = get_base_url(request)
+    return f"{base_url}/img?url={quote_plus(remote_url)}"
+
+
+@app.get("/img")
+def img(url: str = Query(...)):
+    """
+    Remote image proxy:
+    - Playwright dış domainde hotlink/headers yüzünden bazen görsel çekemiyor.
+    - Bu endpoint aynı-origin yapar, stabil olur.
+    """
+    cached = _cache_get(url)
+    if cached:
+        ct, data = cached
+        return Response(content=data, media_type=ct)
+
+    r = http_client.get(url)
+    r.raise_for_status()
+    ct = (r.headers.get("content-type") or "image/jpeg").split(";")[0].strip()
+    data = r.content
+    _cache_set(url, ct, data)
+
+    # cache-control eklemek istersen:
+    return Response(
+        content=data,
+        media_type=ct,
+        headers={"Cache-Control": "public, max-age=600"},
+    )
 
 
 @app.get("/render.png")
@@ -132,6 +167,10 @@ def render_endpoint(
 ):
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
+    # TRY->TL
+    price = format_price(price)
+    sale_price = format_price(sale_price)
+
     template_path = os.path.join(BASE_DIR, "template.html")
     css_path = os.path.join(BASE_DIR, "styles.css")
 
@@ -144,11 +183,11 @@ def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    # Remote URL -> data-uri (görsel yüklenmeme derdi biter)
-    product_image_primary = to_data_uri(product_image_primary)
-    product_image_secondary_1 = to_data_uri(product_image_secondary_1)
-    product_image_secondary_2 = to_data_uri(product_image_secondary_2)
-    logo_url = to_data_uri(logo_url)
+    # ✅ Remote görselleri /img üzerinden same-origin yap
+    product_image_primary = img_proxy_url(request, product_image_primary)
+    product_image_secondary_1 = img_proxy_url(request, product_image_secondary_1)
+    product_image_secondary_2 = img_proxy_url(request, product_image_secondary_2)
+    logo_url = img_proxy_url(request, logo_url) if logo_url.startswith("http") else logo_url
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -162,7 +201,7 @@ def render_endpoint(
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
 
-    png = render_png(html, width=1080, height=1080)  # ✅ 1080x1080
+    png = render_png(html, width=1080, height=1080)
     return Response(content=png, media_type="image/png")
 
 
@@ -170,7 +209,7 @@ def render_endpoint(
 def feed_proxy(request: Request, limit: int = 10):
     base_url = get_base_url(request)
 
-    r = httpx.get(FEED_URL, timeout=60)
+    r = http_client.get(FEED_URL)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
@@ -202,10 +241,10 @@ def feed_proxy(request: Request, limit: int = 10):
             f"&v={sig}"
         )
 
-        img = item.find("g:image_link", ns)
-        if img is None:
-            img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img.text = render_url
+        img_tag = item.find("g:image_link", ns)
+        if img_tag is None:
+            img_tag = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
+        img_tag.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
@@ -213,27 +252,16 @@ def feed_proxy(request: Request, limit: int = 10):
 
 @app.get("/probe")
 def probe(url: str = Query(...)):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
     try:
-        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
-            r = client.get(url)
-            content_type = r.headers.get("content-type", "")
-            is_text = ("text" in content_type) or ("html" in content_type)
-
-            return {
-                "url": url,
-                "status_code": r.status_code,
-                "content_type": content_type,
-                "content_length": len(r.content),
-                "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
-                "text_preview": r.text[:300] if is_text else None,
-            }
+        r = http_client.get(url)
+        content_type = r.headers.get("content-type", "")
+        is_text = ("text" in content_type) or ("html" in content_type)
+        return {
+            "url": url,
+            "status_code": r.status_code,
+            "content_type": content_type,
+            "content_length": len(r.content),
+            "text_preview": r.text[:300] if is_text else None,
+        }
     except Exception as e:
         return {"url": url, "error": str(e)}
