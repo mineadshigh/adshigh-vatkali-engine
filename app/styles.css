@@ -14,18 +14,18 @@ body {
   flex-direction: column;
 }
 
-/* TOP */
+/* TOP: görseller */
 .top {
-  flex: 0 0 940px;
-  height: 940px;
+  flex: 0 0 880px;
+  height: 880px;
   display: flex;
-  padding: 28px 28px 12px 28px;
-  gap: 20px;
+  padding: 40px 40px 24px 40px;
+  gap: 12px; /* ✅ primary-secondary arası daha az */
 }
 
 .primary,
 .secondary {
-  background: #fff;
+  background: #f3f3f3; /* ✅ boşluklar gri görünmesin diye */
   border-radius: 0;
   overflow: hidden;
   border: 0;
@@ -34,10 +34,10 @@ body {
 .primary { flex: 1; }
 
 .secondaryCol {
-  width: 280px;
+  width: 380px; /* ✅ 2-3 görseller enlemesine büyüsün */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px; /* ✅ araları daha az */
 }
 
 .secondary { flex: 1; }
@@ -49,63 +49,59 @@ body {
   object-fit: contain;
   object-position: center;
   display: block;
-  background: #fff;
+  background: transparent;
 }
 
-/* Secondary: dolu dursun */
+/* Secondary: kırpma olmasın + alan genişlediği için küçük durmaz */
 .secondary .img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;  /* ✅ kırpma yok */
   object-position: center;
   display: block;
-  background: #fff;
+  background: transparent;
 }
 
-/* BOTTOM */
+/* BOTTOM: TOP ile aynı kolon hizası */
 .bottom {
-  flex: 0 0 140px;
-  height: 140px;
-  padding: 0 28px 24px 28px;
+  flex: 0 0 200px;
+  height: 200px;
+  padding: 0 40px 32px 40px;
   display: flex;
+  gap: 12px;                  /* ✅ top ile aynı gap */
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
 }
 
-/* ✅ VATKALI daha sağa */
+/* ✅ Logo artık primary’nin altında ortalı */
 .brand {
-  width: 420px;
-  flex: 0 0 420px;
+  flex: 1;                    /* primary genişliği kadar alan */
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 42px; /* 🔥 20 → 42: logo bariz sağa kayar */
+  justify-content: center;    /* ✅ tam ortala */
 }
 
 .logo {
-  width: 346px;
+  width: 380px;               /* istersen 346 da kalabilir */
   height: auto;
   display: block;
 }
 
-/* SAĞ METİN */
+/* ✅ Meta artık secondary kolonunun altında */
 .meta {
-  flex: 1;
+  width: 380px;               /* secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end;      /* sağa yaslı kalsın */
   justify-content: center;
   gap: 8px;
 }
 
-/* ✅ Title biraz küçüldü */
 .title {
-  font-size: 26px;     /* 28 → 26 */
+  font-size: 24px;            /* ✅ biraz küçülttük */
   line-height: 1.15;
   font-weight: 500;
-  max-width: 520px;
-  max-height: 60px;
+  max-width: 380px;
+  max-height: 58px;
   overflow: hidden;
   text-align: right;
 }
@@ -118,24 +114,21 @@ body {
   flex-wrap: nowrap;
 }
 
-/* ✅ Old price tam siyah */
 .old {
-  font-size: 18px;      /* 20 → 18 */
-  color: #111;          /* siyah */
-  opacity: 1;           /* 🔥 soluk olmasın */
+  font-size: 18px;            /* ✅ biraz küçüldü */
+  color: #111;                /* ✅ siyah */
+  opacity: 0.9;               /* ✅ soluk değil */
   text-decoration: line-through;
 }
 
-/* ✅ Sale price biraz küçüldü */
 .new {
-  font-size: 34px;      /* 36 → 34 */
+  font-size: 32px;            /* ✅ biraz küçüldü */
   font-weight: 800;
   color: #c01919;
 }
 
-/* indirim yoksa */
 .single {
-  font-size: 34px;      /* 36 → 34 */
+  font-size: 32px;
   font-weight: 800;
   color: #111;
 }
