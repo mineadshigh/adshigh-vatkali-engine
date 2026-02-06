@@ -1,7 +1,13 @@
 import base64
 import hashlib
 import os
-from urllib.parse import quote_plus
+from urllib.parse import (
+    quote_plus,
+    urlsplit,
+    urlunsplit,
+    parse_qsl,
+    urlencode,
+)
 from xml.etree import ElementTree as ET
 
 import httpx
@@ -32,22 +38,59 @@ def format_currency_tr(s: str) -> str:
     x = norm_price(s)
     if not x:
         return x
-    x = x.replace("TRY", "TL").replace("try", "TL")
-    return x
+    return x.replace("TRY", "TL").replace("try", "TL")
+
+
+def _clean_url(u: str) -> str:
+    """fbclid/utm gibi takip parametrelerini temizle, aynı görselleri yakalayabilelim."""
+    if not u:
+        return ""
+    parts = urlsplit(u)
+    q = [
+        (k, v)
+        for (k, v) in parse_qsl(parts.query, keep_blank_values=True)
+        if not (k.lower().startswith("utm_") or k.lower() in {"fbclid", "gclid"})
+    ]
+    new_query = urlencode(q, doseq=True)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, new_query, parts.fragment))
 
 
 def choose_images(item: ET.Element):
+    """
+    primary + 2 secondary seçer.
+    - fbclid/utm temizleyerek duplicate yakalar
+    - sırayı koruyarak unique listeden seçer
+    """
     ns = {"g": "http://base.google.com/ns/1.0"}
-    primary = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
 
-    additional = [
+    primary_raw = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
+
+    additional_raw = [
         (e.text or "").strip()
         for e in item.findall("g:additional_image_link", namespaces=ns)
         if e is not None and (e.text or "").strip()
     ]
 
-    s1 = additional[0] if len(additional) >= 1 else primary
-    s2 = additional[1] if len(additional) >= 2 else (additional[0] if len(additional) >= 1 else primary)
+    all_urls = [primary_raw] + additional_raw
+
+    seen = set()
+    uniq = []
+    for u in all_urls:
+        cu = _clean_url(u)
+        if cu and cu not in seen:
+            seen.add(cu)
+            uniq.append(u)  # orijinal URL
+
+    primary = uniq[0] if uniq else primary_raw
+    s1 = uniq[1] if len(uniq) > 1 else ""
+    s2 = uniq[2] if len(uniq) > 2 else ""
+
+    # fallback (render tarafında boş gelmesin)
+    if not s1:
+        s1 = primary
+    if not s2:
+        s2 = s1
+
     return primary, s1, s2
 
 
@@ -185,7 +228,10 @@ def render_endpoint(
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
-def feed_proxy(request: Request, limit: int = 10):
+def feed_proxy(request: Request):
+    """
+    ✅ LIMIT KALDIRILDI: tüm ürünlere frame basar.
+    """
     base_url = get_base_url(request)
 
     r = httpx.get(FEED_URL, timeout=60)
@@ -196,8 +242,7 @@ def feed_proxy(request: Request, limit: int = 10):
     if channel is None:
         return PlainTextResponse(r.text, media_type="application/xml")
 
-    items = channel.findall("item")
-    items = items[: max(1, min(limit, len(items)))]
+    items = channel.findall("item")  # ✅ TAMAMI
 
     ns = {"g": "http://base.google.com/ns/1.0"}
 
@@ -220,16 +265,20 @@ def feed_proxy(request: Request, limit: int = 10):
             f"&v={sig}"
         )
 
+        # image_link'i frame yap
         img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # ✅ KRİTİK FIX:
-        # Meta bazen additional_image_link'leri kullanıp frame'i bypass edebiliyor.
-        # Bu yüzden frame feed'inde additional_image_link'leri tamamen kaldırıyoruz.
+        # TÜM additional_image_link'leri SİL (Meta bypass etmesin)
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
+
+        # 2 tane de frame additional ekle (carousel stabilitesi + bypass önleme)
+        for _ in range(2):
+            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
