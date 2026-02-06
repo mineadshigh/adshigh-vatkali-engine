@@ -10,6 +10,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
+
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
@@ -24,13 +25,16 @@ def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
 
-def pretty_currency(s: str) -> str:
+def format_currency_tr(s: str) -> str:
     """
-    Feed'deki TRY -> TL dönüşümü (örn: '476,00 TRY' -> '476,00 TL')
+    Feed bazen 'TRY' gönderiyor. Görselde 'TL' gösterelim.
     """
-    t = norm_price(s)
-    t = t.replace(" TRY", " TL").replace("TRY", "TL")
-    return t
+    x = norm_price(s)
+    if not x:
+        return x
+    # Büyük/küçük varyasyonlarına dayanıklı
+    x = x.replace("TRY", "TL").replace("try", "TL")
+    return x
 
 
 def choose_images(item: ET.Element):
@@ -52,7 +56,7 @@ def hidden_flags(price: str, sale: str):
     p = norm_price(price)
     s = norm_price(sale)
     if (not s) or (s == p):
-        return ("hidden", "hidden", "")
+        return ("hidden", "hidden", "")   # old_hidden, new_hidden, single_hidden
     return ("", "", "hidden")
 
 
@@ -110,19 +114,26 @@ def to_data_uri(url: str) -> str:
 
 
 def render_png(html: str, width=1080, height=1080) -> bytes:
-    with sync_playwright() as p:
-        browser = p.chromium.launch(args=["--no-sandbox"])
-        page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
+    browser = None
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(args=["--no-sandbox"])
+            page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
-        page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_timeout(250)
+            page.set_content(html, wait_until="domcontentloaded")
+            page.wait_for_timeout(200)
 
-        frame = page.locator(".frame")
-        frame.wait_for(state="visible", timeout=5000)
-        buf = frame.screenshot(type="png")
+            frame = page.locator(".frame")
+            frame.wait_for(state="visible", timeout=5000)
 
-        browser.close()
-        return buf
+            buf = frame.screenshot(type="png")
+            return buf
+    finally:
+        try:
+            if browser:
+                browser.close()
+        except Exception:
+            pass
 
 
 @app.get("/render.png")
@@ -136,9 +147,9 @@ def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
 ):
-    # TL dönüşümü
-    price = pretty_currency(price)
-    sale_price = pretty_currency(sale_price)
+    # TRY -> TL normalize
+    price = format_currency_tr(price)
+    sale_price = format_currency_tr(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -194,8 +205,8 @@ def feed_proxy(request: Request, limit: int = 10):
 
     for item in items:
         title = (item.findtext("title") or "").strip()
-        price = (item.findtext("g:price", default="", namespaces=ns) or "").strip()
-        sale = (item.findtext("g:sale_price", default="", namespaces=ns) or "").strip()
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images(item)
         sig = build_sig(title, price, sale, primary, s1, s2)
