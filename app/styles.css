@@ -4,10 +4,10 @@ body {
   margin: 0;
   background: #fff;
 
-  /* ✅ Inter yerine Linux’ta stabil TR glyph’li font */
+  /* Linux/Playwright stabil TR glyph */
   font-family: "DejaVu Sans", Arial, sans-serif;
 
-  /* bazen Playwright font ağırlığı uyduruyor, kapatalım */
+  /* sentetik bold/italic üretmesin */
   font-synthesis: none;
 }
 
@@ -19,7 +19,7 @@ body {
   flex-direction: column;
 }
 
-/* TOP alan aynı */
+/* TOP aynı */
 .top {
   flex: 0 0 940px;
   height: 940px;
@@ -56,25 +56,25 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM: meta'yı yukarı al + hizayı top ile birebir yap */
+/* ✅ BOTTOM: nefes + hizalama */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
 
-  /* top ile aynı sağ/sol padding + aynı gap => kolon hizası birebir */
+  /* top ile aynı padding/gap => kolonlar birebir */
   padding: 0 18px 18px 18px;
   display: flex;
   gap: 8px;
 
-  /* ✅ center değil: meta top çizgisine otursun */
+  /* meta yukarıdan başlasın */
   align-items: flex-start;
 }
 
-/* Logo aynı konum mantığında kalsın */
+/* Logo: aynen kalsın */
 .brand {
   flex: 1;
   display: flex;
-  align-items: flex-end;         /* logo alt çizgide dursun */
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -84,67 +84,66 @@ body {
   display: block;
 }
 
-/* ✅ Meta: sağ kolonun SOL KENARINA hizalanacak */
+/* ✅ Meta: sağ görsellerin SAĞ KENARI ile hizalı (right aligned) */
 .meta {
-  width: 400px;                  /* secondaryCol ile aynı */
+  width: 400px;                 /* secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
 
-  /* ✅ sağa dayama yok: kolonun solundan başlasın */
-  align-items: flex-start;
+  /* IMPORTANT: sağa hizala */
+  align-items: flex-end;
+  text-align: right;
 
-  /* ✅ top çizgisinden çok az aşağı */
-  padding-top: 10px;
+  /* biraz yukarı al + altta boşluk bırak */
+  padding-top: 14px;
 
-  /* sağa kayma olmasın */
-  text-align: left;
   gap: 6px;
 }
 
-/* İNDİRİM satırı */
+/* İNDİRİM satırı — 600 yerine 500 (İ kalın görünmesin) */
 .discount {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.2px;
   color: #7a2d2d;
+  text-transform: uppercase;
 }
 
-/* title */
+/* title — biraz küçült, sağ görsele hizalı */
 .title {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.15;
   font-weight: 500;
 
-  /* sağ kolona sığsın */
   max-width: 400px;
   max-height: 46px;
   overflow: hidden;
 }
 
-/* fiyatlar */
+/* fiyatlar — sağa hizalı */
 .prices {
   display: flex;
   gap: 10px;
   align-items: baseline;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex-wrap: nowrap;
 }
 
 .old {
-  font-size: 16px;
+  font-size: 15px;
   color: #111;
   text-decoration: line-through;
 }
 
 .new {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   color: #7a2d2d;
 }
 
 .single {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   color: #111;
 }
