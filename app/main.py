@@ -26,16 +26,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-NS = {"g": "http://base.google.com/ns/1.0"}
-
-# ---- Helpers ----
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
 
 def format_currency_tr(s: str) -> str:
-    """Feed bazen 'TRY' gönderiyor. Görselde 'TL' gösterelim."""
     x = norm_price(s)
     if not x:
         return x
@@ -43,7 +39,7 @@ def format_currency_tr(s: str) -> str:
 
 
 def _clean_url(u: str) -> str:
-    """fbclid/utm gibi takip parametrelerini temizle, duplicate görselleri yakalayalım."""
+    """fbclid/utm gibi takip parametrelerini temizle, aynı görselleri yakalayabilelim."""
     if not u:
         return ""
     parts = urlsplit(u)
@@ -57,19 +53,13 @@ def _clean_url(u: str) -> str:
 
 
 def choose_images(item: ET.Element):
-    """
-    primary + 2 secondary seçer.
-    - fbclid/utm temizleyerek duplicate yakalar
-    - sırayı koruyarak unique listeden seçer
-    """
-    primary_raw = (item.findtext("g:image_link", default="", namespaces=NS) or "").strip()
-    # Bazı feedlerde namespaceless olabiliyor, onu da yakala:
-    if not primary_raw:
-        primary_raw = (item.findtext("image_link", default="") or "").strip()
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    primary_raw = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
 
     additional_raw = [
         (e.text or "").strip()
-        for e in item.findall("g:additional_image_link", namespaces=NS)
+        for e in item.findall("g:additional_image_link", namespaces=ns)
         if e is not None and (e.text or "").strip()
     ]
 
@@ -87,7 +77,6 @@ def choose_images(item: ET.Element):
     s1 = uniq[1] if len(uniq) > 1 else ""
     s2 = uniq[2] if len(uniq) > 2 else ""
 
-    # fallback (render tarafında boş gelmesin)
     if not s1:
         s1 = primary
     if not s2:
@@ -100,7 +89,7 @@ def hidden_flags(price: str, sale: str):
     p = norm_price(price)
     s = norm_price(sale)
     if (not s) or (s == p):
-        return ("hidden", "hidden", "")  # old_hidden, new_hidden, single_hidden
+        return ("hidden", "hidden", "")
     return ("", "", "hidden")
 
 
@@ -131,45 +120,30 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     return "image/jpeg"
 
 
-_DEFAULT_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-    "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-    "Referer": "https://www.vatkali.com/",
-    "Origin": "https://www.vatkali.com",
-}
-
-
 def to_data_uri(url: str) -> str:
-    """
-    Ürün görselini base64 data-uri yapıyoruz.
-    Bazı ürünlerde boş preview gelmesinin ana sebebi: görsel URL'i 200 dönmüyor / HTML dönüyor / timeout.
-    O yüzden: retry + HTML ise transparan fallback.
-    """
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
     if url.startswith("data:"):
         return url
 
-    for _ in range(2):  # retry
-        try:
-            with httpx.Client(follow_redirects=True, timeout=35, headers=_DEFAULT_HEADERS) as client:
-                r = client.get(url)
-                r.raise_for_status()
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
 
-                ct = (r.headers.get("content-type") or "").lower()
-                # Bazı CDN'ler bot'a HTML döndürüyor, bunu görsel diye basınca boş kalıyor:
-                if "text/html" in ct or "application/json" in ct:
-                    break
-
-                mime = _guess_mime(url, r.headers.get("content-type"))
-                b64 = base64.b64encode(r.content).decode("ascii")
-                return f"data:{mime};base64,{b64}"
-        except Exception:
-            continue
-
-    return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+    try:
+        with httpx.Client(follow_redirects=True, timeout=25, headers=headers) as client:
+            r = client.get(url)
+            r.raise_for_status()
+            mime = _guess_mime(url, r.headers.get("content-type"))
+            b64 = base64.b64encode(r.content).decode("ascii")
+            return f"data:{mime};base64,{b64}"
+    except Exception:
+        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
 def render_png(html: str, width=1080, height=1080) -> bytes:
@@ -180,12 +154,13 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
             page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
 
             page.set_content(html, wait_until="domcontentloaded")
-            page.wait_for_timeout(350)  # biraz daha güvenli
+            page.wait_for_timeout(200)
 
             frame = page.locator(".frame")
-            frame.wait_for(state="visible", timeout=7000)
+            frame.wait_for(state="visible", timeout=5000)
 
-            return frame.screenshot(type="png")
+            buf = frame.screenshot(type="png")
+            return buf
     finally:
         try:
             if browser:
@@ -193,8 +168,6 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
         except Exception:
             pass
 
-
-# ---- Endpoints ----
 
 @app.get("/render.png")
 def render_endpoint(
@@ -242,16 +215,20 @@ def render_endpoint(
     html = html.replace("{{single_hidden}}", single_hidden)
 
     png = render_png(html, width=1080, height=1080)
-    return Response(content=png, media_type="image/png")
+
+    # Meta cache'e takılmasın diye (isteğe bağlı ama iyi)
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return Response(content=png, media_type="image/png", headers=headers)
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 def feed_proxy(request: Request):
     """
     ✅ LIMIT YOK: tüm ürünlere frame basar.
-    ✅ image_link + additional_image_link tamamen frame olur.
+    ✅ Feed URL'ine verdiğin ?v=... paramını render_url içine de taşır (cache kırıcı).
     """
     base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()  # <-- kritik
 
     r = httpx.get(FEED_URL, timeout=60)
     r.raise_for_status()
@@ -261,15 +238,18 @@ def feed_proxy(request: Request):
     if channel is None:
         return PlainTextResponse(r.text, media_type="application/xml")
 
-    items = channel.findall("item")  # ✅ TAMAMI
+    items = channel.findall("item")
+    ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
         title = (item.findtext("title") or "").strip()
-        price = format_currency_tr(item.findtext("g:price", default="", namespaces=NS) or "")
-        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=NS) or "")
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images(item)
-        sig = build_sig(title, price, sale, primary, s1, s2)
+
+        # sig -> ürün bazlı stabil cache key
+        sig = build_sig(title, price, sale, primary, s1, s2, fv)
 
         render_url = (
             f"{base_url}/render.png"
@@ -279,34 +259,42 @@ def feed_proxy(request: Request):
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
+            f"&fv={quote_plus(fv)}"          # <-- kritik
             f"&v={sig}"
         )
 
-        # --- image_link'i frame yap (namespace + namespaceless güvence) ---
-        img = item.find("g:image_link", namespaces=NS)
-        if img is None:
-            img = item.find("image_link")  # bazı feedlerde bu var
+        # image_link'i frame yap
+        img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # --- TÜM additional_image_link'leri SİL ---
-        for extra in list(item.findall("g:additional_image_link", namespaces=NS)):
+        # TÜM additional_image_link'leri SİL
+        for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
-        # --- 2 tane frame additional ekle (Meta bypass etmesin + carousel stabil) ---
+        # 2 tane de frame additional ekle (bypass & carousel stabilitesi)
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
-    return PlainTextResponse(xml_out, media_type="application/xml")
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
 
 @app.get("/probe")
 def probe(url: str = Query(...)):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
+
     try:
-        with httpx.Client(follow_redirects=True, timeout=25, headers=_DEFAULT_HEADERS) as client:
+        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
             r = client.get(url)
             content_type = r.headers.get("content-type", "")
             is_text = ("text" in content_type) or ("html" in content_type)
