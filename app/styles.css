@@ -1,5 +1,10 @@
 * { box-sizing: border-box; }
 
+:root{
+  /* 🔥 Görselin "görünen" sağ bitişi ile yazının bitişini aynı yapmak için */
+  --rightInset: 16px; /* 12-18 arası oynatabilirsin */
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -45,6 +50,7 @@ body {
   min-height: 0;
 }
 
+/* ✅ Sağ kolonda görsellerin "bitim çizgisi"ni içeri al */
 .secondaryCol {
   width: 400px;
   display: grid;
@@ -52,6 +58,9 @@ body {
   gap: 8px;
   min-width: 0;
   min-height: 0;
+
+  /* 🔥 Görsel sağ bitiş çizgisi */
+  padding-right: var(--rightInset);
 }
 
 .img {
@@ -63,7 +72,7 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM: 1fr + 400px, senin matematik */
+/* ✅ BOTTOM: 1fr + 400px */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
@@ -73,14 +82,14 @@ body {
   grid-template-columns: 1fr 400px;
   gap: 8px;
 
-  align-items: stretch; /* 🔥 hücreler tam yüksekliğe yayılsın */
+  align-items: stretch;
 }
 
 /* ✅ LOGO: alt banttaki beyaz alanın TAM ORTASI */
 .brand {
   display: flex;
   justify-content: center;
-  align-items: center;   /* 🔥 artık “ortalanıyor” */
+  align-items: center;
 }
 
 .logo {
@@ -89,21 +98,24 @@ body {
   display: block;
 }
 
-/* ✅ META: 400px kolonun TAMAMINI kapla ve sağa hizala */
+/* ✅ META: sağa hizalı + aynı "bitim çizgisi" */
 .meta {
-  width: 100%;                 /* 🔥 grid hücresini full kapla */
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 
   align-items: flex-end;
-  justify-content: center;     /* 🔥 alt bant içinde ortalı (ne çok yukarı ne çok aşağı) */
+  justify-content: center;
   text-align: right;
 
   gap: 6px;
+
+  /* 🔥 Yazı sağ bitiş çizgisi: görsellerle aynı */
+  padding-right: var(--rightInset);
 }
 
-/* 🔥 Yazıların hepsi 400px kolon genişliğini kullansın => sağ bitişler birebir aynı olur */
+/* Yazılar tam kolon genişliğini kullansın */
 .meta > .discount,
 .meta > .title,
 .meta > .prices {
