@@ -3,11 +3,7 @@
 body {
   margin: 0;
   background: #fff;
-
-  /* Linux/Playwright stabil TR glyph */
   font-family: "DejaVu Sans", Arial, sans-serif;
-
-  /* sentetik bold/italic üretmesin */
   font-synthesis: none;
 }
 
@@ -56,26 +52,28 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM: nefes + hizalama */
+/* ✅ BOTTOM: iki blok farklı hizalansın (meta üstte, logo altta) */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
 
-  /* top ile aynı padding/gap => kolonlar birebir */
-  padding: 0 18px 18px 18px;
+  padding: 0 18px 18px 18px;  /* top ile aynı */
   display: flex;
   gap: 8px;
 
-  /* meta yukarıdan başlasın */
-  align-items: flex-start;
+  /* 🔥 kritik: flex-start değil */
+  align-items: stretch;
 }
 
-/* Logo: aynen kalsın */
+/* ✅ Logo: yatayda ortalı kalsın, dikeyde alta insin */
 .brand {
   flex: 1;
   display: flex;
-  align-items: flex-end;
   justify-content: center;
+  align-items: flex-end;
+
+  /* logo biraz daha aşağı “otursun” */
+  padding-bottom: 6px;
 }
 
 .logo {
@@ -84,44 +82,43 @@ body {
   display: block;
 }
 
-/* ✅ Meta: sağ görsellerin SAĞ KENARI ile hizalı (right aligned) */
+/* ✅ Meta: sağ kolona hizalı + ÜSTE yapışık (görseller bittiği çizgi) */
 .meta {
   width: 400px;                 /* secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
 
-  /* IMPORTANT: sağa hizala */
   align-items: flex-end;
   text-align: right;
 
-  /* biraz yukarı al + altta boşluk bırak */
-  padding-top: 14px;
+  /* görsellerin bittiği çizgiye otursun */
+  justify-content: flex-start;
+  padding-top: 0;
 
   gap: 6px;
 }
 
-/* İNDİRİM satırı — 600 yerine 500 (İ kalın görünmesin) */
+/* ✅ İNDİRİM büyüsün */
 .discount {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.2px;
   color: #7a2d2d;
   text-transform: uppercase;
 }
 
-/* title — biraz küçült, sağ görsele hizalı */
+/* title biraz daha kompakt */
 .title {
   font-size: 18px;
   line-height: 1.15;
   font-weight: 500;
-
   max-width: 400px;
   max-height: 46px;
   overflow: hidden;
 }
 
-/* fiyatlar — sağa hizalı */
+/* fiyatlar sağa dayalı */
 .prices {
   display: flex;
   gap: 10px;
