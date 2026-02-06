@@ -1,8 +1,8 @@
+import asyncio
 import base64
 import hashlib
 import os
 import re
-import threading
 from urllib.parse import (
     quote_plus,
     urlsplit,
@@ -16,16 +16,10 @@ import httpx
 from fastapi import FastAPI, Query, Request, Response
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
-
-# ✅ Aynı anda kaç render çalışsın? (OOM riskini azaltmak için 1 önerilir)
-RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
-
-# ✅ Playwright render kalitesi / RAM dengesi
-DEVICE_SCALE_FACTOR = float(os.getenv("DEVICE_SCALE_FACTOR", "2"))
 
 app = FastAPI()
 
@@ -33,63 +27,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-# ---------------------------
-# Global / process-level resources
-# ---------------------------
-_pw = None
-_browser = None
-_render_sem = threading.Semaphore(RENDER_CONCURRENCY)
 
-_http = httpx.Client(
-    follow_redirects=True,
-    timeout=httpx.Timeout(25.0, connect=10.0),
-    limits=httpx.Limits(max_connections=50, max_keepalive_connections=20),
-    headers={
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    },
-)
-
-
-@app.on_event("startup")
-def _startup():
-    """
-    ✅ En kritik fix:
-    - Playwright + Chromium'u bir kez aç
-    - Her request'te tekrar launch etme (OOM kaynağı)
-    """
-    global _pw, _browser
-    _pw = sync_playwright().start()
-    _browser = _pw.chromium.launch(
-        args=[
-            "--no-sandbox",
-            "--disable-dev-shm-usage",   # Railway/Docker'da /dev/shm sınırlı olur
-            "--disable-gpu",
-        ]
-    )
-
-
-@app.on_event("shutdown")
-def _shutdown():
-    global _pw, _browser
-    try:
-        if _browser:
-            _browser.close()
-    except Exception:
-        pass
-    try:
-        if _pw:
-            _pw.stop()
-    except Exception:
-        pass
-    try:
-        _http.close()
-    except Exception:
-        pass
-
+# -------------------------
+# Helpers (senin mevcutlar)
+# -------------------------
 
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
@@ -247,15 +188,33 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     return "image/jpeg"
 
 
-def to_data_uri(url: str) -> str:
+# -------------------------
+# Async HTTP + Data URI
+# -------------------------
+
+async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+
     if url.startswith("data:"):
         return url
 
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
+
     try:
-        r = _http.get(url)
+        r = await client.get(url, headers=headers)
         r.raise_for_status()
+
+        # ✅ OOM koruması (çok büyük görsel gelirse base64’e çevirmeyelim)
+        if len(r.content) > 6_000_000:  # ~6MB
+            return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+
         mime = _guess_mime(url, r.headers.get("content-type"))
         b64 = base64.b64encode(r.content).decode("ascii")
         return f"data:{mime};base64,{b64}"
@@ -263,39 +222,62 @@ def to_data_uri(url: str) -> str:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
-def render_png(html: str, width=1080, height=1080) -> bytes:
-    """
-    ✅ OOM fix:
-    - Browser global
-    - Her request -> sadece page aç/kapat
-    - Semaphore ile eşzamanlı render limiti
-    """
-    global _browser
-    _render_sem.acquire()
-    page = None
+# -------------------------
+# Playwright Async (GLOBAL)
+# -------------------------
+
+_pw = None
+_browser = None
+
+# aynı anda çok render gelince RAM patlamasın diye limit
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "2"))
+_render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
+
+
+@app.on_event("startup")
+async def _startup():
+    global _pw, _browser
+    _pw = await async_playwright().start()
+    _browser = await _pw.chromium.launch(args=["--no-sandbox"])
+
+
+@app.on_event("shutdown")
+async def _shutdown():
+    global _pw, _browser
     try:
-        page = _browser.new_page(
-            viewport={"width": width, "height": height, "deviceScaleFactor": DEVICE_SCALE_FACTOR}
-        )
-
-        page.set_content(html, wait_until="domcontentloaded")
-        page.wait_for_timeout(150)
-
-        frame = page.locator(".frame")
-        frame.wait_for(state="visible", timeout=5000)
-
-        return frame.screenshot(type="png")
+        if _browser:
+            await _browser.close()
     finally:
-        try:
-            if page:
-                page.close()
-        except Exception:
-            pass
-        _render_sem.release()
+        _browser = None
+    try:
+        if _pw:
+            await _pw.stop()
+    finally:
+        _pw = None
 
+
+async def render_png(html: str, width=1080, height=1080) -> bytes:
+    global _browser
+    async with _render_sem:
+        page = await _browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
+        try:
+            await page.set_content(html, wait_until="domcontentloaded")
+            await page.wait_for_timeout(200)
+
+            frame = page.locator(".frame")
+            await frame.wait_for(state="visible", timeout=5000)
+
+            return await frame.screenshot(type="png")
+        finally:
+            await page.close()
+
+
+# -------------------------
+# Endpoints
+# -------------------------
 
 @app.get("/render.png")
-def render_endpoint(
+async def render_endpoint(
     request: Request,
     title: str = Query(""),
     price: str = Query(""),
@@ -327,11 +309,13 @@ def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    # (image fetch) -> data uri
-    product_image_primary = to_data_uri(product_image_primary)
-    product_image_secondary_1 = to_data_uri(product_image_secondary_1)
-    product_image_secondary_2 = to_data_uri(product_image_secondary_2)
-    logo_url = to_data_uri(logo_url)
+    async with httpx.AsyncClient(follow_redirects=True, timeout=25) as client:
+        product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
+            to_data_uri(product_image_primary, client),
+            to_data_uri(product_image_secondary_1, client),
+            to_data_uri(product_image_secondary_2, client),
+            to_data_uri(logo_url, client),
+        )
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -347,18 +331,19 @@ def render_endpoint(
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
-    png = render_png(html, width=1080, height=1080)
+    png = await render_png(html, width=1080, height=1080)
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
-def feed_proxy(request: Request):
+async def feed_proxy(request: Request):
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
-    r = httpx.get(FEED_URL, timeout=60)
-    r.raise_for_status()
+    async with httpx.AsyncClient(timeout=60) as client:
+        r = await client.get(FEED_URL)
+        r.raise_for_status()
 
     root = ET.fromstring(r.text)
     channel = root.find("channel")
@@ -408,19 +393,28 @@ def feed_proxy(request: Request):
 
 
 @app.get("/probe")
-def probe(url: str = Query(...)):
-    try:
-        r = _http.get(url, timeout=20.0)
-        content_type = r.headers.get("content-type", "")
-        is_text = ("text" in content_type) or ("html" in content_type)
+async def probe(url: str = Query(...)):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
 
-        return {
-            "url": url,
-            "status_code": r.status_code,
-            "content_type": content_type,
-            "content_length": len(r.content),
-            "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
-            "text_preview": r.text[:300] if is_text else None,
-        }
+    try:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=20, headers=headers) as client:
+            r = await client.get(url)
+            content_type = r.headers.get("content-type", "")
+            is_text = ("text" in content_type) or ("html" in content_type)
+
+            return {
+                "url": url,
+                "status_code": r.status_code,
+                "content_type": content_type,
+                "content_length": len(r.content),
+                "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
+                "text_preview": r.text[:300] if is_text else None,
+            }
     except Exception as e:
         return {"url": url, "error": str(e)}
