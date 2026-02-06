@@ -2,6 +2,7 @@ import base64
 import hashlib
 import os
 import re
+import threading
 from urllib.parse import (
     quote_plus,
     urlsplit,
@@ -20,11 +21,74 @@ from playwright.sync_api import sync_playwright
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
+# ✅ Aynı anda kaç render çalışsın? (OOM riskini azaltmak için 1 önerilir)
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
+
+# ✅ Playwright render kalitesi / RAM dengesi
+DEVICE_SCALE_FACTOR = float(os.getenv("DEVICE_SCALE_FACTOR", "2"))
+
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# ---------------------------
+# Global / process-level resources
+# ---------------------------
+_pw = None
+_browser = None
+_render_sem = threading.Semaphore(RENDER_CONCURRENCY)
+
+_http = httpx.Client(
+    follow_redirects=True,
+    timeout=httpx.Timeout(25.0, connect=10.0),
+    limits=httpx.Limits(max_connections=50, max_keepalive_connections=20),
+    headers={
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    },
+)
+
+
+@app.on_event("startup")
+def _startup():
+    """
+    ✅ En kritik fix:
+    - Playwright + Chromium'u bir kez aç
+    - Her request'te tekrar launch etme (OOM kaynağı)
+    """
+    global _pw, _browser
+    _pw = sync_playwright().start()
+    _browser = _pw.chromium.launch(
+        args=[
+            "--no-sandbox",
+            "--disable-dev-shm-usage",   # Railway/Docker'da /dev/shm sınırlı olur
+            "--disable-gpu",
+        ]
+    )
+
+
+@app.on_event("shutdown")
+def _shutdown():
+    global _pw, _browser
+    try:
+        if _browser:
+            _browser.close()
+    except Exception:
+        pass
+    try:
+        if _pw:
+            _pw.stop()
+    except Exception:
+        pass
+    try:
+        _http.close()
+    except Exception:
+        pass
 
 
 def norm_price(s: str) -> str:
@@ -103,9 +167,7 @@ def get_base_url(request: Request) -> str:
 
 
 def tr_title_case(text: str) -> str:
-    """
-    Her kelimenin baş harfi büyük (TR i/ı uyumlu).
-    """
+    """Her kelimenin baş harfi büyük (TR i/ı uyumlu)."""
     text = (text or "").strip()
     if not text:
         return ""
@@ -132,9 +194,7 @@ def tr_title_case(text: str) -> str:
 
 
 def _parse_money_to_float(s: str) -> float | None:
-    """
-    '₺2,390.00', '2.390,00 TL', '2390 TL' -> float
-    """
+    """'₺2,390.00', '2.390,00 TL', '2390 TL' -> float"""
     if not s:
         return None
     t = s.strip()
@@ -190,49 +250,48 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 def to_data_uri(url: str) -> str:
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
-
     if url.startswith("data:"):
         return url
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
     try:
-        with httpx.Client(follow_redirects=True, timeout=25, headers=headers) as client:
-            r = client.get(url)
-            r.raise_for_status()
-            mime = _guess_mime(url, r.headers.get("content-type"))
-            b64 = base64.b64encode(r.content).decode("ascii")
-            return f"data:{mime};base64,{b64}"
+        r = _http.get(url)
+        r.raise_for_status()
+        mime = _guess_mime(url, r.headers.get("content-type"))
+        b64 = base64.b64encode(r.content).decode("ascii")
+        return f"data:{mime};base64,{b64}"
     except Exception:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 
 def render_png(html: str, width=1080, height=1080) -> bytes:
-    browser = None
+    """
+    ✅ OOM fix:
+    - Browser global
+    - Her request -> sadece page aç/kapat
+    - Semaphore ile eşzamanlı render limiti
+    """
+    global _browser
+    _render_sem.acquire()
+    page = None
     try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(args=["--no-sandbox"])
-            page = browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
+        page = _browser.new_page(
+            viewport={"width": width, "height": height, "deviceScaleFactor": DEVICE_SCALE_FACTOR}
+        )
 
-            page.set_content(html, wait_until="domcontentloaded")
-            page.wait_for_timeout(200)
+        page.set_content(html, wait_until="domcontentloaded")
+        page.wait_for_timeout(150)
 
-            frame = page.locator(".frame")
-            frame.wait_for(state="visible", timeout=5000)
+        frame = page.locator(".frame")
+        frame.wait_for(state="visible", timeout=5000)
 
-            return frame.screenshot(type="png")
+        return frame.screenshot(type="png")
     finally:
         try:
-            if browser:
-                browser.close()
+            if page:
+                page.close()
         except Exception:
             pass
+        _render_sem.release()
 
 
 @app.get("/render.png")
@@ -248,7 +307,6 @@ def render_endpoint(
 ):
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
-
     title = tr_title_case(title)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
@@ -269,6 +327,7 @@ def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
+    # (image fetch) -> data uri
     product_image_primary = to_data_uri(product_image_primary)
     product_image_secondary_1 = to_data_uri(product_image_secondary_1)
     product_image_secondary_2 = to_data_uri(product_image_secondary_2)
@@ -310,8 +369,7 @@ def feed_proxy(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = (item.findtext("title") or "").strip()
-        title = tr_title_case(title)
+        title = tr_title_case((item.findtext("title") or "").strip())
 
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
@@ -351,27 +409,18 @@ def feed_proxy(request: Request):
 
 @app.get("/probe")
 def probe(url: str = Query(...)):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
     try:
-        with httpx.Client(follow_redirects=True, timeout=20, headers=headers) as client:
-            r = client.get(url)
-            content_type = r.headers.get("content-type", "")
-            is_text = ("text" in content_type) or ("html" in content_type)
+        r = _http.get(url, timeout=20.0)
+        content_type = r.headers.get("content-type", "")
+        is_text = ("text" in content_type) or ("html" in content_type)
 
-            return {
-                "url": url,
-                "status_code": r.status_code,
-                "content_type": content_type,
-                "content_length": len(r.content),
-                "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
-                "text_preview": r.text[:300] if is_text else None,
-            }
+        return {
+            "url": url,
+            "status_code": r.status_code,
+            "content_type": content_type,
+            "content_length": len(r.content),
+            "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
+            "text_preview": r.text[:300] if is_text else None,
+        }
     except Exception as e:
         return {"url": url, "error": str(e)}
