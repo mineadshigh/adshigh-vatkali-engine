@@ -1,78 +1,27 @@
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: #fff;
-  font-family: "DejaVu Sans", Arial, sans-serif;
-  font-synthesis: none;
-}
-
-.frame {
-  width: 1080px;
-  height: 1080px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-}
-
-/* TOP aynı */
-.top {
-  flex: 0 0 940px;
-  height: 940px;
-  display: flex;
-  padding: 18px;
-  gap: 8px;
-}
-
-.primary,
-.secondary {
-  background: #fff;
-  border-radius: 0;
-  overflow: hidden;
-  border: 0;
-}
-
-.primary { flex: 1; }
-
-.secondaryCol {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.secondary { flex: 1; }
-
-.img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  background: #fff;
-}
-
-/* ✅ BOTTOM: iki blok farklı hizalansın (meta üstte, logo altta) */
+/* ✅ BOTTOM: top ile birebir kolon matematiği (1fr + 400px) */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
 
-  padding: 0 18px 18px 18px;  /* top ile aynı */
-  display: flex;
+  /* top ile aynı padding */
+  padding: 0 18px 18px 18px;
+
+  /* 🔥 flex yerine grid */
+  display: grid;
+  grid-template-columns: 1fr 400px;  /* primary alan + sağ kolon */
   gap: 8px;
 
-  /* 🔥 kritik: flex-start değil */
-  align-items: stretch;
+  /* içerikler alta otursun (meta da logo da aşağıda) */
+  align-items: end;
 }
 
-/* ✅ Logo: yatayda ortalı kalsın, dikeyde alta insin */
+/* ✅ Logo: sol kolonda tam ortada ve daha aşağıda */
 .brand {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: flex-end;
 
-  /* logo biraz daha aşağı “otursun” */
+  /* biraz daha aşağı insin */
   padding-bottom: 6px;
 }
 
@@ -82,67 +31,28 @@ body {
   display: block;
 }
 
-/* ✅ Meta: sağ kolona hizalı + ÜSTE yapışık (görseller bittiği çizgi) */
+/* ✅ Meta: sağ kolonda, sağa hizalı ve aşağıda (çok yukarıda kalmasın) */
 .meta {
-  width: 400px;                 /* secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
-
-  align-items: flex-end;
+  align-items: flex-end;    /* sağa hizala */
   text-align: right;
 
-  /* görsellerin bittiği çizgiye otursun */
-  justify-content: flex-start;
-  padding-top: 0;
+  /* 🔥 metinleri aşağıya indir */
+  justify-content: flex-end;
+
+  /* en altta yapışmasın, nefes alsın */
+  padding-bottom: 10px;
 
   gap: 6px;
 }
 
-/* ✅ İNDİRİM büyüsün */
+/* İNDİRİM daha büyük olsun */
 .discount {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
   font-weight: 600;
   letter-spacing: 0.2px;
   color: #7a2d2d;
   text-transform: uppercase;
 }
-
-/* title biraz daha kompakt */
-.title {
-  font-size: 18px;
-  line-height: 1.15;
-  font-weight: 500;
-  max-width: 400px;
-  max-height: 46px;
-  overflow: hidden;
-}
-
-/* fiyatlar sağa dayalı */
-.prices {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
-}
-
-.old {
-  font-size: 15px;
-  color: #111;
-  text-decoration: line-through;
-}
-
-.new {
-  font-size: 26px;
-  font-weight: 800;
-  color: #7a2d2d;
-}
-
-.single {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111;
-}
-
-.hidden { display: none; }
