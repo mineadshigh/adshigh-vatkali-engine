@@ -14,16 +14,16 @@ body {
   flex-direction: column;
 }
 
-/* TOP alanı büyüttük (görseller daha çok yer kaplasın) */
+/* 🔥 GÖRSELLERİ GERÇEKTEN BÜYÜTTÜK */
 .top {
-  flex: 0 0 900px;
-  height: 900px;
+  flex: 0 0 940px;              /* ⬆️ büyüdü */
+  height: 940px;
   display: flex;
-  padding: 32px 32px 16px 32px;
+  padding: 28px 28px 12px 28px;
   gap: 20px;
 }
 
-/* Keskin köşe + BEYAZ arka plan (contain boşlukları çerçeve gibi görünmesin) */
+/* Temiz, keskin, beyaz */
 .primary,
 .secondary {
   background: #fff;
@@ -35,7 +35,7 @@ body {
 .primary { flex: 1; }
 
 .secondaryCol {
-  width: 290px;                 /* biraz daralttık -> primary alan büyür */
+  width: 280px;                /* biraz daha dar → primary daha büyük */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -43,17 +43,17 @@ body {
 
 .secondary { flex: 1; }
 
-/* Primary: kesilmesin (contain) */
+/* Primary: kesilme yok */
 .primary .img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center;
   display: block;
-  background: #fff;             /* boşluklar beyaz */
+  background: #fff;
 }
 
-/* Secondary: daha dolu görünsün (cover) */
+/* Secondary: dolu dursun */
 .secondary .img {
   width: 100%;
   height: 100%;
@@ -63,24 +63,25 @@ body {
   background: #fff;
 }
 
-/* BOTTOM daha kompakt (beyaz boşluk azalsın) */
+/* 🔥 ALT ALAN KÜÇÜLDÜ */
 .bottom {
-  flex: 0 0 180px;
-  height: 180px;
-  padding: 0 32px 28px 32px;
+  flex: 0 0 140px;             /* ⬇️ küçüldü */
+  height: 140px;
+  padding: 0 28px 24px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
 }
 
-/* LOGO: biraz daha sağa “ortalanmış” hissettirsin */
+/* 🔥 LOGO BİLİNÇLİ ŞEKİLDE SAĞA ALINDI */
 .brand {
-  width: 440px;                 /* büyüttük */
-  flex: 0 0 440px;
+  width: 420px;
+  flex: 0 0 420px;
   display: flex;
   align-items: center;
-  justify-content: center;       /* logo blok içinde ortalı -> görsel alanına göre daha sağda durur */
+  justify-content: flex-end;   /* 👈 asıl fark burada */
+  padding-right: 20px;         /* ekstra sağ itiş */
 }
 
 .logo {
@@ -89,14 +90,14 @@ body {
   display: block;
 }
 
-/* SAĞ METİN */
+/* Metin */
 .meta {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .title {
@@ -119,8 +120,8 @@ body {
 
 .old {
   font-size: 20px;
-  color: #111;       /* daha siyah */
-  opacity: 0.75;     /* silik olmasın */
+  color: #111;
+  opacity: 0.75;
   text-decoration: line-through;
 }
 
