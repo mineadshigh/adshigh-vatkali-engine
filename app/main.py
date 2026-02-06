@@ -262,7 +262,7 @@ def render_endpoint(
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    # Discount % (sale varsa)
+    # Discount %
     pct = calc_discount_percent(price, sale_price)
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
@@ -326,13 +326,13 @@ def feed_proxy(request: Request):
 
     for item in items:
         title = (item.findtext("title") or "").strip()
-        title = tr_title_case(title)
 
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images(item)
 
+        # ✅ sig stabil + fv dahil (cache kırıcı)
         sig = build_sig(title, price, sale, primary, s1, s2, fv)
 
         render_url = (
@@ -352,9 +352,11 @@ def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
+        # Meta bypass etmesin: existing additional'ları kaldır
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
+        # 2 tane frame additional ekle
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
