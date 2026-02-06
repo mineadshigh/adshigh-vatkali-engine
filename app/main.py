@@ -104,9 +104,7 @@ def get_base_url(request: Request) -> str:
 
 
 def tr_title_case(text: str) -> str:
-    """
-    Her kelimenin baş harfi büyük (TR i/ı uyumlu).
-    """
+    """Her kelimenin baş harfi büyük (TR i/ı uyumlu)."""
     text = (text or "").strip()
     if not text:
         return ""
@@ -117,7 +115,6 @@ def tr_title_case(text: str) -> str:
         first = w[0]
         rest = w[1:]
 
-        # first harf TR mapping
         if first == "i":
             first_up = "İ"
         elif first == "ı":
@@ -125,9 +122,7 @@ def tr_title_case(text: str) -> str:
         else:
             first_up = first.upper()
 
-        rest_low = rest.lower()
-        # TR küçük harf normalize
-        rest_low = rest_low.replace("I", "ı").replace("İ", "i")
+        rest_low = rest.lower().replace("I", "ı").replace("İ", "i")
         return first_up + rest_low
 
     parts = re.split(r"(\s+)", text)
@@ -146,19 +141,14 @@ def _parse_money_to_float(s: str) -> float | None:
         return None
 
     if "." in t and "," in t:
-        # hangisi en sonda ise decimal odur
         if t.rfind(",") > t.rfind("."):
-            # 2.390,00
             t = t.replace(".", "")
             t = t.replace(",", ".")
         else:
-            # 2,390.00
             t = t.replace(",", "")
     else:
-        # tek ayırıcı
         if "," in t and "." not in t:
             t = t.replace(",", ".")
-        # sadece '.' varsa olduğu gibi
 
     try:
         return float(t)
@@ -257,12 +247,10 @@ def render_endpoint(
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
 
-    # Title: her kelimenin baş harfi büyük
     title = tr_title_case(title)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    # Discount %
     pct = calc_discount_percent(price, sale_price)
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
@@ -299,17 +287,12 @@ def render_endpoint(
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
     png = render_png(html, width=1080, height=1080)
-
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 def feed_proxy(request: Request):
-    """
-    ✅ LIMIT YOK: tüm ürünlere frame basar.
-    ✅ Feed URL'ine verdiğin ?v=... paramını render_url içine de taşır (cache kırıcı).
-    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -325,14 +308,12 @@ def feed_proxy(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = (item.findtext("title") or "").strip()
-
+        title = tr_title_case((item.findtext("title") or "").strip())
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images(item)
 
-        # ✅ sig stabil + fv dahil (cache kırıcı)
         sig = build_sig(title, price, sale, primary, s1, s2, fv)
 
         render_url = (
@@ -352,11 +333,9 @@ def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # Meta bypass etmesin: existing additional'ları kaldır
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
-        # 2 tane frame additional ekle
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
