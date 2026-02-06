@@ -23,16 +23,25 @@ body {
   gap: 24px;
 }
 
-/* ✅ Keskin köşe + gri arka plan (contain boşlukları çerçeve gibi görünmesin) */
+/* ✅ Keskin köşe */
 .primary,
 .secondary {
-  background: #f3f3f3;
   border-radius: 0;
   overflow: hidden;
   border: 0;
 }
 
-.primary { flex: 1; }
+/* ✅ Primary: boş kalan alan BEYAZ olsun (grimsi çerçeve gitmesi için) */
+.primary {
+  flex: 1;
+  background: #fff;
+}
+
+/* ✅ Secondary: gri kalsın (istersen bunu da #fff yaparız) */
+.secondary {
+  flex: 1;
+  background: #f3f3f3;
+}
 
 .secondaryCol {
   width: 300px;
@@ -41,8 +50,6 @@ body {
   gap: 24px;
 }
 
-.secondary { flex: 1; }
-
 /* Primary: kesilmesin */
 .primary .img {
   width: 100%;
@@ -50,7 +57,7 @@ body {
   object-fit: contain;
   object-position: center;
   display: block;
-  background: transparent;
+  background: #fff; /* ✅ primary letterbox beyaz */
 }
 
 /* Secondary: daha dolu görünsün */
@@ -60,7 +67,7 @@ body {
   object-fit: cover;
   object-position: center;
   display: block;
-  background: transparent;
+  background: #f3f3f3;
 }
 
 /* BOTTOM daha kompakt */
@@ -118,7 +125,7 @@ body {
 
 .old {
   font-size: 20px;
-  color: #111;     /* daha siyah */
+  color: #111;
   opacity: 0.65;
   text-decoration: line-through;
 }
