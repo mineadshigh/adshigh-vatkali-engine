@@ -32,7 +32,6 @@ def format_currency_tr(s: str) -> str:
     x = norm_price(s)
     if not x:
         return x
-    # Büyük/küçük varyasyonlarına dayanıklı
     x = x.replace("TRY", "TL").replace("try", "TL")
     return x
 
@@ -56,7 +55,7 @@ def hidden_flags(price: str, sale: str):
     p = norm_price(price)
     s = norm_price(sale)
     if (not s) or (s == p):
-        return ("hidden", "hidden", "")   # old_hidden, new_hidden, single_hidden
+        return ("hidden", "hidden", "")  # old_hidden, new_hidden, single_hidden
     return ("", "", "hidden")
 
 
@@ -147,7 +146,6 @@ def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
 ):
-    # TRY -> TL normalize
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
 
@@ -226,6 +224,12 @@ def feed_proxy(request: Request, limit: int = 10):
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
+
+        # ✅ KRİTİK FIX:
+        # Meta bazen additional_image_link'leri kullanıp frame'i bypass edebiliyor.
+        # Bu yüzden frame feed'inde additional_image_link'leri tamamen kaldırıyoruz.
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     return PlainTextResponse(xml_out, media_type="application/xml")
