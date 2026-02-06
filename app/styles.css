@@ -14,79 +14,73 @@ body {
   flex-direction: column;
 }
 
-/* TOP alanı büyüttük */
+/* TOP alanı büyüttük (görseller daha çok yer kaplasın) */
 .top {
-  flex: 0 0 880px;
-  height: 880px;
+  flex: 0 0 900px;
+  height: 900px;
   display: flex;
-  padding: 40px 40px 24px 40px;
-  gap: 24px;
+  padding: 32px 32px 16px 32px;
+  gap: 20px;
 }
 
-/* ✅ Keskin köşe */
+/* Keskin köşe + BEYAZ arka plan (contain boşlukları çerçeve gibi görünmesin) */
 .primary,
 .secondary {
+  background: #fff;
   border-radius: 0;
   overflow: hidden;
   border: 0;
 }
 
-/* ✅ Primary: boş kalan alan BEYAZ olsun (grimsi çerçeve gitmesi için) */
-.primary {
-  flex: 1;
-  background: #fff;
-}
-
-/* ✅ Secondary: gri kalsın (istersen bunu da #fff yaparız) */
-.secondary {
-  flex: 1;
-  background: #f3f3f3;
-}
+.primary { flex: 1; }
 
 .secondaryCol {
-  width: 300px;
+  width: 290px;                 /* biraz daralttık -> primary alan büyür */
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* Primary: kesilmesin */
+.secondary { flex: 1; }
+
+/* Primary: kesilmesin (contain) */
 .primary .img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center;
   display: block;
-  background: #fff; /* ✅ primary letterbox beyaz */
+  background: #fff;             /* boşluklar beyaz */
 }
 
-/* Secondary: daha dolu görünsün */
+/* Secondary: daha dolu görünsün (cover) */
 .secondary .img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
-  background: #f3f3f3;
+  background: #fff;
 }
 
-/* BOTTOM daha kompakt */
+/* BOTTOM daha kompakt (beyaz boşluk azalsın) */
 .bottom {
-  flex: 0 0 200px;
-  height: 200px;
-  padding: 0 40px 32px 40px;
+  flex: 0 0 180px;
+  height: 180px;
+  padding: 0 32px 28px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* LOGO */
+/* LOGO: biraz daha sağa “ortalanmış” hissettirsin */
 .brand {
-  width: 360px;
-  flex: 0 0 360px;
+  width: 440px;                 /* büyüttük */
+  flex: 0 0 440px;
   display: flex;
   align-items: center;
+  justify-content: center;       /* logo blok içinde ortalı -> görsel alanına göre daha sağda durur */
 }
 
 .logo {
@@ -125,8 +119,8 @@ body {
 
 .old {
   font-size: 20px;
-  color: #111;
-  opacity: 0.65;
+  color: #111;       /* daha siyah */
+  opacity: 0.75;     /* silik olmasın */
   text-decoration: line-through;
 }
 
