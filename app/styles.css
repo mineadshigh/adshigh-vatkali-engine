@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 
 :root{
-  /* Yazıyı biraz sola çekmek için: 20-40 arası deneyebilirsin */
+  /* Yazı hizası – DEĞİŞMEDİ */
   --rightInset: 30px;
 }
 
@@ -41,9 +41,7 @@ body {
 .primary,
 .secondary {
   background: #fff;
-  border-radius: 0;
   overflow: hidden;
-  border: 0;
   min-width: 0;
   min-height: 0;
 }
@@ -54,23 +52,14 @@ body {
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 8px;
-  min-width: 0;
-  min-height: 0;
 }
 
-/* Görsellerin sağ bitişini “içeri al” (yazıyla aynı hizada bitsin) */
-.imgInner {
-  width: calc(100% - var(--rightInset));
-  height: 100%;
-  margin-left: auto;   /* sağdan inset veriyoruz */
-}
-
+/* Görseller */
 .img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: contain;
-  object-position: center;
   background: #fff;
 }
 
@@ -83,10 +72,9 @@ body {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
-  align-items: stretch;
 }
 
-/* Logo: alt banttaki boşluğun ortası */
+/* Logo */
 .brand {
   display: flex;
   justify-content: center;
@@ -99,31 +87,31 @@ body {
   display: block;
 }
 
-/* Meta: sağa hizalı, ama sağdan inset ile sola çekili */
+/* META */
 .meta {
   width: 100%;
   height: 100%;
 
   display: flex;
   flex-direction: column;
-
   align-items: flex-end;
   justify-content: center;
   text-align: right;
 
   padding-right: var(--rightInset);
-  gap: 6px;
+  gap: 8px; /* yazı büyüdüğü için 6 → 8 */
 }
 
-/* Hepsi aynı “bitiş çizgisi”ni kullansın */
+/* Ortak bitiş */
 .meta > .discount,
 .meta > .title,
 .meta > .prices {
   width: 100%;
 }
 
+/* 🔺 İNDİRİM – 18 → 20 */
 .discount {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -131,9 +119,10 @@ body {
   text-transform: uppercase;
 }
 
+/* 🔺 TITLE – 18 → 20 */
 .title {
-  font-size: 18px;
-  line-height: 1.15;
+  font-size: 20px;
+  line-height: 1.2;
   font-weight: 500;
 
   display: -webkit-box;
@@ -142,28 +131,31 @@ body {
   overflow: hidden;
 }
 
+/* Fiyat satırı */
 .prices {
   display: flex;
-  gap: 10px;
+  gap: 12px; /* 10 → 12 */
   align-items: baseline;
   justify-content: flex-end;
-  flex-wrap: nowrap;
 }
 
+/* 🔺 ESKİ FİYAT – 16 → 18 */
 .old {
-  font-size: 16px;
+  font-size: 18px;
   color: #111;
   text-decoration: line-through;
 }
 
+/* 🔺 YENİ FİYAT – 28 → 30 */
 .new {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   color: #7a2d2d;
 }
 
+/* 🔺 TEK FİYAT – 28 → 30 */
 .single {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   color: #111;
 }
