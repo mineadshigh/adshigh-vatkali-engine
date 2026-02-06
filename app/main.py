@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import os
+import re
 from urllib.parse import (
     quote_plus,
     urlsplit,
@@ -102,6 +103,80 @@ def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
+def tr_title_case(text: str) -> str:
+    """
+    Her kelimenin baş harfi büyük (TR i/ı uyumlu).
+    """
+    text = (text or "").strip()
+    if not text:
+        return ""
+
+    def cap_word(w: str) -> str:
+        if not w:
+            return w
+        first = w[0]
+        rest = w[1:]
+
+        # first harf TR mapping
+        if first == "i":
+            first_up = "İ"
+        elif first == "ı":
+            first_up = "I"
+        else:
+            first_up = first.upper()
+
+        rest_low = rest.lower()
+        # TR küçük harf normalize
+        rest_low = rest_low.replace("I", "ı").replace("İ", "i")
+        return first_up + rest_low
+
+    parts = re.split(r"(\s+)", text)
+    return "".join([cap_word(p) if not p.isspace() else p for p in parts])
+
+
+def _parse_money_to_float(s: str) -> float | None:
+    """
+    '₺2,390.00', '2.390,00 TL', '2390 TL' -> float
+    """
+    if not s:
+        return None
+    t = s.strip()
+    t = re.sub(r"[^\d.,]", "", t)
+    if not t:
+        return None
+
+    if "." in t and "," in t:
+        # hangisi en sonda ise decimal odur
+        if t.rfind(",") > t.rfind("."):
+            # 2.390,00
+            t = t.replace(".", "")
+            t = t.replace(",", ".")
+        else:
+            # 2,390.00
+            t = t.replace(",", "")
+    else:
+        # tek ayırıcı
+        if "," in t and "." not in t:
+            t = t.replace(",", ".")
+        # sadece '.' varsa olduğu gibi
+
+    try:
+        return float(t)
+    except Exception:
+        return None
+
+
+def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
+    p = _parse_money_to_float(price_str)
+    s = _parse_money_to_float(sale_str)
+    if not p or not s or p <= 0 or s >= p:
+        return None
+    pct = int(round((1 - (s / p)) * 100))
+    if pct <= 0:
+        return None
+    return pct
+
+
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
@@ -159,8 +234,7 @@ def render_png(html: str, width=1080, height=1080) -> bytes:
             frame = page.locator(".frame")
             frame.wait_for(state="visible", timeout=5000)
 
-            buf = frame.screenshot(type="png")
-            return buf
+            return frame.screenshot(type="png")
     finally:
         try:
             if browser:
@@ -183,7 +257,15 @@ def render_endpoint(
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
 
+    # Title: her kelimenin baş harfi büyük
+    title = tr_title_case(title)
+
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
+
+    # Discount % (sale varsa)
+    pct = calc_discount_percent(price, sale_price)
+    discount_hidden = "hidden" if pct is None else ""
+    discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
     template_path = os.path.join(BASE_DIR, "template.html")
     css_path = os.path.join(BASE_DIR, "styles.css")
@@ -213,10 +295,11 @@ def render_endpoint(
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
+    html = html.replace("{{discount_text}}", discount_text)
+    html = html.replace("{{discount_hidden}}", discount_hidden)
 
     png = render_png(html, width=1080, height=1080)
 
-    # Meta cache'e takılmasın diye (isteğe bağlı ama iyi)
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
 
@@ -228,7 +311,7 @@ def feed_proxy(request: Request):
     ✅ Feed URL'ine verdiğin ?v=... paramını render_url içine de taşır (cache kırıcı).
     """
     base_url = get_base_url(request)
-    fv = (request.query_params.get("v") or "").strip()  # <-- kritik
+    fv = (request.query_params.get("v") or "").strip()
 
     r = httpx.get(FEED_URL, timeout=60)
     r.raise_for_status()
@@ -243,12 +326,13 @@ def feed_proxy(request: Request):
 
     for item in items:
         title = (item.findtext("title") or "").strip()
+        title = tr_title_case(title)
+
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images(item)
 
-        # sig -> ürün bazlı stabil cache key
         sig = build_sig(title, price, sale, primary, s1, s2, fv)
 
         render_url = (
@@ -259,21 +343,18 @@ def feed_proxy(request: Request):
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
-            f"&fv={quote_plus(fv)}"          # <-- kritik
+            f"&fv={quote_plus(fv)}"
             f"&v={sig}"
         )
 
-        # image_link'i frame yap
         img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # TÜM additional_image_link'leri SİL
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
-        # 2 tane de frame additional ekle (bypass & carousel stabilitesi)
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
