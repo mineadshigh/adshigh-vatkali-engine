@@ -17,7 +17,6 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.sync_api import sync_playwright
 
-
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
@@ -104,7 +103,9 @@ def get_base_url(request: Request) -> str:
 
 
 def tr_title_case(text: str) -> str:
-    """Her kelimenin baş harfi büyük (TR i/ı uyumlu)."""
+    """
+    Her kelimenin baş harfi büyük (TR i/ı uyumlu).
+    """
     text = (text or "").strip()
     if not text:
         return ""
@@ -122,7 +123,8 @@ def tr_title_case(text: str) -> str:
         else:
             first_up = first.upper()
 
-        rest_low = rest.lower().replace("I", "ı").replace("İ", "i")
+        rest_low = rest.lower()
+        rest_low = rest_low.replace("I", "ı").replace("İ", "i")
         return first_up + rest_low
 
     parts = re.split(r"(\s+)", text)
@@ -308,7 +310,9 @@ def feed_proxy(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = tr_title_case((item.findtext("title") or "").strip())
+        title = (item.findtext("title") or "").strip()
+        title = tr_title_case(title)
+
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
