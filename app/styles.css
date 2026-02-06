@@ -14,18 +14,19 @@ body {
   flex-direction: column;
 }
 
-/* TOP: görseller */
+/* ✅ Görsel alanını büyüt: TOP büyüdü, BOTTOM küçüldü */
 .top {
-  flex: 0 0 880px;
-  height: 880px;
+  flex: 0 0 920px;
+  height: 920px;
   display: flex;
-  padding: 40px 40px 24px 40px;
-  gap: 12px; /* ✅ primary-secondary arası daha az */
+  padding: 28px 28px 16px 28px;  /* ✅ daha az padding = daha büyük görsel */
+  gap: 10px;                     /* ✅ primary-secondary arası daha az */
 }
 
+/* ✅ Kenarlar beyaz olsun (gri yok) */
 .primary,
 .secondary {
-  background: #f3f3f3; /* ✅ boşluklar gri görünmesin diye */
+  background: #fff;
   border-radius: 0;
   overflow: hidden;
   border: 0;
@@ -33,74 +34,65 @@ body {
 
 .primary { flex: 1; }
 
+/* ✅ Sağ kolon büyüsün */
 .secondaryCol {
-  width: 380px; /* ✅ 2-3 görseller enlemesine büyüsün */
+  width: 420px;                  /* ✅ 2-3 görseller daha büyük */
   display: flex;
   flex-direction: column;
-  gap: 12px; /* ✅ araları daha az */
+  gap: 10px;                     /* ✅ 2-3 arası daha az */
 }
 
 .secondary { flex: 1; }
 
-/* Primary: kesilmesin */
-.primary .img {
+/* ✅ Kırpma yok + gri boşluk yok */
+.img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: contain;           /* ✅ kırpmaz */
   object-position: center;
   display: block;
-  background: transparent;
+  background: #fff;              /* ✅ contain boşlukları BEYAZ */
 }
 
-/* Secondary: kırpma olmasın + alan genişlediği için küçük durmaz */
-.secondary .img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;  /* ✅ kırpma yok */
-  object-position: center;
-  display: block;
-  background: transparent;
-}
-
-/* BOTTOM: TOP ile aynı kolon hizası */
+/* ✅ BOTTOM daha kompakt */
 .bottom {
-  flex: 0 0 200px;
-  height: 200px;
-  padding: 0 40px 32px 40px;
+  flex: 0 0 160px;
+  height: 160px;
+  padding: 0 28px 22px 28px;     /* ✅ daha az padding */
   display: flex;
-  gap: 12px;                  /* ✅ top ile aynı gap */
+  gap: 10px;                     /* ✅ top ile aynı gap */
   align-items: center;
 }
 
-/* ✅ Logo artık primary’nin altında ortalı */
+/* ✅ Logo: primary altında ortalı */
 .brand {
-  flex: 1;                    /* primary genişliği kadar alan */
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;    /* ✅ tam ortala */
+  justify-content: center;
 }
 
 .logo {
-  width: 380px;               /* istersen 346 da kalabilir */
+  width: 380px;
   height: auto;
   display: block;
 }
 
-/* ✅ Meta artık secondary kolonunun altında */
+/* ✅ Meta: secondary kolonunun altında hizalı */
 .meta {
-  width: 380px;               /* secondaryCol ile aynı */
+  width: 420px;                  /* ✅ secondaryCol ile aynı */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;      /* sağa yaslı kalsın */
+  align-items: flex-end;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .title {
-  font-size: 24px;            /* ✅ biraz küçülttük */
+  font-size: 24px;               /* küçüktü, kalsın */
   line-height: 1.15;
   font-weight: 500;
-  max-width: 380px;
+  max-width: 420px;
   max-height: 58px;
   overflow: hidden;
   text-align: right;
@@ -115,14 +107,14 @@ body {
 }
 
 .old {
-  font-size: 18px;            /* ✅ biraz küçüldü */
-  color: #111;                /* ✅ siyah */
-  opacity: 0.9;               /* ✅ soluk değil */
+  font-size: 18px;
+  color: #111;                   /* ✅ siyah */
+  opacity: 1;                    /* ✅ soluk olmasın */
   text-decoration: line-through;
 }
 
 .new {
-  font-size: 32px;            /* ✅ biraz küçüldü */
+  font-size: 32px;
   font-weight: 800;
   color: #c01919;
 }
