@@ -1,10 +1,13 @@
 * { box-sizing: border-box; }
 
+:root{
+  /* Yazıyı biraz sola çekmek için: 20-40 arası deneyebilirsin */
+  --rightInset: 28px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-  width: 1080px;
-  height: 1080px;
   background: #fff;
   overflow: hidden;
 }
@@ -17,6 +20,8 @@ body {
 .frame {
   width: 1080px;
   height: 1080px;
+  background: #fff;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -24,100 +29,143 @@ body {
 /* TOP */
 .top {
   height: 940px;
+  flex: 0 0 940px;
   padding: 18px;
+
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
+  align-items: stretch;
 }
 
 .primary,
 .secondary {
+  background: #fff;
+  border-radius: 0;
   overflow: hidden;
+  border: 0;
+  min-width: 0;
+  min-height: 0;
 }
 
+/* Sağ kolon */
 .secondaryCol {
+  width: 400px;
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 8px;
+  min-width: 0;
+  min-height: 0;
 }
 
-/* 🔥 GÖRSEL REFERANS ÇİZGİSİ */
+/* Görsellerin sağ bitişini “içeri al” (yazıyla aynı hizada bitsin) */
 .imgInner {
-  width: 100%;
+  width: calc(100% - var(--rightInset));
   height: 100%;
-  padding-right: 40px; /* ← SAĞ BİTİŞ ÇİZGİSİ */
+  margin-left: auto;   /* sağdan inset veriyoruz */
 }
 
 .img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   display: block;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
 }
 
 /* BOTTOM */
 .bottom {
   height: 140px;
+  flex: 0 0 140px;
   padding: 0 18px 18px 18px;
+
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
+  align-items: stretch;
 }
 
-/* LOGO → ALT BEYAZ ALANIN TAM ORTASI */
+/* Logo: alt banttaki boşluğun ortası */
 .brand {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .logo {
   width: 360px;
+  height: auto;
+  display: block;
 }
 
-/* META → AYNI REFERANS ÇİZGİSİ */
+/* Meta: sağa hizalı, ama sağdan inset ile sola çekili */
 .meta {
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   align-items: flex-end;
+  justify-content: center;
   text-align: right;
-  padding-right: 40px; /* 🔥 imgInner ile BİREBİR */
+
+  padding-right: var(--rightInset);
   gap: 6px;
 }
 
-.meta > * {
+/* Hepsi aynı “bitiş çizgisi”ni kullansın */
+.meta > .discount,
+.meta > .title,
+.meta > .prices {
   width: 100%;
 }
 
-/* TEXT */
 .discount {
   font-size: 18px;
+  line-height: 1;
   font-weight: 600;
+  letter-spacing: 0.2px;
   color: #7a2d2d;
+  text-transform: uppercase;
 }
 
 .title {
   font-size: 18px;
+  line-height: 1.15;
   font-weight: 500;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .prices {
   display: flex;
   gap: 10px;
+  align-items: baseline;
   justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 .old {
   font-size: 16px;
+  color: #111;
   text-decoration: line-through;
 }
 
-.new,
-.single {
+.new {
   font-size: 28px;
   font-weight: 800;
   color: #7a2d2d;
+}
+
+.single {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111;
 }
 
 .hidden { display: none; }
