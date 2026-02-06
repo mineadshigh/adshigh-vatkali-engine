@@ -3,13 +3,12 @@
 html, body {
   margin: 0;
   padding: 0;
-  width: 1080px;   /* Playwright'ta taşma/uzama olmasın */
+  width: 1080px;
   height: 1080px;
   background: #fff;
   overflow: hidden;
 }
 
-/* Linux'ta TR karakterleri stabil */
 body {
   font-family: "DejaVu Sans", Arial, sans-serif;
   font-synthesis: none;
@@ -24,14 +23,14 @@ body {
   flex-direction: column;
 }
 
-/* ✅ TOP: flex değil GRID => asla alt alta düşmez */
+/* TOP (değişmedi) */
 .top {
   height: 940px;
   flex: 0 0 940px;
 
   padding: 18px;
   display: grid;
-  grid-template-columns: 1fr 400px; /* primary + sağ kolon */
+  grid-template-columns: 1fr 400px;
   gap: 8px;
   align-items: stretch;
 }
@@ -42,11 +41,10 @@ body {
   border-radius: 0;
   overflow: hidden;
   border: 0;
-  min-width: 0; /* grid overflow fix */
+  min-width: 0;
   min-height: 0;
 }
 
-/* Sağ kolon: 2 satır */
 .secondaryCol {
   width: 400px;
   display: grid;
@@ -56,7 +54,6 @@ body {
   min-height: 0;
 }
 
-/* Görsel taşma/uzama engeli */
 .img {
   width: 100%;
   height: 100%;
@@ -66,26 +63,24 @@ body {
   background: #fff;
 }
 
-/* ✅ BOTTOM: senin gönderdiğin grid matematiği */
+/* ✅ BOTTOM: 1fr + 400px, senin matematik */
 .bottom {
   flex: 0 0 140px;
   height: 140px;
-
   padding: 0 18px 18px 18px;
 
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 8px;
 
-  align-items: end;
+  align-items: stretch; /* 🔥 hücreler tam yüksekliğe yayılsın */
 }
 
-/* ✅ Logo: sol kolonda ortalı, aşağıda */
+/* ✅ LOGO: alt banttaki beyaz alanın TAM ORTASI */
 .brand {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 6px;
+  align-items: center;   /* 🔥 artık “ortalanıyor” */
 }
 
 .logo {
@@ -94,19 +89,28 @@ body {
   display: block;
 }
 
-/* ✅ Meta: sağ kolonda SAĞA hizalı, aşağıda */
+/* ✅ META: 400px kolonun TAMAMINI kapla ve sağa hizala */
 .meta {
+  width: 100%;                 /* 🔥 grid hücresini full kapla */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  justify-content: flex-end;
 
-  padding-bottom: 10px;
+  align-items: flex-end;
+  justify-content: center;     /* 🔥 alt bant içinde ortalı (ne çok yukarı ne çok aşağı) */
+  text-align: right;
+
   gap: 6px;
 }
 
-/* İNDİRİM daha büyük + TR harfleri düzgün */
+/* 🔥 Yazıların hepsi 400px kolon genişliğini kullansın => sağ bitişler birebir aynı olur */
+.meta > .discount,
+.meta > .title,
+.meta > .prices {
+  width: 100%;
+}
+
+/* İNDİRİM */
 .discount {
   font-size: 18px;
   line-height: 1;
@@ -116,15 +120,14 @@ body {
   text-transform: uppercase;
 }
 
-/* Title: hizalı + taşma kontrol */
+/* Title */
 .title {
-  font-size: 18px;        /* biraz küçülttüm (sen istedin) */
+  font-size: 18px;
   line-height: 1.15;
   font-weight: 500;
-  max-width: 400px;
 
   display: -webkit-box;
-  -webkit-line-clamp: 2;  /* 2 satır */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
