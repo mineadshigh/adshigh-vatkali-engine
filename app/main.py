@@ -392,7 +392,7 @@ async def render_endpoint(
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
-    try:
+try:
     png = await render_png(html, width=1080, height=1080)
 except Exception:
     png = _TRANSPARENT_PNG
