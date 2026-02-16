@@ -259,7 +259,7 @@ async def _ensure_browser():
         )
 
 # aynı anda çok render gelince RAM patlamasın diye limit
-RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "2"))
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
 
@@ -275,6 +275,8 @@ async def _startup():
             "--disable-dev-shm-usage",
             "--no-zygote",
             "--disable-gpu",
+            "--single-process",
+
         ],
     )
 
@@ -303,9 +305,8 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
 
         async def _do():
             page = await _browser.new_page(
-                viewport={"width": width, "height": height},
-                device_scale_factor=2,
-            )
+    viewport={"width": width, "height": height}
+)
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
                 await page.wait_for_timeout(200)
