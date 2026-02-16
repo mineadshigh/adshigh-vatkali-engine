@@ -3,13 +3,7 @@ import base64
 import hashlib
 import os
 import re
-from urllib.parse import (
-    quote_plus,
-    urlsplit,
-    urlunsplit,
-    parse_qsl,
-    urlencode,
-)
+from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
 from xml.etree import ElementTree as ET
 
 import httpx
@@ -21,6 +15,10 @@ from playwright.async_api import async_playwright
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 
+# 1GB RAM ortamda güvenli default: 1
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
+_render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
+
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
@@ -29,7 +27,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 # -------------------------
-# Helpers (senin mevcutlar)
+# Helpers
 # -------------------------
 
 def norm_price(s: str) -> str:
@@ -44,7 +42,7 @@ def format_currency_tr(s: str) -> str:
 
 
 def _clean_url(u: str) -> str:
-    """fbclid/utm gibi takip parametrelerini temizle, aynı görselleri yakalayabilelim."""
+    """fbclid/utm gibi takip parametrelerini temizle."""
     if not u:
         return ""
     parts = urlsplit(u)
@@ -135,7 +133,6 @@ def tr_title_case(text: str) -> str:
 
 
 def _parse_money_to_float(s: str) -> float | None:
-    """'₺2,390.00', '2.390,00 TL', '2390 TL' -> float"""
     if not s:
         return None
     t = s.strip()
@@ -189,7 +186,7 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 
 
 # -------------------------
-# Async HTTP + Data URI
+# HTTP -> Data URI (robust)
 # -------------------------
 
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
@@ -208,11 +205,16 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     }
 
     try:
-        r = await client.get(url, headers=headers)
+        # kısa timeout: Meta bot taramasında takılmasın
+        r = await client.get(url, headers=headers, timeout=15.0)
         r.raise_for_status()
 
-        # ✅ OOM koruması (çok büyük görsel gelirse base64’e çevirmeyelim)
-        if len(r.content) > 6_000_000:  # ~6MB
+        ct = (r.headers.get("content-type") or "").lower()
+        if "image/" not in ct:
+            return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+
+        # RAM koruması
+        if len(r.content) > 6_000_000:
             return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
         mime = _guess_mime(url, r.headers.get("content-type"))
@@ -223,49 +225,46 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
 
 
 # -------------------------
-# Playwright Async (GLOBAL)
+# Playwright (strong recovery)
 # -------------------------
 
 _pw = None
 _browser = None
-async def _ensure_browser():
-    """
-    Railway'de browser bazen kapanabiliyor (OOM / dev-shm / restart).
-    Kapandıysa yeniden launch edip _browser'ı ayağa kaldırır.
-    """
+_pw_lock = asyncio.Lock()
+
+
+def _is_fatal_playwright_error(e: Exception) -> bool:
+    msg = str(e).lower()
+    return any(
+        s in msg
+        for s in [
+            "targetclosederror",
+            "target page",
+            "has been closed",
+            "writeunixtransport closed",
+            "handler is closed",
+            "playwright connection closed",
+        ]
+    )
+
+
+async def _restart_playwright():
+    """Playwright/driver öldüyse komple reset."""
     global _pw, _browser
+    try:
+        if _browser:
+            await _browser.close()
+    except Exception:
+        pass
+    _browser = None
 
-    # Playwright hiç başlamadıysa başlat
-    if _pw is None:
-        _pw = await async_playwright().start()
+    try:
+        if _pw:
+            await _pw.stop()
+    except Exception:
+        pass
+    _pw = None
 
-    # Browser yoksa ya da bağlantı kopmuşsa yeniden aç
-    if _browser is None or (hasattr(_browser, "is_connected") and not _browser.is_connected()):
-        try:
-            if _browser:
-                await _browser.close()
-        except Exception:
-            pass
-
-        _browser = await _pw.chromium.launch(
-            headless=True,
-            args=[
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--no-zygote",
-                "--disable-gpu",
-            ],
-        )
-
-# aynı anda çok render gelince RAM patlamasın diye limit
-RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
-_render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
-
-
-@app.on_event("startup")
-async def _startup():
-    global _pw, _browser
     _pw = await async_playwright().start()
     _browser = await _pw.chromium.launch(
         headless=True,
@@ -273,10 +272,48 @@ async def _startup():
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
-            "--single-process",
-
+            "--no-zygote",
+            "--disable-gpu",
         ],
     )
+
+
+async def _ensure_browser():
+    """Browser yoksa/ölüyse ayağa kaldır. Driver öldüyse restart."""
+    global _pw, _browser
+    async with _pw_lock:
+        try:
+            if _pw is None:
+                _pw = await async_playwright().start()
+
+            if _browser is None or (hasattr(_browser, "is_connected") and not _browser.is_connected()):
+                try:
+                    if _browser:
+                        await _browser.close()
+                except Exception:
+                    pass
+
+                _browser = await _pw.chromium.launch(
+                    headless=True,
+                    args=[
+                        "--no-sandbox",
+                        "--disable-setuid-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--no-zygote",
+                        "--disable-gpu",
+                    ],
+                )
+        except Exception as e:
+            # "handler is closed" gibi durumlarda full restart şart
+            if _is_fatal_playwright_error(e):
+                await _restart_playwright()
+            else:
+                raise
+
+
+@app.on_event("startup")
+async def _startup():
+    await _ensure_browser()
 
 
 @app.on_event("shutdown")
@@ -285,30 +322,29 @@ async def _shutdown():
     try:
         if _browser:
             await _browser.close()
-    finally:
-        _browser = None
+    except Exception:
+        pass
+    _browser = None
     try:
         if _pw:
             await _pw.stop()
-    finally:
-        _pw = None
+    except Exception:
+        pass
+    _pw = None
 
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
 
     async with _render_sem:
-        # 1) her request'te browser'ın ayakta olduğundan emin ol
         await _ensure_browser()
 
-        async def _do():
-            page = await _browser.new_page(
-    viewport={"width": width, "height": height}
-)
+        async def _do() -> bytes:
+            page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_load_state("load")
-                await page.wait_for_timeout(300)
+                # data-uri görseller anında gelir ama font/svg için kısa nefes payı:
+                await page.wait_for_timeout(120)
 
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
@@ -320,14 +356,12 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
                 except Exception:
                     pass
 
-        # 2) bazen browser kapanmış olabiliyor -> 1 kez relaunch + retry
         try:
             return await _do()
         except Exception as e:
-            msg = str(e).lower()
-            if "target page" in msg or "has been closed" in msg or "targetclosederror" in msg:
-                # browser'ı yeniden ayağa kaldır ve bir daha dene
-                await _ensure_browser()
+            # Browser/driver öldüyse reset + 1 retry
+            if _is_fatal_playwright_error(e):
+                await _restart_playwright()
                 return await _do()
             raise
 
@@ -369,7 +403,7 @@ async def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    async with httpx.AsyncClient(follow_redirects=True, timeout=25) as client:
+    async with httpx.AsyncClient(follow_redirects=True) as client:
         product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
             to_data_uri(product_image_primary, client),
             to_data_uri(product_image_secondary_1, client),
@@ -399,6 +433,7 @@ async def render_endpoint(
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
+
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
@@ -444,9 +479,9 @@ async def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
+        # ek görsel linklerini 2 adet render_url ile set et
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
-
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
             extra.text = render_url
