@@ -273,8 +273,6 @@ async def _startup():
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
-            "--no-zygote",
-            "--disable-gpu",
             "--single-process",
 
         ],
@@ -309,7 +307,8 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
 )
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_timeout(200)
+                await page.wait_for_load_state("load")
+                await page.wait_for_timeout(300)
 
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
@@ -395,6 +394,7 @@ async def render_endpoint(
     try:
         png = await render_png(html, width=1080, height=1080)
     except Exception:
+        print("RENDER_FAILED:", repr(e))
         png = _TRANSPARENT_PNG
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
