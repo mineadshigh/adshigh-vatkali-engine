@@ -391,11 +391,11 @@ async def render_endpoint(
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
-    try:
-        png = await render_png(html, width=1080, height=1080)
-    except Exception:
-        print("RENDER_FAILED:", repr(e))
-        png = _TRANSPARENT_PNG
+try:
+    png = await render_png(html, width=1080, height=1080)
+except Exception as e:
+    print("RENDER_FAILED:", repr(e))
+    png = _TRANSPARENT_PNG
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
