@@ -228,6 +228,35 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
 
 _pw = None
 _browser = None
+async def _ensure_browser():
+    """
+    Railway'de browser bazen kapanabiliyor (OOM / dev-shm / restart).
+    Kapandıysa yeniden launch edip _browser'ı ayağa kaldırır.
+    """
+    global _pw, _browser
+
+    # Playwright hiç başlamadıysa başlat
+    if _pw is None:
+        _pw = await async_playwright().start()
+
+    # Browser yoksa ya da bağlantı kopmuşsa yeniden aç
+    if _browser is None or (hasattr(_browser, "is_connected") and not _browser.is_connected()):
+        try:
+            if _browser:
+                await _browser.close()
+        except Exception:
+            pass
+
+        _browser = await _pw.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--no-zygote",
+                "--disable-gpu",
+            ],
+        )
 
 # aynı anda çok render gelince RAM patlamasın diye limit
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "2"))
@@ -238,7 +267,16 @@ _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 async def _startup():
     global _pw, _browser
     _pw = await async_playwright().start()
-    _browser = await _pw.chromium.launch(args=["--no-sandbox"])
+    _browser = await _pw.chromium.launch(
+        headless=True,
+        args=[
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--no-zygote",
+            "--disable-gpu",
+        ],
+    )
 
 
 @app.on_event("shutdown")
@@ -258,18 +296,40 @@ async def _shutdown():
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
+
     async with _render_sem:
-        page = await _browser.new_page(viewport={"width": width, "height": height, "deviceScaleFactor": 2})
+        # 1) her request'te browser'ın ayakta olduğundan emin ol
+        await _ensure_browser()
+
+        async def _do():
+            page = await _browser.new_page(
+                viewport={"width": width, "height": height},
+                device_scale_factor=2,
+            )
+            try:
+                await page.set_content(html, wait_until="domcontentloaded")
+                await page.wait_for_timeout(200)
+
+                frame = page.locator(".frame")
+                await frame.wait_for(state="visible", timeout=5000)
+
+                return await frame.screenshot(type="png")
+            finally:
+                try:
+                    await page.close()
+                except Exception:
+                    pass
+
+        # 2) bazen browser kapanmış olabiliyor -> 1 kez relaunch + retry
         try:
-            await page.set_content(html, wait_until="domcontentloaded")
-            await page.wait_for_timeout(200)
-
-            frame = page.locator(".frame")
-            await frame.wait_for(state="visible", timeout=5000)
-
-            return await frame.screenshot(type="png")
-        finally:
-            await page.close()
+            return await _do()
+        except Exception as e:
+            msg = str(e).lower()
+            if "target page" in msg or "has been closed" in msg or "targetclosederror" in msg:
+                # browser'ı yeniden ayağa kaldır ve bir daha dene
+                await _ensure_browser()
+                return await _do()
+            raise
 
 
 # -------------------------
@@ -331,9 +391,13 @@ async def render_endpoint(
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
+    try:
     png = await render_png(html, width=1080, height=1080)
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return Response(content=png, media_type="image/png", headers=headers)
+except Exception:
+    png = _TRANSPARENT_PNG
+
+headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+return Response(content=png, media_type="image/png", headers=headers)
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
