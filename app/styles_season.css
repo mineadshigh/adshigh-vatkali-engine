@@ -138,9 +138,9 @@ body {
 /* Ürün adı: Outfit ExtraLight 20.74px, tracking 0% */
 .productTitle {
   position: absolute;
-  left: 740px;      /* 791 -> 740 (biraz sola) */
+  left: 732px;      /* ✅ sağ kolonla hizala */
   top: 1021px;
-  width: 300px;     /* 187 -> 300 (sığması için) */
+  width: 296px;     /* ✅ sağ kolon genişliği kadar */
   height: 19px;
 
   font-family: "Outfit", Arial, sans-serif;
@@ -151,8 +151,8 @@ body {
   letter-spacing: 0;
   line-height: 1;
 
+  text-align: center;   /* ✅ PSD gibi ortalı */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center; /* ✅ daha düzgün görünür */
 }
