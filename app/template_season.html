@@ -5,41 +5,42 @@
   <style>{{CSS}}</style>
 </head>
 <body>
-  <div class="frame seasonFrame">
-
-    <div class="seasonHeader">
-      <img class="seasonLogo" src="{{logo_url}}" />
-    </div>
-
-    <div class="seasonGrid">
-      <div class="primary">
+  <div class="frame season">
+    <!-- top row: 3 görsel + ortada ribbon -->
+    <div class="topSeason">
+      <div class="imgBox big">
         <img class="img" src="{{product_image_primary}}" loading="eager" />
       </div>
 
-      <div class="stripe">
-        <div class="stripeInner">
-          <div class="stripeText strong">NEW SEASON</div>
-          <div class="stripeText">NEW SEASON</div>
-          <div class="stripeText strong">NEW SEASON</div>
-          <div class="stripeText">NEW SEASON</div>
+      <div class="ribbon">
+        <div class="ribbonInner">
+          <div class="rText">NEW SEASON</div>
+          <div class="rText">NEW SEASON</div>
+          <div class="rText">NEW SEASON</div>
+          <div class="rText">NEW SEASON</div>
         </div>
       </div>
 
-      <div class="secondaryCol">
-        <div class="secondary">
+      <div class="rightCol">
+        <div class="imgBox small">
           <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
         </div>
-        <div class="secondary">
+        <div class="imgBox small">
           <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
         </div>
       </div>
     </div>
 
-    <div class="seasonFooter">
-      <div class="capsule">CAPSULE WARDROBE COLLECTION</div>
-      <div class="prodTitle">{{title}}</div>
-    </div>
+    <!-- bottom row: logo + capsule + product title -->
+    <div class="bottomSeason">
+      <div class="brandTop">
+        <img class="logoTop" src="{{logo_url}}" loading="eager" />
+      </div>
 
+      <div class="capsule">CAPSULE WARDROBE COLLECTION</div>
+
+      <div class="pTitle">{{title}}</div>
+    </div>
   </div>
 </body>
 </html>
