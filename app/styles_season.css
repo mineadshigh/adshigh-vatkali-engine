@@ -1,85 +1,62 @@
 * { box-sizing: border-box; }
 
-:root{
-  --rightInset: 31px; /* classic ile aynı */
-}
-
 html, body {
   margin: 0;
   padding: 0;
   background: #fff;
   overflow: hidden;
-}
-
-body {
   font-family: "DejaVu Sans", Arial, sans-serif;
-  font-synthesis: none;
 }
 
 .frame {
   width: 1080px;
   height: 1080px;
   background: #fff;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 140px 1fr 120px; /* header / body / footer */
 }
 
-/* HEADER (logo üstte) */
+/* HEADER (logo top-left) */
 .header{
-  height: 120px;
-  flex: 0 0 120px;
-  padding: 28px 18px 0 18px;
+  padding: 34px 40px 0 40px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
-.logoTop{
-  width: 360px;
+.logoTopLeft{
+  width: 280px;     /* daha küçük logo */
   height: auto;
   display: block;
 }
 
-/* TOP (classic top ama 3 kolon: 1fr + strip + 400px) */
-.top {
-  height: 840px;          /* 1080 - 120 header - 120 bottom */
-  flex: 0 0 840px;
-  padding: 0 18px;
+/* BODY GRID (classic yerleşimi baz) */
+.body{
+  padding: 0 40px;
   display: grid;
-  grid-template-columns: 1fr 64px 400px;  /* strip eklendi */
-  gap: 8px;
+  grid-template-columns: 1fr 90px 420px; /* primary / strip / secondary */
+  gap: 18px;                              /* boşluğu azalttık */
   align-items: stretch;
 }
 
-.primary,
-.secondary {
+.primary, .secondary{
   background: #fff;
-  border-radius: 0;
   overflow: hidden;
-  border: 0;
   min-width: 0;
   min-height: 0;
 }
 
-/* Sağ kolon (classic aynen) */
-.secondaryCol {
-  width: 400px;
+/* sağ kolon */
+.secondaryCol{
   display: grid;
   grid-template-rows: 1fr 1fr;
-  gap: 8px;
+  gap: 18px;          /* boşluğu azalttık */
   min-width: 0;
   min-height: 0;
 }
 
-/* Classic inset aynen */
-.imgInner {
-  width: calc(100% - var(--rightInset));
-  height: 100%;
-  margin-left: auto;
-}
-
-.img {
+/* Görseller */
+.img{
   width: 100%;
   height: 100%;
   display: block;
@@ -88,43 +65,48 @@ body {
   background: #fff;
 }
 
-/* NEW SEASON strip: çizgi yok, gri yok */
+/* NEW SEASON STRIP (çizgiler yok, arka plan beyaz) */
 .seasonStrip{
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .seasonText{
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: 22px;
-  letter-spacing: 4px;
-  font-weight: 700;
+  font-size: 30px;       /* büyüttük */
+  letter-spacing: 3px;
+  text-transform: uppercase;
   color: #111;
   white-space: nowrap;
+  line-height: 1;
 }
 
-/* BOTTOM (season için) */
-.bottomSeason{
-  height: 120px;
-  flex: 0 0 120px;
-  padding: 0 18px 18px 18px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.seasonText .thin { font-weight: 300; }
+.seasonText .bold { font-weight: 800; }
+
+/* FOOTER (yazılar hizalı: collection primary altında, title secondary ortasında) */
+.footer{
+  padding: 0 40px 34px 40px;
+  display: grid;
+  grid-template-columns: 1fr 90px 420px; /* body ile birebir aynı */
+  gap: 18px;
+  align-items: end;
 }
 
 .collection{
+  grid-column: 1;
+  text-align: center;     /* primary’nin altına ortalı */
   font-size: 20px;
   letter-spacing: 2px;
   color: #111;
 }
 
 .productTitle{
+  grid-column: 3;
+  text-align: center;     /* 2-3 görsellerin altında ortalı */
   font-size: 20px;
   color: #777;
-  text-align: right;
 }
