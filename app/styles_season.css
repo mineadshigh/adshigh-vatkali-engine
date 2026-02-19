@@ -125,23 +125,26 @@ body {
 
 /*
   ✅ ÜRÜN BAŞLIĞI (TITLE)
-  - 1 satırsa: sağ blokta ortalı
-  - 2 satırsa: iki satır da ortalı
-  - baseline hizası: collection ile aynı “baseline hattına” otursun diye
-    wrap’i top:1021 ve line-height ile yönetiyoruz.
+  - 1 satırsa: collection ile aynı hizada (top:1021px) dursun
+  - 2 satırsa: iki satır blok olarak ortalansın diye wrap'i yarım satır yukarı alıyoruz
 */
 .productTitleWrap {
   position: absolute;
-  left: 732px;      /* sağ kolon başlangıcı */
-  top: 1021px;      /* collection ile aynı hizaya sabit */
-  width: 296px;     /* sağ kolon genişliği */
-  height: 42px;     /* 2 satıra alan (gerekirse 44 yapabilirsin) */
+  left: 732px;
+  top: 1021px;      /* ✅ 1 satırda collection ile aynı hizaya sabit */
+  width: 296px;
+  height: 42px;     /* 2 satır alan */
 
   display: flex;
-  align-items: flex-end;  /* ✅ baseline hissi için alt hizaya oturt */
+  align-items: flex-start;   /* ✅ 1 satır aşağı düşmesin */
   justify-content: center;
 
   pointer-events: none;
+}
+
+/* ✅ 2 satırsa: bloğu görsel olarak ortalamak için yukarı kaydır */
+.productTitleWrap.twoLines {
+  top: 1010.5px;  /* 1021 - (21/2)  => line-height 21px'in yarısı */
 }
 
 .productTitle {
@@ -150,16 +153,16 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 20.74px;
-  font-weight: 200;          /* ExtraLight */
-  color: #2b2b2b;            /* ✅ siyaha yakın gri (istersen #333 yap) */
+  font-weight: 200;       /* ExtraLight */
+  color: #2b2b2b;         /* siyaha yakın gri */
 
   letter-spacing: 0;
-  line-height: 21px;         /* ✅ 2 satır düzgün dursun */
+  line-height: 21px;
 
-  white-space: normal;       /* ✅ 2 satıra geçebilir */
-  overflow: hidden;          /* ✅ taşarsa kırp (2 satırdan fazla olmasın) */
+  white-space: normal;
+  overflow: hidden;
 
-  display: -webkit-box;      /* ✅ 2 satır clamp */
+  display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2;  /* max 2 satır */
 }
