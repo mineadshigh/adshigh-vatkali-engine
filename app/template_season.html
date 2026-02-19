@@ -1,51 +1,43 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<style>
-{{CSS}}
-</style>
+  <meta charset="utf-8"/>
+  <style>{{CSS}}</style>
 </head>
 <body>
-<div class="frame season">
+  <div class="frame season">
 
-  <div class="top seasonTop">
-
-    <!-- SOL BÜYÜK -->
-    <div class="primary">
-      <img class="img" src="{{product_image_primary}}" />
+    <!-- HEADER -->
+    <div class="header">
+      <img class="logoTopLeft" src="{{logo_url}}" />
     </div>
 
-    <!-- ORTA NEW SEASON STRIP -->
-    <div class="seasonStrip">
-      <div class="seasonText">
-        NEW SEASON NEW SEASON NEW SEASON NEW SEASON
+    <!-- BODY -->
+    <div class="body">
+      <div class="primary">
+        <img class="img" src="{{product_image_primary}}" loading="eager" />
+      </div>
+
+      <div class="seasonStrip">
+        <div class="seasonText">NEW SEASON NEW SEASON NEW SEASON NEW SEASON</div>
+      </div>
+
+      <div class="secondaryCol">
+        <div class="secondary">
+          <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
+        </div>
+        <div class="secondary">
+          <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
+        </div>
       </div>
     </div>
 
-    <!-- SAĞ 2 GÖRSEL -->
-    <div class="secondaryCol">
-      <div class="secondary">
-        <img class="img" src="{{product_image_secondary_1}}" />
-      </div>
-      <div class="secondary">
-        <img class="img" src="{{product_image_secondary_2}}" />
-      </div>
-    </div>
-
-  </div>
-
-  <div class="bottomSeason">
-    <div class="bottomLeft">
-      <img class="logoTop" src="{{logo_url}}" />
+    <!-- FOOTER -->
+    <div class="footer">
       <div class="collection">CAPSULE WARDROBE COLLECTION</div>
+      <div class="productTitle">{{title}}</div>
     </div>
 
-    <div class="bottomRight">
-      <div class="title">{{title}}</div>
-    </div>
   </div>
-
-</div>
 </body>
 </html>
