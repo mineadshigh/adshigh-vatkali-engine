@@ -8,78 +8,81 @@ html, body {
   font-family: "DejaVu Sans", Arial, sans-serif;
 }
 
-.frame {
-  width: 1080px;
-  height: 1080px;
-  background: #fff;
-  display: grid;
-  grid-template-rows: 140px 1fr 120px; /* header / body / footer */
+.frame{
+  width:1080px;
+  height:1080px;
+  background:#fff;
+  display:grid;
+  grid-template-rows: 110px 1fr 110px; /* header / body / footer */
 }
 
-/* HEADER (logo top-left) */
+/* HEADER */
 .header{
-  padding: 34px 40px 0 40px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  padding: 22px 24px 0 24px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
 }
-
 .logoTopLeft{
-  width: 280px;     /* daha küçük logo */
-  height: auto;
-  display: block;
+  width: 260px;   /* biraz küçült */
+  height:auto;
+  display:block;
 }
 
-/* BODY GRID (classic yerleşimi baz) */
+/* BODY */
 .body{
-  padding: 0 40px;
-  display: grid;
-  grid-template-columns: 1fr 90px 420px; /* primary / strip / secondary */
-  gap: 18px;                              /* boşluğu azalttık */
+  padding: 0 24px;
+  display:grid;
+
+  /* 1080 - (24*2)=1032 içerik alanı
+     gap 12 + 12 = 24
+     strip 96, right 380 => 476
+     primary kalan = 1032 - 24 - 476 = 532 */
+  grid-template-columns: 1fr 96px 380px;
+  gap: 12px;
   align-items: stretch;
 }
 
 .primary, .secondary{
-  background: #fff;
-  overflow: hidden;
-  min-width: 0;
-  min-height: 0;
+  background:#fff;
+  overflow:hidden;
+  min-width:0;
+  min-height:0;
 }
 
-/* sağ kolon */
 .secondaryCol{
-  display: grid;
+  display:grid;
   grid-template-rows: 1fr 1fr;
-  gap: 18px;          /* boşluğu azalttık */
-  min-width: 0;
-  min-height: 0;
+  gap: 12px;
+  min-width:0;
+  min-height:0;
 }
 
-/* Görseller */
+/* Görseller: bozukluğun ana fix'i */
 .img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  object-position: center;
-  background: #fff;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit: contain;          /* kırpma yok */
+  object-position: center top;  /* ✅ yukarıdan başlat */
+  background:#fff;
 }
 
-/* NEW SEASON STRIP (çizgiler yok, arka plan beyaz) */
+/* NEW SEASON STRIP */
 .seasonStrip{
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .seasonText{
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: 30px;       /* büyüttük */
-  letter-spacing: 3px;
+  font-size: 32px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #111;
+  color:#111;
   white-space: nowrap;
   line-height: 1;
 }
@@ -87,26 +90,26 @@ html, body {
 .seasonText .thin { font-weight: 300; }
 .seasonText .bold { font-weight: 800; }
 
-/* FOOTER (yazılar hizalı: collection primary altında, title secondary ortasında) */
+/* FOOTER: referanstaki hizalama */
 .footer{
-  padding: 0 40px 34px 40px;
-  display: grid;
-  grid-template-columns: 1fr 90px 420px; /* body ile birebir aynı */
-  gap: 18px;
+  padding: 0 24px 24px 24px;
+  display:grid;
+  grid-template-columns: 1fr 96px 380px; /* body ile aynı */
+  gap: 12px;
   align-items: end;
 }
 
 .collection{
   grid-column: 1;
-  text-align: center;     /* primary’nin altına ortalı */
+  text-align: center; /* primary altında ortalı */
   font-size: 20px;
   letter-spacing: 2px;
-  color: #111;
+  color:#111;
 }
 
 .productTitle{
   grid-column: 3;
-  text-align: center;     /* 2-3 görsellerin altında ortalı */
+  text-align: center; /* sağ kolonun altında ortalı */
   font-size: 20px;
-  color: #777;
+  color:#777;
 }
