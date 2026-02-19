@@ -131,36 +131,33 @@ body {
 .productTitleWrap {
   position: absolute;
   left: 732px;
-  top: 1021px;      /* collection referans hizası */
+  top: 1021px;      /* collection ile aynı referans çizgi */
   width: 296px;
-  height: 42px;     /* 2 satır alan */
+  height: 42px;
 
   display: flex;
-  align-items: flex-start;   /* 1 satır aşağı düşmesin */
+  align-items: flex-start;   /* 1 satır yukarıdan başlasın */
   justify-content: center;
 
   pointer-events: none;
-}
 
-/* ✅ 1 satırda title çok az yukarı kalıyordu → sadece 1 satıra mikro düzeltme */
-.productTitleWrap:not(.twoLines) .productTitle {
-  transform: translateY(1px);
+  /* ✅ TEK SATIRDA baseline'ı collection ile çakıştırmak için hafif aşağı */
+  transform: translateY(3px);
 }
 
 /* ✅ 2 satırsa: bloğu görsel olarak ortalamak için yukarı kaydır */
 .productTitleWrap.twoLines {
-  top: 1010.5px;  /* 1021 - (21/2) => line-height 21px'in yarısı */
+  transform: translateY(-7.5px); /* 3px aşağıdan -> toplamda 10.5px yukarı gibi düşün */
 }
 
-/* Title text */
 .productTitle {
   width: 100%;
   text-align: center;
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 20.74px;
-  font-weight: 200;       /* ExtraLight */
-  color: #2b2b2b;         /* siyaha yakın gri */
+  font-weight: 200;
+  color: #2b2b2b;
 
   letter-spacing: 0;
   line-height: 21px;
@@ -170,5 +167,5 @@ body {
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;  /* max 2 satır */
+  -webkit-line-clamp: 2;
 }
