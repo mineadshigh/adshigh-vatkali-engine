@@ -31,13 +31,19 @@ body {
 }
 
 /* ---------- LOGO ---------- */
+/*
+  PSD ölçüsü: left 51 / top 34 / w 200 / h 25
+  SVG (bizdeki logo) viewBox padding yüzünden optik olarak sağa kayık görünebilir.
+  Bu yüzden sadece LEFT'i optik düzeltme için biraz sola alıyoruz.
+*/
 .logoTop {
   position: absolute;
-  left: 51px;
+  left: 43px;     /* ✅ optik düzeltme: 51 -> 43 */
   top: 34px;
   width: 200px;
   height: 25px;
   object-fit: contain;
+  object-position: left center; /* ✅ SVG padding etkisini azaltır */
 }
 
 /* ---------- MAIN IMAGE ---------- */
@@ -84,10 +90,11 @@ body {
 }
 
 /*
-  PSD hedefi: Outfit thin - medium ~38.84px.
-  Biz: Google Fonts Outfit wght: 200/300/400/500/600
-  -> thin: 200, medium: 500
-  Tek yazıda iki weight için <span> kullanacağız.
+  PSD:
+  - Font: Outfit
+  - Size: 38.84 px
+  - Tracking (İzleme): 0%
+  - Thin + Medium kombinasyonu (iki ağırlık)
 */
 .seasonText {
   position: absolute;
@@ -101,18 +108,21 @@ body {
   white-space: nowrap;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 38.84px;      /* PSD’deki 38.84 */
-  letter-spacing: 0;        /* PSD’de tracking 0 */
+  font-size: 38.84px;
+  letter-spacing: 0;   /* tracking 0 */
   line-height: 1;
   color: #000000;
 }
 
+/* Thin / Medium */
 .seasonText .thin { font-weight: 200; }
 .seasonText .med  { font-weight: 500; }
 
 /* ---------- FOOTER TEXTS ---------- */
 
-/* CAPSULE: Outfit Light 26.71px, tracking 0 */
+/* CAPSULE:
+  PSD: Outfit Light, size 26.71, tracking 0%
+*/
 .collection {
   position: absolute;
   left: 148px;
@@ -122,15 +132,17 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 26.71px;
-  font-weight: 300;     /* Light */
+  font-weight: 300;   /* Light */
   color: #000000;
 
-  letter-spacing: 0;    /* tracking 0 */
+  letter-spacing: 0;  /* tracking 0 */
   line-height: 1;
   white-space: nowrap;
 }
 
-/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0 */
+/* Ürün adı:
+  PSD: Outfit ExtraLight, size 20.74, tracking 0%
+*/
 .productTitle {
   position: absolute;
   left: 791px;
@@ -140,10 +152,10 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 20.74px;
-  font-weight: 200;     /* ExtraLight */
+  font-weight: 200;   /* ExtraLight */
   color: #000000;
 
-  letter-spacing: 0;    /* tracking 0 */
+  letter-spacing: 0;  /* tracking 0 */
   line-height: 1;
 
   white-space: nowrap;
