@@ -1,46 +1,51 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <style>{{CSS}}</style>
+<meta charset="utf-8"/>
+<style>
+{{CSS}}
+</style>
 </head>
 <body>
-  <div class="frame season">
-    <!-- top row: 3 görsel + ortada ribbon -->
-    <div class="topSeason">
-      <div class="imgBox big">
-        <img class="img" src="{{product_image_primary}}" loading="eager" />
-      </div>
+<div class="frame season">
 
-      <div class="ribbon">
-        <div class="ribbonInner">
-          <div class="rText">NEW SEASON</div>
-          <div class="rText">NEW SEASON</div>
-          <div class="rText">NEW SEASON</div>
-          <div class="rText">NEW SEASON</div>
-        </div>
-      </div>
+  <div class="top seasonTop">
 
-      <div class="rightCol">
-        <div class="imgBox small">
-          <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
-        </div>
-        <div class="imgBox small">
-          <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
-        </div>
+    <!-- SOL BÜYÜK -->
+    <div class="primary">
+      <img class="img" src="{{product_image_primary}}" />
+    </div>
+
+    <!-- ORTA NEW SEASON STRIP -->
+    <div class="seasonStrip">
+      <div class="seasonText">
+        NEW SEASON NEW SEASON NEW SEASON NEW SEASON
       </div>
     </div>
 
-    <!-- bottom row: logo + capsule + product title -->
-    <div class="bottomSeason">
-      <div class="brandTop">
-        <img class="logoTop" src="{{logo_url}}" loading="eager" />
+    <!-- SAĞ 2 GÖRSEL -->
+    <div class="secondaryCol">
+      <div class="secondary">
+        <img class="img" src="{{product_image_secondary_1}}" />
       </div>
+      <div class="secondary">
+        <img class="img" src="{{product_image_secondary_2}}" />
+      </div>
+    </div>
 
-      <div class="capsule">CAPSULE WARDROBE COLLECTION</div>
+  </div>
 
-      <div class="pTitle">{{title}}</div>
+  <div class="bottomSeason">
+    <div class="bottomLeft">
+      <img class="logoTop" src="{{logo_url}}" />
+      <div class="collection">CAPSULE WARDROBE COLLECTION</div>
+    </div>
+
+    <div class="bottomRight">
+      <div class="title">{{title}}</div>
     </div>
   </div>
+
+</div>
 </body>
 </html>
