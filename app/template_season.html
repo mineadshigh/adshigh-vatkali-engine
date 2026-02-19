@@ -7,41 +7,42 @@
   </style>
 </head>
 <body>
-  <div class="frame season">
+  <div class="frame">
 
     <!-- ÜST LOGO -->
     <div class="header">
-      <img class="logoTop" src="{{logo_url}}" loading="eager" />
+      <img class="logoTopLeft" src="{{logo_url}}" loading="eager" />
     </div>
 
-    <!-- GÖRSELLER (classic top baz alınarak) -->
-    <div class="top">
+    <!-- GÖRSELLER -->
+    <div class="body">
       <div class="primary">
         <img class="img" src="{{product_image_primary}}" loading="eager" />
       </div>
 
       <!-- NEW SEASON ŞERİDİ -->
       <div class="seasonStrip">
-        <div class="seasonText">NEW SEASON NEW SEASON NEW SEASON NEW SEASON</div>
+        <div class="seasonText">
+          <span class="thin">NEW</span> <span class="bold">SEASON</span>
+          <span class="thin">NEW</span> <span class="bold">SEASON</span>
+          <span class="thin">NEW</span> <span class="bold">SEASON</span>
+          <span class="thin">NEW</span> <span class="bold">SEASON</span>
+        </div>
       </div>
 
       <div class="secondaryCol">
         <div class="secondary">
-          <div class="imgInner">
-            <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
-          </div>
+          <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
         </div>
 
         <div class="secondary">
-          <div class="imgInner">
-            <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
-          </div>
+          <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
         </div>
       </div>
     </div>
 
     <!-- ALT YAZILAR -->
-    <div class="bottomSeason">
+    <div class="footer">
       <div class="collection">CAPSULE WARDROBE COLLECTION</div>
       <div class="productTitle">{{title}}</div>
     </div>
