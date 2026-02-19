@@ -7,40 +7,37 @@
   </style>
 </head>
 <body>
-  <div class="frame">
+  <div class="frame season">
 
-    <div class="header">
-      <img class="logoTopLeft" src="{{logo_url}}" loading="eager" />
+    <!-- LOGO -->
+    <img class="logoTopLeft" src="{{logo_url}}" loading="eager" />
+
+    <!-- IMAGES -->
+    <div class="primary">
+      <img class="img" src="{{product_image_primary}}" loading="eager" />
     </div>
 
-    <div class="body">
-      <div class="primary">
-        <img class="img" src="{{product_image_primary}}" loading="eager" />
-      </div>
+    <div class="secondaryTop">
+      <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
+    </div>
 
-      <div class="seasonStrip">
-        <div class="seasonText">
-          <span class="thin">NEW</span> <span class="bold">SEASON</span>
-          <span class="thin">NEW</span> <span class="bold">SEASON</span>
-          <span class="thin">NEW</span> <span class="bold">SEASON</span>
-          <span class="thin">NEW</span> <span class="bold">SEASON</span>
-        </div>
-      </div>
+    <div class="secondaryBottom">
+      <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
+    </div>
 
-      <div class="secondaryCol">
-        <div class="secondary">
-          <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
-        </div>
-        <div class="secondary">
-          <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
-        </div>
+    <!-- NEW SEASON STRIP (vertical) -->
+    <div class="seasonStrip">
+      <div class="seasonText">
+        <span class="bold">NEW SEASON</span>
+        <span class="thin"> NEW SEASON</span>
+        <span class="bold"> NEW SEASON</span>
+        <span class="thin"> NEW SEASON</span>
       </div>
     </div>
 
-    <div class="footer">
-      <div class="collection">CAPSULE WARDROBE COLLECTION</div>
-      <div class="productTitle">{{title}}</div>
-    </div>
+    <!-- FOOTER TEXTS -->
+    <div class="collection">CAPSULE WARDROBE COLLECTION</div>
+    <div class="productTitle">{{title}}</div>
 
   </div>
 </body>
