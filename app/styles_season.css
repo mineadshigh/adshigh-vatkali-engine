@@ -5,7 +5,11 @@ html, body {
   padding: 0;
   background: #fff;
   overflow: hidden;
-  font-family: "DejaVu Sans", Arial, sans-serif;
+}
+
+body {
+  font-family: "Outfit", Arial, sans-serif;
+  font-synthesis: none;
 }
 
 .frame {
@@ -16,120 +20,117 @@ html, body {
   overflow: hidden;
 }
 
-/* LOGO (yeni ölçüler) */
-.logoTopLeft{
-  position: absolute;
-  left: 31.8px;
-  top: 27.5px;
-  width: 299px;
-  height: 45.1px;
-  object-fit: contain;
-  display: block;
-}
-
-/* 1. GÖRSEL (primary) */
-.primary{
-  position: absolute;
-  left: 42.8px;
-  top: 91.1px;
-  width: 609.3px;
-  height: 914.6px;
-  background: #fff;
-  overflow: hidden;
-}
-
-/* 2. GÖRSEL (sağ üst) */
-.secondaryTop{
-  position: absolute;
-  left: 732.5px;
-  top: 91.1px;
-  width: 296.7px;
-  height: 445.3px;
-  background: #fff;
-  overflow: hidden;
-}
-
-/* 3. GÖRSEL (sağ alt) */
-.secondaryBottom{
-  position: absolute;
-  left: 732.5px;
-  top: 560.4px;
-  width: 296.7px;
-  height: 445.3px;
-  background: #fff;
-  overflow: hidden;
-}
-
-/* Görsel davranışı */
-.img{
+/* ---------- IMAGES ---------- */
+.img {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: contain;     /* kesmeden içine sığdır */
+  object-fit: contain;      /* KESME YOK */
   object-position: center;
   background: #fff;
 }
 
-/* NEW SEASON STRIP (yeni ölçüler) */
-.seasonStrip{
+/* ---------- LOGO ---------- */
+.logoTop {
   position: absolute;
-  left: 670.9px;
-  top: 91.1px;
-  width: 42.9px;
-  height: 914.6px;
+  left: 51px;
+  top: 34px;
+  width: 200px;
+  height: 25px;
+  object-fit: contain;
+}
+
+/* ---------- MAIN IMAGE ---------- */
+.imgPrimaryWrap {
+  position: absolute;
+  left: 51px;
+  top: 86px;
+  width: 605px;
+  height: 908px;
   background: #fff;
-  border: none;            /* çizgi yok */
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
-/* NEW SEASON yazısı: punto 26.8, bold/thin karışık */
-.seasonText{
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+/* ---------- RIGHT IMAGES ---------- */
+.imgTopWrap {
+  position: absolute;
+  left: 732px;
+  top: 87px;
+  width: 296px;
+  height: 444px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.imgBottomWrap {
+  position: absolute;
+  left: 732px;
+  top: 550px;
+  width: 297px;
+  height: 445px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ---------- NEW SEASON STRIP (no grey, no lines) ---------- */
+.seasonWrap {
+  position: absolute;
+  left: 679px;
+  top: 89px;
+  width: 28px;
+  height: 902px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.seasonText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  writing-mode: vertical-rl;   /* dikey yaz */
+  transform: rotate(180deg);   /* PSD’deki -90 hissi için */
   white-space: nowrap;
-  font-size: 26.7px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #111;
+
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 39px;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: 1px;         /* PSD gibi sıkı */
   line-height: 1;
 }
 
-.seasonText .bold{ font-weight: 800; }
-.seasonText .thin{ font-weight: 300; }
-
-/* CAPSULE WARDROBE COLLECTION (punto 18.2) */
-.collection{
+/* ---------- FOOTER TEXTS ---------- */
+.collection {
   position: absolute;
-  left: 149.9px;
-  top: 1024.7px;
-  width: 395.2px;
-  height: 28.1px;
-  font-size: 18.2px;
-  letter-spacing: 2px;
-  color: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* tam ortala */
-  text-align: center;
+  left: 148px;
+  top: 1021px;
+  width: 412px;
+  height: 19px;
+
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 27px;
+  font-weight: 300;
+  color: #000000;
+  letter-spacing: 0.2px;
+  line-height: 19px;
   white-space: nowrap;
 }
 
-/* Ürün ismi (punto 14.2) */
-.productTitle{
+.productTitle {
   position: absolute;
-  left: 754.2px;
-  top: 1027.7px;
-  width: 253.2px;
-  height: 22.2px;
-  font-size: 14.2px;
-  color: #777;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* tam ortala */
-  text-align: center;
+  left: 791px;
+  top: 1021px;
+  width: 187px;
+  height: 19px;
+
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 21px;
+  font-weight: 250; /* Outfit her ağırlığı desteklemeyebilir; desteklemezse 300'e düşer */
+  color: #000000;
+  line-height: 19px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
