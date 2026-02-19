@@ -46,11 +46,42 @@
     <!-- FOOTER TEXTS -->
     <div class="collection">CAPSULE WARDROBE COLLECTION</div>
 
-    <!-- ✅ ürün adı: 1 satır / 2 satır ortalı + collection baseline hizalı -->
+    <!-- ✅ ürün adı: 1 satırsa collection hizası, 2 satırsa otomatik ortalama -->
     <div class="productTitleWrap">
       <div class="productTitle">{{title}}</div>
     </div>
 
   </div>
+
+  <!-- ✅ SATIR SAYISINA GÖRE class ekleyen script (BURADA DURACAK) -->
+  <script>
+  (() => {
+    const wrap = document.querySelector(".productTitleWrap");
+    const el = document.querySelector(".productTitle");
+    if (!wrap || !el) return;
+
+    const getLineHeight = () => {
+      const lh = parseFloat(getComputedStyle(el).lineHeight);
+      return Number.isFinite(lh) ? lh : 21;
+    };
+
+    const apply = () => {
+      const lh = getLineHeight();
+      const lines = Math.round(el.scrollHeight / lh);
+      if (lines >= 2) wrap.classList.add("twoLines");
+      else wrap.classList.remove("twoLines");
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        apply();
+        setTimeout(apply, 50);
+      });
+    } else {
+      setTimeout(apply, 80);
+    }
+  })();
+  </script>
+
 </body>
 </html>
