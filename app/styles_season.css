@@ -125,28 +125,34 @@ body {
 
 /*
   ✅ ÜRÜN BAŞLIĞI (TITLE)
-  - 1 satırsa: collection ile aynı hizada (top:1021px) dursun
-  - 2 satırsa: iki satır blok olarak ortalansın diye wrap'i yarım satır yukarı alıyoruz
+  - 1 satırsa: collection ile aynı baseline'da dursun
+  - 2 satırsa: iki satır blok olarak ortalansın (wrap biraz yukarı)
 */
 .productTitleWrap {
   position: absolute;
   left: 732px;
-  top: 1021px;      /* ✅ 1 satırda collection ile aynı hizaya sabit */
+  top: 1021px;      /* collection referans hizası */
   width: 296px;
   height: 42px;     /* 2 satır alan */
 
   display: flex;
-  align-items: flex-start;   /* ✅ 1 satır aşağı düşmesin */
+  align-items: flex-start;   /* 1 satır aşağı düşmesin */
   justify-content: center;
 
   pointer-events: none;
 }
 
-/* ✅ 2 satırsa: bloğu görsel olarak ortalamak için yukarı kaydır */
-.productTitleWrap.twoLines {
-  top: 1010.5px;  /* 1021 - (21/2)  => line-height 21px'in yarısı */
+/* ✅ 1 satırda title çok az yukarı kalıyordu → sadece 1 satıra mikro düzeltme */
+.productTitleWrap:not(.twoLines) .productTitle {
+  transform: translateY(1px);
 }
 
+/* ✅ 2 satırsa: bloğu görsel olarak ortalamak için yukarı kaydır */
+.productTitleWrap.twoLines {
+  top: 1010.5px;  /* 1021 - (21/2) => line-height 21px'in yarısı */
+}
+
+/* Title text */
 .productTitle {
   width: 100%;
   text-align: center;
