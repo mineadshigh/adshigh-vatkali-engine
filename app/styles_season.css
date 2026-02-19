@@ -8,108 +8,126 @@ html, body {
   font-family: "DejaVu Sans", Arial, sans-serif;
 }
 
-.frame{
-  width:1080px;
-  height:1080px;
-  background:#fff;
-  display:grid;
-  grid-template-rows: 110px 1fr 110px; /* header / body / footer */
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background: #fff;
+  overflow: hidden;
 }
 
-/* HEADER */
-.header{
-  padding: 22px 24px 0 24px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
-}
+/* LOGO (Canva ölçüleri) */
 .logoTopLeft{
-  width: 260px;   /* biraz küçült */
-  height:auto;
-  display:block;
+  position: absolute;
+  left: 42.8px;
+  top: 28.7px;
+  width: 334.8px;
+  height: 50.5px;
+  object-fit: contain;
+  display: block;
 }
 
-/* BODY */
-.body{
-  padding: 0 24px;
-  display:grid;
-
-  /* 1080 - (24*2)=1032 içerik alanı
-     gap 12 + 12 = 24
-     strip 96, right 380 => 476
-     primary kalan = 1032 - 24 - 476 = 532 */
-  grid-template-columns: 1fr 96px 380px;
-  gap: 12px;
-  align-items: stretch;
+/* 1. GÖRSEL (primary) */
+.primary{
+  position: absolute;
+  left: 42.8px;
+  top: 108px;
+  width: 575.6px;
+  height: 864px;
+  background: #fff;
+  overflow: hidden;
 }
 
-.primary, .secondary{
-  background:#fff;
-  overflow:hidden;
-  min-width:0;
-  min-height:0;
+/* 2. GÖRSEL (sağ üst) */
+.secondaryTop{
+  position: absolute;
+  left: 717.7px;
+  top: 108px;
+  width: 281.9px;
+  height: 423.1px;
+  background: #fff;
+  overflow: hidden;
 }
 
-.secondaryCol{
-  display:grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 12px;
-  min-width:0;
-  min-height:0;
+/* 3. GÖRSEL (sağ alt) */
+.secondaryBottom{
+  position: absolute;
+  left: 717.7px;
+  top: 548.9px;
+  width: 281.9px;
+  height: 423.1px;
+  background: #fff;
+  overflow: hidden;
 }
 
-/* Görseller: bozukluğun ana fix'i */
+/* Görsel davranışı */
 .img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit: contain;          /* kırpma yok */
-  object-position: center top;  /* ✅ yukarıdan başlat */
-  background:#fff;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;     /* kesmeden içine sığdır */
+  object-position: center;
+  background: #fff;
 }
 
-/* NEW SEASON STRIP */
+/* NEW SEASON STRIP (Canva’dan türetilmiş: kolon arası 40px) */
 .seasonStrip{
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  position: absolute;
+  left: 649.7px;
+  top: 108px;
+  width: 40.3px;
+  height: 864px;
+  background: #fff;        /* gri yok */
+  border: none;            /* çizgi yok */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .seasonText{
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: 32px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color:#111;
   white-space: nowrap;
+  font-size: 24px;         /* biraz büyüttüm; istersen 26 yaparız */
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #111;
   line-height: 1;
 }
 
-.seasonText .thin { font-weight: 300; }
-.seasonText .bold { font-weight: 800; }
+.seasonText .bold{ font-weight: 800; }
+.seasonText .thin{ font-weight: 300; }
 
-/* FOOTER: referanstaki hizalama */
-.footer{
-  padding: 0 24px 24px 24px;
-  display:grid;
-  grid-template-columns: 1fr 96px 380px; /* body ile aynı */
-  gap: 12px;
-  align-items: end;
-}
-
+/* FOOTER */
 .collection{
-  grid-column: 1;
-  text-align: center; /* primary altında ortalı */
+  position: absolute;
+  left: 111.3px;
+  top: 1001px;
+  width: 438.7px;
+  height: 31.6px;
   font-size: 20px;
   letter-spacing: 2px;
-  color:#111;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* tam orta */
+  text-align: center;
 }
 
 .productTitle{
-  grid-column: 3;
-  text-align: center; /* sağ kolonun altında ortalı */
-  font-size: 20px;
-  color:#777;
+  position: absolute;
+  left: 732px;
+  top: 1005.7px;
+  width: 253.2px;
+  height: 22.2px;
+  font-size: 18px;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* tam orta */
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
