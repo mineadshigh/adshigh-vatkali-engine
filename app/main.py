@@ -167,6 +167,37 @@ def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
     return pct
 
 
+# -------------------------
+# SEASON RULE (custom_label_1 -> theme)
+# -------------------------
+
+SEASON_TOKENS = [
+    "İlkbahar-Yaz 20",
+    "İlkbahar-Yaz 21",
+    "İlkbahar-Yaz 22",
+    "İlkbahar-Yaz 23",
+    "İlkbahar-Yaz 24",
+    "İlkbahar-Yaz 25",
+    "İlkbahar-Yaz 26",
+    "Sonbahar-Kış 21/22",
+    "Sonbahar-Kış 22/23",
+    "Sonbahar-Kış 23/24",
+    "Sonbahar-Kış 24/25",
+    "Sonbahar-Kış 25/26",
+]
+
+def is_season_label(label_value: str) -> bool:
+    """
+    Kural: custom_label_1 içinde SEASON_TOKENS'tan herhangi biri geçiyorsa season.
+    Boşsa / hiçbiri yoksa classic.
+    """
+    v = (label_value or "").strip()
+    if not v:
+        return False
+    low = v.lower()
+    return any(tok.lower() in low for tok in SEASON_TOKENS)
+
+
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
@@ -468,7 +499,11 @@ async def feed_proxy(request: Request):
 
         primary, s1, s2 = choose_images(item)
 
-        sig = build_sig(title, price, sale, primary, s1, s2, fv)
+        # ✅ custom_label_1 -> theme belirle
+        custom_label_1 = (item.findtext("g:custom_label_1", default="", namespaces=ns) or "").strip()
+        theme = "season" if is_season_label(custom_label_1) else "classic"
+
+        sig = build_sig(title, price, sale, primary, s1, s2, fv, theme)
 
         render_url = (
             f"{base_url}/render.png"
@@ -478,6 +513,7 @@ async def feed_proxy(request: Request):
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
+            f"&theme={quote_plus(theme)}"
             f"&fv={quote_plus(fv)}"
             f"&v={sig}"
         )
