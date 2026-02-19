@@ -31,11 +31,9 @@ body {
 }
 
 /* ---------- LOGO ---------- */
-/* PSD: left 51 / top 34 / w 200 / h 25
-   Biz SVG kullandığımız için optik kayma olabiliyor → left biraz sola */
 .logoTop {
   position: absolute;
-  left: 43px;     /* optik düzeltme */
+  left: 43px;              /* optik düzeltme */
   top: 34px;
   width: 200px;
   height: 25px;
@@ -75,7 +73,7 @@ body {
   overflow: hidden;
 }
 
-/* ---------- NEW SEASON STRIP (PSD hizaya yakın) ---------- */
+/* ---------- NEW SEASON STRIP ---------- */
 .seasonWrap {
   position: absolute;
   left: 679px;
@@ -83,10 +81,9 @@ body {
   width: 28px;
   height: 902px;
   background: transparent;
-  overflow: visible; /* 28px şerit içinde kesilmesin */
+  overflow: visible; /* font taşmasın */
 }
 
-/* 4 tekrar kalsın diye font-size 38.84 yerine biraz düşürüyoruz (sığma sorunu) */
 .seasonText {
   position: absolute;
   left: 50%;
@@ -96,9 +93,9 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 34.8px;
-  letter-spacing: 0;     /* tracking(izleme) 0 */
+  letter-spacing: 0;
   line-height: 1;
-  color: #000000;        /* #000000 = siyah */
+  color: #000000;
   white-space: nowrap;
 }
 
@@ -106,8 +103,7 @@ body {
 .seasonText .thin { font-weight: 200; } /* ikinci ince */
 
 /* ---------- FOOTER TEXTS ---------- */
-
-/* CAPSULE: aynen kalsın (yerini değiştirmiyoruz) */
+/* CAPSULE: sabit kalsın */
 .collection {
   position: absolute;
   left: 148px;
@@ -117,7 +113,7 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 26.71px;
-  font-weight: 300;         /* Light */
+  font-weight: 300;
   color: #000000;
 
   letter-spacing: 0;
@@ -126,21 +122,24 @@ body {
 }
 
 /*
-  Title: 1 satırsa ortada,
-  2 satırsa blok içinde ortalı,
-  AMA alt hizası (baseline hissi) collection ile aynı çizgide kalsın.
-  Bunun için top yerine bottom kullanıyoruz.
+  ✅ ÜRÜN BAŞLIĞI (TITLE)
+  - 1 satırsa: sağ blokta ortalı
+  - 2 satırsa: iki satır da ortalı
+  - baseline hizası: collection ile aynı “baseline hattına” otursun diye
+    wrap’i top:1021 ve line-height ile yönetiyoruz.
 */
 .productTitleWrap {
   position: absolute;
-  left: 732px;              /* sağ kolon başlangıcı */
-  bottom: 40px;             /* ✅ (1021 + 19) => 1040 alt çizgisi sabit */
-  width: 296px;             /* sağ kolon genişliği */
-  height: 50px;             /* ✅ 2 satır kesilmesin diye büyüttük */
+  left: 732px;      /* sağ kolon başlangıcı */
+  top: 1021px;      /* collection ile aynı hizaya sabit */
+  width: 296px;     /* sağ kolon genişliği */
+  height: 42px;     /* 2 satıra alan (gerekirse 44 yapabilirsin) */
 
   display: flex;
-  align-items: flex-end;    /* ✅ alt çizgi sabit */
+  align-items: flex-end;  /* ✅ baseline hissi için alt hizaya oturt */
   justify-content: center;
+
+  pointer-events: none;
 }
 
 .productTitle {
@@ -149,15 +148,16 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 20.74px;
-  font-weight: 200;         /* ExtraLight */
-  color: #2B2B2B;           /* ✅ siyaha yakın gri */
+  font-weight: 200;          /* ExtraLight */
+  color: #2b2b2b;            /* ✅ siyaha yakın gri (istersen #333 yap) */
 
   letter-spacing: 0;
-  line-height: 1.15;
+  line-height: 21px;         /* ✅ 2 satır düzgün dursun */
 
-  /* ✅ 2 satır wrap, fazlası gizlenir */
-  display: -webkit-box;
+  white-space: normal;       /* ✅ 2 satıra geçebilir */
+  overflow: hidden;          /* ✅ taşarsa kırp (2 satırdan fazla olmasın) */
+
+  display: -webkit-box;      /* ✅ 2 satır clamp */
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  overflow: hidden;
 }
