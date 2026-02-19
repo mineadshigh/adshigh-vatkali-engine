@@ -106,55 +106,55 @@ body {
 .seasonText .thin { font-weight: 200; } /* ikinci ince */
 
 /* ---------- FOOTER TEXTS ---------- */
-/* İKİSİNİ DE AYNI SATIRA OTURTMAK İÇİN:
-   - aynı top + aynı height
-   - flex ile dikey ortalama
-   - text-align center
-*/
+
+/* CAPSULE: Outfit Light 26.71px, tracking 0% */
 .collection {
   position: absolute;
   left: 148px;
   top: 1021px;
   width: 412px;
-  height: 28px;                 /* ✅ 19 yerine biraz daha güvenli yükseklik */
+  height: 42px;               /* ✅ 2 satır alan (title ile aynı baseline hissi) */
 
-  display: flex;                /* ✅ baseline şaşmasın */
-  align-items: center;
+  display: flex;              /* ✅ baseline hissi için */
+  align-items: flex-end;      /* ✅ yazıyı en alta oturt */
   justify-content: center;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 26.71px;           /* PSD */
-  font-weight: 300;             /* Light */
+  font-size: 26.71px;
+  font-weight: 300;
   color: #000000;
 
   letter-spacing: 0;
-  line-height: 1;
-  white-space: nowrap;
-  text-align: center;
+  line-height: 1.05;
+  white-space: nowrap;        /* collection tek satır */
 }
 
+/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0% */
 .productTitle {
   position: absolute;
-  left: 732px;                  /* sağ kolon başlangıcı */
-  top: 1021px;                  /* ✅ collection ile aynı */
-  width: 296px;                 /* sağ kolon genişliği */
-  height: 28px;                 /* ✅ collection ile aynı */
+  left: 732px;                /* ✅ sağ kolonla hizalı */
+  top: 1021px;
+  width: 296px;               /* ✅ sağ kolon genişliği */
+  height: 42px;               /* ✅ max 2 satır alan */
 
-  display: flex;                /* ✅ dikey hizayı garanti */
-  align-items: center;
+  display: flex;              /* ✅ 1 satırda şu anki gibi kalır */
+  align-items: flex-end;      /* ✅ 2 satır olsa bile alt çizgi sabit */
   justify-content: center;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 20.74px;           /* PSD */
-  font-weight: 200;             /* ExtraLight */
-  color: #000000;
+  font-size: 20.74px;
+  font-weight: 200;
+  color: #2B2B2B;             /* ✅ siyaha yakın gri (daha “ince” görünür) */
 
   letter-spacing: 0;
-  line-height: 1;
+  line-height: 1.15;
 
-  padding: 0 6px;               /* ✅ ellipsis kenara yapışmasın */
   text-align: center;
-  white-space: nowrap;
+
+  /* ✅ 2 satır wrap + fazlasını kes */
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
