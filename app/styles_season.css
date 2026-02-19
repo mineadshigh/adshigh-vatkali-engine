@@ -31,11 +31,8 @@ body {
 }
 
 /* ---------- LOGO ---------- */
-/*
-  PSD ölçüsü: left 51 / top 34 / w 200 / h 25
-  SVG (bizdeki logo) viewBox padding yüzünden optik olarak sağa kayık görünebilir.
-  Bu yüzden sadece LEFT'i optik düzeltme için biraz sola alıyoruz.
-*/
+/* PSD: left 51 / top 34 / w 200 / h 25
+   Biz SVG kullandığımız için optik kayma olabiliyor → left biraz sola */
 .logoTop {
   position: absolute;
   left: 43px;     /* optik düzeltme */
@@ -43,7 +40,7 @@ body {
   width: 200px;
   height: 25px;
   object-fit: contain;
-  object-position: left center; /* SVG padding etkisini azaltır */
+  object-position: left center;
 }
 
 /* ---------- MAIN IMAGE ---------- */
@@ -78,8 +75,7 @@ body {
   overflow: hidden;
 }
 
-/* ---------- NEW SEASON STRIP (PSD birebir hizalama) ---------- */
-/* ---------- NEW SEASON STRIP ---------- */
+/* ---------- NEW SEASON STRIP (PSD hizaya yakın) ---------- */
 .seasonWrap {
   position: absolute;
   left: 679px;
@@ -87,71 +83,77 @@ body {
   width: 28px;
   height: 902px;
   background: transparent;
-  overflow: visible; /* ✅ 28px şeritte büyük font kesilmesin */
+  overflow: visible; /* 28px şerit içinde kesilmesin */
 }
 
-/*
-  Önemli:
-  - Yazı tek satır olduğu için "uzunluk" sorunu var.
-  - Ortaya sabitleyip rotate edeceğiz.
-  - 4 tekrar kalsın diye font-size'ı biraz küçültüyoruz.
-*/
+/* 4 tekrar kalsın diye font-size 38.84 yerine biraz düşürüyoruz (sığma sorunu) */
 .seasonText {
   position: absolute;
   left: 50%;
   top: 50%;
-
   transform: translate(-50%, -50%) rotate(-90deg);
   transform-origin: center;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 34.8px;          /* ✅ 38.84 çok taşıyor → 34px genelde tam oturur */
-  letter-spacing: 0;        /* tracking 0 */
+  font-size: 34.8px;
+  letter-spacing: 0;     /* tracking(izleme) 0 */
   line-height: 1;
-
-  color: #000000;
+  color: #000000;        /* #000000 = siyah */
   white-space: nowrap;
 }
 
-.seasonText .bold { font-weight: 500; } /* ✅ ilk kalın */
-.seasonText .thin { font-weight: 200; } /* ✅ ikinci ince */
+.seasonText .bold { font-weight: 500; } /* ilk kalın */
+.seasonText .thin { font-weight: 200; } /* ikinci ince */
 
 /* ---------- FOOTER TEXTS ---------- */
-/* CAPSULE: Outfit Light 26.71px, tracking 0% */
+/* İKİSİNİ DE AYNI SATIRA OTURTMAK İÇİN:
+   - aynı top + aynı height
+   - flex ile dikey ortalama
+   - text-align center
+*/
 .collection {
   position: absolute;
   left: 148px;
   top: 1021px;
   width: 412px;
-  height: 19px;
+  height: 28px;                 /* ✅ 19 yerine biraz daha güvenli yükseklik */
+
+  display: flex;                /* ✅ baseline şaşmasın */
+  align-items: center;
+  justify-content: center;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 26.71px;
-  font-weight: 300;   /* Light */
+  font-size: 26.71px;           /* PSD */
+  font-weight: 300;             /* Light */
   color: #000000;
 
   letter-spacing: 0;
   line-height: 1;
   white-space: nowrap;
+  text-align: center;
 }
 
-/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0% */
 .productTitle {
   position: absolute;
-  left: 732px;      /* ✅ sağ kolonla hizala */
-  top: 1021px;
-  width: 296px;     /* ✅ sağ kolon genişliği kadar */
-  height: 19px;
+  left: 732px;                  /* sağ kolon başlangıcı */
+  top: 1021px;                  /* ✅ collection ile aynı */
+  width: 296px;                 /* sağ kolon genişliği */
+  height: 28px;                 /* ✅ collection ile aynı */
+
+  display: flex;                /* ✅ dikey hizayı garanti */
+  align-items: center;
+  justify-content: center;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 20.74px;
-  font-weight: 200;
+  font-size: 20.74px;           /* PSD */
+  font-weight: 200;             /* ExtraLight */
   color: #000000;
 
   letter-spacing: 0;
   line-height: 1;
 
-  text-align: center;   /* ✅ PSD gibi ortalı */
+  padding: 0 6px;               /* ✅ ellipsis kenara yapışmasın */
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
