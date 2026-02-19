@@ -97,22 +97,25 @@ body {
 .seasonText {
   position: absolute;
   left: 0;
-  top: 902px; /* yükseklik kadar aşağı */
+  top: 902px;
 
   transform: rotate(-90deg);
   transform-origin: top left;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 38.84px;
+
+  /* ✅ biraz küçülttük ki 902px içine sığsın */
+  font-size: 36px;
+
   letter-spacing: 0;
   line-height: 1;
   color: #000000;
   white-space: nowrap;
 }
 
-/* Thin / Medium */
+/* ✅ SIRA DÜZELDİ: ilk kalın, ikinci ince */
+.seasonText .bold { font-weight: 500; }
 .seasonText .thin { font-weight: 200; }
-.seasonText .med  { font-weight: 500; }
 
 /* ---------- FOOTER TEXTS ---------- */
 /* CAPSULE: Outfit Light 26.71px, tracking 0% */
