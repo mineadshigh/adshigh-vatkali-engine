@@ -1,124 +1,111 @@
 * { box-sizing: border-box; }
+html, body { margin:0; padding:0; background:#fff; overflow:hidden; }
+body { font-family: "DejaVu Sans", Arial, sans-serif; }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  overflow: hidden;
-  font-family: "DejaVu Sans", Arial, sans-serif;
+.frame.season{
+  width:1080px;
+  height:1080px;
+  background:#fff;
+  position: relative;
+  overflow:hidden;
 }
 
-.frame {
-  width: 1080px;
-  height: 1080px;
-  background: #fff;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.seasonHeader{
-  height: 90px;
-  padding: 24px 24px 0 24px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.seasonLogo{
-  width: 260px;
-  height: auto;
-  display: block;
-}
-
-.seasonGrid{
-  flex: 1;
-  padding: 10px 24px 0 24px;
+/* Üst alan: sol büyük + ortada ribbon + sağ iki küçük */
+.topSeason{
+  height: 930px;
+  padding: 36px 36px 0 36px;
   display: grid;
-  grid-template-columns: 1fr 76px 360px;
-  gap: 12px;
+  grid-template-columns: 1fr 86px 380px;
+  gap: 22px;
   align-items: stretch;
-  min-height: 0;
 }
 
-.primary, .secondary{
-  background: #fff;
-  overflow: hidden;
-  min-width: 0;
-  min-height: 0;
-}
-
-.secondaryCol{
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 12px;
-  min-height: 0;
+.imgBox{
+  background:#fff;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .img{
-  width: 100%;
-  height: 100%;
-  display: block;
+  width:100%;
+  height:100%;
   object-fit: contain;
   object-position: center;
-  background: #fff;
+  display:block;
 }
 
-.stripe{
-  background: #fff;
-  border-left: 2px solid #eee;
-  border-right: 2px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.rightCol{
+  display:grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 22px;
 }
 
-.stripeInner{
-  height: 100%;
+/* Ribbon */
+.ribbon{
+  position: relative;
+  background:#f5f5f5;        /* şerit zemini */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ribbonInner{
+  position:absolute;
+  top:0; bottom:0; left:0; right:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-evenly;
   padding: 18px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
 }
 
-.stripeText{
+.rText{
   font-size: 22px;
-  letter-spacing: 1px;
-  color: #9a9a9a;
-  font-weight: 500;
+  letter-spacing: 2px;
+  color:#111;
+  font-weight: 600;
+  transform: rotate(-90deg);   /* dikey yazı */
+  transform-origin: center;
+  white-space: nowrap;
+  opacity: 0.85;
 }
 
-.stripeText.strong{
-  color: #111;
-  font-weight: 800;
+/* Alt alan */
+.bottomSeason{
+  height: 150px;
+  padding: 18px 36px 28px 36px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap: 20px;
 }
 
-.seasonFooter{
-  height: 120px;
-  padding: 0 24px 24px 24px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.brandTop{
+  position:absolute;
+  top: 22px;
+  left: 36px;
+}
+
+.logoTop{
+  height: 64px;
+  width: auto;
+  display:block;
 }
 
 .capsule{
   font-size: 22px;
   letter-spacing: 1px;
-  font-weight: 500;
-  color: #111;
+  color:#111;
 }
 
-.prodTitle{
-  font-size: 18px;
-  color: #9a9a9a;
-  font-weight: 500;
-  max-width: 520px;
-  text-align: right;
-  line-height: 1.2;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.pTitle{
+  font-size: 20px;
+  color:#666;
+  text-align:right;
+  max-width: 420px;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
