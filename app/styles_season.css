@@ -38,12 +38,12 @@ body {
 */
 .logoTop {
   position: absolute;
-  left: 43px;     /* ✅ optik düzeltme: 51 -> 43 */
+  left: 43px;     /* optik düzeltme */
   top: 34px;
   width: 200px;
   height: 25px;
   object-fit: contain;
-  object-position: left center; /* ✅ SVG padding etkisini azaltır */
+  object-position: left center; /* SVG padding etkisini azaltır */
 }
 
 /* ---------- MAIN IMAGE ---------- */
@@ -78,7 +78,7 @@ body {
   overflow: hidden;
 }
 
-/* ---------- NEW SEASON STRIP (no grey, no lines) ---------- */
+/* ---------- NEW SEASON STRIP ---------- */
 .seasonWrap {
   position: absolute;
   left: 679px;
@@ -86,32 +86,30 @@ body {
   width: 28px;
   height: 902px;
   background: transparent;
-  overflow: hidden;
+  overflow: visible; /* rotate ile taşma olabileceği için */
 }
 
 /*
-  PSD:
-  - Font: Outfit
-  - Size: 38.84 px
-  - Tracking (İzleme): 0%
-  - Thin + Medium kombinasyonu (iki ağırlık)
+  PSD yaklaşımı:
+  - Yazı yatay yazılır
+  - -90 derece döndürülür
+  Bu yöntem writing-mode'a göre PSD'ye daha yakın görünür.
 */
 .seasonText {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 0;
+  left: 0;
 
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: nowrap;
+  transform: rotate(-90deg);
+  transform-origin: top left;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 38.84px;
-  letter-spacing: 0;   /* tracking 0 */
+  font-size: 38.84px;   /* PSD: 38.84 */
+  letter-spacing: 0;    /* PSD tracking: 0% */
   line-height: 1;
   color: #000000;
+
+  white-space: nowrap;
 }
 
 /* Thin / Medium */
@@ -119,10 +117,7 @@ body {
 .seasonText .med  { font-weight: 500; }
 
 /* ---------- FOOTER TEXTS ---------- */
-
-/* CAPSULE:
-  PSD: Outfit Light, size 26.71, tracking 0%
-*/
+/* CAPSULE: Outfit Light 26.71px, tracking 0% */
 .collection {
   position: absolute;
   left: 148px;
@@ -135,18 +130,16 @@ body {
   font-weight: 300;   /* Light */
   color: #000000;
 
-  letter-spacing: 0;  /* tracking 0 */
+  letter-spacing: 0;
   line-height: 1;
   white-space: nowrap;
 }
 
-/* Ürün adı:
-  PSD: Outfit ExtraLight, size 20.74, tracking 0%
-*/
+/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0% */
 .productTitle {
   position: absolute;
   left: 791px;
-  top: 1021px;
+  top: 1018px; /* baseline düzeltme: 1021 -> 1018 */
   width: 187px;
   height: 19px;
 
@@ -155,7 +148,7 @@ body {
   font-weight: 200;   /* ExtraLight */
   color: #000000;
 
-  letter-spacing: 0;  /* tracking 0 */
+  letter-spacing: 0;
   line-height: 1;
 
   white-space: nowrap;
