@@ -97,24 +97,25 @@ body {
 .seasonText {
   position: absolute;
   left: 0;
-  top: 902px;
+  top: 902px;              /* seasonWrap yüksekliği */
 
   transform: rotate(-90deg);
   transform-origin: top left;
 
   font-family: "Outfit", Arial, sans-serif;
 
-  /* ✅ biraz küçülttük ki 902px içine sığsın */
-  font-size: 36px;
-
+  font-size: 38.84px;      /* PSD boyutu */
   letter-spacing: 0;
   line-height: 1;
+
   color: #000000;
   white-space: nowrap;
 }
 
-/* ✅ SIRA DÜZELDİ: ilk kalın, ikinci ince */
+/* İlk kalın */
 .seasonText .bold { font-weight: 500; }
+
+/* İkinci ince */
 .seasonText .thin { font-weight: 200; }
 
 /* ---------- FOOTER TEXTS ---------- */
