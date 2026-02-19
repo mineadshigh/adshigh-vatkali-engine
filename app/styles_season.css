@@ -16,13 +16,13 @@ html, body {
   overflow: hidden;
 }
 
-/* LOGO (Canva ölçüleri) */
+/* LOGO (yeni ölçüler) */
 .logoTopLeft{
   position: absolute;
-  left: 42.8px;
-  top: 28.7px;
-  width: 334.8px;
-  height: 50.5px;
+  left: 31.8px;
+  top: 27.5px;
+  width: 299px;
+  height: 45.1px;
   object-fit: contain;
   display: block;
 }
@@ -31,9 +31,9 @@ html, body {
 .primary{
   position: absolute;
   left: 42.8px;
-  top: 108px;
-  width: 575.6px;
-  height: 864px;
+  top: 91.1px;
+  width: 609.3px;
+  height: 914.6px;
   background: #fff;
   overflow: hidden;
 }
@@ -41,10 +41,10 @@ html, body {
 /* 2. GÖRSEL (sağ üst) */
 .secondaryTop{
   position: absolute;
-  left: 717.7px;
-  top: 108px;
-  width: 281.9px;
-  height: 423.1px;
+  left: 732.5px;
+  top: 91.1px;
+  width: 296.7px;
+  height: 445.3px;
   background: #fff;
   overflow: hidden;
 }
@@ -52,10 +52,10 @@ html, body {
 /* 3. GÖRSEL (sağ alt) */
 .secondaryBottom{
   position: absolute;
-  left: 717.7px;
-  top: 548.9px;
-  width: 281.9px;
-  height: 423.1px;
+  left: 732.5px;
+  top: 560.4px;
+  width: 296.7px;
+  height: 445.3px;
   background: #fff;
   overflow: hidden;
 }
@@ -70,14 +70,14 @@ html, body {
   background: #fff;
 }
 
-/* NEW SEASON STRIP (Canva’dan türetilmiş: kolon arası 40px) */
+/* NEW SEASON STRIP (yeni ölçüler) */
 .seasonStrip{
   position: absolute;
-  left: 649.7px;
-  top: 108px;
-  width: 40.3px;
-  height: 864px;
-  background: #fff;        /* gri yok */
+  left: 670.9px;
+  top: 91.1px;
+  width: 42.9px;
+  height: 914.6px;
+  background: #fff;
   border: none;            /* çizgi yok */
   display: flex;
   align-items: center;
@@ -85,11 +85,12 @@ html, body {
   overflow: hidden;
 }
 
+/* NEW SEASON yazısı: punto 26.8, bold/thin karışık */
 .seasonText{
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   white-space: nowrap;
-  font-size: 24px;         /* biraz büyüttüm; istersen 26 yaparız */
+  font-size: 26.8px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #111;
@@ -99,33 +100,35 @@ html, body {
 .seasonText .bold{ font-weight: 800; }
 .seasonText .thin{ font-weight: 300; }
 
-/* FOOTER */
+/* CAPSULE WARDROBE COLLECTION (punto 18.2) */
 .collection{
   position: absolute;
-  left: 111.3px;
-  top: 1001px;
-  width: 438.7px;
-  height: 31.6px;
-  font-size: 20px;
+  left: 149.9px;
+  top: 1024.7px;
+  width: 395.2px;
+  height: 28.1px;
+  font-size: 18.2px;
   letter-spacing: 2px;
   color: #111;
   display: flex;
   align-items: center;
-  justify-content: center; /* tam orta */
+  justify-content: center; /* tam ortala */
   text-align: center;
+  white-space: nowrap;
 }
 
+/* Ürün ismi (punto 14.2) */
 .productTitle{
   position: absolute;
-  left: 732px;
-  top: 1005.7px;
+  left: 754.2px;
+  top: 1027.7px;
   width: 253.2px;
   height: 22.2px;
-  font-size: 18px;
+  font-size: 14.2px;
   color: #777;
   display: flex;
   align-items: center;
-  justify-content: center; /* tam orta */
+  justify-content: center; /* tam ortala */
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
