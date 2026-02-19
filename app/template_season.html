@@ -2,38 +2,46 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <style>{{CSS}}</style>
+  <style>
+  {{CSS}}
+  </style>
 </head>
 <body>
   <div class="frame season">
 
-    <!-- HEADER -->
+    <!-- ÜST LOGO -->
     <div class="header">
-      <img class="logoTopLeft" src="{{logo_url}}" />
+      <img class="logoTop" src="{{logo_url}}" loading="eager" />
     </div>
 
-    <!-- BODY -->
-    <div class="body">
+    <!-- GÖRSELLER (classic top baz alınarak) -->
+    <div class="top">
       <div class="primary">
         <img class="img" src="{{product_image_primary}}" loading="eager" />
       </div>
 
+      <!-- NEW SEASON ŞERİDİ -->
       <div class="seasonStrip">
         <div class="seasonText">NEW SEASON NEW SEASON NEW SEASON NEW SEASON</div>
       </div>
 
       <div class="secondaryCol">
         <div class="secondary">
-          <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
+          <div class="imgInner">
+            <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
+          </div>
         </div>
+
         <div class="secondary">
-          <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
+          <div class="imgInner">
+            <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <div class="footer">
+    <!-- ALT YAZILAR -->
+    <div class="bottomSeason">
       <div class="collection">CAPSULE WARDROBE COLLECTION</div>
       <div class="productTitle">{{title}}</div>
     </div>
