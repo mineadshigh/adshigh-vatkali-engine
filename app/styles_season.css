@@ -73,7 +73,7 @@ body {
   overflow: hidden;
 }
 
-/* ---------- NEW SEASON STRIP ---------- */
+/* ---------- NEW SEASON STRIP (PSD hizaya yakın) ---------- */
 .seasonWrap {
   position: absolute;
   left: 679px;
@@ -81,9 +81,10 @@ body {
   width: 28px;
   height: 902px;
   background: transparent;
-  overflow: visible; /* font taşmasın */
+  overflow: visible; /* 28px şerit içinde kesilmesin */
 }
 
+/* 4 tekrar kalsın diye font-size 38.84 yerine biraz düşürüyoruz (sığma sorunu) */
 .seasonText {
   position: absolute;
   left: 50%;
@@ -93,14 +94,15 @@ body {
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 34.8px;
-  letter-spacing: 0;
+  letter-spacing: 0;     /* tracking(izleme) 0 */
   line-height: 1;
-  color: #000000;
+  color: #000000;        /* #000000 = siyah */
   white-space: nowrap;
 }
 
 .seasonText .bold { font-weight: 500; } /* ilk kalın */
 .seasonText .thin { font-weight: 200; } /* ikinci ince */
+
 
 /* ---------- FOOTER TEXTS ---------- */
 /* CAPSULE: sabit kalsın */
