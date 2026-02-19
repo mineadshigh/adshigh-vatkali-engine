@@ -78,37 +78,35 @@ body {
   overflow: hidden;
 }
 
-/* ---------- NEW SEASON STRIP ---------- */
+/* ---------- NEW SEASON STRIP (PSD birebir hizalama) ---------- */
 .seasonWrap {
   position: absolute;
-  left: 679px;
-  top: 89px;
+  left: 679px;   /* PSD X */
+  top: 89px;     /* PSD Y */
   width: 28px;
   height: 902px;
-  background: transparent;
-  overflow: visible; /* rotate ile taşma olabileceği için */
+  overflow: visible;
 }
 
 /*
-  PSD yaklaşımı:
-  - Yazı yatay yazılır
-  - -90 derece döndürülür
-  Bu yöntem writing-mode'a göre PSD'ye daha yakın görünür.
+  PSD mantığı:
+  Yazı yatay yazılır
+  -90 derece döndürülür
+  sonra aşağı kaydırılır
 */
 .seasonText {
   position: absolute;
-  top: 0;
   left: 0;
+  top: 902px; /* yükseklik kadar aşağı */
 
   transform: rotate(-90deg);
   transform-origin: top left;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 38.84px;   /* PSD: 38.84 */
-  letter-spacing: 0;    /* PSD tracking: 0% */
+  font-size: 38.84px;
+  letter-spacing: 0;
   line-height: 1;
   color: #000000;
-
   white-space: nowrap;
 }
 
