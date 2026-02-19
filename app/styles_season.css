@@ -160,7 +160,11 @@ body {
   color: #2b2b2b;
 
   letter-spacing: 0;
-  line-height: 21px;
+
+  /* 🔧 BURAYI DEĞİŞTİR */
+  line-height: 24px;      /* 21px yerine 24px -> g/y/p kesilmez */
+  padding-bottom: 6px;    /* descender payı */
+  box-sizing: border-box; /* padding’i clamp hesabına doğru dahil et */
 
   white-space: normal;
   overflow: hidden;
