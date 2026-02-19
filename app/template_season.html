@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Outfit weights: ExtraLight(200), Light(300), Medium(500) -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500&display=swap" rel="stylesheet">
 
   <style>
@@ -17,15 +16,12 @@
 <body>
   <div class="frame">
 
-    <!-- LOGO -->
     <img class="logoTop" src="{{logo_url}}" loading="eager" />
 
-    <!-- IMAGES -->
     <div class="imgPrimaryWrap">
       <img class="img" src="{{product_image_primary}}" loading="eager" />
     </div>
 
-    <!-- NEW SEASON -->
     <div class="seasonWrap">
       <div class="seasonText">
         <span class="bold">NEW SEASON </span>
@@ -43,17 +39,14 @@
       <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
     </div>
 
-    <!-- FOOTER TEXTS -->
     <div class="collection">CAPSULE WARDROBE COLLECTION</div>
 
-    <!-- ürün adı: 1 satır / 2 satır ortalı + collection baseline hizalı -->
     <div class="productTitleWrap">
       <div class="productTitle">{{title}}</div>
     </div>
 
   </div>
 
-  <!-- ✅ BURAYA (</body> öncesi) EKLİYORUZ -->
   <script>
   (() => {
     const wrap = document.querySelector(".productTitleWrap");
@@ -67,7 +60,6 @@
 
     const apply = () => {
       const lh = getLineHeight();
-      // scrollHeight/font rendering küçük farklar yaratabiliyor; bu yüzden yuvarlıyoruz
       const lines = Math.round(el.scrollHeight / lh);
       if (lines >= 2) wrap.classList.add("twoLines");
       else wrap.classList.remove("twoLines");
