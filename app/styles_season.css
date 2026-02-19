@@ -107,54 +107,57 @@ body {
 
 /* ---------- FOOTER TEXTS ---------- */
 
-/* CAPSULE: Outfit Light 26.71px, tracking 0% */
+/* CAPSULE: aynen kalsın (yerini değiştirmiyoruz) */
 .collection {
   position: absolute;
   left: 148px;
   top: 1021px;
   width: 412px;
-  height: 42px;               /* ✅ 2 satır alan (title ile aynı baseline hissi) */
-
-  display: flex;              /* ✅ baseline hissi için */
-  align-items: flex-end;      /* ✅ yazıyı en alta oturt */
-  justify-content: center;
+  height: 19px;
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 26.71px;
-  font-weight: 300;
+  font-weight: 300;         /* Light */
   color: #000000;
 
   letter-spacing: 0;
-  line-height: 1.05;
-  white-space: nowrap;        /* collection tek satır */
+  line-height: 1;
+  white-space: nowrap;
 }
 
-/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0% */
-.productTitle {
+/*
+  Title: 1 satırsa ortada,
+  2 satırsa blok içinde ortalı,
+  AMA alt hizası (baseline hissi) collection ile aynı çizgide kalsın.
+  Bunun için top yerine bottom kullanıyoruz.
+*/
+.productTitleWrap {
   position: absolute;
-  left: 732px;                /* ✅ sağ kolonla hizalı */
-  top: 1021px;
-  width: 296px;               /* ✅ sağ kolon genişliği */
-  height: 42px;               /* ✅ max 2 satır alan */
+  left: 732px;              /* sağ kolon başlangıcı */
+  bottom: 40px;             /* ✅ (1021 + 19) => 1040 alt çizgisi sabit */
+  width: 296px;             /* sağ kolon genişliği */
+  height: 50px;             /* ✅ 2 satır kesilmesin diye büyüttük */
 
-  display: flex;              /* ✅ 1 satırda şu anki gibi kalır */
-  align-items: flex-end;      /* ✅ 2 satır olsa bile alt çizgi sabit */
+  display: flex;
+  align-items: flex-end;    /* ✅ alt çizgi sabit */
   justify-content: center;
+}
+
+.productTitle {
+  width: 100%;
+  text-align: center;
 
   font-family: "Outfit", Arial, sans-serif;
   font-size: 20.74px;
-  font-weight: 200;
-  color: #2B2B2B;             /* ✅ siyaha yakın gri (daha “ince” görünür) */
+  font-weight: 200;         /* ExtraLight */
+  color: #2B2B2B;           /* ✅ siyaha yakın gri */
 
   letter-spacing: 0;
   line-height: 1.15;
 
-  text-align: center;
-
-  /* ✅ 2 satır wrap + fazlasını kes */
-  white-space: normal;
-  overflow: hidden;
+  /* ✅ 2 satır wrap, fazlası gizlenir */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
