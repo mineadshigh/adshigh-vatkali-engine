@@ -392,12 +392,13 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-if theme == "season":
-    template_path = os.path.join(BASE_DIR, "template_season.html")
-    css_path = os.path.join(BASE_DIR, "styles_season.css")
-else:
-    template_path = os.path.join(BASE_DIR, "template.html")
-    css_path = os.path.join(BASE_DIR, "styles.css")
+    # ✅ BURASI MUTLAKA FONKSİYONUN İÇİNDE (4 boşluk içeride) OLACAK
+    if theme == "season":
+        template_path = os.path.join(BASE_DIR, "template_season.html")
+        css_path = os.path.join(BASE_DIR, "styles_season.css")
+    else:
+        template_path = os.path.join(BASE_DIR, "template.html")
+        css_path = os.path.join(BASE_DIR, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -422,6 +423,8 @@ else:
     html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
+
+    # classic template değişkenleri:
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
     html = html.replace("{{old_hidden}}", old_hidden)
