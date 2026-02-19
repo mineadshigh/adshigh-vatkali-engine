@@ -1,38 +1,38 @@
 <!doctype html>
-<html>
+<html lang="tr">
 <head>
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=1080, initial-scale=1"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Outfit font -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-  {{CSS}}
+    {{CSS}}
   </style>
 </head>
 <body>
-  <div class="frame season">
+  <div class="frame">
 
     <!-- LOGO -->
-    <img class="logoTopLeft" src="{{logo_url}}" loading="eager" />
+    <img class="logoTop" src="{{logo_url}}" loading="eager" />
 
     <!-- IMAGES -->
-    <div class="primary">
+    <div class="imgPrimaryWrap">
       <img class="img" src="{{product_image_primary}}" loading="eager" />
     </div>
 
-    <div class="secondaryTop">
+    <div class="seasonWrap">
+      <div class="seasonText">NEW SEASON NEW SEASON NEW SEASON NEW SEASON</div>
+    </div>
+
+    <div class="imgTopWrap">
       <img class="img" src="{{product_image_secondary_1}}" loading="eager" />
     </div>
 
-    <div class="secondaryBottom">
+    <div class="imgBottomWrap">
       <img class="img" src="{{product_image_secondary_2}}" loading="eager" />
-    </div>
-
-    <!-- NEW SEASON STRIP (vertical) -->
-    <div class="seasonStrip">
-      <div class="seasonText">
-        <span class="bold">NEW SEASON</span>
-        <span class="thin"> NEW SEASON</span>
-        <span class="bold"> NEW SEASON</span>
-        <span class="thin"> NEW SEASON</span>
-      </div>
     </div>
 
     <!-- FOOTER TEXTS -->
