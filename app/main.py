@@ -380,6 +380,7 @@ async def render_endpoint(
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
+    theme: str = Query("classic"),
 ):
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
@@ -391,6 +392,10 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
+if theme == "season":
+    template_path = os.path.join(BASE_DIR, "template_season.html")
+    css_path = os.path.join(BASE_DIR, "styles_season.css")
+else:
     template_path = os.path.join(BASE_DIR, "template.html")
     css_path = os.path.join(BASE_DIR, "styles.css")
 
