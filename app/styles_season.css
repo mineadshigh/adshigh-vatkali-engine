@@ -83,6 +83,12 @@ body {
   overflow: hidden;
 }
 
+/*
+  PSD hedefi: Outfit thin - medium ~38.84px.
+  Biz: Google Fonts Outfit wght: 200/300/400/500/600
+  -> thin: 200, medium: 500
+  Tek yazıda iki weight için <span> kullanacağız.
+*/
 .seasonText {
   position: absolute;
   inset: 0;
@@ -90,19 +96,23 @@ body {
   align-items: center;
   justify-content: center;
 
-  writing-mode: vertical-rl;   /* dikey yaz */
-  transform: rotate(180deg);   /* PSD’deki -90 hissi için */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
   white-space: nowrap;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 39px;
-  font-weight: 500;
-  color: #000000;
-  letter-spacing: 1px;         /* PSD gibi sıkı */
+  font-size: 38.84px;      /* PSD’deki 38.84 */
+  letter-spacing: 0;        /* PSD’de tracking 0 */
   line-height: 1;
+  color: #000000;
 }
 
+.seasonText .thin { font-weight: 200; }
+.seasonText .med  { font-weight: 500; }
+
 /* ---------- FOOTER TEXTS ---------- */
+
+/* CAPSULE: Outfit Light 26.71px, tracking 0 */
 .collection {
   position: absolute;
   left: 148px;
@@ -111,14 +121,16 @@ body {
   height: 19px;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 27px;
-  font-weight: 300;
+  font-size: 26.71px;
+  font-weight: 300;     /* Light */
   color: #000000;
-  letter-spacing: 0.2px;
-  line-height: 19px;
+
+  letter-spacing: 0;    /* tracking 0 */
+  line-height: 1;
   white-space: nowrap;
 }
 
+/* Ürün adı: Outfit ExtraLight 20.74px, tracking 0 */
 .productTitle {
   position: absolute;
   left: 791px;
@@ -127,10 +139,13 @@ body {
   height: 19px;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 21px;
-  font-weight: 250; /* Outfit her ağırlığı desteklemeyebilir; desteklemezse 300'e düşer */
+  font-size: 20.74px;
+  font-weight: 200;     /* ExtraLight */
   color: #000000;
-  line-height: 19px;
+
+  letter-spacing: 0;    /* tracking 0 */
+  line-height: 1;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
