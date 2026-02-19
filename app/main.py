@@ -3,6 +3,7 @@ import base64
 import hashlib
 import os
 import re
+from pathlib import Path
 from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
 from xml.etree import ElementTree as ET
 
@@ -24,6 +25,18 @@ app = FastAPI()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# -------------------------
+# Disk Cache (kritik)
+# -------------------------
+CACHE_DIR = Path(os.getenv("RENDER_CACHE_DIR", "/tmp/render_cache"))
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+def _cache_path(key: str) -> Path:
+    safe = re.sub(r"[^a-zA-Z0-9_-]", "", key or "")
+    if not safe:
+        safe = "no_key"
+    return CACHE_DIR / f"{safe}.png"
 
 
 # -------------------------
@@ -217,6 +230,21 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 
 
 # -------------------------
+# Global HTTP client (stabilite)
+# -------------------------
+_http_client: httpx.AsyncClient | None = None
+
+def _img_headers():
+    return {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "Referer": "https://www.vatkali.com/",
+        "Origin": "https://www.vatkali.com",
+    }
+
+
+# -------------------------
 # HTTP -> Data URI (robust)
 # -------------------------
 
@@ -227,17 +255,8 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if url.startswith("data:"):
         return url
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
-
     try:
-        # kısa timeout: Meta bot taramasında takılmasın
-        r = await client.get(url, headers=headers, timeout=15.0)
+        r = await client.get(url, headers=_img_headers(), timeout=15.0)
         r.raise_for_status()
 
         ct = (r.headers.get("content-type") or "").lower()
@@ -335,7 +354,6 @@ async def _ensure_browser():
                     ],
                 )
         except Exception as e:
-            # "handler is closed" gibi durumlarda full restart şart
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
             else:
@@ -344,12 +362,17 @@ async def _ensure_browser():
 
 @app.on_event("startup")
 async def _startup():
+    global _http_client
     await _ensure_browser()
+
+    # tek client: connection reuse -> daha az crash
+    limits = httpx.Limits(max_connections=50, max_keepalive_connections=20)
+    _http_client = httpx.AsyncClient(follow_redirects=True, limits=limits, timeout=20.0)
 
 
 @app.on_event("shutdown")
 async def _shutdown():
-    global _pw, _browser
+    global _pw, _browser, _http_client
     try:
         if _browser:
             await _browser.close()
@@ -363,6 +386,13 @@ async def _shutdown():
         pass
     _pw = None
 
+    try:
+        if _http_client:
+            await _http_client.aclose()
+    except Exception:
+        pass
+    _http_client = None
+
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -374,7 +404,6 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                # data-uri görseller anında gelir ama font/svg için kısa nefes payı:
                 await page.wait_for_timeout(120)
 
                 frame = page.locator(".frame")
@@ -390,7 +419,6 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
         try:
             return await _do()
         except Exception as e:
-            # Browser/driver öldüyse reset + 1 retry
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
                 return await _do()
@@ -412,7 +440,21 @@ async def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
     theme: str = Query("classic"),
+    v: str = Query(""),   # signature (cache key)
+    fv: str = Query(""),  # feed version (sizde zaten var)
 ):
+    # 1) Cache HIT -> Playwright yok
+    if v:
+        pth = _cache_path(v)
+        if pth.exists():
+            data = pth.read_bytes()
+            headers = {
+                "Cache-Control": "public, max-age=31536000, immutable",
+                "ETag": v,
+            }
+            return Response(content=data, media_type="image/png", headers=headers)
+
+    # 2) Normal render
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
     title = tr_title_case(title)
@@ -423,7 +465,6 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-    # ✅ BURASI MUTLAKA FONKSİYONUN İÇİNDE (4 boşluk içeride) OLACAK
     if theme == "season":
         template_path = os.path.join(BASE_DIR, "template_season.html")
         css_path = os.path.join(BASE_DIR, "styles_season.css")
@@ -440,13 +481,22 @@ async def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    async with httpx.AsyncClient(follow_redirects=True) as client:
-        product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
-            to_data_uri(product_image_primary, client),
-            to_data_uri(product_image_secondary_1, client),
-            to_data_uri(product_image_secondary_2, client),
-            to_data_uri(logo_url, client),
-        )
+    # signature yoksa (manuel testlerde) burada üret
+    if not v:
+        v = build_sig(title, price, sale_price, product_image_primary, product_image_secondary_1, product_image_secondary_2, theme, fv)
+
+    # http client garanti
+    global _http_client
+    if _http_client is None:
+        limits = httpx.Limits(max_connections=50, max_keepalive_connections=20)
+        _http_client = httpx.AsyncClient(follow_redirects=True, limits=limits, timeout=20.0)
+
+    product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
+        to_data_uri(product_image_primary, _http_client),
+        to_data_uri(product_image_secondary_1, _http_client),
+        to_data_uri(product_image_secondary_2, _http_client),
+        to_data_uri(logo_url, _http_client),
+    )
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -455,7 +505,6 @@ async def render_endpoint(
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
 
-    # classic template değişkenleri:
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
     html = html.replace("{{old_hidden}}", old_hidden)
@@ -470,7 +519,19 @@ async def render_endpoint(
         print("RENDER_FAILED:", repr(e))
         png = _TRANSPARENT_PNG
 
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    # 3) Cache WRITE (atomik)
+    try:
+        pth = _cache_path(v)
+        tmp = pth.with_suffix(".tmp")
+        tmp.write_bytes(png)
+        tmp.replace(pth)
+    except Exception:
+        pass
+
+    headers = {
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "ETag": v,
+    }
     return Response(content=png, media_type="image/png", headers=headers)
 
 
@@ -531,19 +592,15 @@ async def feed_proxy(request: Request):
             extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
+
+    # feed de cache olmasın (render cache olsun)
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
 
 @app.get("/probe")
 async def probe(url: str = Query(...)):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
-    }
+    headers = _img_headers()
 
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=20, headers=headers) as client:
