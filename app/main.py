@@ -3,6 +3,7 @@ import base64
 import hashlib
 import os
 import re
+import unicodedata
 from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
 from xml.etree import ElementTree as ET
 
@@ -168,7 +169,7 @@ def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
 
 
 # -------------------------
-# SEASON RULE (custom_label_1 -> theme)
+# SEASON RULE (custom_label_1 -> theme)  ✅ HARDENED
 # -------------------------
 
 SEASON_TOKENS = [
@@ -186,17 +187,57 @@ SEASON_TOKENS = [
     "Sonbahar-Kış 25/26",
 ]
 
+_HYPHENS = {
+    "\u2010",  # hyphen
+    "\u2011",  # non-breaking hyphen
+    "\u2012",  # figure dash
+    "\u2013",  # en dash
+    "\u2014",  # em dash
+    "\u2212",  # minus sign
+    "\u00ad",  # soft hyphen
+}
+
+def _norm_season_text(s: str) -> str:
+    """
+    Unicode farkları (tire, NBSP, vb.) yüzünden eşleşme kaçmasın diye normalize.
+    """
+    if not s:
+        return ""
+    x = unicodedata.normalize("NFKC", s)
+    # farklı tire karakterlerini düz '-' yap
+    for h in _HYPHENS:
+        x = x.replace(h, "-")
+    # NBSP vb. whitespace düzelt
+    x = x.replace("\u00a0", " ")
+    # fazla boşlukları tek boşluk yap
+    x = " ".join(x.split()).strip()
+    return x.lower()
+
+_SEASON_TOKENS_NORM = [_norm_season_text(t) for t in SEASON_TOKENS]
 
 def is_season_label(label_value: str) -> bool:
     """
     Kural: custom_label_1 içinde SEASON_TOKENS'tan herhangi biri geçiyorsa season.
     Boşsa / hiçbiri yoksa classic.
     """
-    v = (label_value or "").strip()
+    v = _norm_season_text(label_value)
     if not v:
         return False
-    low = v.lower()
-    return any(tok.lower() in low for tok in SEASON_TOKENS)
+    return any(tok and (tok in v) for tok in _SEASON_TOKENS_NORM)
+
+def find_text_by_localname(item: ET.Element, local_name: str) -> str:
+    """
+    Namespace prefix'e takılmadan (g:, ns0: vs) custom_label_1 gibi alanları bul.
+    """
+    if item is None:
+        return ""
+    for el in item.iter():
+        tag = el.tag
+        if isinstance(tag, str):
+            ln = tag.split("}")[-1]  # "{uri}custom_label_1" -> "custom_label_1"
+            if ln == local_name:
+                return (el.text or "").strip()
+    return ""
 
 
 _TRANSPARENT_PNG = base64.b64decode(
@@ -215,32 +256,6 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     if ".svg" in u:
         return "image/svg+xml"
     return "image/jpeg"
-
-
-# -------------------------
-# Render Cache (prevents Meta burst crashes)
-# -------------------------
-
-CACHE_DIR = os.getenv("CACHE_DIR", "/tmp/render_cache")
-os.makedirs(CACHE_DIR, exist_ok=True)
-
-# Aynı görsel aynı anda 10 kere render edilmesin (stampede önler)
-_inflight: dict[str, asyncio.Lock] = {}
-_inflight_guard = asyncio.Lock()
-
-
-def _cache_path(key: str) -> str:
-    safe = re.sub(r"[^a-zA-Z0-9_-]", "_", key or "")
-    return os.path.join(CACHE_DIR, f"{safe}.png")
-
-
-async def _get_lock_for_key(key: str) -> asyncio.Lock:
-    async with _inflight_guard:
-        lk = _inflight.get(key)
-        if lk is None:
-            lk = asyncio.Lock()
-            _inflight[key] = lk
-        return lk
 
 
 # -------------------------
@@ -439,108 +454,66 @@ async def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
     theme: str = Query("classic"),
-    v: str = Query(""),      # ✅ feed içindeki signature (cache key)
-    fv: str = Query(""),     # (var olan parametre; log için)
 ):
-    # ✅ Cache hit: Meta burst yükünü burada sıfırlıyoruz
-    cache_key = (v or "").strip()
-    if cache_key:
-        pth = _cache_path(cache_key)
-        if os.path.exists(pth):
-            try:
-                with open(pth, "rb") as f:
-                    png = f.read()
-                headers = {"Cache-Control": "public, max-age=31536000, immutable"}
-                return Response(content=png, media_type="image/png", headers=headers)
-            except Exception:
-                pass  # cache bozuksa normal render'a düş
+    price = format_currency_tr(price)
+    sale_price = format_currency_tr(sale_price)
+    title = tr_title_case(title)
 
-    # Cache miss → tek render (stampede lock)
-    lock_key = cache_key if cache_key else build_sig(title, price, sale_price, product_image_primary, product_image_secondary_1, product_image_secondary_2, theme)
-    lk = await _get_lock_for_key(lock_key)
+    old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    async with lk:
-        # lock içindeyken bir daha kontrol (başkası render etmiş olabilir)
-        if cache_key:
-            pth = _cache_path(cache_key)
-            if os.path.exists(pth):
-                try:
-                    with open(pth, "rb") as f:
-                        png = f.read()
-                    headers = {"Cache-Control": "public, max-age=31536000, immutable"}
-                    return Response(content=png, media_type="image/png", headers=headers)
-                except Exception:
-                    pass
+    pct = calc_discount_percent(price, sale_price)
+    discount_hidden = "hidden" if pct is None else ""
+    discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-        price = format_currency_tr(price)
-        sale_price = format_currency_tr(sale_price)
-        title = tr_title_case(title)
+    # ✅ BURASI MUTLAKA FONKSİYONUN İÇİNDE (4 boşluk içeride) OLACAK
+    if theme == "season":
+        template_path = os.path.join(BASE_DIR, "template_season.html")
+        css_path = os.path.join(BASE_DIR, "styles_season.css")
+    else:
+        template_path = os.path.join(BASE_DIR, "template.html")
+        css_path = os.path.join(BASE_DIR, "styles.css")
 
-        old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
+    with open(template_path, "r", encoding="utf-8") as f:
+        tpl = f.read()
+    with open(css_path, "r", encoding="utf-8") as f:
+        css = f.read()
 
-        pct = calc_discount_percent(price, sale_price)
-        discount_hidden = "hidden" if pct is None else ""
-        discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
+    if not logo_url:
+        base_url = get_base_url(request)
+        logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-        if theme == "season":
-            template_path = os.path.join(BASE_DIR, "template_season.html")
-            css_path = os.path.join(BASE_DIR, "styles_season.css")
-        else:
-            template_path = os.path.join(BASE_DIR, "template.html")
-            css_path = os.path.join(BASE_DIR, "styles.css")
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
+            to_data_uri(product_image_primary, client),
+            to_data_uri(product_image_secondary_1, client),
+            to_data_uri(product_image_secondary_2, client),
+            to_data_uri(logo_url, client),
+        )
 
-        with open(template_path, "r", encoding="utf-8") as f:
-            tpl = f.read()
-        with open(css_path, "r", encoding="utf-8") as f:
-            css = f.read()
+    html = tpl.replace("{{CSS}}", css)
+    html = html.replace("{{product_image_primary}}", product_image_primary)
+    html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
+    html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
+    html = html.replace("{{logo_url}}", logo_url)
+    html = html.replace("{{title}}", title)
 
-        if not logo_url:
-            base_url = get_base_url(request)
-            logo_url = f"{base_url}/static/vatkalilogo.svg"
+    # classic template değişkenleri:
+    html = html.replace("{{price}}", price)
+    html = html.replace("{{sale_price}}", sale_price)
+    html = html.replace("{{old_hidden}}", old_hidden)
+    html = html.replace("{{new_hidden}}", new_hidden)
+    html = html.replace("{{single_hidden}}", single_hidden)
+    html = html.replace("{{discount_text}}", discount_text)
+    html = html.replace("{{discount_hidden}}", discount_hidden)
 
-        async with httpx.AsyncClient(follow_redirects=True) as client:
-            product_image_primary, product_image_secondary_1, product_image_secondary_2, logo_url = await asyncio.gather(
-                to_data_uri(product_image_primary, client),
-                to_data_uri(product_image_secondary_1, client),
-                to_data_uri(product_image_secondary_2, client),
-                to_data_uri(logo_url, client),
-            )
+    try:
+        png = await render_png(html, width=1080, height=1080)
+    except Exception as e:
+        print("RENDER_FAILED:", repr(e))
+        png = _TRANSPARENT_PNG
 
-        html = tpl.replace("{{CSS}}", css)
-        html = html.replace("{{product_image_primary}}", product_image_primary)
-        html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
-        html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
-        html = html.replace("{{logo_url}}", logo_url)
-        html = html.replace("{{title}}", title)
-
-        # classic template değişkenleri:
-        html = html.replace("{{price}}", price)
-        html = html.replace("{{sale_price}}", sale_price)
-        html = html.replace("{{old_hidden}}", old_hidden)
-        html = html.replace("{{new_hidden}}", new_hidden)
-        html = html.replace("{{single_hidden}}", single_hidden)
-        html = html.replace("{{discount_text}}", discount_text)
-        html = html.replace("{{discount_hidden}}", discount_hidden)
-
-        try:
-            png = await render_png(html, width=1080, height=1080)
-        except Exception as e:
-            # ✅ KRİTİK: Boş PNG döndürmek yerine 503 → Meta tekrar dener, yanlış görsel cache'lenmez
-            print("RENDER_FAILED:", repr(e))
-            headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-            return Response(content=b"render_failed", status_code=503, media_type="text/plain", headers=headers)
-
-        # ✅ başarıyla render olduysa cache'e yaz
-        if cache_key:
-            try:
-                pth = _cache_path(cache_key)
-                with open(pth, "wb") as f:
-                    f.write(png)
-            except Exception:
-                pass
-
-        headers = {"Cache-Control": "public, max-age=31536000, immutable"} if cache_key else {"Cache-Control": "no-store"}
-        return Response(content=png, media_type="image/png", headers=headers)
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return Response(content=png, media_type="image/png", headers=headers)
 
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
@@ -568,8 +541,8 @@ async def feed_proxy(request: Request):
 
         primary, s1, s2 = choose_images(item)
 
-        # ✅ custom_label_1 -> theme belirle
-        custom_label_1 = (item.findtext("g:custom_label_1", default="", namespaces=ns) or "").strip()
+        # ✅ custom_label_1 -> theme (namespace bağımsız + unicode normalize)
+        custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
 
         sig = build_sig(title, price, sale, primary, s1, s2, fv, theme)
