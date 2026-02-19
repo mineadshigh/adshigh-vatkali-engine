@@ -4,6 +4,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: #fff;
+  overflow: hidden;
   font-family: "DejaVu Sans", Arial, sans-serif;
 }
 
@@ -11,77 +12,90 @@ html, body {
   width: 1080px;
   height: 1080px;
   background: #fff;
-  display: flex;
-  flex-direction: column;
-}
-
-/* --- TOP GRID --- */
-.seasonTop {
-  height: 920px;
-  padding: 40px;
   display: grid;
-  grid-template-columns: 1fr 80px 400px;
-  gap: 40px;
+  grid-template-rows: 120px 1fr 120px; /* header / body / footer */
 }
 
-/* Sol */
-.primary img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Orta NEW SEASON */
-.seasonStrip {
-  background: #f1f1f1;
+/* HEADER */
+.header{
+  padding: 36px 40px 0 40px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.seasonText {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #111;
+.logoTopLeft{
+  width: 360px;     /* örneğe yakın */
+  height: auto;
+  display: block;
 }
 
-/* Sağ */
-.secondaryCol {
+/* BODY GRID */
+.body{
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 90px 400px; /* sol büyük / strip / sağ */
+  gap: 40px;
+  align-items: stretch;
+}
+
+.primary, .secondary{
+  background: #fff;
+  overflow: hidden;
+}
+
+.secondaryCol{
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 40px;
 }
 
-.secondary img {
+/* Görseller */
+.img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
+  object-fit: contain;     /* örnekteki gibi */
+  object-position: center;
+  background: #fff;
 }
 
-/* --- BOTTOM --- */
-.bottomSeason {
-  height: 160px;
+/* NEW SEASON STRIP */
+.seasonStrip{
+  background: #fff;                 /* griyi kaldırdık */
+  border-left: 2px solid #e9e9e9;   /* örnekteki ince çizgi hissi */
+  border-right: 2px solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seasonText{
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 22px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #111;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* FOOTER */
+.footer{
   padding: 0 40px 40px 40px;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
 }
 
-.logoTop {
-  width: 260px;
-  margin-bottom: 15px;
-}
-
-.collection {
+.collection{
   font-size: 20px;
   letter-spacing: 2px;
+  color: #111;
 }
 
-.bottomRight .title {
+.productTitle{
   font-size: 20px;
   color: #777;
 }
