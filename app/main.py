@@ -169,23 +169,8 @@ def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
 
 
 # -------------------------
-# SEASON RULE (custom_label_1 -> theme)  ✅ HARDENED
+# SEASON RULE (custom_label_1 -> theme)  ✅ ONLY "İlkbahar-Yaz 26"
 # -------------------------
-
-SEASON_TOKENS = [
-    "İlkbahar-Yaz 20",
-    "İlkbahar-Yaz 21",
-    "İlkbahar-Yaz 22",
-    "İlkbahar-Yaz 23",
-    "İlkbahar-Yaz 24",
-    "İlkbahar-Yaz 25",
-    "İlkbahar-Yaz 26",
-    "Sonbahar-Kış 21/22",
-    "Sonbahar-Kış 22/23",
-    "Sonbahar-Kış 23/24",
-    "Sonbahar-Kış 24/25",
-    "Sonbahar-Kış 25/26",
-]
 
 _HYPHENS = {
     "\u2010",  # hyphen
@@ -204,26 +189,24 @@ def _norm_season_text(s: str) -> str:
     if not s:
         return ""
     x = unicodedata.normalize("NFKC", s)
-    # farklı tire karakterlerini düz '-' yap
     for h in _HYPHENS:
         x = x.replace(h, "-")
-    # NBSP vb. whitespace düzelt
     x = x.replace("\u00a0", " ")
-    # fazla boşlukları tek boşluk yap
     x = " ".join(x.split()).strip()
     return x.lower()
 
-_SEASON_TOKENS_NORM = [_norm_season_text(t) for t in SEASON_TOKENS]
+# ✅ Sadece bunu season sayıyoruz:
+_ONLY_SEASON_TOKEN_NORM = _norm_season_text("İlkbahar-Yaz 26")
 
 def is_season_label(label_value: str) -> bool:
     """
-    Kural: custom_label_1 içinde SEASON_TOKENS'tan herhangi biri geçiyorsa season.
-    Boşsa / hiçbiri yoksa classic.
+    Kural: custom_label_1 içinde SADECE "İlkbahar-Yaz 26" geçiyorsa season.
+    Boşsa / başka sezonlar varsa classic.
     """
     v = _norm_season_text(label_value)
     if not v:
         return False
-    return any(tok and (tok in v) for tok in _SEASON_TOKENS_NORM)
+    return _ONLY_SEASON_TOKEN_NORM in v
 
 def find_text_by_localname(item: ET.Element, local_name: str) -> str:
     """
