@@ -126,6 +126,7 @@ def _parse_money_to_float(s: str) -> float | None:
     - "2.399 TL" -> 2399
     - "2.290,00 TL" -> 2290
     - "2399.00" -> 2399
+    - "2399.00 TRY" -> 2399
     """
     if not s:
         return None
@@ -158,13 +159,51 @@ def _parse_money_to_float(s: str) -> float | None:
 
 def format_tl_compact(s: str) -> str:
     """
-    TikTok görünümü: "1.399 TL" (decimal yok, binlik nokta var)
+    TikTok görselinde: "1.399 TL" (decimal yok, binlik nokta var)
     """
     v = _parse_money_to_float(s)
     if v is None:
         return format_currency_tr(s)
     n = int(round(v))
     return f"{n:,}".replace(",", ".") + " TL"
+
+
+def format_price_iso_4217(s: str, currency: str = "TRY") -> str:
+    """
+    TikTok feed standardı: 1499.99 TRY
+    - decimal '.' olmalı
+    - ISO 4217 currency code olmalı
+    """
+    v = _parse_money_to_float(s)
+    if v is None:
+        return ""
+    return f"{v:.2f} {currency}"
+
+
+def map_gender_for_tiktok(raw: str) -> str:
+    """
+    TikTok only: male/female/unisex
+    Kaynaktan 'Kadın/Erkek/Unisex' vs gelebilir.
+    """
+    x = (raw or "").strip().lower()
+    if not x:
+        return "unisex"
+
+    # TR
+    if x in {"kadın", "kadin", "female", "women", "woman", "w"}:
+        return "female"
+    if x in {"erkek", "male", "men", "man", "m"}:
+        return "male"
+    if x in {"unisex", "uni", "all"}:
+        return "unisex"
+
+    # içinde geçiyorsa
+    if "kad" in x or "women" in x or "female" in x:
+        return "female"
+    if "erk" in x or "men" in x or "male" in x:
+        return "male"
+
+    return "unisex"
 
 
 def hidden_flags(price: str, sale: str):
@@ -219,6 +258,7 @@ _HYPHENS = {
     "\u00ad",  # soft hyphen
 }
 
+
 def _norm_season_text(s: str) -> str:
     if not s:
         return ""
@@ -229,13 +269,16 @@ def _norm_season_text(s: str) -> str:
     x = " ".join(x.split()).strip()
     return x.lower()
 
+
 _ONLY_SEASON_TOKEN_NORM = _norm_season_text("İlkbahar-Yaz 26")
+
 
 def is_season_label(label_value: str) -> bool:
     v = _norm_season_text(label_value)
     if not v:
         return False
     return _ONLY_SEASON_TOKEN_NORM in v
+
 
 def find_text_by_localname(item: ET.Element, local_name: str) -> str:
     if item is None:
@@ -249,9 +292,30 @@ def find_text_by_localname(item: ET.Element, local_name: str) -> str:
     return ""
 
 
+def ensure_child(item: ET.Element, tag: str, ns: dict | None = None, ns_uri: str | None = None) -> ET.Element:
+    """
+    tag:
+      - "price" gibi düz tag
+      - "g:price" gibi ns tag (ns_uri ile)
+    """
+    if tag.startswith("g:") and ns_uri:
+        # namespace'li
+        qname = f"{{{ns_uri}}}{tag.split(':', 1)[1]}"
+        el = item.find(qname)
+        if el is None:
+            el = ET.SubElement(item, qname)
+        return el
+    else:
+        el = item.find(tag)
+        if el is None:
+            el = ET.SubElement(item, tag)
+        return el
+
+
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
+
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -311,6 +375,7 @@ _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
 
+
 def _is_fatal_playwright_error(e: Exception) -> bool:
     msg = str(e).lower()
     return any(
@@ -324,6 +389,7 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
             "playwright connection closed",
         ]
     )
+
 
 async def _restart_playwright():
     global _pw, _browser
@@ -352,6 +418,7 @@ async def _restart_playwright():
             "--disable-gpu",
         ],
     )
+
 
 async def _ensure_browser():
     global _pw, _browser
@@ -383,9 +450,11 @@ async def _ensure_browser():
             else:
                 raise
 
+
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
+
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -402,6 +471,7 @@ async def _shutdown():
     except Exception:
         pass
     _pw = None
+
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -455,11 +525,12 @@ async def render_endpoint(
 ):
     title = tr_title_case(title)
 
-    # TikTok’ta fiyatı "1.399 TL" formatına çek
+    # TikTok görselinde fiyatı "1.399 TL" formatına çek
     if design.startswith("tiktok_"):
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
     else:
+        # Meta görsellerde TL/TRY -> TL
         price = format_currency_tr(price)
         sale_price = format_currency_tr(sale_price)
 
@@ -527,6 +598,9 @@ async def render_endpoint(
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
+    """
+    ✅ META FEED: Aynen kalır (TL format + g: alanlar)
+    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -586,6 +660,12 @@ async def feed_proxy(request: Request):
 
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
+    """
+    ✅ TIKTOK FEED:
+    - price / sale_price: "1499.99 TRY"
+    - gender: male/female/unisex
+    - image_link: bizim render.png
+    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -600,26 +680,48 @@ async def feed_tiktok(request: Request):
 
     items = channel.findall("item")
     ns = {"g": "http://base.google.com/ns/1.0"}
+    g_uri = "http://base.google.com/ns/1.0"
 
     for item in items:
+        # --- base fields
         title = tr_title_case((item.findtext("title") or "").strip())
 
-        # TikTok’ta format render endpoint’te yapılacak; burada aynen geçiyoruz
-        price = item.findtext("g:price", default="", namespaces=ns) or ""
-        sale = item.findtext("g:sale_price", default="", namespaces=ns) or ""
+        raw_price = item.findtext("g:price", default="", namespaces=ns) or ""
+        raw_sale = item.findtext("g:sale_price", default="", namespaces=ns) or ""
 
+        iso_price = format_price_iso_4217(raw_price, "TRY")
+        iso_sale = format_price_iso_4217(raw_sale, "TRY") or iso_price  # sale boşsa price ile doldur
+
+        # gender fix
+        raw_gender = (
+            (item.findtext("g:gender", default="", namespaces=ns) or "")
+            or (item.findtext("gender") or "")
+        )
+        gender_ok = map_gender_for_tiktok(raw_gender)
+
+        # set BOTH g:* and plain tags (TikTok şablonları değişebiliyor)
+        ensure_child(item, "g:price", ns_uri=g_uri).text = iso_price
+        ensure_child(item, "price").text = iso_price
+
+        ensure_child(item, "g:sale_price", ns_uri=g_uri).text = iso_sale
+        ensure_child(item, "sale_price").text = iso_sale
+
+        ensure_child(item, "g:gender", ns_uri=g_uri).text = gender_ok
+        ensure_child(item, "gender").text = gender_ok
+
+        # images
         primary, s1, s2 = choose_images(item)
 
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
 
-        sig = build_sig(title, price, sale, primary, s1, s2, fv, design, "1080", "1920")
+        sig = build_sig(title, iso_price, iso_sale, primary, s1, s2, fv, design, "1080", "1920")
 
         render_url = (
             f"{base_url}/render.png"
             f"?title={quote_plus(title)}"
-            f"&price={quote_plus(price)}"
-            f"&sale_price={quote_plus(sale)}"
+            f"&price={quote_plus(iso_price)}"
+            f"&sale_price={quote_plus(iso_sale)}"
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
@@ -629,16 +731,28 @@ async def feed_tiktok(request: Request):
             f"&v={sig}"
         )
 
-        img = item.find("g:image_link", ns)
-        if img is None:
-            img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img.text = render_url
+        # set image_link (both g:image_link and image_link)
+        img_g = item.find("g:image_link", ns)
+        if img_g is None:
+            img_g = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
+        img_g.text = render_url
 
+        img_plain = item.find("image_link")
+        if img_plain is None:
+            img_plain = ET.SubElement(item, "image_link")
+        img_plain.text = render_url
+
+        # additional images: keep only 2 -> render_url
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
+        for extra in item.findall("additional_image_link"):
+            item.remove(extra)
+
         for _ in range(2):
-            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = render_url
+            extra_g = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra_g.text = render_url
+            extra_p = ET.SubElement(item, "additional_image_link")
+            extra_p.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
