@@ -1,7 +1,7 @@
 import asyncio
 import base64
 import hashlib
-import o
+import os
 import re
 import unicodedata
 from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
