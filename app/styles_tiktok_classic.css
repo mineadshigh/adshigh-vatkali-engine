@@ -45,11 +45,11 @@ body { font-family: "Outfit", Arial, sans-serif; }
   left: 0;
   top: 196px;
   width: 1080px;
-  font-size: 28px;      /* PSD’ye yakın */
+  font-size: 39px;      /* ✅ season ile aynı */
   font-weight: 300;
   color: #000;
   text-align: center;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;    /* ✅ season ile aynı (istersen 0.5 da kalabilir) */
 }
 
 /* ================= PRODUCT FRAME (season ile aynı) ================= */
