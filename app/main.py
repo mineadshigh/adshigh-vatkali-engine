@@ -157,6 +157,20 @@ def _parse_money_to_float(s: str) -> float | None:
         return None
 
 
+def format_price_compact_tr(s: str) -> str:
+    """
+    "2.290,00 TL" / "2290" / "2290,00" -> "2.290 TL"
+    TikTok classic PSD formatı için.
+    """
+    val = _parse_money_to_float(s)
+    if val is None:
+        return format_currency_tr(s)
+
+    n = int(round(val))  # kuruşları at
+    out = f"{n:,}".replace(",", ".")  # binlik ayırıcı '.'
+    return f"{out} TL"
+
+
 def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
     p = _parse_money_to_float(price_str)
     s = _parse_money_to_float(sale_str)
@@ -432,13 +446,17 @@ async def render_endpoint(
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
     theme: str = Query("classic"),     # mevcut meta feed için geri uyumluluk
-    design: str = Query(""),           # ✅ yeni: tikTok/meta v2 gibi varyasyon seçimi
-    w: int = Query(1080),              # ✅ yeni
-    h: int = Query(1080),              # ✅ yeni
+    design: str = Query(""),           # tikTok/meta v2 gibi varyasyon seçimi
+    w: int = Query(1080),
+    h: int = Query(1080),
 ):
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
     title = tr_title_case(title)
+
+    # TikTok classic PSD formatı
+    price_compact = format_price_compact_tr(price)
+    sale_price_compact = format_price_compact_tr(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -446,7 +464,7 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-    # ✅ Template seçimi (en basit hali)
+    # Template seçimi
     if design == "tiktok_season":
         template_path = os.path.join(BASE_DIR, "template_tiktok_season.html")
         css_path = os.path.join(BASE_DIR, "styles_tiktok_season.css")
@@ -486,12 +504,16 @@ async def render_endpoint(
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
 
-    # classic/meta template değişkenleri (tikTok template’lerinde de kullanacağız)
+    # classic/meta template değişkenleri
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
+    html = html.replace("{{price_compact}}", price_compact)
+    html = html.replace("{{sale_price_compact}}", sale_price_compact)
+
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
+
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
@@ -622,7 +644,6 @@ async def feed_tiktok(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # TikTok için de 2 ek görsel linkini aynı render_url'e set edelim
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
