@@ -70,48 +70,54 @@ body { font-family: "Outfit", Arial, sans-serif; }
   object-position: center;
 }
 
-/* ================= PRODUCT NAME ================= */
+/* =====================================================
+   ✅ ALT BLOK (akışkan): ürün adı uzarsa diğerleri aşağı iner
+   ===================================================== */
 
-.productTitle{
+.bottomCenter{
   position: absolute;
-  left: 100px;         /* ürün görsel alanına göre ortalanacak */
-  top: 1671px;
-  width: 880px;        /* görsel alan genişliği */
+  left: 100px;
+  top: 1665px;
+  width: 880px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 10px;
+  text-align: center;
+}
+
+/* Ürün adı: ... YOK, wrap var */
+.productTitle{
+  width: 100%;
   font-size: 37px;
   font-weight: 300;
   color: #000;
-  text-align: center;
   line-height: 44px;
 
-  /* ÖNEMLİ: artık kesme yok */
   white-space: normal;
+  word-break: break-word;
+
   overflow: visible;
   text-overflow: unset;
-  word-break: break-word;
 }
 
-/* ================= NEW SEASON ================= */
-
+/* NEW SEASON */
 .seasonTitle{
-  position: absolute;
-  left: 0;
-  top: 1738px;
-  width: 1080px;       /* tam canvas ortası */
+  width: 100%;
   font-size: 46px;
   font-weight: 500;
   color: #000;
-  text-align: center;
+  line-height: 46px;
 }
 
-/* ================= SPRING SUMMER ================= */
-
+/* SPRING / SUMMER ‘26 (2px büyütüldü) */
 .seasonSub{
-  position: absolute;
-  left: 0;             /* NEW SEASON ile tam ortalı */
-  top: 1800px;
-  width: 1080px;
-  font-size: 30px;
+  width: 100%;
+  font-size: 32px; /* ✅ 30 → 32 */
   font-weight: 300;
   color: #000;
-  text-align: center;
+  line-height: 32px;
 }
