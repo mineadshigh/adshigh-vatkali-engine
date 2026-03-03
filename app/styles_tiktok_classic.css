@@ -7,98 +7,135 @@ html, body {
   overflow: hidden;
 }
 
-body {
-  font-family: "DejaVu Sans", Arial, sans-serif;
-  font-synthesis: none;
-}
+body { font-family: "Outfit", Arial, sans-serif; }
 
 .frame{
+  position: relative;
   width: 1080px;
   height: 1920px;
   background: #fff;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
-.top{
-  flex: 1 1 auto;
-  padding: 40px;
+/* ================= LOGO (season ile aynı) ================= */
+
+.brandLogo{
+  position: absolute;
+  left: 317px;
+  top: 110px;
+  width: 446px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.img{
+.logoImg{
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center;
-  background: #fff;
 }
 
-.bottom{
-  flex: 0 0 320px;
-  padding: 28px 40px 40px 40px;
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 24px;
-  align-items: center;
-  border-top: 1px solid #eee;
+/* ================= SUBTITLE (classic) ================= */
+
+.subtitle{
+  position: absolute;
+  left: 0;
+  top: 196px;
+  width: 1080px;
+  font-size: 33px;       /* PSD’de biraz daha sıkı duruyor */
+  font-weight: 300;
+  color: #000;
+  text-align: center;
+  letter-spacing: 0.6px;
 }
 
-.logo{
-  width: 300px;
-  height: auto;
-  display: block;
-}
+/* ================= PRODUCT FRAME (season ile aynı yapı) ================= */
+/* siyah zemin + padding: crop YOK, beyaz boşluk görünmez (siyah görünür) */
 
-.right{
-  text-align: right;
-}
-
-.discount{
-  font-size: 26px;
-  font-weight: 700;
-  color: #7a2d2d;
-  margin-bottom: 10px;
-}
-
-.title{
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.15;
-  margin-bottom: 14px;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.imgFrame{
+  position: absolute;
+  left: 100px;
+  top: 300px;
+  width: 880px;
+  height: 1320px;
+  background: #000;
+  padding: 20px;         /* season’daki border kalınlığı */
   overflow: hidden;
 }
 
-.prices{
+.productImg{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;   /* crop yok */
+  object-position: center;
+}
+
+/* ================= BOTTOM BLOCK ================= */
+
+.bottomClassic{
+  position: absolute;
+  left: 100px;
+  top: 1665px;
+  width: 880px;
+
   display: flex;
-  gap: 14px;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  text-align: center;
+}
+
+/* Ürün adı */
+.productTitle{
+  width: 100%;
+  font-size: 37px;
+  font-weight: 300;
+  color: #000;
+  line-height: 44px;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* Fiyat satırı */
+.priceRow{
+  margin-top: 18px;
+  display: flex;
   align-items: baseline;
+  justify-content: center;
+  gap: 18px;
 }
 
-.old{
-  font-size: 26px;
+/* Eski fiyat: siyah kalın + üstü çizili */
+.oldPrice{
+  font-size: 34px;
+  font-weight: 700;
+  color: #000;
   text-decoration: line-through;
-  color: #111;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #000;
+  text-decoration-skip-ink: none;
 }
 
-.new{
-  font-size: 44px;
-  font-weight: 900;
-  color: #7a2d2d;
+/* Yeni fiyat: kırmızı kalın */
+.newPrice{
+  font-size: 34px;
+  font-weight: 700;
+  color: #c1121f; /* PSD kırmızısına yakın */
 }
 
-.single{
-  font-size: 44px;
-  font-weight: 900;
-  color: #111;
+/* İndirim yoksa tek fiyat (ortada siyah) */
+.singlePrice{
+  margin-top: 18px;
+  font-size: 34px;
+  font-weight: 700;
+  color: #000;
 }
 
-.hidden{ display:none; }
+/* Hidden helper (python’dan geliyor) */
+.hidden{ display: none !important; }
