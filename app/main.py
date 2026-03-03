@@ -261,7 +261,6 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     }
 
     try:
-        # kısa timeout: Meta bot taramasında takılmasın
         r = await client.get(url, headers=headers, timeout=15.0)
         r.raise_for_status()
 
@@ -269,7 +268,6 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
         if "image/" not in ct:
             return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-        # RAM koruması
         if len(r.content) > 6_000_000:
             return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
@@ -360,7 +358,6 @@ async def _ensure_browser():
                     ],
                 )
         except Exception as e:
-            # "handler is closed" gibi durumlarda full restart şart
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
             else:
@@ -399,7 +396,6 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                # data-uri görseller anında gelir ama font/svg için kısa nefes payı:
                 await page.wait_for_timeout(120)
 
                 frame = page.locator(".frame")
@@ -415,7 +411,6 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
         try:
             return await _do()
         except Exception as e:
-            # Browser/driver öldüyse reset + 1 retry
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
                 return await _do()
@@ -436,7 +431,10 @@ async def render_endpoint(
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
-    theme: str = Query("classic"),
+    theme: str = Query("classic"),     # mevcut meta feed için geri uyumluluk
+    design: str = Query(""),           # ✅ yeni: tikTok/meta v2 gibi varyasyon seçimi
+    w: int = Query(1080),              # ✅ yeni
+    h: int = Query(1080),              # ✅ yeni
 ):
     price = format_currency_tr(price)
     sale_price = format_currency_tr(sale_price)
@@ -448,13 +446,21 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-    # ✅ BURASI MUTLAKA FONKSİYONUN İÇİNDE (4 boşluk içeride) OLACAK
-    if theme == "season":
-        template_path = os.path.join(BASE_DIR, "template_season.html")
-        css_path = os.path.join(BASE_DIR, "styles_season.css")
+    # ✅ Template seçimi (en basit hali)
+    if design == "tiktok_season":
+        template_path = os.path.join(BASE_DIR, "template_tiktok_season.html")
+        css_path = os.path.join(BASE_DIR, "styles_tiktok_season.css")
+    elif design == "tiktok_classic":
+        template_path = os.path.join(BASE_DIR, "template_tiktok_classic.html")
+        css_path = os.path.join(BASE_DIR, "styles_tiktok_classic.css")
     else:
-        template_path = os.path.join(BASE_DIR, "template.html")
-        css_path = os.path.join(BASE_DIR, "styles.css")
+        # eski davranış (meta v1)
+        if theme == "season":
+            template_path = os.path.join(BASE_DIR, "template_season.html")
+            css_path = os.path.join(BASE_DIR, "styles_season.css")
+        else:
+            template_path = os.path.join(BASE_DIR, "template.html")
+            css_path = os.path.join(BASE_DIR, "styles.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -480,7 +486,7 @@ async def render_endpoint(
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
 
-    # classic template değişkenleri:
+    # classic/meta template değişkenleri (tikTok template’lerinde de kullanacağız)
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
     html = html.replace("{{old_hidden}}", old_hidden)
@@ -490,7 +496,7 @@ async def render_endpoint(
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
     try:
-        png = await render_png(html, width=1080, height=1080)
+        png = await render_png(html, width=w, height=h)
     except Exception as e:
         print("RENDER_FAILED:", repr(e))
         png = _TRANSPARENT_PNG
@@ -501,6 +507,9 @@ async def render_endpoint(
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
+    """
+    ✅ MEVCUT META FEED (AYNI KALDI)
+    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -524,7 +533,6 @@ async def feed_proxy(request: Request):
 
         primary, s1, s2 = choose_images(item)
 
-        # ✅ custom_label_1 -> theme (namespace bağımsız + unicode normalize)
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
 
@@ -548,7 +556,73 @@ async def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # ek görsel linklerini 2 adet render_url ile set et
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+        for _ in range(2):
+            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra.text = render_url
+
+    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+
+
+@app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
+async def feed_tiktok(request: Request):
+    """
+    ✅ TIKTOK FEED (YENİ)
+    - Dikey render: 1080x1920
+    - custom_label_1 "İlkbahar-Yaz 26" içeriyorsa: tiktok_season
+      içermiyorsa: tiktok_classic
+    """
+    base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()
+
+    async with httpx.AsyncClient(timeout=60) as client:
+        r = await client.get(FEED_URL)
+        r.raise_for_status()
+
+    root = ET.fromstring(r.text)
+    channel = root.find("channel")
+    if channel is None:
+        return PlainTextResponse(r.text, media_type="application/xml")
+
+    items = channel.findall("item")
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    for item in items:
+        title = tr_title_case((item.findtext("title") or "").strip())
+
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+
+        primary, s1, s2 = choose_images(item)
+
+        custom_label_1 = find_text_by_localname(item, "custom_label_1")
+        design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
+
+        sig = build_sig(title, price, sale, primary, s1, s2, fv, design, "1080", "1920")
+
+        render_url = (
+            f"{base_url}/render.png"
+            f"?title={quote_plus(title)}"
+            f"&price={quote_plus(price)}"
+            f"&sale_price={quote_plus(sale)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&product_image_secondary_2={quote_plus(s2)}"
+            f"&design={quote_plus(design)}"
+            f"&w=1080&h=1920"
+            f"&fv={quote_plus(fv)}"
+            f"&v={sig}"
+        )
+
+        img = item.find("g:image_link", ns)
+        if img is None:
+            img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
+        img.text = render_url
+
+        # TikTok için de 2 ek görsel linkini aynı render_url'e set edelim
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
