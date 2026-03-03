@@ -7,107 +7,118 @@ html, body {
   overflow: hidden;
 }
 
-body {
-  font-family: "DejaVu Sans", Arial, sans-serif;
-}
+body { font-family: "Outfit", Arial, sans-serif; }
 
 .frame{
+  position: relative;
   width: 1080px;
   height: 1920px;
   background: #fff;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
 }
 
-.badge{
+/* Logo alanı (PSD: left 337 top 120 w 406 h 51) */
+.brandLogo{
   position: absolute;
-  left: 40px;
-  top: 40px;
-  padding: 12px 18px;
-  border: 2px solid #000;
-  font-weight: 800;
-  font-size: 26px;
-  background: #fff;
-  letter-spacing: 0.5px;
-}
-
-.top{
-  flex: 1 1 auto;
-  padding: 40px;
+  left: 337px;
+  top: 120px;
+  width: 406px;
+  height: 51px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.img{
+.logoImg{
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center;
 }
 
-.bottom{
-  flex: 0 0 320px;
-  padding: 28px 40px 40px 40px;
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 24px;
-  align-items: center;
-  border-top: 1px solid #eee;
+/* CAPSULE WARDROBE COLLECTION (PSD ölçülerin) */
+.subtitle{
+  position: absolute;
+  left: 240px;
+  top: 196px;
+  width: 598px;
+  height: 28px;
+
+  font-size: 39px;
+  font-weight: 300;
+  color: #000;
+  text-align: center;
+  line-height: 28px;
+  white-space: nowrap;
 }
 
-.logo{
-  width: 300px;
-  height: auto;
-  display: block;
-}
+/* Ürün görsel alanı (PSD: left 100 top 300 w 880 h 1320) + border 20px */
+.imgFrame{
+  position: absolute;
+  left: 100px;
+  top: 300px;
+  width: 880px;
+  height: 1320px;
 
-.right{ text-align: right; }
-
-.discount{
-  font-size: 26px;
-  font-weight: 700;
-  color: #7a2d2d;
-  margin-bottom: 10px;
-}
-
-.title{
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.15;
-  margin-bottom: 14px;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  border: 20px solid #000;
+  background: #fff;
   overflow: hidden;
 }
 
-.prices{
-  display: flex;
-  gap: 14px;
-  justify-content: flex-end;
-  align-items: baseline;
+.productImg{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
 }
 
-.old{
-  font-size: 26px;
-  text-decoration: line-through;
-  color: #111;
+/* Ürün adı (PSD ölçülerin) */
+.productTitle{
+  position: absolute;
+  left: 372px;
+  top: 1671px;
+  width: 335px;
+  height: 33px;
+
+  font-size: 37px;
+  font-weight: 300;
+  color: #000;
+  text-align: center;
+  line-height: 33px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.new{
-  font-size: 44px;
-  font-weight: 900;
-  color: #7a2d2d;
+/* NEW SEASON (PSD ölçülerin) */
+.seasonTitle{
+  position: absolute;
+  left: 411px;
+  top: 1733px;
+  width: 258px;
+  height: 32px;
+
+  font-size: 46px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  line-height: 32px;
+  white-space: nowrap;
 }
 
-.single{
-  font-size: 44px;
-  font-weight: 900;
-  color: #111;
-}
+/* SPRING / SUMMER ‘26 (PSD: left 398 top 1788 w 283 h 24) */
+.seasonSub{
+  position: absolute;
+  left: 398px;
+  top: 1788px;
+  width: 283px;
+  height: 24px;
 
-.hidden{ display:none; }
+  font-size: 30px;
+  font-weight: 300;
+  color: #000;
+  text-align: center;
+  line-height: 24px;
+  white-space: nowrap;
+}
