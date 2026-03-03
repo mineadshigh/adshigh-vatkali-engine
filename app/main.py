@@ -14,7 +14,10 @@ from fastapi.staticfiles import StaticFiles
 from playwright.async_api import async_playwright
 
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
-FEED_URL = os.getenv("FEED_URL", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
+
+# ✅ Ayrı kaynaklar:
+FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
+FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://feeds.optifeed.co/beyyoglu/1170-1767007421.xml")
 
 # 1GB RAM ortamda güvenli default: 1
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
@@ -54,39 +57,6 @@ def _clean_url(u: str) -> str:
     ]
     new_query = urlencode(q, doseq=True)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, new_query, parts.fragment))
-
-
-def choose_images(item: ET.Element):
-    ns = {"g": "http://base.google.com/ns/1.0"}
-
-    primary_raw = (item.findtext("g:image_link", default="", namespaces=ns) or "").strip()
-
-    additional_raw = [
-        (e.text or "").strip()
-        for e in item.findall("g:additional_image_link", namespaces=ns)
-        if e is not None and (e.text or "").strip()
-    ]
-
-    all_urls = [primary_raw] + additional_raw
-
-    seen = set()
-    uniq = []
-    for u in all_urls:
-        cu = _clean_url(u)
-        if cu and cu not in seen:
-            seen.add(cu)
-            uniq.append(u)  # orijinal URL
-
-    primary = uniq[0] if uniq else primary_raw
-    s1 = uniq[1] if len(uniq) > 1 else ""
-    s2 = uniq[2] if len(uniq) > 2 else ""
-
-    if not s1:
-        s1 = primary
-    if not s2:
-        s2 = s1
-
-    return primary, s1, s2
 
 
 def get_base_url(request: Request) -> str:
@@ -158,52 +128,12 @@ def _parse_money_to_float(s: str) -> float | None:
 
 
 def format_tl_compact(s: str) -> str:
-    """
-    TikTok görselinde: "1.399 TL" (decimal yok, binlik nokta var)
-    """
+    """TikTok görselinde: "1.399 TL" (decimal yok, binlik nokta var)."""
     v = _parse_money_to_float(s)
     if v is None:
         return format_currency_tr(s)
     n = int(round(v))
     return f"{n:,}".replace(",", ".") + " TL"
-
-
-def format_price_iso_4217(s: str, currency: str = "TRY") -> str:
-    """
-    TikTok feed standardı: 1499.99 TRY
-    - decimal '.' olmalı
-    - ISO 4217 currency code olmalı
-    """
-    v = _parse_money_to_float(s)
-    if v is None:
-        return ""
-    return f"{v:.2f} {currency}"
-
-
-def map_gender_for_tiktok(raw: str) -> str:
-    """
-    TikTok only: male/female/unisex
-    Kaynaktan 'Kadın/Erkek/Unisex' vs gelebilir.
-    """
-    x = (raw or "").strip().lower()
-    if not x:
-        return "unisex"
-
-    # TR
-    if x in {"kadın", "kadin", "female", "women", "woman", "w"}:
-        return "female"
-    if x in {"erkek", "male", "men", "man", "m"}:
-        return "male"
-    if x in {"unisex", "uni", "all"}:
-        return "unisex"
-
-    # içinde geçiyorsa
-    if "kad" in x or "women" in x or "female" in x:
-        return "female"
-    if "erk" in x or "men" in x or "male" in x:
-        return "male"
-
-    return "unisex"
 
 
 def hidden_flags(price: str, sale: str):
@@ -217,8 +147,6 @@ def hidden_flags(price: str, sale: str):
 
     if p is None or s is None:
         # sale boşsa / parse edilemiyorsa -> indirim yok varsay
-        if not norm_price(sale):
-            return ("hidden", "hidden", "")
         return ("hidden", "hidden", "")
 
     # Eşit/indirim yok
@@ -245,19 +173,38 @@ def build_sig(*parts: str) -> str:
 
 
 # -------------------------
-# SEASON RULE (custom_label_1 -> theme)  ✅ ONLY "İlkbahar-Yaz 26"
+# XML small utilities
+# -------------------------
+
+def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
+    """Namespace'li ya da düz tag'i güvenli oku."""
+    if ns and ":" in tag:
+        return (item.findtext(tag, default="", namespaces=ns) or "").strip()
+    return (item.findtext(tag, default="") or "").strip()
+
+
+def ensure_child_plain(item: ET.Element, tag: str) -> ET.Element:
+    el = item.find(tag)
+    if el is None:
+        el = ET.SubElement(item, tag)
+    return el
+
+
+def ensure_child_g(item: ET.Element, local: str, g_uri: str) -> ET.Element:
+    qname = f"{{{g_uri}}}{local}"
+    el = item.find(qname)
+    if el is None:
+        el = ET.SubElement(item, qname)
+    return el
+
+
+# -------------------------
+# SEASON RULE (custom_label_1 -> theme) ✅ ONLY "İlkbahar-Yaz 26"
 # -------------------------
 
 _HYPHENS = {
-    "\u2010",  # hyphen
-    "\u2011",  # non-breaking hyphen
-    "\u2012",  # figure dash
-    "\u2013",  # en dash
-    "\u2014",  # em dash
-    "\u2212",  # minus sign
-    "\u00ad",  # soft hyphen
+    "\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212", "\u00ad"
 }
-
 
 def _norm_season_text(s: str) -> str:
     if not s:
@@ -269,16 +216,7 @@ def _norm_season_text(s: str) -> str:
     x = " ".join(x.split()).strip()
     return x.lower()
 
-
 _ONLY_SEASON_TOKEN_NORM = _norm_season_text("İlkbahar-Yaz 26")
-
-
-def is_season_label(label_value: str) -> bool:
-    v = _norm_season_text(label_value)
-    if not v:
-        return False
-    return _ONLY_SEASON_TOKEN_NORM in v
-
 
 def find_text_by_localname(item: ET.Element, local_name: str) -> str:
     if item is None:
@@ -291,31 +229,62 @@ def find_text_by_localname(item: ET.Element, local_name: str) -> str:
                 return (el.text or "").strip()
     return ""
 
+def is_season_label(label_value: str) -> bool:
+    v = _norm_season_text(label_value)
+    if not v:
+        return False
+    return _ONLY_SEASON_TOKEN_NORM in v
 
-def ensure_child(item: ET.Element, tag: str, ns: dict | None = None, ns_uri: str | None = None) -> ET.Element:
-    """
-    tag:
-      - "price" gibi düz tag
-      - "g:price" gibi ns tag (ns_uri ile)
-    """
-    if tag.startswith("g:") and ns_uri:
-        # namespace'li
-        qname = f"{{{ns_uri}}}{tag.split(':', 1)[1]}"
-        el = item.find(qname)
-        if el is None:
-            el = ET.SubElement(item, qname)
-        return el
-    else:
-        el = item.find(tag)
-        if el is None:
-            el = ET.SubElement(item, tag)
-        return el
 
+# -------------------------
+# Image selection (Meta g:* ve TikTok plain)
+# -------------------------
+
+def choose_images_any(item: ET.Element):
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    primary_raw = text_of(item, "g:image_link", ns=ns) or text_of(item, "image_link")
+    additional_raw = []
+
+    # g:additional_image_link
+    for e in item.findall("g:additional_image_link", namespaces=ns):
+        if e is not None and (e.text or "").strip():
+            additional_raw.append((e.text or "").strip())
+
+    # plain additional_image_link
+    for e in item.findall("additional_image_link"):
+        if e is not None and (e.text or "").strip():
+            additional_raw.append((e.text or "").strip())
+
+    all_urls = [primary_raw] + additional_raw
+
+    seen = set()
+    uniq = []
+    for u in all_urls:
+        cu = _clean_url(u)
+        if cu and cu not in seen:
+            seen.add(cu)
+            uniq.append(u)
+
+    primary = uniq[0] if uniq else primary_raw
+    s1 = uniq[1] if len(uniq) > 1 else ""
+    s2 = uniq[2] if len(uniq) > 2 else ""
+
+    if not s1:
+        s1 = primary
+    if not s2:
+        s2 = s1
+
+    return primary, s1, s2
+
+
+# -------------------------
+# HTTP -> Data URI (robust)
+# -------------------------
 
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
-
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -329,11 +298,6 @@ def _guess_mime(url: str, content_type: str | None) -> str:
         return "image/svg+xml"
     return "image/jpeg"
 
-
-# -------------------------
-# HTTP -> Data URI (robust)
-# -------------------------
-
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
@@ -345,12 +309,10 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
     }
 
     try:
-        r = await client.get(url, headers=headers, timeout=15.0)
+        r = await client.get(url, headers=headers, timeout=20.0, follow_redirects=True)
         r.raise_for_status()
 
         ct = (r.headers.get("content-type") or "").lower()
@@ -375,7 +337,6 @@ _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
 
-
 def _is_fatal_playwright_error(e: Exception) -> bool:
     msg = str(e).lower()
     return any(
@@ -389,7 +350,6 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
             "playwright connection closed",
         ]
     )
-
 
 async def _restart_playwright():
     global _pw, _browser
@@ -418,7 +378,6 @@ async def _restart_playwright():
             "--disable-gpu",
         ],
     )
-
 
 async def _ensure_browser():
     global _pw, _browser
@@ -450,11 +409,9 @@ async def _ensure_browser():
             else:
                 raise
 
-
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
-
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -471,7 +428,6 @@ async def _shutdown():
     except Exception:
         pass
     _pw = None
-
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -599,13 +555,13 @@ async def render_endpoint(
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
     """
-    ✅ META FEED: Aynen kalır (TL format + g: alanlar)
+    ✅ META FEED: Vatkalı Meta XML'den (g:* alanlar)
     """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
-    async with httpx.AsyncClient(timeout=60) as client:
-        r = await client.get(FEED_URL)
+    async with httpx.AsyncClient(timeout=90) as client:
+        r = await client.get(FEED_URL_META)
         r.raise_for_status()
 
     root = ET.fromstring(r.text)
@@ -622,7 +578,7 @@ async def feed_proxy(request: Request):
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
-        primary, s1, s2 = choose_images(item)
+        primary, s1, s2 = choose_images_any(item)
 
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
@@ -661,16 +617,16 @@ async def feed_proxy(request: Request):
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
     """
-    ✅ TIKTOK FEED:
-    - price / sale_price: "1499.99 TRY"
-    - gender: male/female/unisex
-    - image_link: bizim render.png
+    ✅ TIKTOK FEED: Optifeed XML'den (çoğu düz tag)
+    - sku_id/id gibi alanları KORUR (varsa dokunmaz)
+    - image_link'leri bizim render.png'e çevirir
+    - render'a giden price/sale_price => görselde TL formatına çevriliyor (render endpoint)
     """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
-    async with httpx.AsyncClient(timeout=60) as client:
-        r = await client.get(FEED_URL)
+    async with httpx.AsyncClient(timeout=90) as client:
+        r = await client.get(FEED_URL_TIKTOK)
         r.raise_for_status()
 
     root = ET.fromstring(r.text)
@@ -679,49 +635,42 @@ async def feed_tiktok(request: Request):
         return PlainTextResponse(r.text, media_type="application/xml")
 
     items = channel.findall("item")
-    ns = {"g": "http://base.google.com/ns/1.0"}
-    g_uri = "http://base.google.com/ns/1.0"
 
     for item in items:
-        # --- base fields
-        title = tr_title_case((item.findtext("title") or "").strip())
+        # Optifeed genelde plain <title> ve <price> kullanır
+        title_raw = text_of(item, "title") or text_of(item, "g:title", ns={"g": "http://base.google.com/ns/1.0"})
+        title = tr_title_case(title_raw)
 
-        raw_price = item.findtext("g:price", default="", namespaces=ns) or ""
-        raw_sale = item.findtext("g:sale_price", default="", namespaces=ns) or ""
+        price_raw = text_of(item, "price") or text_of(item, "g:price", ns={"g": "http://base.google.com/ns/1.0"})
+        sale_raw = text_of(item, "sale_price") or text_of(item, "g:sale_price", ns={"g": "http://base.google.com/ns/1.0"})
 
-        iso_price = format_price_iso_4217(raw_price, "TRY")
-        iso_sale = format_price_iso_4217(raw_sale, "TRY") or iso_price  # sale boşsa price ile doldur
+        # görselde fiyat formatı render endpoint'te yapılıyor, burada ham geçiyoruz
+        if not sale_raw:
+            sale_raw = price_raw
 
-        # gender fix
-        raw_gender = (
-            (item.findtext("g:gender", default="", namespaces=ns) or "")
-            or (item.findtext("gender") or "")
+        primary, s1, s2 = choose_images_any(item)
+
+        # season/classic seçimi: varsa custom_label_1'den
+        custom_label_1 = (
+            text_of(item, "custom_label_1")
+            or find_text_by_localname(item, "custom_label_1")
         )
-        gender_ok = map_gender_for_tiktok(raw_gender)
-
-        # set BOTH g:* and plain tags (TikTok şablonları değişebiliyor)
-        ensure_child(item, "g:price", ns_uri=g_uri).text = iso_price
-        ensure_child(item, "price").text = iso_price
-
-        ensure_child(item, "g:sale_price", ns_uri=g_uri).text = iso_sale
-        ensure_child(item, "sale_price").text = iso_sale
-
-        ensure_child(item, "g:gender", ns_uri=g_uri).text = gender_ok
-        ensure_child(item, "gender").text = gender_ok
-
-        # images
-        primary, s1, s2 = choose_images(item)
-
-        custom_label_1 = find_text_by_localname(item, "custom_label_1")
         design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
 
-        sig = build_sig(title, iso_price, iso_sale, primary, s1, s2, fv, design, "1080", "1920")
+        # ✅ TikTok tarafında ürün görünürlüğü için: sku_id / id yoksa üret
+        sku = text_of(item, "sku_id") or text_of(item, "id") or text_of(item, "g:id", ns={"g": "http://base.google.com/ns/1.0"}) or text_of(item, "item_group_id")
+        if not text_of(item, "sku_id") and sku:
+            ensure_child_plain(item, "sku_id").text = sku
+        if not text_of(item, "id") and sku:
+            ensure_child_plain(item, "id").text = sku
+
+        sig = build_sig(title, price_raw, sale_raw, primary, s1, s2, fv, design, "1080", "1920")
 
         render_url = (
             f"{base_url}/render.png"
             f"?title={quote_plus(title)}"
-            f"&price={quote_plus(iso_price)}"
-            f"&sale_price={quote_plus(iso_sale)}"
+            f"&price={quote_plus(price_raw)}"
+            f"&sale_price={quote_plus(sale_raw)}"
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
             f"&product_image_secondary_2={quote_plus(s2)}"
@@ -731,28 +680,29 @@ async def feed_tiktok(request: Request):
             f"&v={sig}"
         )
 
-        # set image_link (both g:image_link and image_link)
-        img_g = item.find("g:image_link", ns)
-        if img_g is None:
-            img_g = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img_g.text = render_url
-
+        # image_link (plain)
         img_plain = item.find("image_link")
         if img_plain is None:
             img_plain = ET.SubElement(item, "image_link")
         img_plain.text = render_url
 
-        # additional images: keep only 2 -> render_url
-        for extra in item.findall("g:additional_image_link", ns):
-            item.remove(extra)
+        # image_link (g) varsa onu da set edelim (zararsız)
+        ns = {"g": "http://base.google.com/ns/1.0"}
+        img_g = item.find("g:image_link", ns)
+        if img_g is not None:
+            img_g.text = render_url
+
+        # additional images: önce plain'leri temizle, 2 adet render_url ekle
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
-
         for _ in range(2):
-            extra_g = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra_g.text = render_url
             extra_p = ET.SubElement(item, "additional_image_link")
             extra_p.text = render_url
+
+        # g:additional_image_link varsa temizle
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+        # (İstersen g:* de ekleyebiliriz ama TikTok'ta genelde plain yeterli)
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
@@ -765,8 +715,6 @@ async def probe(url: str = Query(...)):
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Origin": "https://www.vatkali.com",
     }
 
     try:
