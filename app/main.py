@@ -89,19 +89,6 @@ def choose_images(item: ET.Element):
     return primary, s1, s2
 
 
-def hidden_flags(price: str, sale: str):
-    p = norm_price(price)
-    s = norm_price(sale)
-    if (not s) or (s == p):
-        return ("hidden", "hidden", "")
-    return ("", "", "hidden")
-
-
-def build_sig(*parts: str) -> str:
-    raw = "|".join([p or "" for p in parts]).encode("utf-8")
-    return hashlib.md5(raw).hexdigest()[:12]
-
-
 def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
@@ -134,6 +121,12 @@ def tr_title_case(text: str) -> str:
 
 
 def _parse_money_to_float(s: str) -> float | None:
+    """
+    TR/EN karışık formatları güvenli parse:
+    - "2.399 TL" -> 2399
+    - "2.290,00 TL" -> 2290
+    - "2399.00" -> 2399
+    """
     if not s:
         return None
     t = s.strip()
@@ -141,6 +134,7 @@ def _parse_money_to_float(s: str) -> float | None:
     if not t:
         return None
 
+    # Hem . hem , varsa: hangisi en sonda ise decimal kabul et
     if "." in t and "," in t:
         if t.rfind(",") > t.rfind("."):
             t = t.replace(".", "")
@@ -148,8 +142,13 @@ def _parse_money_to_float(s: str) -> float | None:
         else:
             t = t.replace(",", "")
     else:
+        # Sadece virgül varsa -> decimal
         if "," in t and "." not in t:
             t = t.replace(",", ".")
+        # Sadece nokta varsa -> TR binlik olabilir (2.399)
+        elif "." in t and "," not in t:
+            if re.fullmatch(r"\d{1,3}(\.\d{3})+", t):
+                t = t.replace(".", "")
 
     try:
         return float(t)
@@ -157,18 +156,37 @@ def _parse_money_to_float(s: str) -> float | None:
         return None
 
 
-def format_price_compact_tr(s: str) -> str:
+def format_tl_compact(s: str) -> str:
     """
-    "2.290,00 TL" / "2290" / "2290,00" -> "2.290 TL"
-    TikTok classic PSD formatı için.
+    TikTok görünümü: "1.399 TL" (decimal yok, binlik nokta var)
     """
-    val = _parse_money_to_float(s)
-    if val is None:
+    v = _parse_money_to_float(s)
+    if v is None:
         return format_currency_tr(s)
+    n = int(round(v))
+    return f"{n:,}".replace(",", ".") + " TL"
 
-    n = int(round(val))  # kuruşları at
-    out = f"{n:,}".replace(",", ".")  # binlik ayırıcı '.'
-    return f"{out} TL"
+
+def hidden_flags(price: str, sale: str):
+    """
+    İndirim var/yok kararını sayısal ver.
+    - İndirim yoksa: old/new hidden, single görünür
+    - İndirim varsa: old/new görünür, single hidden
+    """
+    p = _parse_money_to_float(price)
+    s = _parse_money_to_float(sale)
+
+    if p is None or s is None:
+        # sale boşsa / parse edilemiyorsa -> indirim yok varsay
+        if not norm_price(sale):
+            return ("hidden", "hidden", "")
+        return ("hidden", "hidden", "")
+
+    # Eşit/indirim yok
+    if abs(p - s) < 0.005 or s >= p:
+        return ("hidden", "hidden", "")
+
+    return ("", "", "hidden")
 
 
 def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
@@ -180,6 +198,11 @@ def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
     if pct <= 0:
         return None
     return pct
+
+
+def build_sig(*parts: str) -> str:
+    raw = "|".join([p or "" for p in parts]).encode("utf-8")
+    return hashlib.md5(raw).hexdigest()[:12]
 
 
 # -------------------------
@@ -197,9 +220,6 @@ _HYPHENS = {
 }
 
 def _norm_season_text(s: str) -> str:
-    """
-    Unicode farkları (tire, NBSP, vb.) yüzünden eşleşme kaçmasın diye normalize.
-    """
     if not s:
         return ""
     x = unicodedata.normalize("NFKC", s)
@@ -209,29 +229,21 @@ def _norm_season_text(s: str) -> str:
     x = " ".join(x.split()).strip()
     return x.lower()
 
-# ✅ Sadece bunu season sayıyoruz:
 _ONLY_SEASON_TOKEN_NORM = _norm_season_text("İlkbahar-Yaz 26")
 
 def is_season_label(label_value: str) -> bool:
-    """
-    Kural: custom_label_1 içinde SADECE "İlkbahar-Yaz 26" geçiyorsa season.
-    Boşsa / başka sezonlar varsa classic.
-    """
     v = _norm_season_text(label_value)
     if not v:
         return False
     return _ONLY_SEASON_TOKEN_NORM in v
 
 def find_text_by_localname(item: ET.Element, local_name: str) -> str:
-    """
-    Namespace prefix'e takılmadan (g:, ns0: vs) custom_label_1 gibi alanları bul.
-    """
     if item is None:
         return ""
     for el in item.iter():
         tag = el.tag
         if isinstance(tag, str):
-            ln = tag.split("}")[-1]  # "{uri}custom_label_1" -> "custom_label_1"
+            ln = tag.split("}")[-1]
             if ln == local_name:
                 return (el.text or "").strip()
     return ""
@@ -240,7 +252,6 @@ def find_text_by_localname(item: ET.Element, local_name: str) -> str:
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
-
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -300,7 +311,6 @@ _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
 
-
 def _is_fatal_playwright_error(e: Exception) -> bool:
     msg = str(e).lower()
     return any(
@@ -315,9 +325,7 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
         ]
     )
 
-
 async def _restart_playwright():
-    """Playwright/driver öldüyse komple reset."""
     global _pw, _browser
     try:
         if _browser:
@@ -345,9 +353,7 @@ async def _restart_playwright():
         ],
     )
 
-
 async def _ensure_browser():
-    """Browser yoksa/ölüyse ayağa kaldır. Driver öldüyse restart."""
     global _pw, _browser
     async with _pw_lock:
         try:
@@ -377,11 +383,9 @@ async def _ensure_browser():
             else:
                 raise
 
-
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
-
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -398,7 +402,6 @@ async def _shutdown():
     except Exception:
         pass
     _pw = None
-
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -445,18 +448,20 @@ async def render_endpoint(
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
     logo_url: str = Query(""),
-    theme: str = Query("classic"),     # mevcut meta feed için geri uyumluluk
-    design: str = Query(""),           # tikTok/meta v2 gibi varyasyon seçimi
+    theme: str = Query("classic"),
+    design: str = Query(""),
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    price = format_currency_tr(price)
-    sale_price = format_currency_tr(sale_price)
     title = tr_title_case(title)
 
-    # TikTok classic PSD formatı
-    price_compact = format_price_compact_tr(price)
-    sale_price_compact = format_price_compact_tr(sale_price)
+    # TikTok’ta fiyatı "1.399 TL" formatına çek
+    if design.startswith("tiktok_"):
+        price = format_tl_compact(price)
+        sale_price = format_tl_compact(sale_price)
+    else:
+        price = format_currency_tr(price)
+        sale_price = format_currency_tr(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -464,7 +469,6 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-    # Template seçimi
     if design == "tiktok_season":
         template_path = os.path.join(BASE_DIR, "template_tiktok_season.html")
         css_path = os.path.join(BASE_DIR, "styles_tiktok_season.css")
@@ -472,7 +476,6 @@ async def render_endpoint(
         template_path = os.path.join(BASE_DIR, "template_tiktok_classic.html")
         css_path = os.path.join(BASE_DIR, "styles_tiktok_classic.css")
     else:
-        # eski davranış (meta v1)
         if theme == "season":
             template_path = os.path.join(BASE_DIR, "template_season.html")
             css_path = os.path.join(BASE_DIR, "styles_season.css")
@@ -504,16 +507,11 @@ async def render_endpoint(
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
 
-    # classic/meta template değişkenleri
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
-    html = html.replace("{{price_compact}}", price_compact)
-    html = html.replace("{{sale_price_compact}}", sale_price_compact)
-
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
-
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
 
@@ -529,9 +527,6 @@ async def render_endpoint(
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
-    """
-    ✅ MEVCUT META FEED (AYNI KALDI)
-    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -591,12 +586,6 @@ async def feed_proxy(request: Request):
 
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
-    """
-    ✅ TIKTOK FEED (YENİ)
-    - Dikey render: 1080x1920
-    - custom_label_1 "İlkbahar-Yaz 26" içeriyorsa: tiktok_season
-      içermiyorsa: tiktok_classic
-    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -615,8 +604,9 @@ async def feed_tiktok(request: Request):
     for item in items:
         title = tr_title_case((item.findtext("title") or "").strip())
 
-        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
-        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+        # TikTok’ta format render endpoint’te yapılacak; burada aynen geçiyoruz
+        price = item.findtext("g:price", default="", namespaces=ns) or ""
+        sale = item.findtext("g:sale_price", default="", namespaces=ns) or ""
 
         primary, s1, s2 = choose_images(item)
 
