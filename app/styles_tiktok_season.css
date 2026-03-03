@@ -17,47 +17,46 @@ body { font-family: "Outfit", Arial, sans-serif; }
   overflow: hidden;
 }
 
-/* Logo alanı (PSD: left 337 top 120 w 406 h 51) */
+/* ================= LOGO (büyütüldü) ================= */
+
 .brandLogo{
   position: absolute;
-  left: 337px;
-  top: 120px;
-  width: 406px;
-  height: 51px;
+  left: 317px;   /* biraz ortayı korumak için */
+  top: 110px;
+  width: 446px;  /* 406 → 446 büyüttük */
+  height: 60px;  /* 51 → 60 */
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .logoImg{
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* CAPSULE WARDROBE COLLECTION (PSD ölçülerin) */
+/* ================= CAPSULE SUBTITLE ================= */
+
 .subtitle{
   position: absolute;
-  left: 240px;
+  left: 0;
   top: 196px;
-  width: 598px;
-  height: 28px;
-
+  width: 1080px;
   font-size: 39px;
   font-weight: 300;
   color: #000;
   text-align: center;
-  line-height: 28px;
-  white-space: nowrap;
 }
 
-/* Ürün görsel alanı (PSD: left 100 top 300 w 880 h 1320) + border 20px */
+/* ================= PRODUCT FRAME ================= */
+
 .imgFrame{
   position: absolute;
   left: 100px;
   top: 300px;
   width: 880px;
   height: 1320px;
-
   border: 20px solid #000;
   background: #fff;
   overflow: hidden;
@@ -69,56 +68,50 @@ body { font-family: "Outfit", Arial, sans-serif; }
   display: block;
   object-fit: contain;
   object-position: center;
-  background: #fff;
 }
 
-/* Ürün adı (PSD ölçülerin) */
+/* ================= PRODUCT NAME ================= */
+
 .productTitle{
   position: absolute;
-  left: 372px;
+  left: 100px;         /* ürün görsel alanına göre ortalanacak */
   top: 1671px;
-  width: 335px;
-  height: 33px;
-
+  width: 880px;        /* görsel alan genişliği */
   font-size: 37px;
   font-weight: 300;
   color: #000;
   text-align: center;
-  line-height: 33px;
+  line-height: 44px;
 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* ÖNEMLİ: artık kesme yok */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }
 
-/* NEW SEASON (PSD ölçülerin) */
+/* ================= NEW SEASON ================= */
+
 .seasonTitle{
   position: absolute;
-  left: 411px;
-  top: 1733px;
-  width: 258px;
-  height: 32px;
-
+  left: 0;
+  top: 1738px;
+  width: 1080px;       /* tam canvas ortası */
   font-size: 46px;
   font-weight: 500;
   color: #000;
   text-align: center;
-  line-height: 32px;
-  white-space: nowrap;
 }
 
-/* SPRING / SUMMER ‘26 (PSD: left 398 top 1788 w 283 h 24) */
+/* ================= SPRING SUMMER ================= */
+
 .seasonSub{
   position: absolute;
-  left: 398px;
-  top: 1788px;
-  width: 283px;
-  height: 24px;
-
+  left: 0;             /* NEW SEASON ile tam ortalı */
+  top: 1800px;
+  width: 1080px;
   font-size: 30px;
   font-weight: 300;
   color: #000;
   text-align: center;
-  line-height: 24px;
-  white-space: nowrap;
 }
