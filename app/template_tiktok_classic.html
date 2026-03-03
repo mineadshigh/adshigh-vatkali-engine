@@ -3,32 +3,36 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=1080, initial-scale=1"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
   <style>{{CSS}}</style>
 </head>
 <body>
   <div class="frame">
-
-    <div class="top">
-      <img class="img" src="{{product_image_primary}}" loading="eager" />
+    <div class="brandLogo">
+      <img class="logoImg" src="{{logo_url}}" loading="eager" />
     </div>
 
-    <div class="bottom">
-      <div class="left">
-        <img class="logo" src="{{logo_url}}" loading="eager" />
-      </div>
+    <div class="subtitle">SEZON İNDİRİMLERİNİ KEŞFET!</div>
 
-      <div class="right">
-        <div class="discount {{discount_hidden}}">{{discount_text}}</div>
-        <div class="title">{{title}}</div>
-
-        <div class="prices">
-          <div class="old {{old_hidden}}">{{price}}</div>
-          <div class="new {{new_hidden}}">{{sale_price}}</div>
-          <div class="single {{single_hidden}}">{{price}}</div>
-        </div>
-      </div>
+    <div class="imgFrame">
+      <img class="productImg" src="{{product_image_primary}}" loading="eager" />
     </div>
 
+    <div class="bottomClassic">
+      <div class="productTitle">{{title}}</div>
+
+      <!-- İndirim VARSA -->
+      <div class="priceRow {{single_hidden}}">
+        <div class="oldPrice {{old_hidden}}">{{price_compact}}</div>
+        <div class="newPrice {{new_hidden}}">{{sale_price_compact}}</div>
+      </div>
+
+      <!-- İndirim YOKSA -->
+      <div class="singlePrice {{single_hidden}}"></div>
+      <div class="singlePrice {{single_hidden}}">{{price_compact}}</div>
+    </div>
   </div>
 </body>
 </html>
