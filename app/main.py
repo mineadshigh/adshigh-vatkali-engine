@@ -512,6 +512,8 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
+    # meta_season_dual PSD'si uppercase istiyor; title-case uygulama
+if design != "meta_season_dual":
     title = tr_title_case(title)
 
     if design.startswith("tiktok_"):
