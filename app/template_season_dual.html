@@ -6,7 +6,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500;700;800&display=swap" rel="stylesheet">
 
   <style>
     {{CSS}}
@@ -20,12 +20,14 @@
         <img class="imgCover" src="{{product_image_primary}}" loading="eager" />
       </div>
 
-      <!-- PSD’de arada boşluk yok: divider kaldırıldı (CSS’de 0px) -->
-      <div class="divider"></div>
+      <!-- ✅ küçük boşluk -->
+      <div class="gap"></div>
 
       <div class="rightImgWrap">
-        <!-- dekupe/cutout -->
-        <img class="imgCutout" src="{{product_image_cutout}}" loading="eager" />
+        <!-- ✅ PSD’deki hafif panel -->
+        <div class="rightPanel">
+          <img class="imgContain" src="{{product_image_cutout}}" loading="eager" />
+        </div>
       </div>
     </div>
 
@@ -33,12 +35,14 @@
       <img class="logoBottom" src="{{logo_url}}" loading="eager" />
       <div class="collection">CAPSULE WARDROBE COLLECTION</div>
 
-      <div class="title">{{title}}</div>
+      <div class="rightTextWrap">
+        <div class="title">{{title}}</div>
 
-      <div class="priceRow">
-        <div class="oldPrice {{old_hidden}}">{{price}}</div>
-        <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
-        <div class="singlePrice {{single_hidden}}">{{price}}</div>
+        <div class="priceRow">
+          <div class="oldPrice {{old_hidden}}">{{price}}</div>
+          <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
+          <div class="singlePrice {{single_hidden}}">{{price}}</div>
+        </div>
       </div>
     </div>
 
