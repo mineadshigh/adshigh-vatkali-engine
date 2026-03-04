@@ -513,17 +513,16 @@ async def render_endpoint(
     h: int = Query(1080),
 ):
 # meta_season_dual PSD'si title-case istemiyor
-if design == "meta_season_dual":
-    pass
-else:
+if design != "meta_season_dual":
     title = tr_title_case(title)
-    
-    if design.startswith("tiktok_"):
-        price = format_tl_compact(price)
-        sale_price = format_tl_compact(sale_price)
-    else:
-        price = format_currency_tr(price)
-        sale_price = format_currency_tr(sale_price)
+
+# fiyat formatı
+if design.startswith("tiktok_"):
+    price = format_tl_compact(price)
+    sale_price = format_tl_compact(sale_price)
+else:
+    price = format_currency_tr(price)
+    sale_price = format_currency_tr(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
