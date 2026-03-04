@@ -20,9 +20,7 @@ body {
   overflow: hidden;
 }
 
-/* =========================
-   TOP AREA (PSD: 805px)
-   ========================= */
+/* TOP AREA */
 .top {
   position: absolute;
   left: 0;
@@ -31,41 +29,39 @@ body {
   height: 805px;
 }
 
+/* ✅ PSD: iki görsel arası küçük boşluk */
 .leftImgWrap {
   position: absolute;
   left: 0;
   top: 0;
-  width: 536px;   /* PSD: 536 */
-  height: 805px;  /* PSD: 805 */
+  width: 537px;
+  height: 805px;
   background: #ffffff;
   overflow: hidden;
 }
 
+.gap {
+  position: absolute;
+  left: 537px;
+  top: 0;
+  width: 6px;         /* ✅ küçük boşluk */
+  height: 805px;
+  background: #ffffff;
+}
+
 .rightImgWrap {
   position: absolute;
-  left: 536px;    /* tam bitişik */
+  left: 543px;        /* 537 + 6 */
   top: 0;
-  width: 544px;   /* 1080 - 536 = 544 (PSD panelinde 543 görsen de pratikte tam oturması için 544) */
+  width: 537px;
   height: 805px;
-  background: #f7f5f2; /* PSD’deki sıcak açık gri */
+
+  /* PSD’deki sıcak açık zemin */
+  background: #f7f5f2;
   overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* PSD’de iki görsel arası boşluk yok */
-.divider {
-  position: absolute;
-  left: 536px;
-  top: 0;
-  width: 0px;     /* 1px idi -> 0px */
-  height: 805px;
-  background: transparent;
-}
-
-/* LEFT image: cover */
+/* Images */
 .imgCover {
   width: 100%;
   height: 100%;
@@ -74,18 +70,30 @@ body {
   object-position: center;
 }
 
-/* RIGHT cutout: PSD’de küçük ve ortalı */
-.imgCutout {
-  width: 78%;
-  height: 78%;
+/* ✅ sağdaki “panel” (PSD’deki hafif koyu dikdörtgen) */
+.rightPanel {
+  position: absolute;
+  left: 96px;        /* paneli ortalamak için */
+  top: 90px;
+  width: 345px;
+  height: 625px;
+  background: #efede9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgContain {
+  max-width: 310px;
+  max-height: 560px;
+  width: auto;
+  height: auto;
   display: block;
   object-fit: contain;
   object-position: center;
 }
 
-/* =========================
-   BOTTOM AREA (PSD: 275px)
-   ========================= */
+/* BOTTOM AREA */
 .bottom {
   position: absolute;
   left: 0;
@@ -95,21 +103,21 @@ body {
   background: #ffffff;
 }
 
-/* PSD’de logo ve capsule daha aşağı */
+/* ✅ SOL ALT: logo + capsule (çakışmasın, daha aşağıda) */
 .logoBottom {
   position: absolute;
-  left: 116px;     /* PSD panel: X=116 */
-  top: 98px;       /* PSD panel: Y=903 => 903-805=98 */
-  width: 320px;
-  height: 80px;
+  left: 116px;
+  top: 98px;          /* ✅ PSD’ye yakın: frame y=903 => bottom içinde ~98 */
+  width: 305px;
+  height: 38px;
   object-fit: contain;
   object-position: left center;
 }
 
 .collection {
   position: absolute;
-  left: 116px;     /* PSD panel: X=116 */
-  top: 154px;      /* PSD panel: Y=959 => 959-805=154 */
+  left: 116px;
+  top: 154px;         /* ✅ PSD’ye yakın: frame y=959 => bottom içinde ~154 */
   font-size: 20px;
   font-weight: 300;
   color: #000000;
@@ -118,19 +126,24 @@ body {
   white-space: nowrap;
 }
 
-/* RIGHT: title + price (PSD hizaları) */
-.title {
+/* ✅ SAĞ ALT: title + price (font/yerleşim) */
+.rightTextWrap {
   position: absolute;
-  left: 540px;
-  top: 112px;      /* PSD panel: Y=917 => 112 */
-  width: 540px;
-  padding: 0 30px;
-
-  font-size: 28px;     /* PSD panelde 28px */
-  font-weight: 500;    /* PSD panelde 500 */
-  color: #000000;
+  left: 660px;        /* ✅ PSD’de text x≈660 */
+  top: 112px;         /* ✅ PSD’de title y≈917 => bottom içinde ~112 */
+  width: 360px;
   text-align: center;
-  line-height: 1.12;
+}
+
+.title {
+  font-size: 28px;    /* ✅ PSD */
+  font-weight: 500;   /* ✅ PSD */
+  color: #000000;
+  line-height: 1.1;
+  margin: 0 0 6px 0;
+
+  /* PSD’de uppercase görünüyor */
+  text-transform: uppercase;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -139,28 +152,23 @@ body {
 }
 
 .priceRow {
-  position: absolute;
-  left: 540px;
-  top: 140px;      /* fiyat satırı title’ın altı */
-  width: 540px;
-
   display: flex;
+  gap: 14px;
   align-items: baseline;
   justify-content: center;
-  gap: 16px;
-  text-align: center;
 }
 
-/* PSD: fiyat daha küçük (20px) */
+/* Tek fiyat */
 .singlePrice {
-  font-size: 20px;
+  font-size: 20px;    /* ✅ PSD’de daha küçük */
   font-weight: 300;
   color: #000000;
   line-height: 1;
 }
 
+/* İndirimli */
 .oldPrice {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 300;
   color: #7a7a7a;
   text-decoration: line-through;
@@ -170,7 +178,7 @@ body {
 .newPrice {
   font-size: 20px;
   font-weight: 300;
-  color: #d10000;
+  color: #000000;     /* PSD’de kırmızı değil gibi görünüyor */
   line-height: 1;
 }
 
