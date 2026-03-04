@@ -9,7 +9,6 @@ html, body {
 
 body {
   font-family: "Outfit", Arial, sans-serif;
-  font-synthesis: none;
 }
 
 .frame {
@@ -21,165 +20,139 @@ body {
 }
 
 /* TOP AREA */
+
 .top {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 1080px;
   height: 805px;
 }
 
-/* ✅ PSD: iki görsel arası küçük boşluk */
+/* SOL FOTO */
+
 .leftImgWrap {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 537px;
   height: 805px;
-  background: #ffffff;
   overflow: hidden;
 }
+
+/* İKİ FOTO ARASI BOŞLUK */
 
 .gap {
   position: absolute;
-  left: 537px;
   top: 0;
-  width: 6px;         /* ✅ küçük boşluk */
+  left: 537px;
+  width: 6px;
   height: 805px;
   background: #ffffff;
 }
 
+/* SAĞ ALAN */
+
 .rightImgWrap {
   position: absolute;
-  left: 543px;        /* 537 + 6 */
   top: 0;
+  left: 543px;
   width: 537px;
   height: 805px;
-
-  /* PSD’deki sıcak açık zemin */
-  background: #f7f5f2;
-  overflow: hidden;
+  background: #f5f3ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Images */
-.imgCover {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
+/* PSD'deki açık gri kutu */
 
-/* ✅ sağdaki “panel” (PSD’deki hafif koyu dikdörtgen) */
 .rightPanel {
-  position: absolute;
-  left: 96px;        /* paneli ortalamak için */
-  top: 90px;
-  width: 345px;
-  height: 625px;
+  width: 360px;
+  height: 520px;
   background: #efede9;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.imgContain {
-  max-width: 310px;
-  max-height: 560px;
-  width: auto;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  object-position: center;
+/* SOL MODEL */
+
+.imgCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* BOTTOM AREA */
+/* DEKUPE */
+
+.imgContain {
+  max-width: 260px;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+/* BOTTOM */
+
 .bottom {
   position: absolute;
-  left: 0;
   top: 805px;
+  left: 0;
   width: 1080px;
   height: 275px;
-  background: #ffffff;
 }
 
-/* ✅ SOL ALT: logo + capsule (çakışmasın, daha aşağıda) */
+/* LOGO */
+
 .logoBottom {
   position: absolute;
   left: 116px;
-  top: 98px;          /* ✅ PSD’ye yakın: frame y=903 => bottom içinde ~98 */
+  top: 98px;
   width: 305px;
-  height: 38px;
-  object-fit: contain;
-  object-position: left center;
 }
+
+/* CAPSULE */
 
 .collection {
   position: absolute;
   left: 116px;
-  top: 154px;         /* ✅ PSD’ye yakın: frame y=959 => bottom içinde ~154 */
+  top: 145px;
   font-size: 20px;
   font-weight: 300;
-  color: #000000;
-  letter-spacing: 0;
-  line-height: 1;
-  white-space: nowrap;
 }
 
-/* ✅ SAĞ ALT: title + price (font/yerleşim) */
+/* SAĞ YAZI */
+
 .rightTextWrap {
   position: absolute;
-  left: 660px;        /* ✅ PSD’de text x≈660 */
-  top: 112px;         /* ✅ PSD’de title y≈917 => bottom içinde ~112 */
+  left: 640px;
+  top: 105px;
   width: 360px;
   text-align: center;
 }
 
+/* ÜRÜN ADI */
+
 .title {
-  font-size: 28px;    /* ✅ PSD */
-  font-weight: 500;   /* ✅ PSD */
-  color: #000000;
-  line-height: 1.1;
-  margin: 0 0 6px 0;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
 
-  /* PSD’de uppercase görünüyor */
-  text-transform: uppercase;
+/* FİYAT */
 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.singlePrice {
+  font-size: 20px;
+  font-weight: 300;
 }
 
 .priceRow {
   display: flex;
-  gap: 14px;
-  align-items: baseline;
   justify-content: center;
 }
 
-/* Tek fiyat */
-.singlePrice {
-  font-size: 20px;    /* ✅ PSD’de daha küçük */
-  font-weight: 300;
-  color: #000000;
-  line-height: 1;
-}
-
-/* İndirimli */
 .oldPrice {
-  font-size: 18px;
-  font-weight: 300;
-  color: #7a7a7a;
   text-decoration: line-through;
-  line-height: 1;
 }
 
-.newPrice {
-  font-size: 20px;
-  font-weight: 300;
-  color: #000000;     /* PSD’de kırmızı değil gibi görünüyor */
-  line-height: 1;
-}
-
-.hidden { display: none !important; }
+.hidden { display:none; }
