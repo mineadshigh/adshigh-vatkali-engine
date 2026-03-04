@@ -16,10 +16,9 @@ body {
   width: 1080px;
   height: 1080px;
   background: #fff;
-  overflow: hidden;
 }
 
-/* TOP AREA */
+/* TOP */
 
 .top {
   position: absolute;
@@ -33,50 +32,12 @@ body {
 
 .leftImgWrap {
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
   width: 537px;
   height: 805px;
   overflow: hidden;
 }
-
-/* İKİ FOTO ARASI BOŞLUK */
-
-.gap {
-  position: absolute;
-  top: 0;
-  left: 537px;
-  width: 6px;
-  height: 805px;
-  background: #ffffff;
-}
-
-/* SAĞ ALAN */
-
-.rightImgWrap {
-  position: absolute;
-  top: 0;
-  left: 543px;
-  width: 537px;
-  height: 805px;
-  background: #f5f3ef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* PSD'deki açık gri kutu */
-
-.rightPanel {
-  width: 360px;
-  height: 520px;
-  background: #efede9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* SOL MODEL */
 
 .imgCover {
   width: 100%;
@@ -84,11 +45,37 @@ body {
   object-fit: cover;
 }
 
+/* BOŞLUK */
+
+.divider {
+  position: absolute;
+  left: 537px;
+  top: 0;
+  width: 6px;
+  height: 805px;
+  background: #ffffff;
+}
+
+/* SAĞ FOTO */
+
+.rightImgWrap {
+  position: absolute;
+  left: 543px;
+  top: 0;
+  width: 537px;
+  height: 805px;
+  background: #f7f5f2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* DEKUPE */
 
 .imgContain {
-  max-width: 260px;
-  max-height: 420px;
+  width: 75%;
+  height: 75%;
   object-fit: contain;
 }
 
@@ -107,7 +94,7 @@ body {
 .logoBottom {
   position: absolute;
   left: 116px;
-  top: 98px;
+  top: 96px;
   width: 305px;
 }
 
@@ -116,22 +103,22 @@ body {
 .collection {
   position: absolute;
   left: 116px;
-  top: 145px;
+  top: 155px;
   font-size: 20px;
   font-weight: 300;
 }
 
-/* SAĞ YAZI */
+/* TEXT ALANI */
 
 .rightTextWrap {
   position: absolute;
-  left: 640px;
-  top: 105px;
-  width: 360px;
+  left: 660px;
+  top: 110px;
+  width: 320px;
   text-align: center;
 }
 
-/* ÜRÜN ADI */
+/* TITLE */
 
 .title {
   font-size: 28px;
@@ -139,16 +126,16 @@ body {
   margin-bottom: 6px;
 }
 
-/* FİYAT */
-
-.singlePrice {
-  font-size: 20px;
-  font-weight: 300;
-}
+/* PRICE */
 
 .priceRow {
   display: flex;
   justify-content: center;
+}
+
+.singlePrice {
+  font-size: 20px;
+  font-weight: 300;
 }
 
 .oldPrice {
