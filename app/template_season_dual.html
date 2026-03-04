@@ -20,10 +20,12 @@
         <img class="imgCover" src="{{product_image_primary}}" loading="eager" />
       </div>
 
+      <!-- PSD’de arada boşluk yok: divider kaldırıldı (CSS’de 0px) -->
       <div class="divider"></div>
 
       <div class="rightImgWrap">
-        <img class="imgContain" src="{{product_image_cutout}}" loading="eager" />
+        <!-- dekupe/cutout -->
+        <img class="imgCutout" src="{{product_image_cutout}}" loading="eager" />
       </div>
     </div>
 
@@ -31,14 +33,12 @@
       <img class="logoBottom" src="{{logo_url}}" loading="eager" />
       <div class="collection">CAPSULE WARDROBE COLLECTION</div>
 
-      <div class="rightTextWrap">
-        <div class="title">{{title}}</div>
+      <div class="title">{{title}}</div>
 
-        <div class="priceRow">
-          <div class="oldPrice {{old_hidden}}">{{price}}</div>
-          <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
-          <div class="singlePrice {{single_hidden}}">{{price}}</div>
-        </div>
+      <div class="priceRow">
+        <div class="oldPrice {{old_hidden}}">{{price}}</div>
+        <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
+        <div class="singlePrice {{single_hidden}}">{{price}}</div>
       </div>
     </div>
 
