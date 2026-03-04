@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=1080, initial-scale=1"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500&display=swap" rel="stylesheet">
+
+  <style>
+    {{CSS}}
+  </style>
+</head>
+<body>
+  <div class="frame">
+
+    <div class="top">
+      <div class="leftImgWrap">
+        <img class="imgCover" src="{{product_image_primary}}" loading="eager" />
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="rightImgWrap">
+        <img class="imgContain" src="{{product_image_cutout}}" loading="eager" />
+      </div>
+    </div>
+
+    <div class="bottom">
+      <img class="logoBottom" src="{{logo_url}}" loading="eager" />
+      <div class="collection">CAPSULE WARDROBE COLLECTION</div>
+
+      <div class="rightTextWrap">
+        <div class="title">{{title}}</div>
+
+        <div class="priceRow">
+          <div class="oldPrice {{old_hidden}}">{{price}}</div>
+          <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
+          <div class="singlePrice {{single_hidden}}">{{price}}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
