@@ -1,0 +1,170 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Outfit", Arial, sans-serif;
+  font-synthesis: none;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* TOP AREA (805px) */
+.top {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 805px;
+}
+
+.leftImgWrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 536px;
+  height: 805px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.rightImgWrap {
+  position: absolute;
+  left: 537px;
+  top: 0;
+  width: 543px;
+  height: 805px;
+  background: #f7f5f2; /* PSD'deki sıcak açık gri hissi */
+  overflow: hidden;
+}
+
+.divider {
+  position: absolute;
+  left: 536px;
+  top: 0;
+  width: 1px;
+  height: 805px;
+  background: #ffffff;
+}
+
+/* Images */
+.imgCover {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;       /* soldaki model foto tam dolsun */
+  object-position: center;
+}
+
+.imgContain {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;     /* sağdaki dekupe kesilmesin */
+  object-position: center;
+}
+
+/* BOTTOM AREA */
+.bottom {
+  position: absolute;
+  left: 0;
+  top: 805px;
+  width: 1080px;
+  height: 275px;
+  background: #ffffff;
+}
+
+/* Left bottom: logo + collection */
+.logoBottom {
+  position: absolute;
+  left: 116px;
+  top: 44px;              /* bottom alan içinde */
+  width: 320px;
+  height: 80px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.collection {
+  position: absolute;
+  left: 116px;
+  top: 132px;
+  font-size: 20px;
+  font-weight: 300;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Right bottom: title + price */
+.rightTextWrap {
+  position: absolute;
+  left: 540px;
+  top: 70px;
+  width: 540px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 30px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+  color: #000000;
+  line-height: 1.12;
+  margin-bottom: 10px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.priceRow {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  justify-content: center;
+}
+
+/* Tek fiyat */
+.singlePrice {
+  font-size: 28px;
+  font-weight: 300;
+  color: #000000;
+  line-height: 1;
+}
+
+/* İndirimli */
+.oldPrice {
+  font-size: 24px;
+  font-weight: 300;
+  color: #7a7a7a;
+  text-decoration: line-through;
+  line-height: 1;
+}
+
+.newPrice {
+  font-size: 28px;
+  font-weight: 300;
+  color: #d10000; /* kırmızı */
+  line-height: 1;
+}
+
+.hidden { display: none !important; }
