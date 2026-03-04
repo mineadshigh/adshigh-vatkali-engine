@@ -1,3 +1,8 @@
+/* =========================
+   VATKALI • META (1080x1080)
+   FIX: right cutout + product title/price layout
+   ========================= */
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -9,137 +14,176 @@ html, body {
 
 body {
   font-family: "Outfit", Arial, sans-serif;
+  font-synthesis: none;
 }
 
-.frame {
+.frame{
   position: relative;
-  width: 1080px;
-  height: 1080px;
-  background: #fff;
+  width:1080px;
+  height:1080px;
+  background:#fff;
+  overflow:hidden;
 }
 
-/* TOP */
+/* =========================
+   TOP AREA (805px)
+   ========================= */
 
-.top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1080px;
-  height: 805px;
+.top{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1080px;
+  height:805px;
 }
 
-/* SOL FOTO */
-
-.leftImgWrap {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 537px;
-  height: 805px;
-  overflow: hidden;
+/* LEFT IMAGE */
+.leftImgWrap{
+  position:absolute;
+  left:0;
+  top:0;
+  width:536px;
+  height:805px;
+  overflow:hidden;
+  background:#fff;
 }
 
-.imgCover {
-  width: 100%;
-  height: 100%;
+.imgCover{
+  width:100%;
+  height:100%;
+  display:block;
   object-fit: cover;
+  object-position:center;
+  background:#fff;
 }
 
-/* BOŞLUK */
-
-.divider {
-  position: absolute;
-  left: 537px;
-  top: 0;
-  width: 6px;
-  height: 805px;
-  background: #ffffff;
+/* NO GAP BETWEEN IMAGES (PSD) */
+.divider{
+  position:absolute;
+  left:536px;
+  top:0;
+  width:0px;
+  height:805px;
+  background:transparent;
 }
 
-/* SAĞ FOTO */
+/* RIGHT CUTOUT WRAP */
+.rightImgWrap{
+  position:absolute;
+  left:536px;
+  top:0;
+  width:544px;
+  height:805px;
+  overflow:hidden;
+  background:#f7f5f2;
 
-.rightImgWrap {
-  position: absolute;
-  left: 543px;
-  top: 0;
-  width: 537px;
-  height: 805px;
-  background: #f7f5f2;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* DEKUPE */
-
-.imgContain {
-  width: 75%;
-  height: 75%;
+/* ✅ CUTOUT MUST FILL THE AREA (NO MANUAL SHRINK) */
+.imgContain{
+  width:100%;
+  height:100%;
+  display:block;
   object-fit: contain;
+  object-position:center;
+  background:#f7f5f2;
 }
 
-/* BOTTOM */
+/* =========================
+   BOTTOM AREA (275px)
+   ========================= */
 
-.bottom {
-  position: absolute;
-  top: 805px;
-  left: 0;
-  width: 1080px;
-  height: 275px;
+.bottom{
+  position:absolute;
+  left:0;
+  top:805px;
+  width:1080px;
+  height:275px;
+  background:#fff;
 }
 
-/* LOGO */
-
-.logoBottom {
-  position: absolute;
-  left: 116px;
-  top: 96px;
-  width: 305px;
+/* LOGO (keep your current good placement) */
+.logoBottom{
+  position:absolute;
+  left:116px;
+  top:96px;
+  width:305px;
+  height:auto;
+  object-fit:contain;
+  object-position:left center;
 }
 
-/* CAPSULE */
-
-.collection {
-  position: absolute;
-  left: 116px;
-  top: 155px;
-  font-size: 20px;
-  font-weight: 300;
+/* CAPSULE TEXT */
+.collection{
+  position:absolute;
+  left:116px;
+  top:155px;
+  font-size:20px;
+  font-weight:300;
+  color:#000;
+  letter-spacing:0;
+  line-height:1;
+  white-space:nowrap;
 }
 
-/* TEXT ALANI */
+/* =========================
+   RIGHT PRODUCT INFO
+   ========================= */
 
-.rightTextWrap {
-  position: absolute;
-  left: 660px;
-  top: 110px;
-  width: 320px;
-  text-align: center;
+.rightTextWrap{
+  position:absolute;
+  right:110px;
+  top:110px;
+  width:420px;
+  text-align:right;
+  color:#000;
 }
 
-/* TITLE */
+/* PRODUCT TITLE */
+.title{
+  font-size:28px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.05;
+  text-transform: uppercase;
 
-.title {
-  font-size: 28px;
-  font-weight: 500;
-  margin-bottom: 6px;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-/* PRICE */
-
-.priceRow {
-  display: flex;
-  justify-content: center;
+/* PRICE ROW */
+.priceRow{
+  margin-top:6px;
+  display:flex;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:12px;
+  line-height:1;
 }
 
-.singlePrice {
-  font-size: 20px;
-  font-weight: 300;
+.singlePrice{
+  font-size:28px;
+  font-weight:500;
+  color:#000;
 }
 
-.oldPrice {
+.oldPrice{
+  font-size:28px;
+  font-weight:300;
+  color:#000;
   text-decoration: line-through;
 }
 
-.hidden { display:none; }
+.newPrice{
+  font-size:28px;
+  font-weight:500;
+  color:#d30000;
+}
+
+.hidden{ display:none !important; }
