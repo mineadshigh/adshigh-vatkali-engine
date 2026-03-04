@@ -15,24 +15,20 @@ from playwright.async_api import async_playwright
 
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
-# ✅ Ayrı kaynaklar:
 FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://feeds.optifeed.co/beyyoglu/1170-1767007421.xml")
 
-# 1GB RAM ortamda güvenli default: 1
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /srv/app
-STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))  # /srv/frameassets
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-# -------------------------
 # ✅ META SEASON "DEKUPE" mapping (g:id -> additional kaçıncı)
-# - Excel'deki "Fotoğraf sırası" = additional_image_link sırası (1-based)
-# -------------------------
+# Excel'deki "Fotoğraf sırası" = additional_image_link sırası (1-based)
 META_SEASON_DEKUPE_MAP = {
     "D-SAME-294-3": 4,
     "VTK25-119-62-10": 2,
@@ -113,7 +109,6 @@ def format_currency_tr(s: str) -> str:
     return x.replace("TRY", "TL").replace("try", "TL")
 
 def _clean_url(u: str) -> str:
-    """fbclid/utm gibi takip parametrelerini temizle."""
     if not u:
         return ""
     parts = urlsplit(u)
@@ -129,7 +124,6 @@ def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 def tr_title_case(text: str) -> str:
-    """Her kelimenin baş harfi büyük (TR i/ı uyumlu)."""
     text = (text or "").strip()
     if not text:
         return ""
@@ -155,13 +149,6 @@ def tr_title_case(text: str) -> str:
     return "".join([cap_word(p) if not p.isspace() else p for p in parts])
 
 def _parse_money_to_float(s: str) -> float | None:
-    """
-    TR/EN karışık formatları güvenli parse:
-    - "2.399 TL" -> 2399
-    - "2.290,00 TL" -> 2290
-    - "2399.00" -> 2399
-    - "2399.00 TRY" -> 2399
-    """
     if not s:
         return None
     t = s.strip()
@@ -169,7 +156,6 @@ def _parse_money_to_float(s: str) -> float | None:
     if not t:
         return None
 
-    # Hem . hem , varsa: hangisi en sonda ise decimal kabul et
     if "." in t and "," in t:
         if t.rfind(",") > t.rfind("."):
             t = t.replace(".", "")
@@ -177,10 +163,8 @@ def _parse_money_to_float(s: str) -> float | None:
         else:
             t = t.replace(",", "")
     else:
-        # Sadece virgül varsa -> decimal
         if "," in t and "." not in t:
             t = t.replace(",", ".")
-        # Sadece nokta varsa -> TR binlik olabilir (2.399)
         elif "." in t and "," not in t:
             if re.fullmatch(r"\d{1,3}(\.\d{3})+", t):
                 t = t.replace(".", "")
@@ -191,7 +175,6 @@ def _parse_money_to_float(s: str) -> float | None:
         return None
 
 def format_tl_compact(s: str) -> str:
-    """TikTok görselinde: "1.399 TL" (decimal yok, binlik nokta var)."""
     v = _parse_money_to_float(s)
     if v is None:
         return format_currency_tr(s)
@@ -199,19 +182,12 @@ def format_tl_compact(s: str) -> str:
     return f"{n:,}".replace(",", ".") + " TL"
 
 def hidden_flags(price: str, sale: str):
-    """
-    İndirim var/yok kararını sayısal ver.
-    - İndirim yoksa: old/new hidden, single görünür
-    - İndirim varsa: old/new görünür, single hidden
-    """
     p = _parse_money_to_float(price)
     s = _parse_money_to_float(sale)
 
     if p is None or s is None:
-        # sale boşsa / parse edilemiyorsa -> indirim yok varsay
         return ("hidden", "hidden", "")
 
-    # Eşit/indirim yok
     if abs(p - s) < 0.005 or s >= p:
         return ("hidden", "hidden", "")
 
@@ -232,11 +208,10 @@ def build_sig(*parts: str) -> str:
     return hashlib.md5(raw).hexdigest()[:12]
 
 # -------------------------
-# XML small utilities
+# XML utilities
 # -------------------------
 
 def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
-    """Namespace'li ya da düz tag'i güvenli oku."""
     if ns and ":" in tag:
         return (item.findtext(tag, default="", namespaces=ns) or "").strip()
     return (item.findtext(tag, default="") or "").strip()
@@ -248,12 +223,10 @@ def ensure_child_plain(item: ET.Element, tag: str) -> ET.Element:
     return el
 
 # -------------------------
-# SEASON RULE (custom_label_1 -> theme) ✅ ONLY "İlkbahar-Yaz 26"
+# SEASON RULE (ONLY "İlkbahar-Yaz 26")
 # -------------------------
 
-_HYPHENS = {
-    "\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212", "\u00ad"
-}
+_HYPHENS = {"\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212", "\u00ad"}
 
 def _norm_season_text(s: str) -> str:
     if not s:
@@ -285,7 +258,7 @@ def is_season_label(label_value: str) -> bool:
     return _ONLY_SEASON_TOKEN_NORM in v
 
 # -------------------------
-# Image selection (Meta g:* ve TikTok plain)
+# Image selection
 # -------------------------
 
 def choose_images_any(item: ET.Element):
@@ -294,12 +267,10 @@ def choose_images_any(item: ET.Element):
     primary_raw = text_of(item, "g:image_link", ns=ns) or text_of(item, "image_link")
     additional_raw = []
 
-    # g:additional_image_link
     for e in item.findall("g:additional_image_link", namespaces=ns):
         if e is not None and (e.text or "").strip():
             additional_raw.append((e.text or "").strip())
 
-    # plain additional_image_link
     for e in item.findall("additional_image_link"):
         if e is not None and (e.text or "").strip():
             additional_raw.append((e.text or "").strip())
@@ -326,7 +297,6 @@ def choose_images_any(item: ET.Element):
     return primary, s1, s2
 
 def get_meta_additionals(item: ET.Element) -> list[str]:
-    """Meta (g:additional_image_link) listesini XML sırasıyla döndürür."""
     ns = {"g": "http://base.google.com/ns/1.0"}
     out = []
     for e in item.findall("g:additional_image_link", namespaces=ns):
@@ -335,7 +305,6 @@ def get_meta_additionals(item: ET.Element) -> list[str]:
     return out
 
 def pick_additional_n(item: ET.Element, n_1based: int) -> str:
-    """1-based additional seçer. (2 => 2. additional_image_link)"""
     if n_1based <= 0:
         return ""
     adds = get_meta_additionals(item)
@@ -345,7 +314,7 @@ def pick_additional_n(item: ET.Element, n_1based: int) -> str:
     return ""
 
 # -------------------------
-# HTTP -> Data URI (robust)
+# HTTP -> Data URI
 # -------------------------
 
 _TRANSPARENT_PNG = base64.b64decode(
@@ -367,7 +336,6 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
         return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
-
     if url.startswith("data:"):
         return url
 
@@ -537,7 +505,7 @@ async def render_endpoint(
     product_image_primary: str = Query(""),
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
-    product_image_cutout: str = Query(""),  # ✅ NEW
+    product_image_cutout: str = Query(""),  # ✅ DEKUPE
     logo_url: str = Query(""),
     theme: str = Query("classic"),
     design: str = Query(""),
@@ -546,12 +514,10 @@ async def render_endpoint(
 ):
     title = tr_title_case(title)
 
-    # TikTok görselinde fiyatı "1.399 TL" formatına çek
     if design.startswith("tiktok_"):
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
     else:
-        # Meta görsellerde TL/TRY -> TL
         price = format_currency_tr(price)
         sale_price = format_currency_tr(sale_price)
 
@@ -593,7 +559,7 @@ async def render_endpoint(
             to_data_uri(product_image_primary, client),
             to_data_uri(product_image_secondary_1, client),
             to_data_uri(product_image_secondary_2, client),
-            to_data_uri(product_image_cutout, client),  # ✅ NEW
+            to_data_uri(product_image_cutout, client),
             to_data_uri(logo_url, client),
         )
 
@@ -601,7 +567,7 @@ async def render_endpoint(
     html = html.replace("{{product_image_primary}}", product_image_primary)
     html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
     html = html.replace("{{product_image_secondary_2}}", product_image_secondary_2)
-    html = html.replace("{{product_image_cutout}}", product_image_cutout)  # ✅ NEW
+    html = html.replace("{{product_image_cutout}}", product_image_cutout)
     html = html.replace("{{logo_url}}", logo_url)
     html = html.replace("{{title}}", title)
 
@@ -622,11 +588,9 @@ async def render_endpoint(
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
 
+
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
-    """
-    ✅ META FEED: Vatkalı Meta XML'den (g:* alanlar)
-    """
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -650,24 +614,20 @@ async def feed_proxy(request: Request):
 
         primary, s1, s2 = choose_images_any(item)
 
-        # ✅ season/classic
+        # ✅ season/classic (İlkbahar-Yaz 26 => season)
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
 
-        # ✅ g:id
         gid = (item.findtext("g:id", default="", namespaces=ns) or "").strip()
 
-        # ✅ default
         design = ""
         cutout_url = ""
 
-        # ✅ Only Meta Season + listed IDs => new template
+        # ✅ DEKUPE: sadece season + map’teki id’ler
         if theme == "season" and gid in META_SEASON_DEKUPE_MAP:
             design = "meta_season_dual"
-            n = META_SEASON_DEKUPE_MAP[gid]  # additional kaçıncı
-            cutout_url = pick_additional_n(item, n)
-            if not cutout_url:
-                cutout_url = s1  # fallback
+            n = META_SEASON_DEKUPE_MAP[gid]
+            cutout_url = pick_additional_n(item, n) or s1
 
         sig = build_sig(title, price, sale, primary, s1, s2, cutout_url, fv, theme, design)
 
@@ -691,7 +651,7 @@ async def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # Meta: additional_image_link'leri 2 adet render_url ile set ediyoruz (mevcut davranış)
+        # Meta: additional_image_link’leri 2 adet render_url ile set etmeye devam
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
@@ -702,7 +662,8 @@ async def feed_proxy(request: Request):
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
-# --- TikTok endpoint ve probe: dokunmadım ---
+
+# --- TikTok endpoint ve probe: aynen bıraktım ---
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
     base_url = get_base_url(request)
@@ -725,16 +686,12 @@ async def feed_tiktok(request: Request):
 
         price_raw = text_of(item, "price") or text_of(item, "g:price", ns={"g": "http://base.google.com/ns/1.0"})
         sale_raw = text_of(item, "sale_price") or text_of(item, "g:sale_price", ns={"g": "http://base.google.com/ns/1.0"})
-
         if not sale_raw:
             sale_raw = price_raw
 
         primary, s1, s2 = choose_images_any(item)
 
-        custom_label_1 = (
-            text_of(item, "custom_label_1")
-            or find_text_by_localname(item, "custom_label_1")
-        )
+        custom_label_1 = text_of(item, "custom_label_1") or find_text_by_localname(item, "custom_label_1")
         design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
 
         sku = text_of(item, "sku_id") or text_of(item, "id") or text_of(item, "g:id", ns={"g": "http://base.google.com/ns/1.0"}) or text_of(item, "item_group_id")
@@ -781,6 +738,7 @@ async def feed_tiktok(request: Request):
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+
 
 @app.get("/probe")
 async def probe(url: str = Query(...)):
