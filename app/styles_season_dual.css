@@ -20,7 +20,9 @@ body {
   overflow: hidden;
 }
 
-/* TOP AREA (805px) */
+/* =========================
+   TOP AREA (PSD: 805px)
+   ========================= */
 .top {
   position: absolute;
   left: 0;
@@ -33,49 +35,57 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  width: 536px;
-  height: 805px;
+  width: 536px;   /* PSD: 536 */
+  height: 805px;  /* PSD: 805 */
   background: #ffffff;
   overflow: hidden;
 }
 
 .rightImgWrap {
   position: absolute;
-  left: 537px;
+  left: 536px;    /* tam bitişik */
   top: 0;
-  width: 543px;
+  width: 544px;   /* 1080 - 536 = 544 (PSD panelinde 543 görsen de pratikte tam oturması için 544) */
   height: 805px;
-  background: #f7f5f2; /* PSD'deki sıcak açık gri hissi */
+  background: #f7f5f2; /* PSD’deki sıcak açık gri */
   overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* PSD’de iki görsel arası boşluk yok */
 .divider {
   position: absolute;
   left: 536px;
   top: 0;
-  width: 1px;
+  width: 0px;     /* 1px idi -> 0px */
   height: 805px;
-  background: #ffffff;
+  background: transparent;
 }
 
-/* Images */
+/* LEFT image: cover */
 .imgCover {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;       /* soldaki model foto tam dolsun */
+  object-fit: cover;
   object-position: center;
 }
 
-.imgContain {
-  width: 100%;
-  height: 100%;
+/* RIGHT cutout: PSD’de küçük ve ortalı */
+.imgCutout {
+  width: 78%;
+  height: 78%;
   display: block;
-  object-fit: contain;     /* sağdaki dekupe kesilmesin */
+  object-fit: contain;
   object-position: center;
 }
 
-/* BOTTOM AREA */
+/* =========================
+   BOTTOM AREA (PSD: 275px)
+   ========================= */
 .bottom {
   position: absolute;
   left: 0;
@@ -85,11 +95,11 @@ body {
   background: #ffffff;
 }
 
-/* Left bottom: logo + collection */
+/* PSD’de logo ve capsule daha aşağı */
 .logoBottom {
   position: absolute;
-  left: 116px;
-  top: 44px;              /* bottom alan içinde */
+  left: 116px;     /* PSD panel: X=116 */
+  top: 98px;       /* PSD panel: Y=903 => 903-805=98 */
   width: 320px;
   height: 80px;
   object-fit: contain;
@@ -98,8 +108,8 @@ body {
 
 .collection {
   position: absolute;
-  left: 116px;
-  top: 132px;
+  left: 116px;     /* PSD panel: X=116 */
+  top: 154px;      /* PSD panel: Y=959 => 959-805=154 */
   font-size: 20px;
   font-weight: 300;
   color: #000000;
@@ -108,27 +118,19 @@ body {
   white-space: nowrap;
 }
 
-/* Right bottom: title + price */
-.rightTextWrap {
+/* RIGHT: title + price (PSD hizaları) */
+.title {
   position: absolute;
   left: 540px;
-  top: 70px;
+  top: 112px;      /* PSD panel: Y=917 => 112 */
   width: 540px;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
   padding: 0 30px;
-}
 
-.title {
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 28px;     /* PSD panelde 28px */
+  font-weight: 500;    /* PSD panelde 500 */
   color: #000000;
+  text-align: center;
   line-height: 1.12;
-  margin-bottom: 10px;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -137,23 +139,28 @@ body {
 }
 
 .priceRow {
+  position: absolute;
+  left: 540px;
+  top: 140px;      /* fiyat satırı title’ın altı */
+  width: 540px;
+
   display: flex;
-  gap: 16px;
   align-items: baseline;
   justify-content: center;
+  gap: 16px;
+  text-align: center;
 }
 
-/* Tek fiyat */
+/* PSD: fiyat daha küçük (20px) */
 .singlePrice {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 300;
   color: #000000;
   line-height: 1;
 }
 
-/* İndirimli */
 .oldPrice {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   color: #7a7a7a;
   text-decoration: line-through;
@@ -161,9 +168,9 @@ body {
 }
 
 .newPrice {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 300;
-  color: #d10000; /* kırmızı */
+  color: #d10000;
   line-height: 1;
 }
 
