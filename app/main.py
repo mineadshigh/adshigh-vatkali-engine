@@ -512,17 +512,17 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-# meta_season_dual PSD'si title-case istemiyor
-if design != "meta_season_dual":
-    title = tr_title_case(title)
+    # meta_season_dual PSD'si title-case istemiyor
+    if design != "meta_season_dual":
+        title = tr_title_case(title)
 
-# fiyat formatı
-if design.startswith("tiktok_"):
-    price = format_tl_compact(price)
-    sale_price = format_tl_compact(sale_price)
-else:
-    price = format_currency_tr(price)
-    sale_price = format_currency_tr(sale_price)
+    # fiyat formatı
+    if design.startswith("tiktok_"):
+        price = format_tl_compact(price)
+        sale_price = format_tl_compact(sale_price)
+    else:
+        price = format_currency_tr(price)
+        sale_price = format_currency_tr(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -558,7 +558,13 @@ else:
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        product_image_primary, product_image_secondary_1, product_image_secondary_2, product_image_cutout, logo_url = await asyncio.gather(
+        (
+            product_image_primary,
+            product_image_secondary_1,
+            product_image_secondary_2,
+            product_image_cutout,
+            logo_url,
+        ) = await asyncio.gather(
             to_data_uri(product_image_primary, client),
             to_data_uri(product_image_secondary_1, client),
             to_data_uri(product_image_secondary_2, client),
