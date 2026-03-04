@@ -16,7 +16,7 @@ from playwright.async_api import async_playwright
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
 FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
-FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://feeds.optifeed.co/beyyoglu/1170-1767007421.xml")
+FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://www.vatkali.com/feed/tiktokfeed.xml")
 
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
