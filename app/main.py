@@ -558,7 +558,10 @@ async def render_endpoint(
         css = f.read()
 
     if not logo_url:
-        base_url = get_base_url(request)
+    base_url = get_base_url(request)
+    if design == "meta_womensday":
+        logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
+    else:
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
