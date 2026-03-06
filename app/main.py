@@ -506,15 +506,15 @@ async def render_endpoint(
     product_image_primary: str = Query(""),
     product_image_secondary_1: str = Query(""),
     product_image_secondary_2: str = Query(""),
-    product_image_cutout: str = Query(""),  # ✅ DEKUPE
+    product_image_cutout: str = Query(""),
     logo_url: str = Query(""),
     theme: str = Query("classic"),
     design: str = Query(""),
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # meta_season_dual PSD'si title-case istemiyor
-    if design != "meta_season_dual":
+    # meta_season_dual ve meta_womensday title-case istemiyor
+    if design not in {"meta_season_dual", "meta_womensday"}:
         title = tr_title_case(title)
 
     # fiyat formatı
@@ -531,8 +531,11 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
-    # ✅ Template seçimi
-    if design == "meta_season_dual":
+    # template seçimi
+    if design == "meta_womensday":
+        template_path = os.path.join(BASE_DIR, "template_womensday.html")
+        css_path = os.path.join(BASE_DIR, "styles_womensday.css")
+    elif design == "meta_season_dual":
         template_path = os.path.join(BASE_DIR, "template_season_dual.html")
         css_path = os.path.join(BASE_DIR, "styles_season_dual.css")
     elif design == "tiktok_season":
@@ -597,7 +600,6 @@ async def render_endpoint(
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
-
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
@@ -749,7 +751,61 @@ async def feed_tiktok(request: Request):
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
+@app.get("/feed_womensday.xml", response_class=PlainTextResponse)
+async def feed_womensday(request: Request):
+    base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()
 
+    async with httpx.AsyncClient(timeout=90) as client:
+        r = await client.get(FEED_URL_META)
+        r.raise_for_status()
+
+    root = ET.fromstring(r.text)
+    channel = root.find("channel")
+    if channel is None:
+        return PlainTextResponse(r.text, media_type="application/xml")
+
+    items = channel.findall("item")
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    for item in items:
+        title = (item.findtext("title") or "").strip()
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+
+        primary, s1, s2 = choose_images_any(item)
+
+        design = "meta_womensday"
+
+        sig = build_sig(title, price, sale, primary, fv, design)
+
+        render_url = (
+            f"{base_url}/render.png"
+            f"?title={quote_plus(title)}"
+            f"&price={quote_plus(price)}"
+            f"&sale_price={quote_plus(sale)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&design={quote_plus(design)}"
+            f"&fv={quote_plus(fv)}"
+            f"&v={sig}"
+        )
+
+        img = item.find("g:image_link", ns)
+        if img is None:
+            img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
+        img.text = render_url
+
+        # additional image'ları da aynı render'a çevir
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+        for _ in range(2):
+            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra.text = render_url
+
+    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+    
 @app.get("/probe")
 async def probe(url: str = Query(...)):
     headers = {
