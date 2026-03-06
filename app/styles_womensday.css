@@ -1,145 +1,103 @@
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-  overflow: hidden;
+body{
+margin:0;
+width:1080px;
+height:1080px;
+font-family:"Outfit";
 }
 
-body {
-  font-family: "Outfit", Arial, sans-serif;
-  font-synthesis: none;
+.frame{
+width:1080px;
+height:1080px;
+position:relative;
 }
 
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-  overflow: hidden;
+.left{
+width:360px;
+height:1080px;
+background:#c63a4e;
+position:absolute;
+left:0;
+top:0;
+color:white;
+text-align:center;
 }
 
-.left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 360px;
-  height: 1080px;
-  background: #c2374e;
-  color: #ffffff;
-  text-align: center;
-  overflow: hidden;
+.product{
+position:absolute;
+left:360px;
+top:0;
+width:720px;
+height:1080px;
+object-fit:cover;
 }
 
-.product {
-  position: absolute;
-  left: 360px;
-  top: 0;
-  width: 720px;
-  height: 1080px;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  background: #000000;
+.logo{
+position:absolute;
+width:260px;
+left:50px;
+top:120px;
 }
 
-.logo {
-  position: absolute;
-  left: 41px;
-  top: 124px;
-  width: 280px;
-  height: 85px;
-  object-fit: contain;
-  object-position: center;
+.womens{
+position:absolute;
+width:300px;
+left:30px;
+top:270px;
+font-family:"Great Vibes";
+font-size:56px;
+line-height:60px;
 }
 
-.womens {
-  position: absolute;
-  left: 28px;
-  top: 271px;
-  width: 307px;
-  color: #ffffff;
-  font-family: "Great Vibes", cursive;
-  font-size: 54px;
-  font-weight: 400;
-  line-height: 1.06;
-  text-align: center;
-  white-space: normal;
+.promo{
+position:absolute;
+width:300px;
+left:30px;
+top:470px;
 }
 
-.text1 {
-  position: absolute;
-  left: 58px;
-  top: 494px;
-  width: 242px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 44px;
-  font-weight: 300;
-  line-height: 1.08;
-  text-align: center;
-  white-space: normal;
+.promo1{
+display:block;
+font-size:44px;
+font-weight:500;
 }
 
-.text1 .bold {
-  font-weight: 500;
+.promo2{
+display:block;
+font-size:44px;
+font-weight:300;
 }
 
-.text2 {
-  position: absolute;
-  left: 97px;
-  top: 608px;
-  width: 162px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1.1;
-  text-align: center;
-  white-space: nowrap;
+.sepette{
+position:absolute;
+width:300px;
+left:30px;
+top:590px;
+font-size:28px;
 }
 
-.percent {
-  position: absolute;
-  left: 119px;
-  top: 671px;
-  width: 120px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 107px;
-  font-weight: 700;
-  line-height: 0.92;
-  text-align: center;
-  white-space: nowrap;
+.percent{
+position:absolute;
+width:300px;
+left:30px;
+top:640px;
+font-size:110px;
+font-weight:700;
 }
 
-.indirim {
-  position: absolute;
-  left: 78px;
-  top: 768px;
-  width: 199px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
+.indirim{
+position:absolute;
+width:300px;
+left:30px;
+top:760px;
+font-size:56px;
+font-weight:700;
 }
 
-.campaign {
-  position: absolute;
-  left: 40px;
-  top: 904px;
-  width: 290px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.22;
-  text-align: center;
-  white-space: normal;
+.campaign{
+position:absolute;
+width:280px;
+left:40px;
+top:920px;
+font-size:16px;
+line-height:22px;
 }
