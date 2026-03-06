@@ -557,12 +557,12 @@ async def render_endpoint(
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
-if not logo_url:
-    base_url = get_base_url(request)
-    if design == "meta_womensday":
-        logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
-    else:
-        logo_url = f"{base_url}/static/vatkalilogo.svg"
+    if not logo_url:
+        base_url = get_base_url(request)
+        if design == "meta_womensday":
+            logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
+        else:
+            logo_url = f"{base_url}/static/vatkalilogo.svg"
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
         (
@@ -603,7 +603,6 @@ if not logo_url:
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
-
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
     base_url = get_base_url(request)
