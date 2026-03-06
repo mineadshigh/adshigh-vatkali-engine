@@ -1,153 +1,37 @@
-* { box-sizing: border-box; }
+<div class="frame">
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-  overflow: hidden;
-}
+  <div class="left">
 
-body {
-  font-family: "Outfit", Arial, sans-serif;
-  font-synthesis: none;
-}
+      <img class="logo" src="{{logo}}" />
 
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-  overflow: hidden;
-}
+      <div class="womens">
+          Happy Women's<br>Day
+      </div>
 
-.left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 360px;
-  height: 1080px;
-  background: #c2374e;
-  color: #ffffff;
-  text-align: center;
-  overflow: hidden;
-}
+      <div class="text1">
+          <span class="bold">%60'A Varan</span><br>
+          İndirimlere Ek
+      </div>
 
-/* sağ ürün görseli */
-.product {
-  position: absolute;
-  left: 360px;
-  top: 0;
-  width: 720px;
-  height: 1080px;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  background: #000000;
-}
+      <div class="text2">
+          Sepette ekstra
+      </div>
 
-/* logo */
-.logo {
-  position: absolute;
-  left: 41px;
-  top: 124px;
-  width: 280px;
-  height: 85px;
-  object-fit: contain;
-  object-position: center;
-}
+      <div class="percent">
+          %8
+      </div>
 
-/* Happy Women's Day */
-.womens {
-  position: absolute;
-  left: 28px;
-  top: 271px;
-  width: 307px;
-  color: #ffffff;
-  font-family: "Great Vibes", cursive;
-  font-size: 54px;
-  font-weight: 400;
-  line-height: 1.06;
-  text-align: center;
-  white-space: normal;
-}
+      <div class="indirim">
+          İNDİRİM
+      </div>
 
-/* %60'a Varan / İndirimlere ek */
-.text1 {
-  position: absolute;
-  left: 58px;
-  top: 494px;
-  width: 242px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 44px;
-  font-weight: 300;
-  line-height: 1.08;
-  text-align: center;
-  white-space: normal;
-}
+      <div class="campaign">
+          *Kampanya 09.03.2026 / 09.00’a kadar<br>
+          tüm ürünlerde geçerlidir.
+      </div>
 
-.text1 .bold {
-  font-weight: 500;
-}
+  </div>
 
-/* Sepette ekstra */
-.text2 {
-  position: absolute;
-  left: 97px;
-  top: 608px;
-  width: 162px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1.1;
-  text-align: center;
-  white-space: nowrap;
-}
+  <img class="product" src="{{image}}" />
 
-/* %8 */
-.percent {
-  position: absolute;
-  left: 119px;
-  top: 671px;
-  width: 120px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 107px;
-  font-weight: 700;
-  line-height: 0.92;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* İNDİRİM */
-.indirim {
-  position: absolute;
-  left: 78px;
-  top: 768px;
-  width: 199px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* Dipnot */
-.campaign {
-  position: absolute;
-  left: 40px;
-  top: 904px;
-  width: 290px;
-  color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.22;
-  text-align: center;
-  white-space: normal;
-}
+</div>
