@@ -1,37 +1,52 @@
-<div class="frame">
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1" />
 
-  <div class="left">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-      <img class="logo" src="{{logo}}" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    {{CSS}}
+  </style>
+</head>
+<body>
+  <div class="frame">
+
+    <div class="left">
+      <img class="logo" src="{{logo_url}}" loading="eager" />
 
       <div class="womens">
-          Happy Women's<br>Day
+        Happy Women's<br>Day
       </div>
 
       <div class="text1">
-          <span class="bold">%60'a Varan</span><br>
-          İndirimlere ek
+        <span class="bold">%60'a Varan</span><br>
+        İndirimlere ek
       </div>
 
       <div class="text2">
-          Sepette ekstra
+        Sepette ekstra
       </div>
 
       <div class="percent">
-          %8
+        %8
       </div>
 
       <div class="indirim">
-          İNDİRİM
+        İNDİRİM
       </div>
 
       <div class="campaign">
-          *Kampanya 09.03.2026 / 09.00’a kadar
-          tüm ürünlerde geçerlidir.
+        *Kampanya 09.03.2026 / 09.00’a kadar tüm ürünlerde geçerlidir. Stoklarla sınırlıdır.
       </div>
+    </div>
+
+    <img class="product" src="{{product_image_primary}}" loading="eager" />
 
   </div>
-
-  <img class="product" src="{{image}}" />
-
-</div>
+</body>
+</html>
