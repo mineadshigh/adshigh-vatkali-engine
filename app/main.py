@@ -557,7 +557,7 @@ async def render_endpoint(
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
-    if not logo_url:
+if not logo_url:
     base_url = get_base_url(request)
     if design == "meta_womensday":
         logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
