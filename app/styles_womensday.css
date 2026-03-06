@@ -1,0 +1,94 @@
+body{
+    margin:0;
+    width:1080px;
+    height:1080px;
+}
+
+.frame{
+    width:1080px;
+    height:1080px;
+    position:relative;
+}
+
+.left{
+    width:360px;
+    height:1080px;
+    background:#c2374e;
+    position:absolute;
+    left:0;
+    top:0;
+    color:white;
+    text-align:center;
+    font-family:"Outfit";
+}
+
+.product{
+    position:absolute;
+    width:720px;
+    height:1080px;
+    left:360px;
+    top:0;
+    object-fit:cover;
+}
+
+.logo{
+    position:absolute;
+    width:280px;
+    left:41px;
+    top:124px;
+}
+
+.womens{
+    position:absolute;
+    width:307px;
+    left:28px;
+    top:271px;
+    font-family:"Great Vibes";
+    font-size:54px;
+}
+
+.text1{
+    position:absolute;
+    width:242px;
+    left:58px;
+    top:494px;
+    font-size:44px;
+}
+
+.text1 .bold{
+    font-weight:bold;
+}
+
+.text2{
+    position:absolute;
+    width:162px;
+    left:97px;
+    top:608px;
+    font-size:28px;
+}
+
+.percent{
+    position:absolute;
+    width:120px;
+    left:119px;
+    top:671px;
+    font-size:107px;
+    font-weight:bold;
+}
+
+.indirim{
+    position:absolute;
+    width:199px;
+    left:78px;
+    top:768px;
+    font-size:56px;
+    font-weight:bold;
+}
+
+.campaign{
+    position:absolute;
+    width:290px;
+    left:40px;
+    top:904px;
+    font-size:16px;
+}
