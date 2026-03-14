@@ -180,11 +180,11 @@ body {
 /* GÖRSELİN ALT SAĞINA OTURAN BADGE */
 .bayramBadge{
   position: absolute;
-  right: 98px;
-  bottom: 194px;
+  left: 680px;
+  top: 1723px;
 
   padding: 0 14px;
-  height: 36px;
+  height: 42px;
 
   background: #000000;
   color: #ffffff;
