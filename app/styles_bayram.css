@@ -1,0 +1,195 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+body {
+  font-family: "Outfit", Arial, sans-serif;
+  font-synthesis: none;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* SOL ÜRÜN GÖRSELİ */
+.productImage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* SAĞ PANEL */
+.rightPanel {
+  position: absolute;
+  left: 720px;
+  top: 0;
+  width: 360px;
+  height: 1080px;
+  background: #f8f8f8;
+  overflow: visible;
+}
+
+/* LOGO */
+.logo {
+  position: absolute;
+  left: 58px;
+  top: 67px;
+  width: 261px;
+  height: 32px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* BAYRAMA ÖZEL LABEL */
+.bayramLabel {
+  position: absolute;
+  left: 22px;
+  top: 262px;
+  width: 269px;
+  height: 35px;
+
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 39px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* %60 BLOĞU */
+.discountBlock {
+  position: absolute;
+  left: 28px;
+  top: 449px;
+  width: 278px;
+  text-align: left;
+  color: #000000;
+}
+
+.discountPct {
+  font-size: 81px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.discountSub {
+  margin-top: -2px;
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.discountText {
+  margin-top: 2px;
+  font-size: 39px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* SEPETTE %20 İNDİRİM BAR */
+.sepetteBar {
+  position: absolute;
+  left: -49px;
+  top: 605px;
+  width: 404px;
+  height: 39px;
+
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 43px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.sepetteBar span {
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+/* DİNAMİK ÜRÜN BİLGİSİ BLOĞU */
+.productInfo {
+  position: absolute;
+  left: 59px;
+  top: 795px;
+  width: 260px;
+  color: #000000;
+}
+
+/* ÜRÜN ADI */
+.productTitle {
+  width: 100%;
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1.18;
+  letter-spacing: 0;
+  text-align: left;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* FİYAT BLOĞU */
+.priceBlock {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.oldPrice {
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1;
+  color: #000000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  margin-bottom: 8px;
+}
+
+.salePrice {
+  font-size: 37px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+}
+
+.hidden {
+  display: none !important;
+}
