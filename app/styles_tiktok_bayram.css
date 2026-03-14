@@ -24,10 +24,10 @@ body {
 /* LOGO */
 .brandLogo{
   position: absolute;
-  left: 338px;
-  top: 72px;
-  width: 404px;
-  height: 52px;
+  left: 409px;
+  top: 86px;
+  width: 261px;
+  height: 33px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,70 +39,45 @@ body {
   object-fit: contain;
 }
 
-/* ÜST PROMO */
+/* ÜST SOL PROMO */
 .promoWrap{
   position: absolute;
-  left: 95px;
-  top: 185px;
-  width: 430px;
+  left: 98px;
+  top: 188px;
+  width: 278px;
   color: #000000;
   text-align: left;
 }
 
 .promoPct{
-  font-size: 118px;
-  font-weight: 800;
+  font-size: 81px;
+  font-weight: 700;
   line-height: 0.9;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
 }
 
 .promoSub{
-  margin-top: -6px;
-  font-size: 42px;
+  margin-top: -4px;
+  font-size: 27px;
   font-weight: 300;
   line-height: 1;
 }
 
 .promoText{
-  margin-top: 8px;
-  font-size: 54px;
+  margin-top: 2px;
+  font-size: 39px;
   font-weight: 700;
-  line-height: 1.02;
-  white-space: nowrap;
-}
-
-/* SEPETTE BAR */
-.sepetteBar{
-  position: absolute;
-  left: 96px;
-  top: 430px;
-  width: 610px;
-  height: 72px;
-  background: #000000;
-  color: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 50px;
-  font-weight: 300;
   line-height: 1;
   white-space: nowrap;
 }
 
-.sepetteBar span{
-  font-weight: 700;
-  margin-left: 10px;
-}
-
-/* ÜRÜN GÖRSELİ */
+/* GÖRSEL */
 .imgFrame{
   position: absolute;
-  left: 100px;
-  top: 560px;
-  width: 880px;
-  height: 1080px;
+  left: 98px;
+  top: 397px;
+  width: 884px;
+  height: 1326px;
   overflow: hidden;
   background: #ffffff;
 }
@@ -115,21 +90,46 @@ body {
   object-position: center;
 }
 
+/* GÖRSEL ÜST SOL BAR */
+.sepetteBar{
+  position: absolute;
+  left: 98px;
+  top: 342px;
+  width: 372px;
+  height: 54px;
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 39px;
+  font-weight: 300;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sepetteBar span{
+  font-weight: 700;
+  margin-left: 6px;
+}
+
 /* SAĞ ÜST ÜRÜN BİLGİSİ */
 .productInfo{
   position: absolute;
-  right: 78px;
-  top: 182px;
-  width: 330px;
-  text-align: right;
+  left: 723px;
+  top: 355px;
+  width: 260px;
+  text-align: left;
   color: #000000;
 }
 
 .productTitle{
   width: 100%;
-  font-size: 30px;
+  font-size: 27px;
   font-weight: 300;
-  line-height: 1.18;
+  line-height: 1.15;
   word-break: break-word;
 
   display: -webkit-box;
@@ -139,15 +139,16 @@ body {
 }
 
 .priceRow{
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .oldPrice{
-  font-size: 30px;
+  font-size: 27px;
   font-weight: 300;
   color: #000000;
   line-height: 1;
@@ -156,28 +157,26 @@ body {
 }
 
 .newPrice{
-  font-size: 42px;
+  font-size: 37px;
   font-weight: 700;
   color: #000000;
   line-height: 1;
 }
 
 .singlePrice{
-  font-size: 42px;
+  font-size: 37px;
   font-weight: 700;
   color: #000000;
   line-height: 1;
 }
 
-/* BAYRAMA ÖZEL */
+/* GÖRSEL ALT SAĞ BADGE */
 .bayramBadge{
   position: absolute;
-  right: 78px;
-  bottom: 168px;
-  min-width: 296px;
-  height: 54px;
-  padding: 0 20px;
-
+  left: 695px;
+  top: 1730px;
+  width: 269px;
+  height: 36px;
   background: #000000;
   color: #ffffff;
 
@@ -185,7 +184,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
