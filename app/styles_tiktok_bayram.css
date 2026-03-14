@@ -24,7 +24,7 @@ body {
 /* LOGO */
 .brandLogo{
   position: absolute;
-  left: 409px;
+  left: 410px;
   top: 86px;
   width: 261px;
   height: 33px;
@@ -43,7 +43,7 @@ body {
 .promoWrap{
   position: absolute;
   left: 98px;
-  top: 188px;
+  top: 189px;
   width: 278px;
   color: #000000;
   text-align: left;
@@ -52,12 +52,12 @@ body {
 .promoPct{
   font-size: 81px;
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 0.88;
   letter-spacing: -1px;
 }
 
 .promoSub{
-  margin-top: -4px;
+  margin-top: -2px;
   font-size: 27px;
   font-weight: 300;
   line-height: 1;
@@ -90,13 +90,14 @@ body {
   object-position: center;
 }
 
-/* GÖRSEL ÜST SOL BAR */
+/* GÖRSELİN ÜST SOLUNA OTURAN BAR */
 .sepetteBar{
   position: absolute;
   left: 98px;
   top: 342px;
-  width: 372px;
-  height: 54px;
+  height: 55px;
+  min-width: 404px;
+  padding: 0 14px;
   background: #000000;
   color: #ffffff;
 
@@ -118,8 +119,8 @@ body {
 /* SAĞ ÜST ÜRÜN BİLGİSİ */
 .productInfo{
   position: absolute;
-  left: 723px;
-  top: 355px;
+  left: 722px;
+  top: 269px;
   width: 260px;
   text-align: left;
   color: #000000;
@@ -131,6 +132,7 @@ body {
   font-weight: 300;
   line-height: 1.15;
   word-break: break-word;
+  text-align: left;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -144,7 +146,7 @@ body {
   flex-direction: row;
   align-items: baseline;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .oldPrice{
@@ -154,6 +156,7 @@ body {
   line-height: 1;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
+  white-space: nowrap;
 }
 
 .newPrice{
@@ -161,6 +164,7 @@ body {
   font-weight: 700;
   color: #000000;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .singlePrice{
@@ -168,15 +172,18 @@ body {
   font-weight: 700;
   color: #000000;
   line-height: 1;
+  white-space: nowrap;
 }
 
-/* GÖRSEL ALT SAĞ BADGE */
+/* GÖRSELİN ALT SAĞINA OTURAN BADGE */
 .bayramBadge{
   position: absolute;
   left: 695px;
   top: 1730px;
-  width: 269px;
-  height: 36px;
+  height: 42px;
+  min-width: 269px;
+  padding: 0 12px;
+
   background: #000000;
   color: #ffffff;
 
