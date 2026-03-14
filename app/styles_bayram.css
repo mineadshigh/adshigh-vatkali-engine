@@ -41,17 +41,18 @@ body {
   top: 0;
   width: 360px;
   height: 1080px;
-  background: #f8f8f8;
+  background: #f7f7f7;
   overflow: visible;
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  left: 58px;
-  top: 67px;
-  width: 261px;
-  height: 32px;
+  left: 50%;
+  top: 66px;
+  width: 276px;
+  height: 36px;
+  transform: translateX(-50%);
   object-fit: contain;
   object-position: center;
 }
@@ -59,10 +60,12 @@ body {
 /* BAYRAMA ÖZEL LABEL */
 .bayramLabel {
   position: absolute;
-  left: 22px;
-  top: 262px;
-  width: 269px;
-  height: 35px;
+  left: 50%;
+  top: 254px;
+  transform: translateX(-50%);
+  min-width: 228px;
+  height: 47px;
+  padding: 0 16px;
 
   background: #000000;
   color: #ffffff;
@@ -71,28 +74,27 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 39px;
+  font-size: 31px;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 0;
   white-space: nowrap;
 }
 
 /* %60 BLOĞU */
 .discountBlock {
   position: absolute;
-  left: 28px;
-  top: 449px;
-  width: 278px;
+  left: 39px;
+  top: 446px;
+  width: 282px;
   text-align: left;
   color: #000000;
 }
 
 .discountPct {
-  font-size: 81px;
+  font-size: 79px;
   font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: 0;
+  line-height: 0.92;
+  letter-spacing: -1px;
 }
 
 .discountSub {
@@ -100,25 +102,23 @@ body {
   font-size: 27px;
   font-weight: 300;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 .discountText {
   margin-top: 2px;
-  font-size: 39px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0;
+  line-height: 1.04;
   white-space: nowrap;
 }
 
 /* SEPETTE %20 İNDİRİM BAR */
 .sepetteBar {
   position: absolute;
-  left: -49px;
+  left: -53px;
   top: 605px;
-  width: 404px;
-  height: 39px;
+  width: 418px;
+  height: 42px;
 
   background: #000000;
   color: #ffffff;
@@ -127,31 +127,29 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 43px;
+  font-size: 29px;
   font-weight: 300;
   line-height: 1;
-  letter-spacing: 0;
   white-space: nowrap;
 }
 
 .sepetteBar span {
   font-weight: 700;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
-/* DİNAMİK ÜRÜN BİLGİSİ BLOĞU */
+/* DİNAMİK ÜRÜN BİLGİSİ */
 .productInfo {
   position: absolute;
-  left: 59px;
-  top: 795px;
-  width: 260px;
+  left: 56px;
+  top: 796px;
+  width: 248px;
   color: #000000;
 }
 
-/* ÜRÜN ADI */
 .productTitle {
   width: 100%;
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 300;
   line-height: 1.18;
   letter-spacing: 0;
@@ -165,7 +163,6 @@ body {
   word-break: break-word;
 }
 
-/* FİYAT BLOĞU */
 .priceBlock {
   margin-top: 14px;
   display: flex;
@@ -174,17 +171,17 @@ body {
 }
 
 .oldPrice {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 300;
   line-height: 1;
   color: #000000;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
 
 .salePrice {
-  font-size: 37px;
+  font-size: 31px;
   font-weight: 700;
   line-height: 1;
   color: #000000;
