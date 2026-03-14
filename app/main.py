@@ -152,7 +152,7 @@ def tr_title_case(text: str) -> str:
 def _parse_money_to_float(s: str) -> float | None:
     if not s:
         return None
-    t = s.strip()
+    t = str(s).strip()
     t = re.sub(r"[^\d.,]", "", t)
     if not t:
         return None
@@ -179,6 +179,13 @@ def format_tl_compact(s: str) -> str:
     v = _parse_money_to_float(s)
     if v is None:
         return format_currency_tr(s)
+    n = int(round(v))
+    return f"{n:,}".replace(",", ".") + " TL"
+
+def format_tl(price: str) -> str:
+    v = _parse_money_to_float(price)
+    if v is None:
+        return format_currency_tr(price)
     n = int(round(v))
     return f"{n:,}".replace(",", ".") + " TL"
 
@@ -522,8 +529,8 @@ async def render_endpoint(
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
     else:
-        price = format_currency_tr(price)
-        sale_price = format_currency_tr(sale_price)
+        price = format_tl(price)
+        sale_price = format_tl(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
@@ -706,7 +713,12 @@ async def feed_tiktok(request: Request):
         custom_label_1 = text_of(item, "custom_label_1") or find_text_by_localname(item, "custom_label_1")
         design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
 
-        sku = text_of(item, "sku_id") or text_of(item, "id") or text_of(item, "g:id", ns={"g": "http://base.google.com/ns/1.0"}) or text_of(item, "item_group_id")
+        sku = (
+            text_of(item, "sku_id")
+            or text_of(item, "id")
+            or text_of(item, "g:id", ns={"g": "http://base.google.com/ns/1.0"})
+            or text_of(item, "item_group_id")
+        )
         if not text_of(item, "sku_id") and sku:
             ensure_child_plain(item, "sku_id").text = sku
         if not text_of(item, "id") and sku:
