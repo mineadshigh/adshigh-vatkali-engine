@@ -18,7 +18,7 @@ APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://www.vatkali.com/feed/tiktokfeed.xml")
 
-RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "1"))
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
 app = FastAPI()
@@ -513,8 +513,8 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # meta_season_dual ve meta_womensday title-case istemiyor
-    if design not in {"meta_season_dual", "meta_womensday"}:
+    # meta_season_dual, meta_womensday ve meta_bayram title-case istemiyor
+    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram"}:
         title = tr_title_case(title)
 
     # fiyat formatı
@@ -535,6 +535,9 @@ async def render_endpoint(
     if design == "meta_womensday":
         template_path = os.path.join(BASE_DIR, "template_womensday.html")
         css_path = os.path.join(BASE_DIR, "styles_womensday.css")
+    elif design == "meta_bayram":
+        template_path = os.path.join(BASE_DIR, "template_bayram.html")
+        css_path = os.path.join(BASE_DIR, "styles_bayram.css")
     elif design == "meta_season_dual":
         template_path = os.path.join(BASE_DIR, "template_season_dual.html")
         css_path = os.path.join(BASE_DIR, "styles_season_dual.css")
@@ -603,6 +606,8 @@ async def render_endpoint(
 
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
+
+
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
     base_url = get_base_url(request)
@@ -628,20 +633,14 @@ async def feed_proxy(request: Request):
 
         primary, s1, s2 = choose_images_any(item)
 
-        # ✅ season/classic (İlkbahar-Yaz 26 => season)
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
 
         gid = (item.findtext("g:id", default="", namespaces=ns) or "").strip()
 
-        design = ""
+        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
+        design = "meta_bayram"
         cutout_url = ""
-
-        # ✅ DEKUPE: sadece season + map’teki id’ler
-        if theme == "season" and gid in META_SEASON_DEKUPE_MAP:
-            design = "meta_season_dual"
-            n = META_SEASON_DEKUPE_MAP[gid]
-            cutout_url = pick_additional_n(item, n) or s1
 
         sig = build_sig(title, price, sale, primary, s1, s2, cutout_url, fv, theme, design)
 
@@ -665,7 +664,6 @@ async def feed_proxy(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # Meta: additional_image_link’leri 2 adet render_url ile set etmeye devam
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
@@ -753,6 +751,7 @@ async def feed_tiktok(request: Request):
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
+
 @app.get("/feed_womensday.xml", response_class=PlainTextResponse)
 async def feed_womensday(request: Request):
     base_url = get_base_url(request)
@@ -797,7 +796,6 @@ async def feed_womensday(request: Request):
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
         img.text = render_url
 
-        # additional image'ları da aynı render'a çevir
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
@@ -807,7 +805,8 @@ async def feed_womensday(request: Request):
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-    
+
+
 @app.get("/probe")
 async def probe(url: str = Query(...)):
     headers = {
