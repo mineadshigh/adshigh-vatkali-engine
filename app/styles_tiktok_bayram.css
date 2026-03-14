@@ -24,10 +24,10 @@ body {
 /* LOGO */
 .brandLogo{
   position: absolute;
-  left: 410px;
-  top: 86px;
-  width: 261px;
-  height: 33px;
+  left: 390px;
+  top: 84px;
+  width: 300px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,9 +119,9 @@ body {
 /* SAĞ ÜST ÜRÜN BİLGİSİ */
 .productInfo{
   position: absolute;
-  left: 722px;
+  left: 690px;
   top: 269px;
-  width: 260px;
+  width: 292px;
   text-align: left;
   color: #000000;
 }
@@ -145,7 +145,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: nowrap;
 }
 
@@ -178,10 +178,10 @@ body {
 /* GÖRSELİN ALT SAĞINA OTURAN BADGE */
 .bayramBadge{
   position: absolute;
-  left: 695px;
-  top: 1730px;
-  height: 42px;
-  min-width: 269px;
+  left: 662px;
+  top: 1728px;
+  height: 44px;
+  min-width: 302px;
   padding: 0 12px;
 
   background: #000000;
