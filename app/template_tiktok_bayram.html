@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=1080, initial-scale=1"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <style>{{CSS}}</style>
+</head>
+<body>
+  <div class="frame">
+
+    <div class="brandLogo">
+      <img class="logoImg" src="{{logo_url}}" loading="eager" />
+    </div>
+
+    <div class="promoWrap">
+      <div class="promoPct">%60</div>
+      <div class="promoSub">'a varan</div>
+      <div class="promoText">İNDİRİMLERE EK</div>
+    </div>
+
+    <div class="sepetteBar">
+      SEPETTE <span>%20 İNDİRİM</span>
+    </div>
+
+    <div class="imgFrame">
+      <img class="productImg" src="{{product_image_primary}}" loading="eager" />
+    </div>
+
+    <div class="productInfo">
+      <div class="productTitle">{{title}}</div>
+
+      <div class="priceRow">
+        <div class="oldPrice {{old_hidden}}">{{price}}</div>
+        <div class="newPrice {{new_hidden}}">{{sale_price}}</div>
+        <div class="singlePrice {{single_hidden}}">{{price}}</div>
+      </div>
+    </div>
+
+    <div class="bayramBadge">BAYRAMA ÖZEL</div>
+
+  </div>
+</body>
+</html>
