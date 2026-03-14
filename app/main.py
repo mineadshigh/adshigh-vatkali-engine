@@ -28,7 +28,6 @@ STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # ✅ META SEASON "DEKUPE" mapping (g:id -> additional kaçıncı)
-# Excel'deki "Fotoğraf sırası" = additional_image_link sırası (1-based)
 META_SEASON_DEKUPE_MAP = {
     "VTK26-101-17-2": 2,
     "VTK25-119-72-27": 2,
@@ -520,8 +519,8 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # meta_season_dual, meta_womensday ve meta_bayram title-case istemiyor
-    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram"}:
+    # meta_season_dual, meta_womensday, meta_bayram, tiktok_bayram title-case istemiyor
+    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram", "tiktok_bayram"}:
         title = tr_title_case(title)
 
     # fiyat formatı
@@ -548,6 +547,9 @@ async def render_endpoint(
     elif design == "meta_season_dual":
         template_path = os.path.join(BASE_DIR, "template_season_dual.html")
         css_path = os.path.join(BASE_DIR, "styles_season_dual.css")
+    elif design == "tiktok_bayram":
+        template_path = os.path.join(BASE_DIR, "template_tiktok_bayram.html")
+        css_path = os.path.join(BASE_DIR, "styles_tiktok_bayram.css")
     elif design == "tiktok_season":
         template_path = os.path.join(BASE_DIR, "template_tiktok_season.html")
         css_path = os.path.join(BASE_DIR, "styles_tiktok_season.css")
@@ -682,7 +684,6 @@ async def feed_proxy(request: Request):
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
 
-# --- TikTok endpoint ve probe: aynen bıraktım ---
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
     base_url = get_base_url(request)
@@ -711,7 +712,9 @@ async def feed_tiktok(request: Request):
         primary, s1, s2 = choose_images_any(item)
 
         custom_label_1 = text_of(item, "custom_label_1") or find_text_by_localname(item, "custom_label_1")
-        design = "tiktok_season" if is_season_label(custom_label_1) else "tiktok_classic"
+
+        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
+        design = "tiktok_bayram"
 
         sku = (
             text_of(item, "sku_id")
