@@ -1,3 +1,118 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+body {
+  font-family: "Outfit", Arial, sans-serif;
+  font-synthesis: none;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* SOL ÜRÜN GÖRSELİ */
+.productImage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* SAĞ PANEL */
+.rightPanel {
+  position: absolute;
+  left: 720px;
+  top: 0;
+  width: 360px;
+  height: 1080px;
+  background: #f7f7f7;
+  overflow: visible;
+}
+
+/* LOGO */
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 66px;
+  width: 276px;
+  height: 36px;
+  transform: translateX(-50%);
+  object-fit: contain;
+  object-position: center;
+}
+
+/* BAYRAMA ÖZEL LABEL */
+.bayramLabel {
+  position: absolute;
+  left: 50%;
+  top: 254px;
+  transform: translateX(-50%);
+  min-width: 228px;
+  height: 47px;
+  padding: 0 16px;
+
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* %60 BLOĞU */
+.discountBlock {
+  position: absolute;
+  left: 39px;
+  top: 446px;
+  width: 282px;
+  text-align: left;
+  color: #000000;
+}
+
+.discountPct {
+  font-size: 79px;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -1px;
+}
+
+.discountSub {
+  margin-top: -2px;
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.discountText {
+  margin-top: 2px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.04;
+  white-space: nowrap;
+}
+
+/* SEPETTE %20 İNDİRİM BAR */
 .sepetteBar {
   position: absolute;
   left: -53px;
@@ -21,4 +136,57 @@
 .sepetteBar span {
   font-weight: 700;
   margin-left: 8px;
+}
+
+/* DİNAMİK ÜRÜN BİLGİSİ */
+.productInfo {
+  position: absolute;
+  left: 56px;
+  top: 796px;
+  width: 248px;
+  color: #000000;
+}
+
+.productTitle {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.18;
+  letter-spacing: 0;
+  text-align: left;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.priceBlock {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.oldPrice {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  color: #000000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  margin-bottom: 7px;
+}
+
+.salePrice {
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+}
+
+.hidden {
+  display: none !important;
 }
