@@ -115,10 +115,10 @@ body {
 /* SEPETTE %20 İNDİRİM BAR */
 .sepetteBar {
   position: absolute;
-  left: -53px;
+  left: -95px;   /* daha sola uzatıyoruz */
   top: 605px;
-  width: 418px;
-  height: 48px;
+  width: 460px;  /* daha geniş */
+  height: 54px;
 
   background: #000000;
   color: #ffffff;
@@ -127,7 +127,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 34px;
+  font-size: 38px; /* yazıyı büyüttük */
   font-weight: 300;
   line-height: 1;
   white-space: nowrap;
@@ -135,7 +135,7 @@ body {
 
 .sepetteBar span {
   font-weight: 700;
-  margin-left: 8px;
+  margin-left: 10px;
 }
 
 /* DİNAMİK ÜRÜN BİLGİSİ */
