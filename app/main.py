@@ -17,6 +17,7 @@ APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
 FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
 FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://www.vatkali.com/feed/tiktokfeed.xml")
+FEED_URL_PINTEREST = os.getenv("FEED_URL_PINTEREST", "https://www.vatkali.com/Xml/pinterestfeed.asp")
 
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
@@ -519,12 +520,12 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # meta_season_dual, meta_womensday, meta_bayram, tiktok_bayram title-case istemiyor
-    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram", "tiktok_bayram"}:
+    # meta_season_dual, meta_womensday, meta_bayram, tiktok_bayram, pinterest_bayram title-case istemiyor
+    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram", "tiktok_bayram", "pinterest_bayram"}:
         title = tr_title_case(title)
 
     # fiyat formatı
-    if design.startswith("tiktok_"):
+    if design.startswith("tiktok_") or design.startswith("pinterest_"):
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
     else:
@@ -548,6 +549,9 @@ async def render_endpoint(
         template_path = os.path.join(BASE_DIR, "template_season_dual.html")
         css_path = os.path.join(BASE_DIR, "styles_season_dual.css")
     elif design == "tiktok_bayram":
+        template_path = os.path.join(BASE_DIR, "template_tiktok_bayram.html")
+        css_path = os.path.join(BASE_DIR, "styles_tiktok_bayram.css")
+    elif design == "pinterest_bayram":
         template_path = os.path.join(BASE_DIR, "template_tiktok_bayram.html")
         css_path = os.path.join(BASE_DIR, "styles_tiktok_bayram.css")
     elif design == "tiktok_season":
@@ -711,8 +715,6 @@ async def feed_tiktok(request: Request):
 
         primary, s1, s2 = choose_images_any(item)
 
-        custom_label_1 = text_of(item, "custom_label_1") or find_text_by_localname(item, "custom_label_1")
-
         # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
         design = "tiktok_bayram"
 
@@ -726,6 +728,84 @@ async def feed_tiktok(request: Request):
             ensure_child_plain(item, "sku_id").text = sku
         if not text_of(item, "id") and sku:
             ensure_child_plain(item, "id").text = sku
+
+        sig = build_sig(title, price_raw, sale_raw, primary, s1, s2, fv, design, "1080", "1920")
+
+        render_url = (
+            f"{base_url}/render.png"
+            f"?title={quote_plus(title)}"
+            f"&price={quote_plus(price_raw)}"
+            f"&sale_price={quote_plus(sale_raw)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&product_image_secondary_2={quote_plus(s2)}"
+            f"&design={quote_plus(design)}"
+            f"&w=1080&h=1920"
+            f"&fv={quote_plus(fv)}"
+            f"&v={sig}"
+        )
+
+        img_plain = item.find("image_link")
+        if img_plain is None:
+            img_plain = ET.SubElement(item, "image_link")
+        img_plain.text = render_url
+
+        ns = {"g": "http://base.google.com/ns/1.0"}
+        img_g = item.find("g:image_link", ns)
+        if img_g is not None:
+            img_g.text = render_url
+
+        for extra in item.findall("additional_image_link"):
+            item.remove(extra)
+        for _ in range(2):
+            extra_p = ET.SubElement(item, "additional_image_link")
+            extra_p.text = render_url
+
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+
+    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+
+
+@app.get("/feed_pinterest.xml", response_class=PlainTextResponse)
+async def feed_pinterest(request: Request):
+    base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()
+
+    async with httpx.AsyncClient(timeout=90) as client:
+        r = await client.get(FEED_URL_PINTEREST)
+        r.raise_for_status()
+
+    root = ET.fromstring(r.text)
+    channel = root.find("channel")
+    if channel is None:
+        return PlainTextResponse(r.text, media_type="application/xml")
+
+    items = channel.findall("item")
+
+    for item in items:
+        title_raw = (
+            text_of(item, "title")
+            or text_of(item, "g:title", ns={"g": "http://base.google.com/ns/1.0"})
+        )
+        title = tr_title_case(title_raw)
+
+        price_raw = (
+            text_of(item, "price")
+            or text_of(item, "g:price", ns={"g": "http://base.google.com/ns/1.0"})
+        )
+        sale_raw = (
+            text_of(item, "sale_price")
+            or text_of(item, "g:sale_price", ns={"g": "http://base.google.com/ns/1.0"})
+        )
+        if not sale_raw:
+            sale_raw = price_raw
+
+        primary, s1, s2 = choose_images_any(item)
+
+        design = "pinterest_bayram"
 
         sig = build_sig(title, price_raw, sale_raw, primary, s1, s2, fv, design, "1080", "1920")
 
