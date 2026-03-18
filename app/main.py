@@ -815,8 +815,6 @@ async def feed_pinterest(request: Request):
             f"&price={quote_plus(price_raw)}"
             f"&sale_price={quote_plus(sale_raw)}"
             f"&product_image_primary={quote_plus(primary)}"
-            f"&product_image_secondary_1={quote_plus(s1)}"
-            f"&product_image_secondary_2={quote_plus(s2)}"
             f"&design={quote_plus(design)}"
             f"&w=1080&h=1920"
             f"&fv={quote_plus(fv)}"
@@ -833,11 +831,9 @@ async def feed_pinterest(request: Request):
         if img_g is not None:
             img_g.text = render_url
 
+        # Pinterest için additional_image_link'leri tamamen kaldır
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
-        for _ in range(2):
-            extra_p = ET.SubElement(item, "additional_image_link")
-            extra_p.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
