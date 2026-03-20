@@ -347,49 +347,6 @@ def _guess_mime(url: str, content_type: str | None) -> str:
         return "image/svg+xml"
     return "image/jpeg"
 
-async def is_fetchable_image(url: str) -> bool:
-    if not url:
-        return False
-
-    cleaned_url = _clean_url(url)
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-    }
-
-    last_error = None
-
-    for attempt in range(1, IMAGE_FETCH_RETRIES + 1):
-        try:
-            async with httpx.AsyncClient(follow_redirects=True, timeout=IMAGE_FETCH_TIMEOUT, http2=True) as client:
-                r = await client.get(cleaned_url, headers=headers)
-                r.raise_for_status()
-
-                ct = (r.headers.get("content-type") or "").lower()
-                if "image/" not in ct:
-                    last_error = f"not-image content-type={ct}"
-                    await asyncio.sleep(0.2 * attempt)
-                    continue
-
-                if len(r.content) < 2048:
-                    last_error = f"too-small size={len(r.content)}"
-                    await asyncio.sleep(0.2 * attempt)
-                    continue
-
-                return True
-
-        except Exception as e:
-            last_error = repr(e)
-            if attempt < IMAGE_FETCH_RETRIES:
-                await asyncio.sleep(0.35 * attempt)
-
-    print(f"IMAGE_CHECK_FAILED: url={cleaned_url} error={last_error}")
-    return False
-
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
         return _transparent_data_uri()
@@ -697,7 +654,6 @@ async def render_endpoint(
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return Response(content=png, media_type="image/png", headers=headers)
 
-
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_proxy(request: Request):
     base_url = get_base_url(request)
@@ -741,24 +697,20 @@ async def feed_proxy(request: Request):
             f"&v={sig}"
         )
 
-        primary_ok = await is_fetchable_image(primary)
-        final_image_url = render_url if primary_ok else _clean_url(primary)
-
         img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img.text = final_image_url
+        img.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = final_image_url
+            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-
 
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
@@ -813,24 +765,21 @@ async def feed_tiktok(request: Request):
             f"&v={sig}"
         )
 
-        primary_ok = await is_fetchable_image(primary)
-        final_image_url = render_url if primary_ok else _clean_url(primary)
-
         img_plain = item.find("image_link")
         if img_plain is None:
             img_plain = ET.SubElement(item, "image_link")
-        img_plain.text = final_image_url
+        img_plain.text = render_url
 
         ns = {"g": "http://base.google.com/ns/1.0"}
         img_g = item.find("g:image_link", ns)
         if img_g is not None:
-            img_g.text = final_image_url
+            img_g.text = render_url
 
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
         for _ in range(2):
             extra_p = ET.SubElement(item, "additional_image_link")
-            extra_p.text = final_image_url
+            extra_p.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
@@ -838,7 +787,6 @@ async def feed_tiktok(request: Request):
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-
 
 @app.get("/feed_pinterest.xml", response_class=PlainTextResponse)
 async def feed_pinterest(request: Request):
@@ -891,18 +839,15 @@ async def feed_pinterest(request: Request):
             f"&v={sig}"
         )
 
-        primary_ok = await is_fetchable_image(primary)
-        final_image_url = render_url if primary_ok else _clean_url(primary)
-
         img_plain = item.find("image_link")
         if img_plain is None:
             img_plain = ET.SubElement(item, "image_link")
-        img_plain.text = final_image_url
+        img_plain.text = render_url
 
         ns = {"g": "http://base.google.com/ns/1.0"}
         img_g = item.find("g:image_link", ns)
         if img_g is not None:
-            img_g.text = final_image_url
+            img_g.text = render_url
 
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
@@ -912,7 +857,6 @@ async def feed_pinterest(request: Request):
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-
 
 @app.get("/feed_womensday.xml", response_class=PlainTextResponse)
 async def feed_womensday(request: Request):
@@ -952,24 +896,20 @@ async def feed_womensday(request: Request):
             f"&v={sig}"
         )
 
-        primary_ok = await is_fetchable_image(primary)
-        final_image_url = render_url if primary_ok else _clean_url(primary)
-
         img = item.find("g:image_link", ns)
         if img is None:
             img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img.text = final_image_url
+        img.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
         for _ in range(2):
             extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = final_image_url
+            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-
 
 @app.get("/probe")
 async def probe(url: str = Query(...)):
