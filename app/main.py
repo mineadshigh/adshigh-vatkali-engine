@@ -22,15 +22,13 @@ FEED_URL_PINTEREST = os.getenv("FEED_URL_PINTEREST", "https://www.vatkali.com/Xm
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
-IMAGE_FETCH_TIMEOUT = float(os.getenv("IMAGE_FETCH_TIMEOUT", "30"))
-IMAGE_FETCH_RETRIES = int(os.getenv("IMAGE_FETCH_RETRIES", "3"))
-
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+# ✅ META SEASON "DEKUPE" mapping (g:id -> additional kaçıncı)
 META_SEASON_DEKUPE_MAP = {
     "VTK26-101-17-2": 2,
     "VTK25-119-72-27": 2,
@@ -233,7 +231,7 @@ def ensure_child_plain(item: ET.Element, tag: str) -> ET.Element:
     return el
 
 # -------------------------
-# SEASON RULE
+# SEASON RULE (ONLY "İlkbahar-Yaz 26")
 # -------------------------
 
 _HYPHENS = {"\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212", "\u00ad"}
@@ -306,6 +304,23 @@ def choose_images_any(item: ET.Element):
 
     return primary, s1, s2
 
+def get_meta_additionals(item: ET.Element) -> list[str]:
+    ns = {"g": "http://base.google.com/ns/1.0"}
+    out = []
+    for e in item.findall("g:additional_image_link", namespaces=ns):
+        if e is not None and (e.text or "").strip():
+            out.append((e.text or "").strip())
+    return out
+
+def pick_additional_n(item: ET.Element, n_1based: int) -> str:
+    if n_1based <= 0:
+        return ""
+    adds = get_meta_additionals(item)
+    idx = n_1based - 1
+    if 0 <= idx < len(adds):
+        return adds[idx]
+    return ""
+
 # -------------------------
 # HTTP -> Data URI
 # -------------------------
@@ -313,9 +328,6 @@ def choose_images_any(item: ET.Element):
 _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
-
-def _transparent_data_uri() -> str:
-    return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -331,57 +343,35 @@ def _guess_mime(url: str, content_type: str | None) -> str:
 
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
-        return _transparent_data_uri()
+        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
     if url.startswith("data:"):
         return url
-
-    cleaned_url = _clean_url(url)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
     }
 
-    last_error = None
+    try:
+        r = await client.get(url, headers=headers, timeout=20.0, follow_redirects=True)
+        r.raise_for_status()
 
-    for attempt in range(1, IMAGE_FETCH_RETRIES + 1):
-        try:
-            r = await client.get(
-                cleaned_url,
-                headers=headers,
-                timeout=IMAGE_FETCH_TIMEOUT,
-                follow_redirects=True,
-            )
-            r.raise_for_status()
+        ct = (r.headers.get("content-type") or "").lower()
+        if "image/" not in ct:
+            return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-            ct = (r.headers.get("content-type") or "").lower()
-            if "image/" not in ct:
-                last_error = f"not-image content-type={ct}"
-                await asyncio.sleep(0.2 * attempt)
-                continue
+        if len(r.content) > 6_000_000:
+            return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-            if len(r.content) > 8_000_000:
-                print(f"IMAGE_TOO_LARGE: {cleaned_url} size={len(r.content)}")
-                return _transparent_data_uri()
-
-            mime = _guess_mime(cleaned_url, r.headers.get("content-type"))
-            b64 = base64.b64encode(r.content).decode("ascii")
-            return f"data:{mime};base64,{b64}"
-
-        except Exception as e:
-            last_error = repr(e)
-            if attempt < IMAGE_FETCH_RETRIES:
-                await asyncio.sleep(0.35 * attempt)
-
-    print(f"IMAGE_FETCH_FAILED: url={cleaned_url} error={last_error}")
-    return _transparent_data_uri()
+        mime = _guess_mime(url, r.headers.get("content-type"))
+        b64 = base64.b64encode(r.content).decode("ascii")
+        return f"data:{mime};base64,{b64}"
+    except Exception:
+        return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
 # -------------------------
-# Playwright
+# Playwright (strong recovery)
 # -------------------------
 
 _pw = None
@@ -530,11 +520,11 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    single_image_designs = {"meta_bayram", "tiktok_bayram", "pinterest_bayram", "meta_womensday"}
-
+    # meta_season_dual, meta_womensday, meta_bayram, tiktok_bayram, pinterest_bayram title-case istemiyor
     if design not in {"meta_season_dual", "meta_womensday", "meta_bayram", "tiktok_bayram", "pinterest_bayram"}:
         title = tr_title_case(title)
 
+    # fiyat formatı
     if design.startswith("tiktok_") or design.startswith("pinterest_"):
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
@@ -548,6 +538,7 @@ async def render_endpoint(
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
 
+    # template seçimi
     if design == "meta_womensday":
         template_path = os.path.join(BASE_DIR, "template_womensday.html")
         css_path = os.path.join(BASE_DIR, "styles_womensday.css")
@@ -589,27 +580,20 @@ async def render_endpoint(
         else:
             logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    async with httpx.AsyncClient(follow_redirects=True, http2=True) as client:
-        if design in single_image_designs:
-            product_image_primary = await to_data_uri(product_image_primary, client)
-            product_image_secondary_1 = _transparent_data_uri()
-            product_image_secondary_2 = _transparent_data_uri()
-            product_image_cutout = _transparent_data_uri()
-            logo_url = await to_data_uri(logo_url, client)
-        else:
-            (
-                product_image_primary,
-                product_image_secondary_1,
-                product_image_secondary_2,
-                product_image_cutout,
-                logo_url,
-            ) = await asyncio.gather(
-                to_data_uri(product_image_primary, client),
-                to_data_uri(product_image_secondary_1, client),
-                to_data_uri(product_image_secondary_2, client),
-                to_data_uri(product_image_cutout, client),
-                to_data_uri(logo_url, client),
-            )
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        (
+            product_image_primary,
+            product_image_secondary_1,
+            product_image_secondary_2,
+            product_image_cutout,
+            logo_url,
+        ) = await asyncio.gather(
+            to_data_uri(product_image_primary, client),
+            to_data_uri(product_image_secondary_1, client),
+            to_data_uri(product_image_secondary_2, client),
+            to_data_uri(product_image_cutout, client),
+            to_data_uri(logo_url, client),
+        )
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary)
@@ -655,13 +639,18 @@ async def feed_proxy(request: Request):
 
     for item in items:
         title = tr_title_case((item.findtext("title") or "").strip())
+
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+
         primary, s1, s2 = choose_images_any(item)
 
         custom_label_1 = find_text_by_localname(item, "custom_label_1")
         theme = "season" if is_season_label(custom_label_1) else "classic"
 
+        gid = (item.findtext("g:id", default="", namespaces=ns) or "").strip()
+
+        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
         design = "meta_bayram"
         cutout_url = ""
 
@@ -673,6 +662,9 @@ async def feed_proxy(request: Request):
             f"&price={quote_plus(price)}"
             f"&sale_price={quote_plus(sale)}"
             f"&product_image_primary={quote_plus(primary)}"
+            f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&product_image_secondary_2={quote_plus(s2)}"
+            f"&product_image_cutout={quote_plus(cutout_url)}"
             f"&theme={quote_plus(theme)}"
             f"&design={quote_plus(design)}"
             f"&fv={quote_plus(fv)}"
@@ -686,6 +678,9 @@ async def feed_proxy(request: Request):
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
+        for _ in range(2):
+            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
@@ -717,6 +712,8 @@ async def feed_tiktok(request: Request):
             sale_raw = price_raw
 
         primary, s1, s2 = choose_images_any(item)
+
+        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
         design = "tiktok_bayram"
 
         sku = (
@@ -738,6 +735,8 @@ async def feed_tiktok(request: Request):
             f"&price={quote_plus(price_raw)}"
             f"&sale_price={quote_plus(sale_raw)}"
             f"&product_image_primary={quote_plus(primary)}"
+            f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&product_image_secondary_2={quote_plus(s2)}"
             f"&design={quote_plus(design)}"
             f"&w=1080&h=1920"
             f"&fv={quote_plus(fv)}"
@@ -756,6 +755,9 @@ async def feed_tiktok(request: Request):
 
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
+        for _ in range(2):
+            extra_p = ET.SubElement(item, "additional_image_link")
+            extra_p.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
@@ -799,6 +801,7 @@ async def feed_pinterest(request: Request):
             sale_raw = price_raw
 
         primary, s1, s2 = choose_images_any(item)
+
         design = "pinterest_bayram"
 
         sig = build_sig(title, price_raw, sale_raw, primary, s1, s2, fv, design, "1080", "1920")
@@ -825,6 +828,7 @@ async def feed_pinterest(request: Request):
         if img_g is not None:
             img_g.text = render_url
 
+        # Pinterest için additional_image_link'leri tamamen kaldır
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
 
@@ -858,6 +862,7 @@ async def feed_womensday(request: Request):
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
 
         primary, s1, s2 = choose_images_any(item)
+
         design = "meta_womensday"
 
         sig = build_sig(title, price, sale, primary, fv, design)
@@ -880,6 +885,9 @@ async def feed_womensday(request: Request):
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
+        for _ in range(2):
+            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
+            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
