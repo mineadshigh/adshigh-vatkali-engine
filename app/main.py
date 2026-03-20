@@ -26,6 +26,9 @@ app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
+CACHE_DIR = os.path.join(BASE_DIR, "render_cache")
+os.makedirs(CACHE_DIR, exist_ok=True)
+
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # ✅ META SEASON "DEKUPE" mapping (g:id -> additional kaçıncı)
@@ -214,6 +217,38 @@ def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
 def build_sig(*parts: str) -> str:
     raw = "|".join([p or "" for p in parts]).encode("utf-8")
     return hashlib.md5(raw).hexdigest()[:12]
+
+def build_render_cache_key(
+    title: str,
+    price: str,
+    sale_price: str,
+    product_image_primary: str,
+    product_image_secondary_1: str,
+    product_image_secondary_2: str,
+    product_image_cutout: str,
+    logo_url: str,
+    theme: str,
+    design: str,
+    w: int,
+    h: int,
+) -> str:
+    return build_sig(
+        title,
+        price,
+        sale_price,
+        product_image_primary,
+        product_image_secondary_1,
+        product_image_secondary_2,
+        product_image_cutout,
+        logo_url,
+        theme,
+        design,
+        str(w),
+        str(h),
+    )
+
+def get_cache_file_path(cache_key: str) -> str:
+    return os.path.join(CACHE_DIR, f"{cache_key}.png")
 
 # -------------------------
 # XML utilities
@@ -580,6 +615,28 @@ async def render_endpoint(
         else:
             logo_url = f"{base_url}/static/vatkalilogo.svg"
 
+    cache_key = build_render_cache_key(
+        title=title,
+        price=price,
+        sale_price=sale_price,
+        product_image_primary=product_image_primary,
+        product_image_secondary_1=product_image_secondary_1,
+        product_image_secondary_2=product_image_secondary_2,
+        product_image_cutout=product_image_cutout,
+        logo_url=logo_url,
+        theme=theme,
+        design=design,
+        w=w,
+        h=h,
+    )
+    cache_file = get_cache_file_path(cache_key)
+
+    if os.path.exists(cache_file):
+        with open(cache_file, "rb") as f:
+            png = f.read()
+        headers = {"Cache-Control": "public, max-age=31536000, immutable"}
+        return Response(content=png, media_type="image/png", headers=headers)
+
     async with httpx.AsyncClient(follow_redirects=True) as client:
         (
             product_image_primary,
@@ -613,11 +670,13 @@ async def render_endpoint(
 
     try:
         png = await render_png(html, width=w, height=h)
+        with open(cache_file, "wb") as f:
+            f.write(png)
     except Exception as e:
         print("RENDER_FAILED:", repr(e))
         png = _TRANSPARENT_PNG
 
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    headers = {"Cache-Control": "public, max-age=31536000, immutable"}
     return Response(content=png, media_type="image/png", headers=headers)
 
 @app.get("/feed.xml", response_class=PlainTextResponse)
