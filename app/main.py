@@ -19,7 +19,7 @@ FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FA
 FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://www.vatkali.com/feed/tiktokfeed.xml")
 FEED_URL_PINTEREST = os.getenv("FEED_URL_PINTEREST", "https://www.vatkali.com/Xml/pinterestfeed.asp")
 
-RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
+RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "2"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
 app = FastAPI()
