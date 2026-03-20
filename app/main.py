@@ -686,9 +686,6 @@ async def feed_proxy(request: Request):
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
-        for _ in range(2):
-            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
@@ -759,9 +756,6 @@ async def feed_tiktok(request: Request):
 
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
-        for _ in range(2):
-            extra_p = ET.SubElement(item, "additional_image_link")
-            extra_p.text = render_url
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
@@ -833,6 +827,7 @@ async def feed_pinterest(request: Request):
 
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
+
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
@@ -885,9 +880,6 @@ async def feed_womensday(request: Request):
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
-        for _ in range(2):
-            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = render_url
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
