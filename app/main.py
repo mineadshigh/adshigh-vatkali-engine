@@ -31,7 +31,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-# ✅ META SEASON "DEKUPE" mapping (g:id -> additional kaçıncı)
 META_SEASON_DEKUPE_MAP = {
     "VTK26-101-17-2": 2,
     "VTK25-119-72-27": 2,
@@ -234,7 +233,7 @@ def ensure_child_plain(item: ET.Element, tag: str) -> ET.Element:
     return el
 
 # -------------------------
-# SEASON RULE (ONLY "İlkbahar-Yaz 26")
+# SEASON RULE
 # -------------------------
 
 _HYPHENS = {"\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212", "\u00ad"}
@@ -306,23 +305,6 @@ def choose_images_any(item: ET.Element):
         s2 = s1
 
     return primary, s1, s2
-
-def get_meta_additionals(item: ET.Element) -> list[str]:
-    ns = {"g": "http://base.google.com/ns/1.0"}
-    out = []
-    for e in item.findall("g:additional_image_link", namespaces=ns):
-        if e is not None and (e.text or "").strip():
-            out.append((e.text or "").strip())
-    return out
-
-def pick_additional_n(item: ET.Element, n_1based: int) -> str:
-    if n_1based <= 0:
-        return ""
-    adds = get_meta_additionals(item)
-    idx = n_1based - 1
-    if 0 <= idx < len(adds):
-        return adds[idx]
-    return ""
 
 # -------------------------
 # HTTP -> Data URI
@@ -399,7 +381,7 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     return _transparent_data_uri()
 
 # -------------------------
-# Playwright (strong recovery)
+# Playwright
 # -------------------------
 
 _pw = None
@@ -508,10 +490,10 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_timeout(150)
+                await page.wait_for_timeout(120)
 
                 frame = page.locator(".frame")
-                await frame.wait_for(state="visible", timeout=7000)
+                await frame.wait_for(state="visible", timeout=5000)
 
                 return await frame.screenshot(type="png")
             finally:
