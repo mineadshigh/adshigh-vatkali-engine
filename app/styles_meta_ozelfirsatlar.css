@@ -95,7 +95,7 @@ html, body {
 .campaign-group {
   position: absolute;
   left: 14px;
-  top: 630px;
+  top: 628px;
   width: 320px;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -104,9 +104,9 @@ html, body {
 
 .campaign-line-1 {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 300;
-  line-height: 1.02;
+  line-height: 1.01;
   white-space: nowrap;
 }
 
@@ -115,22 +115,22 @@ html, body {
 }
 
 .campaign-line-2 {
-  margin: 1px 0 0 0;
-  font-size: 20px;
+  margin: 0;
+  font-size: 22px;
   font-weight: 300;
-  line-height: 1.02;
+  line-height: 1.01;
 }
 
 /* %20 */
 .discount-percent {
   position: absolute;
   left: 14px;
-  top: 694px;
+  top: 686px;
   width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 78px;
+  font-size: 76px;
   font-weight: 700;
   line-height: 0.88;
   text-align: left;
@@ -140,14 +140,14 @@ html, body {
 .discount-label {
   position: absolute;
   left: 14px;
-  top: 766px;
+  top: 758px;
   width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 40px;
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 0.92;
   letter-spacing: 0.2px;
   text-align: left;
 }
@@ -156,7 +156,7 @@ html, body {
 .title {
   position: absolute;
   left: 14px;
-  top: 842px;
+  top: 840px;
   width: 320px;
   margin: 0;
   color: #000;
@@ -178,12 +178,12 @@ html, body {
 .old-price {
   position: absolute;
   left: 14px;
-  top: 910px;
+  top: 906px;
   width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
   line-height: 1;
   text-decoration: line-through;
@@ -195,12 +195,12 @@ html, body {
 .new-price {
   position: absolute;
   left: 14px;
-  top: 944px;
+  top: 940px;
   width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 700;
   line-height: 1;
   text-align: left;
