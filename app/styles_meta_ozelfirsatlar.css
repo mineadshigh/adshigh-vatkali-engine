@@ -56,8 +56,8 @@ html, body {
 /* LOGO */
 .logo-wrap {
   position: absolute;
-  left: 54px;
-  top: 76px;
+  left: 6px;
+  top: 23px;
   width: 249px;
   height: 31px;
   display: flex;
@@ -92,31 +92,29 @@ html, body {
   display: block;
 }
 
-/* KAMPANYA METNİ */
+/* KAMPANYA */
 .campaign-group {
   position: absolute;
   left: 0;
   top: 654px;
   width: 343px;
-  text-align: left;
-  color: #000000;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
+  text-align: left;
 }
 
 .campaign-line-1 {
+  margin: 0;
   font-size: 27px;
   font-weight: 500;
   line-height: 1.02;
-  letter-spacing: 0;
-  margin: 0;
 }
 
 .campaign-line-2 {
+  margin: 0;
   font-size: 27px;
   font-weight: 300;
   line-height: 1.02;
-  letter-spacing: 0;
-  margin: 0;
 }
 
 /* %20 */
@@ -125,13 +123,13 @@ html, body {
   left: 0;
   top: 715px;
   width: 138px;
+  margin: 0;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 80px;
   font-weight: 700;
   line-height: 0.88;
-  color: #000000;
   text-align: left;
-  margin: 0;
 }
 
 /* İNDİRİM */
@@ -140,13 +138,13 @@ html, body {
   left: 4px;
   top: 777px;
   width: 134px;
+  margin: 0;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 38px;
   font-weight: 700;
   line-height: 1;
-  color: #000000;
   text-align: left;
-  margin: 0;
 }
 
 /* ÜRÜN ADI */
@@ -155,19 +153,18 @@ html, body {
   left: 9px;
   top: 874px;
   width: 298px;
+  margin: 0;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 25px;
   font-weight: 400;
   line-height: 1.08;
-  color: #000000;
   text-align: left;
-  margin: 0;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
   min-height: 54px;
   max-height: 54px;
 }
@@ -178,14 +175,14 @@ html, body {
   left: 6px;
   top: 909px;
   width: 97px;
+  margin: 0;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 27px;
   font-weight: 400;
   line-height: 1;
-  color: #000000;
   text-decoration: line-through;
   text-align: left;
-  margin: 0;
   white-space: nowrap;
 }
 
@@ -195,13 +192,13 @@ html, body {
   left: 3px;
   top: 937px;
   width: 134px;
+  margin: 0;
+  color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 37px;
   font-weight: 700;
   line-height: 1;
-  color: #000000;
   text-align: left;
-  margin: 0;
   white-space: nowrap;
 }
 
