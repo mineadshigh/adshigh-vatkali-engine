@@ -150,6 +150,7 @@ def build_render_cache_key(
     product_image_primary: str,
     product_image_secondary_1: str,
     logo_url: str,
+    design: str,
     w: int,
     h: int,
 ) -> str:
@@ -160,6 +161,7 @@ def build_render_cache_key(
         product_image_primary,
         product_image_secondary_1,
         logo_url,
+        design,
         str(w),
         str(h),
     )
@@ -451,6 +453,7 @@ async def render_endpoint(
         product_image_primary=product_image_primary,
         product_image_secondary_1=product_image_secondary_1,
         logo_url=logo_url,
+        design=design,        
         w=w,
         h=h,
     )
