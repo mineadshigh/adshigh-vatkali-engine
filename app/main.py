@@ -431,8 +431,6 @@ async def render_endpoint(
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    discount_hidden = ""
-    discount_percent = "%20"
 
     template_path = os.path.join(BASE_DIR, "template_meta_ozelfirsatlar.html")
     css_path = os.path.join(BASE_DIR, "styles_meta_ozelfirsatlar.css")
@@ -485,8 +483,6 @@ async def render_endpoint(
     html = html.replace("{{old_hidden}}", old_hidden)
     html = html.replace("{{new_hidden}}", new_hidden)
     html = html.replace("{{single_hidden}}", single_hidden)
-    html = html.replace("{{discount_hidden}}", discount_hidden)
-    html = html.replace("{{discount_percent}}", discount_percent)
 
     try:
         png = await render_png(html, width=w, height=h)
