@@ -13,25 +13,21 @@ html, body {
 }
 
 .frame {
+  position: relative;
   width: 1080px;
   height: 1080px;
   background: #f1f1f1;
-  position: relative;
+  overflow: hidden;
 }
 
-/* SOL ANA GÖRSEL */
-.left-col {
-  position: absolute;
-  left: 46px;
-  top: 43px;
-  width: 610px;
-  height: 906px;
-}
-
+/* SOL ANA GÖRSEL ÇERÇEVE */
 .main-image-frame {
-  width: 610px;
-  height: 906px;
-  border: 8px solid #000;
+  position: absolute;
+  left: 31px;
+  top: 76px;
+  width: 605px;
+  height: 897px;
+  border: 3px solid #000;
   background: #000;
   overflow: hidden;
 }
@@ -44,150 +40,133 @@ html, body {
 }
 
 /* LOGO */
-.logo-wrap {
-  position: absolute;
-  left: 760px;
-  top: 28px;
-  width: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .logo {
-  width: 245px;
-  max-height: 52px;
+  position: absolute;
+  left: 758px;
+  top: 76px;
+  width: 249px;
+  height: auto;
   object-fit: contain;
   display: block;
 }
 
-/* SAĞ GÖRSEL */
-.secondary-image-wrap {
-  position: absolute;
-  left: 729px;
-  top: 118px;
-  width: 313px;
-  height: 471px;
-  overflow: hidden;
-  background: transparent;
-}
-
+/* SAĞ KÜÇÜK GÖRSEL */
 .secondary-image {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  left: 719px;
+  top: 140px;
+  width: 313px;
+  height: 469px;
   object-fit: cover;
   display: block;
 }
 
-/* KAMPANYA METNİ */
-.campaign-group {
-  position: absolute;
-  left: 728px;
-  top: 632px;
-  width: 314px;
-  text-align: left;
-}
-
+/* SABİT KAMPANYA METİNLERİ */
 .campaign-line-1 {
+  position: absolute;
+  left: 704px;
+  top: 654px;
+  width: 343px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 27px;
   font-weight: 500;
   line-height: 1.02;
   color: #000;
-  margin: 0;
+  text-align: left;
 }
 
 .campaign-line-2 {
+  position: absolute;
+  left: 706px;
+  top: 688px;
+  width: 101px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 27px;
   font-weight: 300;
   line-height: 1.02;
   color: #000;
-  margin: 0;
-  margin-top: 2px;
+  text-align: left;
 }
 
-/* %20 */
 .discount-percent {
   position: absolute;
-  left: 728px;
-  top: 724px;
-  width: 314px;
+  left: 705px;
+  top: 715px;
+  width: 138px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 78px;
+  font-size: 80px;
   font-weight: 700;
-  line-height: 0.86;
+  line-height: 0.9;
   color: #000;
   text-align: left;
 }
 
-/* İNDİRİM */
 .discount-label {
   position: absolute;
-  left: 728px;
-  top: 804px;
-  width: 314px;
+  left: 709px;
+  top: 777px;
+  width: 134px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 38px;
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 1;
   color: #000;
   text-align: left;
 }
 
-/* ÜRÜN ADI */
+/* DİNAMİK ÜRÜN ALANI */
 .title {
   position: absolute;
-  left: 728px;
-  top: 862px;
-  width: 314px;
-  text-align: left;
+  left: 713px;
+  top: 874px;
+  width: 298px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 25px;
   font-weight: 400;
   line-height: 1.08;
   color: #000;
-  margin: 0;
-  padding: 0;
+  text-align: left;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  min-height: 54px;
   max-height: 54px;
 }
 
-/* ESKİ FİYAT */
 .old-price {
   position: absolute;
-  left: 728px;
-  top: 942px;
-  width: 314px;
-  text-align: left;
+  left: 710px;
+  top: 909px;
+  width: 97px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 27px;
   font-weight: 400;
   line-height: 1;
   color: #000;
   text-decoration: line-through;
-  margin: 0;
+  text-align: left;
 }
 
-/* YENİ FİYAT */
 .new-price {
   position: absolute;
-  left: 728px;
-  top: 975px;
-  width: 314px;
-  text-align: left;
+  left: 711px;
+  top: 937px;
+  width: 134px;
+  margin: 0;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 37px;
   font-weight: 700;
   line-height: 1;
   color: #000;
-  margin: 0;
+  text-align: left;
 }
 
 .hidden {
