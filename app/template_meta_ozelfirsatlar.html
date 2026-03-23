@@ -8,34 +8,21 @@
 </head>
 <body>
   <div class="frame">
-    <div class="left-col">
-      <div class="main-image-frame">
-        <img src="{{product_image_primary}}" class="main-image" />
-      </div>
+    <div class="main-image-frame">
+      <img src="{{product_image_primary}}" class="main-image" />
     </div>
 
-    <div class="right-col">
-      <div class="logo-wrap">
-        <img src="{{logo_url}}" class="logo" />
-      </div>
+    <img src="{{logo_url}}" class="logo" />
+    <img src="{{product_image_secondary_1}}" class="secondary-image" />
 
-      <div class="secondary-image-wrap">
-        <img src="{{product_image_secondary_1}}" class="secondary-image" />
-      </div>
+    <div class="campaign-line-1">%60’A VARAN İNDİRİMLERE EK</div>
+    <div class="campaign-line-2">SEPETTE</div>
+    <div class="discount-percent">%20</div>
+    <div class="discount-label">İNDİRİM</div>
 
-      <div class="campaign-group">
-        <div class="campaign-line-1">%60’A VARAN İNDİRİMLERE EK</div>
-        <div class="campaign-line-2">SEPETTE</div>
-      </div>
-
-      <div class="discount-percent">{{discount_percent}}</div>
-      <div class="discount-label">İNDİRİM</div>
-
-      <div class="title">{{title}}</div>
-
-      <div class="old-price {{old_hidden}}">{{price}}</div>
-      <div class="new-price">{{sale_price}}</div>
-    </div>
+    <div class="title">{{title}}</div>
+    <div class="old-price {{old_hidden}}">{{price}}</div>
+    <div class="new-price">{{sale_price}}</div>
   </div>
 </body>
 </html>
