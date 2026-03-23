@@ -49,7 +49,7 @@ html, body {
   position: absolute;
   left: 704px;
   top: 0;
-  width: 313px;
+  width: 340px;
   height: 1080px;
 }
 
@@ -58,7 +58,7 @@ html, body {
   position: absolute;
   left: 0;
   top: 76px;
-  width: 313px;
+  width: 340px;
   height: 31px;
   display: flex;
   align-items: flex-start;
@@ -76,10 +76,10 @@ html, body {
 /* 2. GÖRSEL */
 .secondary-image-wrap {
   position: absolute;
-  left: 0;
+  left: 14px;
   top: 140px;
-  width: 313px;
-  height: 469px;
+  width: 285px;
+  height: 445px;
   overflow: hidden;
   background: transparent;
 }
@@ -94,9 +94,9 @@ html, body {
 /* KAMPANYA YAZILARI */
 .campaign-group {
   position: absolute;
-  left: 0;
-  top: 626px;
-  width: 313px;
+  left: 14px;
+  top: 630px;
+  width: 320px;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   text-align: left;
@@ -104,19 +104,19 @@ html, body {
 
 .campaign-line-1 {
   margin: 0;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 300;
   line-height: 1.02;
   white-space: nowrap;
 }
 
 .campaign-bold {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .campaign-line-2 {
-  margin: 2px 0 0 0;
-  font-size: 21px;
+  margin: 1px 0 0 0;
+  font-size: 20px;
   font-weight: 300;
   line-height: 1.02;
 }
@@ -124,39 +124,40 @@ html, body {
 /* %20 */
 .discount-percent {
   position: absolute;
-  left: 0;
-  top: 700px;
-  width: 313px;
+  left: 14px;
+  top: 694px;
+  width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 72px;
+  font-size: 78px;
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 0.88;
   text-align: left;
 }
 
 /* İNDİRİM */
 .discount-label {
   position: absolute;
-  left: 0;
-  top: 770px;
-  width: 313px;
+  left: 14px;
+  top: 766px;
+  width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 700;
-  line-height: 1;
+  line-height: 0.95;
+  letter-spacing: 0.2px;
   text-align: left;
 }
 
 /* ÜRÜN ADI */
 .title {
   position: absolute;
-  left: 0;
+  left: 14px;
   top: 842px;
-  width: 313px;
+  width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -176,9 +177,9 @@ html, body {
 /* ESKİ FİYAT */
 .old-price {
   position: absolute;
-  left: 0;
-  top: 908px;
-  width: 313px;
+  left: 14px;
+  top: 910px;
+  width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -193,13 +194,13 @@ html, body {
 /* YENİ FİYAT */
 .new-price {
   position: absolute;
-  left: 0;
-  top: 942px;
-  width: 313px;
+  left: 14px;
+  top: 944px;
+  width: 320px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 700;
   line-height: 1;
   text-align: left;
