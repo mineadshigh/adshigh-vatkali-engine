@@ -555,11 +555,16 @@ async def render_endpoint(
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # meta_season_dual, meta_womensday, meta_bayram, tiktok_bayram, pinterest_bayram title-case istemiyor
-    if design not in {"meta_season_dual", "meta_womensday", "meta_bayram", "tiktok_bayram", "pinterest_bayram"}:
+    if design not in {
+        "meta_season_dual",
+        "meta_womensday",
+        "meta_bayram",
+        "meta_ozelfirsatlar",
+        "tiktok_bayram",
+        "pinterest_bayram",
+    }:
         title = tr_title_case(title)
 
-    # fiyat formatı
     if design.startswith("tiktok_") or design.startswith("pinterest_"):
         price = format_tl_compact(price)
         sale_price = format_tl_compact(sale_price)
@@ -572,14 +577,17 @@ async def render_endpoint(
     pct = calc_discount_percent(price, sale_price)
     discount_hidden = "hidden" if pct is None else ""
     discount_text = f"%{pct} İNDİRİM" if pct is not None else ""
+    discount_percent = f"%{pct}" if pct is not None else ""
 
-    # template seçimi
     if design == "meta_womensday":
         template_path = os.path.join(BASE_DIR, "template_womensday.html")
         css_path = os.path.join(BASE_DIR, "styles_womensday.css")
     elif design == "meta_bayram":
         template_path = os.path.join(BASE_DIR, "template_bayram.html")
         css_path = os.path.join(BASE_DIR, "styles_bayram.css")
+    elif design == "meta_ozelfirsatlar":
+        template_path = os.path.join(BASE_DIR, "template_meta_ozelfirsatlar.html")
+        css_path = os.path.join(BASE_DIR, "styles_meta_ozelfirsatlar.css")
     elif design == "meta_season_dual":
         template_path = os.path.join(BASE_DIR, "template_season_dual.html")
         css_path = os.path.join(BASE_DIR, "styles_season_dual.css")
@@ -667,6 +675,7 @@ async def render_endpoint(
     html = html.replace("{{single_hidden}}", single_hidden)
     html = html.replace("{{discount_text}}", discount_text)
     html = html.replace("{{discount_hidden}}", discount_hidden)
+    html = html.replace("{{discount_percent}}", discount_percent)
 
     try:
         png = await render_png(html, width=w, height=h)
@@ -709,8 +718,7 @@ async def feed_proxy(request: Request):
 
         gid = (item.findtext("g:id", default="", namespaces=ns) or "").strip()
 
-        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
-        design = "meta_bayram"
+        design = "meta_ozelfirsatlar"
         cutout_url = ""
 
         sig = build_sig(title, price, sale, primary, s1, s2, cutout_url, fv, theme, design)
@@ -772,7 +780,6 @@ async def feed_tiktok(request: Request):
 
         primary, s1, s2 = choose_images_any(item)
 
-        # ✅ BAYRAM KAMPANYASI BOYUNCA TÜM ÜRÜNLER TEK TASARIM
         design = "tiktok_bayram"
 
         sku = (
@@ -887,7 +894,6 @@ async def feed_pinterest(request: Request):
         if img_g is not None:
             img_g.text = render_url
 
-        # Pinterest için additional_image_link'leri tamamen kaldır
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
 
