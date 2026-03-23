@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    {{CSS}}
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="left-col">
+      <div class="main-image-frame">
+        <img src="{{product_image_primary}}" class="main-image" />
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="logo-wrap">
+        <img src="{{logo_url}}" class="logo" />
+      </div>
+
+      <div class="secondary-image-wrap">
+        <img src="{{product_image_secondary_1}}" class="secondary-image" />
+      </div>
+
+      <div class="campaign-text">%60’A VARAN İNDİRİMLERE EK</div>
+      <div class="campaign-text campaign-text-2">SEPETTE</div>
+
+      <div class="discount-percent">{{discount_percent}}</div>
+      <div class="discount-label">İNDİRİM</div>
+
+      <div class="title">{{title}}</div>
+
+      <div class="old-price {{old_hidden}}">{{price}}</div>
+      <div class="new-price">{{sale_price}}</div>
+    </div>
+  </div>
+</body>
+</html>
