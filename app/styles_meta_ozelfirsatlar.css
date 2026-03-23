@@ -22,19 +22,19 @@ html, body {
 
 /* SOL */
 .left-col {
-  width: 58%;
+  width: 64%;
   height: 100%;
-  padding-left: 48px;
-  padding-top: 76px;
+  padding-left: 46px;
+  padding-top: 43px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
 .main-image-frame {
-  width: 605px;
-  height: 897px;
-  border: 6px solid #000;
+  width: 610px;
+  height: 906px;
+  border: 9px solid #000;
   background: #000;
   overflow: hidden;
 }
@@ -48,32 +48,32 @@ html, body {
 
 /* SAĞ */
 .right-col {
-  width: 42%;
+  width: 36%;
   height: 100%;
   position: relative;
-  padding-top: 23px;
-  padding-left: 18px;
-  padding-right: 36px;
+  padding-top: 43px;
+  padding-left: 10px;
+  padding-right: 28px;
 }
 
 .logo-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 26px;
+  margin-bottom: 34px;
 }
 
 .logo {
-  width: 300px;
-  max-height: 70px;
+  width: 250px;
+  max-height: 52px;
   object-fit: contain;
   display: block;
 }
 
 .secondary-image-wrap {
-  width: 313px;
+  width: 312px;
   height: 469px;
-  margin: 0 auto 22px auto;
+  margin: 0 auto 42px auto;
   overflow: hidden;
   background: transparent;
 }
@@ -85,19 +85,27 @@ html, body {
   display: block;
 }
 
-.campaign-text {
+.campaign-group {
   width: 100%;
   text-align: center;
+  margin-bottom: 8px;
+}
+
+.campaign-line-1 {
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 27px;
-  font-weight: 400;
-  line-height: 1.05;
+  font-weight: 500;
+  line-height: 1.02;
   color: #000;
 }
 
-.campaign-text-2 {
-  margin-top: 0;
-  margin-bottom: 6px;
+.campaign-line-2 {
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1.02;
+  color: #000;
+  margin-top: 2px;
 }
 
 .discount-percent {
@@ -106,7 +114,7 @@ html, body {
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 80px;
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 0.86;
   color: #000;
   margin-top: 4px;
 }
@@ -119,13 +127,13 @@ html, body {
   font-weight: 700;
   line-height: 0.95;
   color: #000;
-  margin-top: -2px;
+  margin-top: -4px;
 }
 
 .title {
   width: 100%;
-  margin-top: 34px;
-  padding: 0 14px;
+  margin-top: 54px;
+  padding: 0 8px;
   text-align: center;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 25px;
@@ -151,7 +159,7 @@ html, body {
   line-height: 1;
   color: #000;
   text-decoration: line-through;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .new-price {
@@ -162,7 +170,7 @@ html, body {
   font-weight: 700;
   line-height: 1;
   color: #000;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .hidden {
