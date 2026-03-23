@@ -94,9 +94,9 @@ html, body {
 /* KAMPANYA YAZILARI */
 .campaign-group {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 628px;
-  width: 320px;
+  width: 340px; /* genişletildi */
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
   text-align: left;
@@ -124,9 +124,9 @@ html, body {
 /* %20 */
 .discount-percent {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 686px;
-  width: 320px;
+  width: 340px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -139,9 +139,9 @@ html, body {
 /* İNDİRİM */
 .discount-label {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 758px;
-  width: 320px;
+  width: 340px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -155,9 +155,9 @@ html, body {
 /* ÜRÜN ADI */
 .title {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 840px;
-  width: 320px;
+  width: 340px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -177,9 +177,9 @@ html, body {
 /* ESKİ FİYAT */
 .old-price {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 906px;
-  width: 320px;
+  width: 340px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
@@ -194,9 +194,9 @@ html, body {
 /* YENİ FİYAT */
 .new-price {
   position: absolute;
-  left: 14px;
+  left: -12px; /* sola kaydırıldı */
   top: 940px;
-  width: 320px;
+  width: 340px;
   margin: 0;
   color: #000;
   font-family: Outfit, Arial, Helvetica, sans-serif;
