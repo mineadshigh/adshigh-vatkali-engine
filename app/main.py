@@ -162,6 +162,7 @@ def build_render_cache_key(
         product_image_secondary_1,
         logo_url,
         design,
+        "fixed20",
         str(w),
         str(h),
     )
@@ -430,9 +431,8 @@ async def render_endpoint(
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    pct = calc_discount_percent(price, sale_price)
-    discount_hidden = "hidden" if pct is None else ""
-    discount_percent = f"%{pct}" if pct is not None else ""
+    discount_hidden = ""
+    discount_percent = "%20"
 
     template_path = os.path.join(BASE_DIR, "template_meta_ozelfirsatlar.html")
     css_path = os.path.join(BASE_DIR, "styles_meta_ozelfirsatlar.css")
@@ -520,6 +520,8 @@ async def feed_proxy(request: Request):
         title = tr_title_case((item.findtext("title") or "").strip())
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+        if not sale:
+            sale = price
 
         primary, s1, s2 = choose_images_any(item)
 
