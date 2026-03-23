@@ -1,195 +1,212 @@
-* { box-sizing: border-box; }
-
 html, body {
   margin: 0;
   padding: 0;
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f1f1f1;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-  font-family: "Outfit", Arial, sans-serif;
-  font-synthesis: none;
+* {
+  box-sizing: border-box;
 }
 
 .frame {
   position: relative;
   width: 1080px;
   height: 1080px;
+  background: #f1f1f1;
   overflow: hidden;
-  background: #ffffff;
 }
 
-/* SOL ÜRÜN GÖRSELİ */
-.productImage {
+/* SOL ANA GÖRSEL */
+.left-col {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 720px;
-  height: 1080px;
-  display: block;
+  left: 31px;
+  top: 76px;
+  width: 605px;
+  height: 897px;
+}
+
+.main-image-frame {
+  width: 605px;
+  height: 897px;
+  border: 3px solid #000000;
+  background: #000000;
+  overflow: hidden;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
+  display: block;
 }
 
-/* SAĞ PANEL */
-.rightPanel {
+/* SAĞ BLOK */
+.right-col {
   position: absolute;
-  left: 720px;
+  left: 704px;
   top: 0;
-  width: 360px;
+  width: 340px;
   height: 1080px;
-  background: #f7f7f7;
-  overflow: visible;
 }
 
 /* LOGO */
+.logo-wrap {
+  position: absolute;
+  left: 0;
+  top: 76px;
+  width: 340px;
+  height: 31px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
 .logo {
-  position: absolute;
-  left: 50%;
-  top: 66px;
-  width: 276px;
-  height: 36px;
-  transform: translateX(-50%);
+  width: 249px;
+  height: auto;
+  max-height: 31px;
   object-fit: contain;
-  object-position: center;
+  display: block;
 }
 
-/* BAYRAMA ÖZEL LABEL */
-.bayramLabel {
+/* 2. GÖRSEL */
+.secondary-image-wrap {
   position: absolute;
-  left: 50%;
-  top: 254px;
-  transform: translateX(-50%);
-  min-width: 228px;
-  height: 47px;
-  padding: 0 16px;
-
-  background: #000000;
-  color: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 31px;
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
+  left: 14px;
+  top: 140px;
+  width: 285px;
+  height: 445px;
+  overflow: hidden;
+  background: transparent;
 }
 
-/* %60 BLOĞU */
-.discountBlock {
-  position: absolute;
-  left: 39px;
-  top: 446px;
-  width: 282px;
-  text-align: left;
-  color: #000000;
-}
-
-.discountPct {
-  font-size: 79px;
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -1px;
-}
-
-.discountSub {
-  margin-top: -2px;
-  font-size: 27px;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.discountText {
-  margin-top: 2px;
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 1.04;
-  white-space: nowrap;
-}
-
-/* SEPETTE %20 İNDİRİM BAR */
-.sepetteBar {
-  position: absolute;
-  left: -53px;
-  top: 605px;
-
-  width: 418px;
-  height: 48px;
-
-  background: #000000;
-  color: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 36px;     /* büyütüldü */
-  font-weight: 400;
-  line-height: 1;
-
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.sepetteBar span {
-  font-weight: 700;
-  margin-left: 8px;
-}
-
-/* DİNAMİK ÜRÜN BİLGİSİ */
-.productInfo {
-  position: absolute;
-  left: 56px;
-  top: 796px;
-  width: 248px;
-  color: #000000;
-}
-
-.productTitle {
+.secondary-image {
   width: 100%;
-  font-size: 24px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* KAMPANYA YAZILARI */
+.campaign-group {
+  position: absolute;
+  left: 14px;
+  top: 630px;
+  width: 320px;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.campaign-line-1 {
+  margin: 0;
+  font-size: 20px;
   font-weight: 300;
-  line-height: 1.18;
-  letter-spacing: 0;
+  line-height: 1.02;
+  white-space: nowrap;
+}
+
+.campaign-bold {
+  font-weight: 600;
+}
+
+.campaign-line-2 {
+  margin: 1px 0 0 0;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.02;
+}
+
+/* %20 */
+.discount-percent {
+  position: absolute;
+  left: 14px;
+  top: 694px;
+  width: 320px;
+  margin: 0;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  font-size: 78px;
+  font-weight: 700;
+  line-height: 0.88;
+  text-align: left;
+}
+
+/* İNDİRİM */
+.discount-label {
+  position: absolute;
+  left: 14px;
+  top: 766px;
+  width: 320px;
+  margin: 0;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+
+/* ÜRÜN ADI */
+.title {
+  position: absolute;
+  left: 14px;
+  top: 842px;
+  width: 320px;
+  margin: 0;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.08;
   text-align: left;
 
   display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
   overflow: hidden;
-  white-space: normal;
-  word-break: break-word;
+  min-height: 48px;
+  max-height: 48px;
 }
 
-.priceBlock {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.oldPrice {
+/* ESKİ FİYAT */
+.old-price {
+  position: absolute;
+  left: 14px;
+  top: 910px;
+  width: 320px;
+  margin: 0;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
-  color: #000000;
   text-decoration: line-through;
-  text-decoration-thickness: 2px;
-  margin-bottom: 7px;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.salePrice {
-  font-size: 31px;
+/* YENİ FİYAT */
+.new-price {
+  position: absolute;
+  left: 14px;
+  top: 944px;
+  width: 320px;
+  margin: 0;
+  color: #000;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+  font-size: 38px;
   font-weight: 700;
   line-height: 1;
-  color: #000000;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .hidden {
-  display: none !important;
+  visibility: hidden;
 }
