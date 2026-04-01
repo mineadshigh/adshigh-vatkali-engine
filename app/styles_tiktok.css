@@ -37,7 +37,7 @@ img {
 .offer {
   position: absolute;
   left: 86px;
-  top: 40px; /* 🔥 ÜST BOŞLUK AZALTILDI */
+  top: 22px;              /* görsele daha yakın */
   width: 909px;
   display: flex;
   justify-content: space-between;
@@ -61,43 +61,57 @@ img {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-size: 21px;
-  margin-left: 6px;
-  margin-top: 6px;
+  line-height: 1;
+  margin-left: 4px;
+  margin-top: 7px;
   font-weight: 100;
+  color: #000;
 }
 
 .line1 {
-  margin-left: 14px;
+  margin-left: 10px;
   font-size: 35px;
   line-height: 31px;
-  font-weight: 100;
+  font-weight: 700;       /* bold */
+  color: #000;
+  white-space: nowrap;
+  margin-top: 0;
 }
 
-/* ===================== */
-/* RIGHT BADGE */
-/* ===================== */
+/* EK ile %70 aynı alt hizaya gelsin */
+.offer-left .percent,
+.offer-left .evaran,
+.offer-left .line1 {
+  align-self: flex-end;
+}
 
 .offer-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding-top: 10px;
+  padding-top: 11px;
 }
 
 .badge {
-  display: inline-block; /* 🔥 taşma fix */
+  display: inline-block;
   background: #000;
   color: #fff;
   font-size: 31px;
+  line-height: 44px;
   font-weight: 100;
-  padding: 6px 18px; /* 🔥 padding ile tam siyah */
+  height: 44px;
+  padding: 0 18px;
   white-space: nowrap;
 }
 
 .note {
   margin-top: 6px;
   font-size: 21px;
+  line-height: 1;
+  font-weight: 100;
+  color: #000;
   text-align: right;
+  white-space: nowrap;
 }
 
 /* ===================== */
@@ -107,7 +121,7 @@ img {
 .main-image-wrap {
   position: absolute;
   left: 86px;
-  top: 180px; /* 🔥 offer ile arası azaltıldı */
+  top: 145px;            /* üst blokla aradaki boşluk azaltıldı */
   width: 909px;
   height: 1362px;
   overflow: hidden;
@@ -126,17 +140,17 @@ img {
 .bottom-row {
   position: absolute;
   left: 86px;
-  top: 1600px;
+  top: 1532px;           /* görselin hemen altına yaklaştırıldı */
   width: 909px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
 
-/* 🔥 LOGO BÜYÜTÜLDÜ */
 .logo {
   width: 360px;
   height: auto;
+  align-self: flex-end;  /* title 2 satır olursa hafif aşağı insin */
 }
 
 /* ===================== */
@@ -144,46 +158,53 @@ img {
 /* ===================== */
 
 .meta {
-  width: 380px;
+  width: 410px;          /* biraz genişledi */
   text-align: right;
 }
 
-/* 🔥 TEK SATIR + TAŞARSA 2. SATIR */
 .title {
-  font-size: 33px;
-  line-height: 1.15;
+  font-size: 31px;       /* biraz küçüldü, tek satıra sığma şansı arttı */
+  line-height: 1.12;
   font-weight: 100;
+  color: #000;
+  text-align: right;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
   word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-/* 🔥 ALTTA KAYMA FIX */
 .prices {
-  margin-top: 6px;
+  margin-top: 4px;
   display: flex;
   justify-content: flex-end;
   align-items: baseline;
-  gap: 14px;
-  flex-wrap: wrap; /* 🔥 taşarsa aşağı iner */
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .old {
   font-size: 33px;
-  text-decoration: line-through;
+  line-height: 1;
   font-weight: 100;
+  color: #000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 .new {
   font-size: 33px;
+  line-height: 1;
   font-weight: 700;
+  color: #000;
 }
 
 .single {
   font-size: 33px;
+  line-height: 1;
   font-weight: 700;
+  color: #000;
 }
