@@ -134,7 +134,9 @@ img {
   margin-top: 6px;
   color: #000;
   white-space: nowrap;
-  align-self: center;
+
+  width: 100%;
+  text-align: right;
 }
 
 /* ========================= */
