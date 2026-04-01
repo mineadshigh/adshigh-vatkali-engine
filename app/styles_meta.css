@@ -30,7 +30,7 @@ img {
   display: none !important;
 }
 
-/* SOL GÖRSEL — PSD */
+/* SOL GÖRSEL — BUNU BOZMUYORUZ */
 .left-image-wrap {
   position: absolute;
   left: 37px;
@@ -46,7 +46,7 @@ img {
   object-fit: cover;
 }
 
-/* SAĞ GÖRSEL — PSD */
+/* SAĞ GÖRSEL — BUNU BOZMUYORUZ */
 .right-image-wrap {
   position: absolute;
   left: 555px;
@@ -62,88 +62,75 @@ img {
   object-fit: cover;
 }
 
-/* OFFER — PSD */
+/* SAĞ ÜST OFFER — DÜZELTİLDİ */
 .offer {
   position: absolute;
   left: 630px;
-  top: 109px;
-  width: 343px;
-  height: 73px;
+  top: 110px;
+  display: flex;
+  align-items: flex-start;
+  width: 360px;
 }
 
 .offer-percent {
-  position: absolute;
-  left: 0;
-  top: 4px;
   font-size: 72px;
-  line-height: 1;
   font-weight: 700;
+  line-height: 1;
   color: #000;
   letter-spacing: -2px;
 }
 
 .offer-evaran {
-  position: absolute;
-  left: 130px;
-  top: 1px;
-  width: 12px;
-  height: 52px;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 100;
-  color: #000;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  transform-origin: center;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 4px;
+  margin-top: 8px;
+  color: #000;
+}
+
+.offer-right {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .offer-line1 {
-  position: absolute;
-  left: 153px;
-  top: 0;
-  width: 191px;
   font-size: 26px;
+  font-weight: 600;
   line-height: 1;
-  font-weight: 100;
   color: #000;
   white-space: nowrap;
 }
 
 .offer-badge {
-  position: absolute;
-  left: 163px;
-  top: 33px;
-  width: 189px;
-  height: 29px;
+  margin-top: 6px;
   background: #000;
   color: #fff;
+  padding: 6px 10px;
   font-size: 17px;
-  line-height: 29px;
-  font-weight: 100;
-  text-align: center;
+  line-height: 1;
+  display: inline-block;
   white-space: nowrap;
 }
 
 .offer-note {
-  position: absolute;
-  left: 208px;
-  top: 61px;
-  transform: translateX(-50%);
-  width: 135px;
   font-size: 12px;
   line-height: 1;
-  font-weight: 100;
+  margin-top: 6px;
   color: #000;
-  text-align: center;
   white-space: nowrap;
+  align-self: center;
 }
 
-/* TITLE — PSD */
+/* ÜRÜN İSMİ — BUNU BOZMUYORUZ */
 .product-title {
   position: absolute;
   left: 145px;
   top: 837px;
-  width: 503px; /* soldaki görsel genişliği kadar uzasın */
+  width: 503px;
   font-size: 19px;
   line-height: 1.2;
   font-weight: 100;
@@ -157,7 +144,7 @@ img {
   overflow-wrap: break-word;
 }
 
-/* PRICES — PSD */
+/* FİYATLAR — BUNU BOZMUYORUZ */
 .price-row {
   position: absolute;
   left: 146px;
@@ -190,11 +177,11 @@ img {
   color: #000;
 }
 
-/* LOGO — soldaki görsel merkezine hizalı */
+/* LOGO — SADECE AŞAĞI İNDİ */
 .brand-logo {
   position: absolute;
-  left: 288px;           /* 37 + 503/2 = 288.5 */
-  top: 937px;
+  left: 288px;
+  top: 984px;
   width: 262px;
   height: 33px;
   transform: translateX(-50%);
