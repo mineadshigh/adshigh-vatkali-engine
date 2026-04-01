@@ -150,6 +150,19 @@ def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
 
 
+def get_template_and_css(design: str) -> tuple[str, str]:
+    if design == "tiktok_v1":
+        return (
+            os.path.join(BASE_DIR, "template_tiktok.html"),
+            os.path.join(BASE_DIR, "styles_tiktok.css"),
+        )
+
+    return (
+        os.path.join(BASE_DIR, "template_meta.html"),
+        os.path.join(BASE_DIR, "styles_meta.css"),
+    )
+
+
 # -------------------------
 # XML utilities
 # -------------------------
@@ -158,6 +171,27 @@ def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
     if ns and ":" in tag:
         return (item.findtext(tag, default="", namespaces=ns) or "").strip()
     return (item.findtext(tag, default="") or "").strip()
+
+
+def set_image_link(item: ET.Element, new_url: str):
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    img = item.find("g:image_link", ns)
+    if img is not None:
+        img.text = new_url
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+        return
+
+    img = item.find("image_link")
+    if img is not None:
+        img.text = new_url
+        for extra in item.findall("additional_image_link"):
+            item.remove(extra)
+        return
+
+    # fallback: plain image_link oluştur
+    ET.SubElement(item, "image_link").text = new_url
 
 
 # -------------------------
@@ -407,6 +441,7 @@ async def render_endpoint(
     product_image_primary: str = Query(""),
     product_image_secondary_1: str = Query(""),
     logo_url: str = Query(""),
+    design: str = Query("meta_v1"),
     w: int = Query(1080),
     h: int = Query(1080),
 ):
@@ -415,8 +450,7 @@ async def render_endpoint(
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-    template_path = os.path.join(BASE_DIR, "template_meta.html")
-    css_path = os.path.join(BASE_DIR, "styles_meta.css")
+    template_path, css_path = get_template_and_css(design)
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -428,14 +462,14 @@ async def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    design = "meta_v1"
+    secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
 
     cache_key = build_render_cache_key(
         title=title,
         price=price,
         sale_price=sale_price,
         product_image_primary=product_image_primary,
-        product_image_secondary_1=product_image_secondary_1,
+        product_image_secondary_1=secondary_for_cache,
         logo_url=logo_url,
         design=design,
         w=w,
@@ -450,11 +484,18 @@ async def render_endpoint(
         return Response(content=png, media_type="image/png", headers=headers)
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
-            to_data_uri(product_image_primary, client),
-            to_data_uri(product_image_secondary_1, client),
-            to_data_uri(logo_url, client),
-        )
+        if design == "meta_v1":
+            product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
+                to_data_uri(product_image_primary, client),
+                to_data_uri(product_image_secondary_1, client),
+                to_data_uri(logo_url, client),
+            )
+        else:
+            product_image_primary_data, logo_data = await asyncio.gather(
+                to_data_uri(product_image_primary, client),
+                to_data_uri(logo_url, client),
+            )
+            product_image_secondary_1_data = ""
 
     html = tpl.replace("{{CSS}}", css)
     html = html.replace("{{product_image_primary}}", product_image_primary_data)
@@ -515,18 +556,13 @@ async def feed_meta(request: Request):
             f"&sale_price={quote_plus(sale)}"
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&design={quote_plus(design)}"
             f"&w=1080&h=1080"
             f"&fv={quote_plus(fv)}"
             f"&v={sig}"
         )
 
-        img = item.find("g:image_link", ns)
-        if img is None:
-            img = ET.SubElement(item, "{http://base.google.com/ns/1.0}image_link")
-        img.text = render_url
-
-        for extra in item.findall("g:additional_image_link", ns):
-            item.remove(extra)
+        set_image_link(item, render_url)
 
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
@@ -539,13 +575,51 @@ async def feed_legacy(request: Request):
 
 
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
-async def feed_tiktok():
+async def feed_tiktok(request: Request):
+    base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()
+
     async with httpx.AsyncClient(timeout=90) as client:
         r = await client.get(FEED_URL_TIKTOK)
         r.raise_for_status()
 
+    root = ET.fromstring(r.text)
+    channel = root.find("channel")
+    if channel is None:
+        return PlainTextResponse(r.text, media_type="application/xml")
+
+    items = channel.findall("item")
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    for item in items:
+        title = (item.findtext("title") or "").strip()
+        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or item.findtext("price") or "")
+        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or item.findtext("sale_price") or "")
+        if not sale:
+            sale = price
+
+        primary, _ = choose_images_any(item)
+
+        design = "tiktok_v1"
+        sig = build_sig(design, title, price, sale, primary, fv)
+
+        render_url = (
+            f"{base_url}/render.png"
+            f"?title={quote_plus(title)}"
+            f"&price={quote_plus(price)}"
+            f"&sale_price={quote_plus(sale)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&design={quote_plus(design)}"
+            f"&w=1080&h=1920"
+            f"&fv={quote_plus(fv)}"
+            f"&v={sig}"
+        )
+
+        set_image_link(item, render_url)
+
+    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return PlainTextResponse(r.text, media_type="application/xml", headers=headers)
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
 
 @app.get("/probe")
