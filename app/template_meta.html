@@ -1,38 +1,45 @@
-<div class="frame">
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <style>
+    {{CSS}}
+  </style>
+</head>
+<body>
+  <div class="frame">
 
-  <!-- SOL GÖRSEL -->
-  <div class="left-image-wrap">
-    <img class="left-image" src="{{product_image_primary}}" />
-  </div>
-
-  <!-- SAĞ ÜST OFFER -->
-  <div class="offer">
-    <div class="percent">%70</div>
-    <div class="evaran">’e varan</div>
-
-    <div class="offer-right">
-      <div class="line1">İNDİRİMLERE EK</div>
-      <div class="badge">SEPETTE %10 İNDİRİM</div>
-      <div class="note">*seçili ürünlerde geçerlidir.</div>
+    <div class="left-image-wrap">
+      <img class="left-image" src="{{product_image_primary}}" alt="" />
     </div>
-  </div>
 
-  <!-- SAĞ GÖRSEL -->
-  <div class="right-image-wrap">
-    <img class="right-image" src="{{product_image_secondary_1}}" />
-  </div>
+    <div class="offer">
+      <div class="percent">%70</div>
+      <div class="evaran">'e varan</div>
 
-  <!-- ÜRÜN -->
-  <div class="product">
-    <div class="title">{{title}}</div>
-
-    <div class="prices">
-      <span class="old">{{price}}</span>
-      <span class="new">{{sale_price}}</span>
+      <div class="offer-right">
+        <div class="line1">İNDİRİMLERE EK</div>
+        <div class="badge">SEPETTE %10 İNDİRİM</div>
+        <div class="note">*seçili ürünlerde geçerlidir.</div>
+      </div>
     </div>
+
+    <div class="right-image-wrap">
+      <img class="right-image" src="{{product_image_secondary_1}}" alt="" />
+    </div>
+
+    <div class="product">
+      <div class="title">{{title}}</div>
+
+      <div class="prices">
+        <span class="old {{old_hidden}}">{{price}}</span>
+        <span class="new {{new_hidden}}">{{sale_price}}</span>
+        <span class="single {{single_hidden}}">{{price}}</span>
+      </div>
+    </div>
+
+    <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
   </div>
-
-  <!-- LOGO -->
-  <img class="logo" src="{{logo_url}}" />
-
-</div>
+</body>
+</html>
