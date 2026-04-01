@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <style>
+    {{CSS}}
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="left-image-wrap">
+      <img class="left-image" src="{{product_image_primary}}" alt="" />
+    </div>
+
+    <div class="right-offer">
+      <div class="offer-block">
+        <div class="offer-percent">%70</div>
+        <div class="offer-evaran">'e varan</div>
+        <div class="offer-text-wrap">
+          <div class="offer-line-1">İNDİRİMLERE EK</div>
+          <div class="offer-badge">SEPETTE %10 İNDİRİM</div>
+          <div class="offer-note">*seçili ürünlerde geçerlidir.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-image-wrap">
+      <img class="right-image" src="{{product_image_secondary_1}}" alt="" />
+    </div>
+
+    <div class="product-info">
+      <div class="product-title">{{title}}</div>
+
+      <div class="price-row">
+        <span class="old-price {{old_hidden}}">{{price}}</span>
+        <span class="new-price {{new_hidden}}">{{sale_price}}</span>
+        <span class="single-price {{single_hidden}}">{{price}}</span>
+      </div>
+    </div>
+
+    <img class="brand-logo" src="{{logo_url}}" alt="Vatkalı" />
+  </div>
+</body>
+</html>
