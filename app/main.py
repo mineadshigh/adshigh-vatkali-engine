@@ -3,7 +3,6 @@ import base64
 import hashlib
 import os
 import re
-import unicodedata
 from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
 from xml.etree import ElementTree as ET
 
@@ -15,9 +14,14 @@ from playwright.async_api import async_playwright
 
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
-FEED_URL_META = os.getenv("FEED_URL_META", "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali")
-FEED_URL_TIKTOK = os.getenv("FEED_URL_TIKTOK", "https://www.vatkali.com/feed/tiktokfeed.xml")
-FEED_URL_PINTEREST = os.getenv("FEED_URL_PINTEREST", "https://www.vatkali.com/Xml/pinterestfeed.asp")
+FEED_URL_META = os.getenv(
+    "FEED_URL_META",
+    "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali",
+)
+FEED_URL_TIKTOK = os.getenv(
+    "FEED_URL_TIKTOK",
+    "https://www.vatkali.com/feed/tiktokfeed.xml",
+)
 
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
@@ -31,6 +35,7 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+
 # -------------------------
 # Helpers
 # -------------------------
@@ -38,11 +43,13 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
+
 def format_currency_tr(s: str) -> str:
     x = norm_price(s)
     if not x:
         return x
     return x.replace("TRY", "TL").replace("try", "TL")
+
 
 def _clean_url(u: str) -> str:
     if not u:
@@ -56,37 +63,15 @@ def _clean_url(u: str) -> str:
     new_query = urlencode(q, doseq=True)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, new_query, parts.fragment))
 
+
 def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
-def tr_title_case(text: str) -> str:
-    text = (text or "").strip()
-    if not text:
-        return ""
-
-    def cap_word(w: str) -> str:
-        if not w:
-            return w
-        first = w[0]
-        rest = w[1:]
-
-        if first == "i":
-            first_up = "İ"
-        elif first == "ı":
-            first_up = "I"
-        else:
-            first_up = first.upper()
-
-        rest_low = rest.lower()
-        rest_low = rest_low.replace("I", "ı").replace("İ", "i")
-        return first_up + rest_low
-
-    parts = re.split(r"(\s+)", text)
-    return "".join([cap_word(p) if not p.isspace() else p for p in parts])
 
 def _parse_money_to_float(s: str) -> float | None:
     if not s:
         return None
+
     t = str(s).strip()
     t = re.sub(r"[^\d.,]", "", t)
     if not t:
@@ -110,12 +95,14 @@ def _parse_money_to_float(s: str) -> float | None:
     except Exception:
         return None
 
+
 def format_tl(price: str) -> str:
     v = _parse_money_to_float(price)
     if v is None:
         return format_currency_tr(price)
     n = int(round(v))
     return f"{n:,}".replace(",", ".") + " TL"
+
 
 def hidden_flags(price: str, sale: str):
     p = _parse_money_to_float(price)
@@ -129,19 +116,11 @@ def hidden_flags(price: str, sale: str):
 
     return ("", "", "hidden")
 
-def calc_discount_percent(price_str: str, sale_str: str) -> int | None:
-    p = _parse_money_to_float(price_str)
-    s = _parse_money_to_float(sale_str)
-    if not p or not s or p <= 0 or s >= p:
-        return None
-    pct = int(round((1 - (s / p)) * 100))
-    if pct <= 0:
-        return None
-    return pct
 
 def build_sig(*parts: str) -> str:
     raw = "|".join([p or "" for p in parts]).encode("utf-8")
     return hashlib.md5(raw).hexdigest()[:12]
+
 
 def build_render_cache_key(
     title: str,
@@ -162,13 +141,14 @@ def build_render_cache_key(
         product_image_secondary_1,
         logo_url,
         design,
-        "fixed20",
         str(w),
         str(h),
     )
 
+
 def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
+
 
 # -------------------------
 # XML utilities
@@ -178,6 +158,7 @@ def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
     if ns and ":" in tag:
         return (item.findtext(tag, default="", namespaces=ns) or "").strip()
     return (item.findtext(tag, default="") or "").strip()
+
 
 # -------------------------
 # Image selection
@@ -208,15 +189,10 @@ def choose_images_any(item: ET.Element):
             uniq.append(u)
 
     primary = uniq[0] if uniq else primary_raw
-    s1 = uniq[1] if len(uniq) > 1 else ""
-    s2 = uniq[2] if len(uniq) > 2 else ""
+    s1 = uniq[1] if len(uniq) > 1 else primary
 
-    if not s1:
-        s1 = primary
-    if not s2:
-        s2 = s1
+    return primary, s1
 
-    return primary, s1, s2
 
 # -------------------------
 # HTTP -> Data URI
@@ -226,8 +202,10 @@ _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
 
+
 def _transparent_data_uri() -> str:
     return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
+
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -240,6 +218,7 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     if ".svg" in u:
         return "image/svg+xml"
     return "image/jpeg"
+
 
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
@@ -273,6 +252,7 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     except Exception:
         return _transparent_data_uri()
 
+
 # -------------------------
 # Playwright
 # -------------------------
@@ -280,6 +260,7 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
 _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
+
 
 def _is_fatal_playwright_error(e: Exception) -> bool:
     msg = str(e).lower()
@@ -295,8 +276,10 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
         ]
     )
 
+
 async def _restart_playwright():
     global _pw, _browser
+
     try:
         if _browser:
             await _browser.close()
@@ -323,8 +306,10 @@ async def _restart_playwright():
         ],
     )
 
+
 async def _ensure_browser():
     global _pw, _browser
+
     async with _pw_lock:
         try:
             if _pw is None:
@@ -353,25 +338,30 @@ async def _ensure_browser():
             else:
                 raise
 
+
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
 
+
 @app.on_event("shutdown")
 async def _shutdown():
     global _pw, _browser
+
     try:
         if _browser:
             await _browser.close()
     except Exception:
         pass
     _browser = None
+
     try:
         if _pw:
             await _pw.stop()
     except Exception:
         pass
     _pw = None
+
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -403,6 +393,7 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
                 return await _do()
             raise
 
+
 # -------------------------
 # Endpoints
 # -------------------------
@@ -415,34 +406,29 @@ async def render_endpoint(
     sale_price: str = Query(""),
     product_image_primary: str = Query(""),
     product_image_secondary_1: str = Query(""),
-    product_image_secondary_2: str = Query(""),
-    product_image_cutout: str = Query(""),
     logo_url: str = Query(""),
-    theme: str = Query("classic"),
-    design: str = Query("meta_ozelfirsatlar"),
     w: int = Query(1080),
     h: int = Query(1080),
 ):
-    # sadece bu tasarım kullanılacak
-    title = tr_title_case(title)
-
     price = format_tl(price)
     sale_price = format_tl(sale_price)
 
     old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
 
-
-    template_path = os.path.join(BASE_DIR, "template_meta_ozelfirsatlar.html")
-    css_path = os.path.join(BASE_DIR, "styles_meta_ozelfirsatlar.css")
+    template_path = os.path.join(BASE_DIR, "template_meta.html")
+    css_path = os.path.join(BASE_DIR, "styles_meta.css")
 
     with open(template_path, "r", encoding="utf-8") as f:
         tpl = f.read()
+
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
     if not logo_url:
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
+
+    design = "meta_v1"
 
     cache_key = build_render_cache_key(
         title=title,
@@ -451,7 +437,7 @@ async def render_endpoint(
         product_image_primary=product_image_primary,
         product_image_secondary_1=product_image_secondary_1,
         logo_url=logo_url,
-        design=design,        
+        design=design,
         w=w,
         h=h,
     )
@@ -464,20 +450,17 @@ async def render_endpoint(
         return Response(content=png, media_type="image/png", headers=headers)
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        product_image_primary, product_image_secondary_1, logo_url = await asyncio.gather(
+        product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
             to_data_uri(product_image_primary, client),
             to_data_uri(product_image_secondary_1, client),
             to_data_uri(logo_url, client),
         )
 
     html = tpl.replace("{{CSS}}", css)
-    html = html.replace("{{product_image_primary}}", product_image_primary)
-    html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1)
-    html = html.replace("{{product_image_secondary_2}}", _transparent_data_uri())
-    html = html.replace("{{product_image_cutout}}", _transparent_data_uri())
-    html = html.replace("{{logo_url}}", logo_url)
+    html = html.replace("{{product_image_primary}}", product_image_primary_data)
+    html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1_data)
+    html = html.replace("{{logo_url}}", logo_data)
     html = html.replace("{{title}}", title)
-
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
     html = html.replace("{{old_hidden}}", old_hidden)
@@ -495,8 +478,9 @@ async def render_endpoint(
     headers = {"Cache-Control": "public, max-age=31536000, immutable"}
     return Response(content=png, media_type="image/png", headers=headers)
 
-@app.get("/feed.xml", response_class=PlainTextResponse)
-async def feed_proxy(request: Request):
+
+@app.get("/feed_meta.xml", response_class=PlainTextResponse)
+async def feed_meta(request: Request):
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
 
@@ -513,17 +497,16 @@ async def feed_proxy(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = tr_title_case((item.findtext("title") or "").strip())
+        title = (item.findtext("title") or "").strip()
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
         if not sale:
             sale = price
 
-        primary, s1, s2 = choose_images_any(item)
+        primary, s1 = choose_images_any(item)
 
-        design = "meta_ozelfirsatlar"
-
-        sig = build_sig(title, price, sale, primary, s1, fv, design)
+        design = "meta_v1"
+        sig = build_sig(design, title, price, sale, primary, s1, fv)
 
         render_url = (
             f"{base_url}/render.png"
@@ -532,7 +515,6 @@ async def feed_proxy(request: Request):
             f"&sale_price={quote_plus(sale)}"
             f"&product_image_primary={quote_plus(primary)}"
             f"&product_image_secondary_1={quote_plus(s1)}"
-            f"&design={quote_plus(design)}"
             f"&w=1080&h=1080"
             f"&fv={quote_plus(fv)}"
             f"&v={sig}"
@@ -546,18 +528,18 @@ async def feed_proxy(request: Request):
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
-        # Meta'da aynı render görselini ek additional olarak da veriyoruz
-        for _ in range(2):
-            extra = ET.SubElement(item, "{http://base.google.com/ns/1.0}additional_image_link")
-            extra.text = render_url
-
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
+
+@app.get("/feed.xml", response_class=PlainTextResponse)
+async def feed_legacy(request: Request):
+    return await feed_meta(request)
+
+
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok():
-    # şimdilik TikTok feed hiç bozulmasın diye orijinali aynen dönüyoruz
     async with httpx.AsyncClient(timeout=90) as client:
         r = await client.get(FEED_URL_TIKTOK)
         r.raise_for_status()
@@ -565,15 +547,6 @@ async def feed_tiktok():
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(r.text, media_type="application/xml", headers=headers)
 
-@app.get("/feed_pinterest.xml", response_class=PlainTextResponse)
-async def feed_pinterest():
-    # şimdilik Pinterest feed hiç bozulmasın diye orijinali aynen dönüyoruz
-    async with httpx.AsyncClient(timeout=90) as client:
-        r = await client.get(FEED_URL_PINTEREST)
-        r.raise_for_status()
-
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return PlainTextResponse(r.text, media_type="application/xml", headers=headers)
 
 @app.get("/probe")
 async def probe(url: str = Query(...)):
