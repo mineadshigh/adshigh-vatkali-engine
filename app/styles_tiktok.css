@@ -1,0 +1,190 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: #f2f2f2;
+  font-family: "Outfit", Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ÜST OFFER */
+.offer {
+  position: absolute;
+  left: 86px;
+  top: 64px;
+  width: 909px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.offer-left {
+  display: flex;
+  align-items: flex-start;
+}
+
+.percent {
+  font-size: 92px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -2px;
+}
+
+.evaran {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 21px;
+  line-height: 1;
+  margin-left: 6px;
+  margin-top: 6px;
+  font-weight: 100;
+  color: #000;
+}
+
+.line1 {
+  margin-left: 14px;
+  font-size: 35px;
+  line-height: 31px;
+  font-weight: 100;
+  color: #000;
+  white-space: nowrap;
+}
+
+.offer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 13px;
+}
+
+.badge {
+  width: 293px;
+  height: 44px;
+  background: #000;
+  color: #fff;
+  font-size: 31px;
+  line-height: 44px;
+  font-weight: 100;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.note {
+  margin-top: 8px;
+  width: 224px;
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 100;
+  color: #000;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ANA GÖRSEL */
+.main-image-wrap {
+  position: absolute;
+  left: 86px;
+  top: 233px;
+  width: 909px;
+  height: 1362px;
+  overflow: hidden;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ALT SATIR */
+.bottom-row {
+  position: absolute;
+  left: 86px;
+  top: 1638px;
+  width: 909px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.logo {
+  width: 300px;
+  height: auto;
+  margin-bottom: 0;
+}
+
+/* SAĞ ALT META */
+.meta {
+  width: 360px;
+  text-align: right;
+}
+
+.title {
+  font-size: 33px;
+  line-height: 1.15;
+  font-weight: 100;
+  color: #000;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.prices {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.old {
+  font-size: 33px;
+  line-height: 1;
+  font-weight: 100;
+  color: #000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.new {
+  font-size: 33px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+}
+
+.single {
+  font-size: 33px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+}
