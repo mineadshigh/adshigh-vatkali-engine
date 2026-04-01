@@ -1,0 +1,195 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ececec;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background: #ececec;
+  overflow: hidden;
+}
+
+/* SOL BÜYÜK GÖRSEL */
+.left-image-wrap {
+  position: absolute;
+  left: 34px;
+  top: 34px;
+  width: 500px;
+  height: 686px;
+  overflow: hidden;
+}
+
+.left-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* SAĞ OFFER BLOĞU */
+.right-offer {
+  position: absolute;
+  left: 598px;
+  top: 56px;
+  width: 355px;
+  height: 95px;
+}
+
+.offer-block {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.offer-percent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 67px;
+  line-height: 0.9;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: -2px;
+}
+
+.offer-evaran {
+  position: absolute;
+  left: 111px;
+  top: 11px;
+  font-size: 18px;
+  line-height: 1;
+  color: #000;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.offer-text-wrap {
+  position: absolute;
+  left: 145px;
+  top: 3px;
+  width: 210px;
+}
+
+.offer-line-1 {
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.2px;
+}
+
+.offer-badge {
+  margin-top: 6px;
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  padding: 7px 10px 7px 10px;
+}
+
+.offer-note {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1;
+  color: #000;
+  text-align: center;
+}
+
+/* SAĞ GÖRSEL */
+.right-image-wrap {
+  position: absolute;
+  left: 559px;
+  top: 179px;
+  width: 486px;
+  height: 607px;
+  overflow: hidden;
+}
+
+.right-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ÜRÜN BİLGİSİ */
+.product-info {
+  position: absolute;
+  left: 87px;
+  top: 737px;
+  width: 447px; /* sol görsel genişliği kadar davranış için */
+  min-height: 64px;
+}
+
+.product-title {
+  width: 100%;
+  font-size: 18px;
+  line-height: 1.22;
+  font-weight: 400;
+  color: #000;
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price-row {
+  margin-top: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.old-price {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.new-price {
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+  color: #000;
+}
+
+.single-price {
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+  color: #000;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* LOGO - SABİT */
+.brand-logo {
+  position: absolute;
+  left: 83px;
+  top: 895px;   /* sağ görsel altıyla sabit uyumlu */
+  width: 247px;
+  height: auto;
+  display: block;
+}
