@@ -190,8 +190,26 @@ def set_image_link(item: ET.Element, new_url: str):
             item.remove(extra)
         return
 
-    # fallback: plain image_link oluştur
     ET.SubElement(item, "image_link").text = new_url
+
+
+def extract_title(item: ET.Element, ns: dict | None = None) -> str:
+    candidates = [
+        text_of(item, "title", ns),
+        text_of(item, "g:title", ns),
+        text_of(item, "name", ns),
+        text_of(item, "product_name", ns),
+        text_of(item, "product_title", ns),
+        text_of(item, "item_name", ns),
+        text_of(item, "description", ns),
+        text_of(item, "g:description", ns),
+    ]
+
+    for c in candidates:
+        if c:
+            return " ".join(c.split()).strip()
+
+    return ""
 
 
 # -------------------------
@@ -538,7 +556,7 @@ async def feed_meta(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = (item.findtext("title") or "").strip()
+        title = extract_title(item, ns)
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
         if not sale:
@@ -592,9 +610,17 @@ async def feed_tiktok(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
-        title = (item.findtext("title") or "").strip()
-        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or item.findtext("price") or "")
-        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or item.findtext("sale_price") or "")
+        title = extract_title(item, ns)
+        price = format_currency_tr(
+            item.findtext("g:price", default="", namespaces=ns)
+            or item.findtext("price")
+            or ""
+        )
+        sale = format_currency_tr(
+            item.findtext("g:sale_price", default="", namespaces=ns)
+            or item.findtext("sale_price")
+            or ""
+        )
         if not sale:
             sale = price
 
