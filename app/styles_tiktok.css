@@ -37,7 +37,7 @@ img {
 .offer {
   position: absolute;
   left: 86px;
-  top: 22px;              /* görsele daha yakın */
+  top: 12px;                /* görsele daha yakın */
   width: 909px;
   display: flex;
   justify-content: space-between;
@@ -72,13 +72,11 @@ img {
   margin-left: 10px;
   font-size: 35px;
   line-height: 31px;
-  font-weight: 700;       /* bold */
+  font-weight: 700;
   color: #000;
   white-space: nowrap;
-  margin-top: 0;
 }
 
-/* EK ile %70 aynı alt hizaya gelsin */
 .offer-left .percent,
 .offer-left .evaran,
 .offer-left .line1 {
@@ -121,7 +119,7 @@ img {
 .main-image-wrap {
   position: absolute;
   left: 86px;
-  top: 145px;            /* üst blokla aradaki boşluk azaltıldı */
+  top: 128px;              /* üst blok ile arada çok az boşluk */
   width: 909px;
   height: 1362px;
   overflow: hidden;
@@ -140,7 +138,7 @@ img {
 .bottom-row {
   position: absolute;
   left: 86px;
-  top: 1532px;           /* görselin hemen altına yaklaştırıldı */
+  top: 1512px;             /* görselin hemen altına yakın */
   width: 909px;
   display: flex;
   justify-content: space-between;
@@ -148,9 +146,10 @@ img {
 }
 
 .logo {
-  width: 360px;
+  width: 335px;            /* örneğe daha yakın */
   height: auto;
-  align-self: flex-end;  /* title 2 satır olursa hafif aşağı insin */
+  align-self: flex-end;
+  margin-bottom: 0;
 }
 
 /* ===================== */
@@ -158,13 +157,13 @@ img {
 /* ===================== */
 
 .meta {
-  width: 410px;          /* biraz genişledi */
+  width: 455px;            /* biraz genişletildi */
   text-align: right;
 }
 
 .title {
-  font-size: 31px;       /* biraz küçüldü, tek satıra sığma şansı arttı */
-  line-height: 1.12;
+  font-size: 28px;         /* tek satıra sığma şansı arttı */
+  line-height: 1.1;
   font-weight: 100;
   color: #000;
   text-align: right;
