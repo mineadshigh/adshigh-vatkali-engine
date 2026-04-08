@@ -16,41 +16,41 @@ html, body {
   position: relative;
   width: 1080px;
   height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
 }
 
-/* ================= */
-/* SAĞ BLOK SİSTEMİ */
-/* ================= */
-
-:root {
-  --right-left: 661px;
-  --right-width: 350px;
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
-/* ================= */
+.hidden {
+  display: none !important;
+}
+
 /* ÜST BAŞLIK */
-/* ================= */
-
 .top-title {
   position: absolute;
-  top: 46px;
   left: 0;
+  top: 49px;
   width: 100%;
   text-align: center;
-  font-size: 38px;
+  font-size: 34px;
+  line-height: 1;
   font-weight: 700;
+  color: #000000;
 }
 
-/* ================= */
 /* SOL GÖRSEL */
-/* ================= */
-
 .left-image-wrap {
   position: absolute;
   left: 61px;
   top: 136px;
   width: 525px;
   height: 787px;
+  overflow: hidden;
 }
 
 .left-image {
@@ -59,121 +59,127 @@ html, body {
   object-fit: cover;
 }
 
-/* ================= */
-/* SAĞ METİN BLOĞU */
-/* ================= */
+/* SAĞ ORTAK GENİŞLİK */
+:root {
+  --right-left: 661px;
+  --right-width: 341px;
+}
 
+/* OFFER */
 .offer {
   position: absolute;
-  top: 176px;
   left: var(--right-left);
+  top: 154px;
   width: var(--right-width);
 }
 
 .offer-top {
-  width: 100%;
+  width: var(--right-width);
   font-size: 26px;
-  margin-bottom: 8px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000000;
+  margin: 0 0 8px 0;
 }
 
-/* 🔥 EN KRİTİK FIX */
 .offer-badge {
-  position: relative;
-  width: 100%;
+  width: var(--right-width);
   height: 46px;
-
-  background: #000;
-  color: #fff;
-
+  background: #000000;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 28px;
-  font-weight: 700;
-
-  padding: 0;
-  margin: 0;
-}
-
-/* 🔥 AYNI GENİŞLİK */
-.offer-bottom {
-  width: 100%;
-  margin-top: 10px;
-  font-size: 32px;
+  line-height: 1;
   font-weight: 700;
   white-space: nowrap;
+  margin: 0;
+  padding: 0;
 }
 
-/* ================= */
-/* SAĞ GÖRSEL */
-/* ================= */
+.offer-bottom {
+  width: var(--right-width);
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000000;
+  white-space: nowrap;
+  margin: 10px 0 0 0;
+}
 
+/* SAĞ GÖRSEL */
 .right-image-wrap {
   position: absolute;
-  top: 340px;
   left: var(--right-left);
-
+  top: 341px;
   width: var(--right-width);
-  height: 480px;
+  height: 341px;
+  overflow: hidden;
 }
 
-/* 🔥 EN KRİTİK FIX */
 .right-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;   /* FULL STRETCH */
-  bottom: 0;
-
   width: 100%;
   height: 100%;
-
   object-fit: contain;
+  object-position: center center;
+  background: #ffffff;
 }
 
-/* ================= */
-/* ÜRÜN BLOĞU */
-/* ================= */
-
+/* ÜRÜN */
 .product {
   position: absolute;
-  top: 830px;
   left: var(--right-left);
+  top: 688px;
   width: var(--right-width);
 }
 
 .title {
   width: 100%;
   font-size: 19px;
-  line-height: 1.2;
+  line-height: 1.15;
+  font-weight: 400;
+  color: #000000;
+  text-align: left;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .prices {
   margin-top: 8px;
   display: flex;
+  align-items: baseline;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .old {
-  text-decoration: line-through;
   font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 .new {
-  color: #d92727;
   font-size: 28px;
+  line-height: 1;
   font-weight: 700;
+  color: #d92727;
 }
 
-/* ================= */
 /* LOGO */
-/* ================= */
-
 .logo {
   position: absolute;
-  bottom: 40px;
   left: 50%;
-  transform: translateX(-50%);
+  top: 969px;
   width: 245px;
+  height: auto;
+  transform: translateX(-50%);
 }
