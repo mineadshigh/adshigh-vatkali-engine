@@ -80,7 +80,7 @@ html, body {
 .offer-bottom {
   width: var(--right-width);
   margin-top: 10px;
-  font-size: 42px; /* Daha da büyütüldü */
+  font-size: 43px; /* Daha da büyütüldü */
   font-weight: 900;
   color: #000;
   line-height: 1;
