@@ -48,11 +48,10 @@ img {
   position: absolute;
   left: 90px;
   top: 125px;
-  width: 420px;
+  width: auto;
 }
 
 .offer-top {
-  width: 100%;
   font-size: 24px;
   line-height: 1;
   font-weight: 400;
@@ -62,25 +61,21 @@ img {
 }
 
 .offer-badge {
-  width: 335px;              /* özellikle daha dar, solda */
-  height: 48px;
+  display: inline-block;
   background: #000000;
   color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 27px;
+  font-size: 28px;
   line-height: 1;
   font-weight: 700;
   white-space: nowrap;
+  padding: 10px 14px;
   margin: 0;
-  padding: 0;
+  text-align: left;
 }
 
 .offer-bottom {
-  width: 335px;              /* badge ile aynı genişlik */
-  margin-top: 8px;
-  font-size: 34px;
+  margin-top: 10px;
+  font-size: 36px;
   line-height: 1;
   font-weight: 700;
   color: #000000;
@@ -165,8 +160,9 @@ img {
 .logo {
   position: absolute;
   left: 50%;
-  top: 1760px;
-  width: 320px; /* biraz daha görünür */
+  top: 1765px;
+  width: 320px;
   height: auto;
   transform: translateX(-50%);
+  z-index: 10;
 }
