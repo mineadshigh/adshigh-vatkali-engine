@@ -34,7 +34,7 @@ img {
 .top-title {
   position: absolute;
   left: 0;
-  top: 44px;
+  top: 46px;
   width: 100%;
   text-align: center;
   font-size: 38px;
@@ -59,12 +59,17 @@ img {
   object-fit: cover;
 }
 
+/* SAĞ BLOK GENİŞLİĞİ ORTAK */
+:root {
+  --right-block-width: 395px;
+}
+
 /* SAĞ ÜST BLOK */
 .offer {
   position: absolute;
-  left: 661px;
-  top: 154px;
-  width: 341px;
+  left: 651px;
+  top: 176px;
+  width: var(--right-block-width);
 }
 
 .offer-top {
@@ -76,19 +81,19 @@ img {
 }
 
 .offer-badge {
-  width: 341px;
+  width: var(--right-block-width);
   background: #000;
   color: #fff;
-  font-size: 29px;
+  font-size: 30px;
   line-height: 1;
   font-weight: 700;
-  padding: 7px 10px 8px;
+  padding: 8px 12px 9px;
   white-space: nowrap;
 }
 
 .offer-bottom {
-  width: 341px;
-  margin-top: 8px;
+  width: var(--right-block-width);
+  margin-top: 10px;
   font-size: 34px;
   line-height: 1;
   font-weight: 700;
@@ -99,10 +104,10 @@ img {
 /* SAĞ GÖRSEL */
 .right-image-wrap {
   position: absolute;
-  left: 661px;
-  top: 341px;
-  width: 341px;
-  height: 341px;
+  left: 651px;
+  top: 340px;
+  width: var(--right-block-width);
+  height: 520px;
   overflow: hidden;
 }
 
@@ -117,9 +122,9 @@ img {
 /* ÜRÜN BLOĞU */
 .product {
   position: absolute;
-  left: 661px;
-  top: 688px;
-  width: 341px;
+  left: 651px;
+  top: 872px;
+  width: var(--right-block-width);
   text-align: left;
 }
 
@@ -140,7 +145,7 @@ img {
 }
 
 .prices {
-  margin-top: 10px;
+  margin-top: 8px;
   display: flex;
   align-items: baseline;
   gap: 6px;
