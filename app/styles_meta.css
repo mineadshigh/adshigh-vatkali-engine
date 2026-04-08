@@ -17,17 +17,6 @@ html, body {
   width: 1080px;
   height: 1080px;
   background: #ffffff;
-  overflow: hidden;
-}
-
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.hidden {
-  display: none !important;
 }
 
 /* ÜST BAŞLIK */
@@ -38,9 +27,8 @@ img {
   width: 100%;
   text-align: center;
   font-size: 38px;
-  line-height: 1;
   font-weight: 700;
-  color: #000000;
+  letter-spacing: 0.5px;
 }
 
 /* SOL GÖRSEL */
@@ -50,7 +38,6 @@ img {
   top: 136px;
   width: 525px;
   height: 787px;
-  overflow: hidden;
 }
 
 .left-image {
@@ -59,13 +46,12 @@ img {
   object-fit: cover;
 }
 
-/* SAĞ BLOK ORTAK GENİŞLİK VE KONUM */
+/* SAĞ BLOK KONFİGÜRASYONU */
 :root {
   --right-left: 661px;
-  --right-width: 385px; /* Temel genişlik */
+  --right-width: 385px; /* PSD'deki tam genişlik */
 }
 
-/* SAĞ ÜST BLOK - YAZILARI VE BARI SIĞDIRMA */
 .offer {
   position: absolute;
   left: var(--right-left);
@@ -74,16 +60,13 @@ img {
 }
 
 .offer-top {
-  width: var(--right-width);
   font-size: 26px;
-  line-height: 1;
   font-weight: 400;
-  color: #000000;
-  margin: 0 0 8px 0;
+  margin-bottom: 5px;
   text-align: left;
 }
 
-/* Siyah bar ve içindeki yazıyı tam sığdırma */
+/* Siyah Bar ve Yazı: Tam Sığdırma */
 .offer-badge {
   width: var(--right-width);
   height: 48px;
@@ -92,92 +75,72 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
-  padding: 0;
-
-  /* Bu kısım yazıyı sığdırır: optimize font ve harf arası boşluk */
-  font-size: 25px; /* Boyutu optimize edildi */
-  line-height: 1;
+  
+  /* Yazıyı kutuya yaymak için */
+  font-size: 28px; 
   font-weight: 700;
-  text-align: center;
-  letter-spacing: 0.1px; /* Siyah barda yazıyı hafifçe yayar */
+  letter-spacing: 2px; /* Karakterleri yayar */
+  text-transform: uppercase;
 }
 
-/* İndirim Fırsatı Yazısı - Kalın ve Tam Sığmış */
+/* İNDİRİM FIRSATI: Siyah barla aynı genişlikte */
 .offer-bottom {
   width: var(--right-width);
-  margin: 10px 0 0 0;
-  text-align: center; /* Merkeze alalım ki letter-spacing doğru yaysın */
-
-  /* Bu kısım yazıyı siyah bar genişliğine yayar */
-  font-size: 30px; /* Okunabilirlik için optimize boyutta */
-  line-height: 1;
-  font-weight: 900; /* PSD'deki gibi çok kalın */
-  color: #000000;
-  letter-spacing: -0.3px; /* Yazıyı tam sığdırmak için harf arası daraltma */
+  margin-top: 8px;
+  font-size: 34px;
+  font-weight: 800;
+  text-align: justify; /* Kelime bazlı yayma */
+  display: flex;
+  justify-content: space-between; /* İki kelimeyi iki yana yaslar */
+  letter-spacing: -0.5px;
 }
 
-/* SAĞ GÖRSEL - DAHA BÜYÜK VE UZUN */
+/* SAĞ GÖRSEL: PSD'deki gibi Uzun ve Tam Genişlik */
 .right-image-wrap {
   position: absolute;
   left: var(--right-left);
-  top: 340px; /* Konumu koruyalım */
+  top: 320px; /* Biraz yukarı çektim ki ürün ismine yer kalsın */
   width: var(--right-width);
-  height: 430px; /* Görsel alanını büyüttüm, PSD'deki gibi */
-  overflow: hidden;
-  background: #f4f4f4; /* Görsel yüklenmezse diye */
+  height: 480px; /* Yüksekliği artırdım */
 }
 
 .right-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* GÖRSELİ CROP YAPARAK KUTUYU DOLDURUR (PSD'DEKİ GİBİ) */
+  object-fit: cover; /* PSD'deki gibi alanı doldurur */
   object-position: center top;
 }
 
-/* ÜRÜN BLOĞU - AŞAĞI HİZALAMA */
+/* ÜRÜN BLOĞU: Görselin hemen altına yapışık */
 .product {
   position: absolute;
   left: var(--right-left);
-  top: 782px; /* Konumu koruyalım, görsel büyüyünce burası doğal olarak alta inecek */
+  top: 815px; /* Görselin bitişine göre ayarlandı */
   width: var(--right-width);
-  text-align: left;
 }
 
 .title {
-  width: 100%;
   font-size: 19px;
-  line-height: 1.15;
-  font-weight: 400;
+  font-weight: 500;
   color: #000000;
-  text-align: left;
-  margin-bottom: 8px; /* Fiyatlarla boşluk */
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
 .prices {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12px;
 }
 
 .old {
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
+  font-size: 22px;
+  color: #777;
   text-decoration: line-through;
-  text-decoration-thickness: 2px;
 }
 
 .new {
-  font-size: 28px;
-  line-height: 1;
+  font-size: 30px;
   font-weight: 700;
   color: #d92727;
 }
@@ -186,8 +149,7 @@ img {
 .logo {
   position: absolute;
   left: 50%;
-  top: 969px;
+  bottom: 40px;
   width: 245px;
-  height: auto;
   transform: translateX(-50%);
 }
