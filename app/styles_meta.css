@@ -23,9 +23,8 @@ html, body {
   top: 46px;
   width: 100%;
   text-align: center;
-  font-size: 38.98px;
+  font-size: 39px;
   font-weight: 700;
-  color: #000;
 }
 
 /* SOL GÖRSEL */
@@ -47,7 +46,7 @@ html, body {
 /* SAĞ BLOK KONFİGÜRASYONU */
 :root {
   --right-left: 661px;
-  --right-width: 341px; /* PSD'deki tam genişlik */
+  --right-width: 341px; /* PSD'deki kilit genişlik */
 }
 
 .offer {
@@ -58,48 +57,47 @@ html, body {
 }
 
 .offer-top {
-  font-size: 25.69px;
+  font-size: 26px;
   font-weight: 400;
   margin-bottom: 8px;
-  text-align: left;
 }
 
-/* Siyah Bar - Tek Satır Garantili */
+/* Siyah Bar - Kırılma Yapmaz */
 .offer-badge {
   width: var(--right-width);
   height: 54px;
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 34px; /* Tek satıra sığması için hafif optimize edildi */
+  font-size: 34px; /* Sığması için optimize edildi */
   font-weight: 700;
-  white-space: nowrap; /* Kırılmayı engeller */
+  white-space: nowrap;
 }
 
-/* İNDİRİM FIRSATI - Daha Büyük ve Tam Yaslı */
+/* İNDİRİM FIRSATI - Dev Boyut ve Tek Satır */
 .offer-bottom {
   width: var(--right-width);
   margin-top: 10px;
-  font-size: 42px; /* Çok daha büyük yapıldı */
+  font-size: 44px; /* Daha da büyütüldü */
   font-weight: 900;
-  color: #000000;
+  color: #000;
   line-height: 1;
-  text-align: left;
+  text-align: justify;
   
-  /* Harfleri yayarak siyah barın her iki ucuna eşitliyoruz */
-  letter-spacing: 0.8px; 
+  /* Harf aralarını açarak 341px'e tam yayıyoruz */
+  letter-spacing: 0.1px; 
   display: flex;
   justify-content: space-between;
-  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* SAĞ GÖRSEL */
 .right-image-wrap {
   position: absolute;
   left: var(--right-left);
-  top: 335px; /* Badge ve yazı sonrası hiza */
+  top: 335px;
   width: var(--right-width);
   height: 480px;
 }
@@ -119,10 +117,8 @@ html, body {
 }
 
 .title {
-  font-size: 19.22px;
-  font-weight: 400;
+  font-size: 19px;
   margin-bottom: 8px;
-  color: #000;
 }
 
 .prices {
@@ -133,7 +129,6 @@ html, body {
 
 .old {
   font-size: 22px;
-  color: #000;
   text-decoration: line-through;
 }
 
