@@ -19,6 +19,16 @@ html, body {
   background: #ffffff;
 }
 
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
 /* ÜST BAŞLIK */
 .top-title {
   position: absolute;
@@ -28,6 +38,7 @@ html, body {
   text-align: center;
   font-size: 38px;
   font-weight: 700;
+  color: #000000;
   letter-spacing: 0.5px;
 }
 
@@ -38,6 +49,7 @@ html, body {
   top: 136px;
   width: 525px;
   height: 787px;
+  overflow: hidden;
 }
 
 .left-image {
@@ -46,10 +58,10 @@ html, body {
   object-fit: cover;
 }
 
-/* SAĞ BLOK KONFİGÜRASYONU */
+/* SAĞ BLOK AYARLARI */
 :root {
   --right-left: 661px;
-  --right-width: 385px; /* PSD'deki tam genişlik */
+  --right-width: 385px; /* Siyah bar ve görselin tam genişliği */
 }
 
 .offer {
@@ -62,11 +74,10 @@ html, body {
 .offer-top {
   font-size: 26px;
   font-weight: 400;
-  margin-bottom: 5px;
-  text-align: left;
+  margin-bottom: 8px;
 }
 
-/* Siyah Bar ve Yazı: Tam Sığdırma */
+/* Siyah bar: Yazıyı kutuya yayar */
 .offer-badge {
   width: var(--right-width);
   height: 48px;
@@ -75,56 +86,57 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Yazıyı kutuya yaymak için */
-  font-size: 28px; 
+  font-size: 27px;
   font-weight: 700;
-  letter-spacing: 2px; /* Karakterleri yayar */
-  text-transform: uppercase;
+  letter-spacing: 1.5px; /* Yazıyı kutu içinde dolgun gösterir */
 }
 
-/* İNDİRİM FIRSATI: Siyah barla aynı genişlikte */
+/* İndirim Fırsatı: İki yana tam yaslar */
 .offer-bottom {
   width: var(--right-width);
-  margin-top: 8px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between; /* İNDİRİM sola, FIRSATI sağa yaslanır */
   font-size: 34px;
   font-weight: 800;
-  text-align: justify; /* Kelime bazlı yayma */
-  display: flex;
-  justify-content: space-between; /* İki kelimeyi iki yana yaslar */
-  letter-spacing: -0.5px;
+  color: #000000;
 }
 
-/* SAĞ GÖRSEL: PSD'deki gibi Uzun ve Tam Genişlik */
+/* SAĞ GÖRSEL: PSD'deki gibi büyük ve tam genişlik */
 .right-image-wrap {
   position: absolute;
   left: var(--right-left);
-  top: 320px; /* Biraz yukarı çektim ki ürün ismine yer kalsın */
+  top: 335px;
   width: var(--right-width);
-  height: 480px; /* Yüksekliği artırdım */
+  height: 450px; /* PSD oranına göre yükseltildi */
+  overflow: hidden;
 }
 
 .right-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* PSD'deki gibi alanı doldurur */
+  object-fit: cover; /* Kırpmadan alanı doldurur */
   object-position: center top;
 }
 
-/* ÜRÜN BLOĞU: Görselin hemen altına yapışık */
+/* ÜRÜN BLOĞU */
 .product {
   position: absolute;
   left: var(--right-left);
-  top: 815px; /* Görselin bitişine göre ayarlandı */
+  top: 795px; /* Görsel büyüdüğü için biraz aşağı kaydırıldı */
   width: var(--right-width);
 }
 
 .title {
   font-size: 19px;
-  font-weight: 500;
-  color: #000000;
-  margin-bottom: 8px;
   line-height: 1.2;
+  font-weight: 400;
+  color: #000000;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .prices {
@@ -135,8 +147,9 @@ html, body {
 
 .old {
   font-size: 22px;
-  color: #777;
+  color: #000000;
   text-decoration: line-through;
+  text-decoration-thickness: 1px;
 }
 
 .new {
@@ -149,7 +162,7 @@ html, body {
 .logo {
   position: absolute;
   left: 50%;
-  bottom: 40px;
+  top: 969px;
   width: 245px;
   transform: translateX(-50%);
 }
