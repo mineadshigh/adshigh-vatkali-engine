@@ -23,9 +23,9 @@ html, body {
   top: 46px;
   width: 100%;
   text-align: center;
-  font-size: 39px;
+  font-size: 38.98px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  color: #000;
 }
 
 /* SOL GÖRSEL */
@@ -47,7 +47,7 @@ html, body {
 /* SAĞ BLOK KONFİGÜRASYONU */
 :root {
   --right-left: 661px;
-  --right-width: 341px; /* PSD'deki siyah bar ve blok genişliği */
+  --right-width: 341px; /* PSD'deki siyah badge genişliği */
 }
 
 .offer {
@@ -58,13 +58,13 @@ html, body {
 }
 
 .offer-top {
-  font-size: 26px;
+  font-size: 25.69px;
   font-weight: 400;
   margin-bottom: 8px;
   text-align: left;
 }
 
-/* Siyah Bar */
+/* Siyah Bar (Badge) */
 .offer-badge {
   width: var(--right-width);
   height: 54px;
@@ -73,23 +73,22 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 39px;
+  font-size: 38.98px;
   font-weight: 700;
-  letter-spacing: -0.5px;
 }
 
-/* İNDİRİM FIRSATI - Kelime arası normal, blok genişliği tam yaslı */
+/* İNDİRİM FIRSATI - Milimetrik Bloklama */
 .offer-bottom {
   width: var(--right-width);
   margin-top: 10px;
-  font-size: 34px;
+  font-size: 35px; /* PSD'deki doluluk için boyut optimize edildi */
   font-weight: 800;
   color: #000000;
-  text-align: justify;
   line-height: 1;
+  text-align: left;
   
-  /* Harflerin arasını açarak 341px genişliğini dolduruyoruz */
-  letter-spacing: 3.2px; 
+  /* Harf aralarını açarak siyah bar genişliğiyle (341px) eşitliyoruz */
+  letter-spacing: 3.4px; 
   white-space: nowrap;
 }
 
@@ -105,7 +104,7 @@ html, body {
 .right-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* PSD'deki gibi dolu görünüm, crop yapmaz */
 }
 
 /* ÜRÜN BİLGİSİ */
@@ -117,7 +116,7 @@ html, body {
 }
 
 .title {
-  font-size: 19px;
+  font-size: 19.22px;
   font-weight: 400;
   margin-bottom: 8px;
   color: #000;
