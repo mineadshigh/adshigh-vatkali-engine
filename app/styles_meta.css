@@ -1,160 +1,50 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1080px;
-  overflow: hidden;
-  background: #ffffff;
-  font-family: "Outfit", Arial, Helvetica, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-}
-
-/* ÜST BAŞLIK */
-.top-title {
-  position: absolute;
-  left: 0;
-  top: 46px;
-  width: 100%;
-  text-align: center;
-  font-size: 38.98px; /* PSD Değeri */
-  font-weight: 700;
-  color: #000000;
-}
-
-/* SOL GÖRSEL */
-.left-image-wrap {
-  position: absolute;
-  left: 61px;
-  top: 136px;
-  width: 525px;
-  height: 787px;
-  overflow: hidden;
-}
-
-.left-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* SAĞ BLOK KONFİGÜRASYONU */
 :root {
   --right-left: 661px;
-  --right-width: 385px; /* Siyah barın tam genişliği */
+  --right-width: 341px; /* PSD'deki net genişlik */
 }
 
-.offer {
-  position: absolute;
-  left: var(--right-left);
-  top: 154px;
-  width: var(--right-width);
-}
-
-.offer-top {
-  font-size: 25.69px; /* PSD Değeri */
-  font-weight: 500;
-  margin-bottom: 6px;
-  text-align: left;
-}
-
-/* Siyah Bar: Yazıyı PSD'deki gibi yaymak için */
+/* Siyah Bar */
 .offer-badge {
   width: var(--right-width);
-  height: 54px; /* PSD Değeri */
-  background: #000000;
-  color: #ffffff;
+  height: 54px;
+  background: #000;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38.98px; /* PSD Değeri */
+  font-size: 39px;
   font-weight: 700;
   text-align: center;
-  letter-spacing: -0.5px;
 }
 
-/* İNDİRİM FIRSATI: İki uca tam yaslama (Aradaki boşluğu zorlayarak) */
+/* İNDİRİM FIRSATI - Karakterleri yayarak iki yana yaslama */
 .offer-bottom {
   width: var(--right-width);
-  margin-top: 12px;
+  margin-top: 8px;
+  font-size: 32px; /* Fontu bir tık küçülttüm ki yayılmaya yer kalsın */
+  font-weight: 800;
+  color: #000;
+  text-align: justify;
+  text-justify: inter-character; /* Kelime arası değil, karakter arası boşluk ekler */
+  
+  /* Modern tarayıcılarda tam yaslama garantisi için */
   display: flex;
-  justify-content: space-between; /* Kelimeleri iki uca iter */
-  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 4.5px; /* Karakterlerin arasını açarak 341px'e tamamlar */
+  text-transform: uppercase;
 }
 
-.offer-bottom span {
-  font-size: 38.98px; /* PSD Değeri */
-  font-weight: 700;
-  color: #000000;
-  line-height: 1;
-  display: inline-block;
-}
-
-/* SAĞ GÖRSEL: Crop Olmadan Alanı Doldurma */
+/* 2. GÖRSEL (Crop Yok, Tam Blok) */
 .right-image-wrap {
   position: absolute;
   left: var(--right-left);
-  top: 325px; /* PSD hizası için yukarı çekildi */
+  top: 335px;
   width: var(--right-width);
-  height: 480px; /* Görsel alanı büyütüldü */
-  overflow: hidden;
+  height: 480px;
 }
 
 .right-image {
   width: 100%;
   height: 100%;
   object-fit: cover; /* PSD'deki doluluğu sağlar */
-  object-position: center top;
-}
-
-/* ÜRÜN BLOĞU */
-.product {
-  position: absolute;
-  left: var(--right-left);
-  top: 815px; /* Görsel altına milimetrik hiza */
-  width: var(--right-width);
-}
-
-.title {
-  font-size: 19.22px; /* PSD Değeri */
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-
-.prices {
-  display: flex;
-  align-items: baseline;
-  gap: 15px;
-}
-
-.old {
-  font-size: 22px;
-  color: #000000;
-  text-decoration: line-through;
-}
-
-.new {
-  font-size: 30px;
-  font-weight: 700;
-  color: #d92727;
-}
-
-/* LOGO */
-.logo {
-  position: absolute;
-  left: 50%;
-  top: 969px;
-  width: 245px;
-  transform: translateX(-50%);
 }
