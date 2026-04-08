@@ -47,7 +47,7 @@ html, body {
 /* SAĞ BLOK KONFİGÜRASYONU */
 :root {
   --right-left: 661px;
-  --right-width: 341px; /* PSD'deki siyah badge genişliği */
+  --right-width: 341px; /* PSD'deki tam genişlik */
 }
 
 .offer {
@@ -64,7 +64,7 @@ html, body {
   text-align: left;
 }
 
-/* Siyah Bar (Badge) */
+/* Siyah Bar - Tek Satır Garantili */
 .offer-badge {
   width: var(--right-width);
   height: 54px;
@@ -73,30 +73,33 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38.98px;
+  font-size: 34px; /* Tek satıra sığması için hafif optimize edildi */
   font-weight: 700;
+  white-space: nowrap; /* Kırılmayı engeller */
 }
 
-/* İNDİRİM FIRSATI - Milimetrik Bloklama */
+/* İNDİRİM FIRSATI - Daha Büyük ve Tam Yaslı */
 .offer-bottom {
   width: var(--right-width);
   margin-top: 10px;
-  font-size: 35px; /* PSD'deki doluluk için boyut optimize edildi */
-  font-weight: 800;
+  font-size: 42px; /* Çok daha büyük yapıldı */
+  font-weight: 900;
   color: #000000;
   line-height: 1;
   text-align: left;
   
-  /* Harf aralarını açarak siyah bar genişliğiyle (341px) eşitliyoruz */
-  letter-spacing: 3.4px; 
-  white-space: nowrap;
+  /* Harfleri yayarak siyah barın her iki ucuna eşitliyoruz */
+  letter-spacing: 0.8px; 
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
 }
 
 /* SAĞ GÖRSEL */
 .right-image-wrap {
   position: absolute;
   left: var(--right-left);
-  top: 325px;
+  top: 335px; /* Badge ve yazı sonrası hiza */
   width: var(--right-width);
   height: 480px;
 }
@@ -104,14 +107,14 @@ html, body {
 .right-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* PSD'deki gibi dolu görünüm, crop yapmaz */
+  object-fit: cover;
 }
 
 /* ÜRÜN BİLGİSİ */
 .product {
   position: absolute;
   left: var(--right-left);
-  top: 815px;
+  top: 830px;
   width: var(--right-width);
 }
 
