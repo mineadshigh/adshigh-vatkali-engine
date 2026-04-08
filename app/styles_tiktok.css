@@ -5,7 +5,7 @@ html, body {
   height: 1920px;
   overflow: hidden;
   background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
+  font-family: "Outfit", Arial, Helvetica, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -17,19 +17,25 @@ html, body {
   background: #ffffff;
 }
 
+/* ========================================= */
 /* ÜST BAŞLIK */
+/* ========================================= */
 .top-title {
   position: absolute;
   left: 0;
-  top: 80px;
+  top: 80px; /* Ferah bir başlangıç için */
   width: 100%;
   text-align: center;
   font-size: 42px;
   font-weight: 700;
-  color: #000;
+  color: #000000;
+  letter-spacing: 0.5px;
 }
 
-/* SAĞ BLOK KONSEPTİNİ DİKEYE UYARLADIK */
+/* ========================================= */
+/* İNDİRİM BLOĞU (909px Genişlik) */
+/* ========================================= */
+/* PSD'deki gibi her şey sol tarafa (86px marjinle) yaslı. */
 :root {
   --content-width: 909px;
   --content-left: 86px;
@@ -38,7 +44,7 @@ html, body {
 .offer {
   position: absolute;
   left: var(--content-left);
-  top: 180px;
+  top: 190px;
   width: var(--content-width);
 }
 
@@ -49,12 +55,12 @@ html, body {
   text-align: left;
 }
 
-/* Siyah Bar */
+/* Siyah Bar (Badge) - PSD Boyutu */
 .offer-badge {
   width: var(--content-width);
   height: 80px;
-  background: #000;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,27 +69,34 @@ html, body {
   white-space: nowrap;
 }
 
-/* İndirim Fırsatı - Tek Satır ve Tam Yaslı */
+/* İNDİRİM FIRSATI - Siyah Bar Genişliği ile Eşitlendi */
 .offer-bottom {
   width: var(--content-width);
   margin-top: 15px;
-  font-size: 68px; /* Geniş alanda daha vurucu boyut */
-  font-weight: 900;
-  color: #000;
+  font-size: 68px; /* Çok daha büyük bir font */
+  font-weight: 800;
+  color: #000000;
   line-height: 1;
-  display: flex;
-  justify-content: space-between;
-  white-space: nowrap;
+  text-align: justify;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* ANA GÖRSEL */
+/* Yazıyı tam yaslamak için modern yöntem */
+.offer-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ========================================= */
+/* ANA GÖRSEL (Dikey Büyük Alan) */
+/* ========================================= */
 .main-image-wrap {
   position: absolute;
   left: var(--content-left);
-  top: 420px;
+  top: 450px; /* Yazılardan sonra başlar */
   width: var(--content-width);
-  height: 1100px; /* Dikeyde devasa görsel alanı */
+  height: 1100px; /* Dikey ekranda tam sayfa hissi için yükseltildi */
   overflow: hidden;
 }
 
@@ -93,25 +106,14 @@ html, body {
   object-fit: cover;
 }
 
-/* ALT BİLGİ BLOĞU */
-.bottom-row {
+/* ========================================= */
+/* META - GÖRSELİN HEMEN ALTINDA VE SOLDA */
+/* ========================================= */
+.meta {
   position: absolute;
   left: var(--content-left);
-  top: 1550px;
+  top: 1570px; /* Görselin bitişine göre ayarlandı */
   width: var(--content-width);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.logo {
-  width: 320px;
-  height: auto;
-}
-
-.meta {
-  text-align: right;
-  max-width: 500px;
 }
 
 .title {
@@ -123,14 +125,14 @@ html, body {
 
 .prices {
   display: flex;
-  justify-content: flex-end;
   align-items: baseline;
+  justify-content: flex-start; /* SOLA YASLANDI */
   gap: 20px;
 }
 
 .old {
   font-size: 34px;
-  color: #000;
+  color: #000000;
   text-decoration: line-through;
 }
 
@@ -138,6 +140,17 @@ html, body {
   font-size: 46px;
   font-weight: 700;
   color: #d92727;
+}
+
+/* ========================================= */
+/* LOGO - EN ALTTA */
+/* ========================================= */
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 1780px; /* En alt kısma alındı */
+  width: 320px;
+  transform: translateX(-50%);
 }
 
 .hidden { display: none !important; }
