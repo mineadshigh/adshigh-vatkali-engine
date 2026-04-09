@@ -288,21 +288,32 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     }
 
     try:
-        r = await client.get(cleaned_url, headers=headers, timeout=20.0, follow_redirects=True)
+        r = await client.get(
+            cleaned_url,
+            headers=headers,
+            timeout=30.0,
+            follow_redirects=True,
+        )
         r.raise_for_status()
 
         ct = (r.headers.get("content-type") or "").lower()
-        if "image/" not in ct:
-            return _transparent_data_uri()
 
-        if len(r.content) > 6_000_000:
-            return _transparent_data_uri()
+        # ❗ image değilse direkt URL dön
+        if "image/" not in ct:
+            return cleaned_url
+
+        # ❗ çok büyükse base64 yapma (performans + timeout)
+        if len(r.content) > 8_000_000:
+            return cleaned_url
 
         mime = _guess_mime(cleaned_url, r.headers.get("content-type"))
         b64 = base64.b64encode(r.content).decode("ascii")
         return f"data:{mime};base64,{b64}"
+
     except Exception:
-        return _transparent_data_uri()
+        # 🔥 EN KRİTİK FIX
+        # eskiden transparan png dönüyordu → şimdi URL fallback
+        return cleaned_url
 
 
 # -------------------------
