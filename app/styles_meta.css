@@ -124,7 +124,7 @@ img {
 .weekend {
   position: absolute;
   left: 0;
-  top: 114px;
+  top: 118px;
   width: 152px;
   font-size: 12px;
   line-height: 1;
@@ -137,7 +137,7 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 131px;
+  top: 136px;
   width: 152px;
   font-size: 16px;
   line-height: 1;
@@ -161,9 +161,9 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 188px;
-  top: 130px;
-  font-size: 10px;
+  left: 181px;
+  top: 123px;
+  font-size: 12px;
   line-height: 1;
   font-weight: 700;
   color: #000;
