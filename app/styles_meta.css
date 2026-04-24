@@ -83,7 +83,7 @@ img {
   line-height: 0.85;
   font-weight: 700;
   color: #000;
-  letter-spacing: -5px;
+  letter-spacing: -3px;
 }
 
 .white-pill {
@@ -162,7 +162,7 @@ img {
 .percent-small {
   position: absolute;
   left: 189px;
-  top: 135px;
+  top: 133px;
   font-size: 9px;
   line-height: 1;
   font-weight: 700;
