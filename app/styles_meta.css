@@ -161,8 +161,8 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 181px;
-  top: 123px;
+  left: 176px;   /* ← biraz sola alındı */
+  top: 120px;    /* ← biraz yukarı alındı */
   font-size: 12px;
   line-height: 1;
   font-weight: 700;
