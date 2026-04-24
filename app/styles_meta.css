@@ -55,7 +55,6 @@ img {
   object-position: center top;
 }
 
-/* SOL KAMPANYA BLOĞU */
 .promo {
   position: absolute;
   left: 52px;
@@ -87,7 +86,6 @@ img {
   letter-spacing: -5px;
 }
 
-/* SEASON / OFF ortak O şekli */
 .white-pill {
   position: absolute;
   left: 215px;
@@ -124,9 +122,9 @@ img {
 .weekend {
   position: absolute;
   left: 0;
-  top: 118px;
+  top: 116px;
   width: 152px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1;
   font-weight: 400;
   color: #000;
@@ -137,9 +135,9 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 136px;
+  top: 135px;
   width: 152px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -161,9 +159,9 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 176px;   /* ← biraz sola alındı */
-  top: 120px;    /* ← biraz yukarı alındı */
-  font-size: 12px;
+  left: 187px;
+  top: 128px;
+  font-size: 10px;
   line-height: 1;
   font-weight: 700;
   color: #000;
