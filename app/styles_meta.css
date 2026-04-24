@@ -145,10 +145,11 @@ img {
   z-index: 5;
 }
 
+/* 🔧 DÜZELTİLDİ */
 .ten {
   position: absolute;
   left: 155px;
-  top: 120px;
+  top: 125px;
   font-size: 51px;
   line-height: 1;
   font-weight: 700;
@@ -157,10 +158,11 @@ img {
   z-index: 5;
 }
 
+/* 🔧 DÜZELTİLDİ */
 .percent-small {
   position: absolute;
-  left: 191px;
-  top: 138px;
+  left: 186px;
+  top: 141px;
   font-size: 9px;
   line-height: 1;
   font-weight: 700;
