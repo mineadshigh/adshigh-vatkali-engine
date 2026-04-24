@@ -55,7 +55,6 @@ img {
   object-position: center top;
 }
 
-/* PROMO */
 .promo {
   position: absolute;
   left: 52px;
@@ -70,19 +69,23 @@ img {
   left: 0;
   top: 0;
   font-size: 29px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
 }
 
-/* SEAS */
 .seas {
   position: absolute;
   left: 0;
   top: 32px;
   font-size: 82px;
+  line-height: 0.85;
   font-weight: 700;
+  color: #000;
   letter-spacing: -5px;
 }
 
-/* O SHAPE */
 .white-pill {
   position: absolute;
   left: 215px;
@@ -105,83 +108,97 @@ img {
   z-index: 3;
 }
 
-/* N */
 .n-letter {
   position: absolute;
   left: 300px;
   top: 32px;
   font-size: 82px;
+  line-height: 0.85;
   font-weight: 700;
+  color: #000;
   letter-spacing: -5px;
 }
 
-/* ALT YAZILAR (HİZALI) */
 .weekend {
   position: absolute;
   left: 0;
-  top: 118px;
+  top: 119px;
   width: 152px;
   font-size: 12px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
 .extra {
   position: absolute;
   left: 0;
-  top: 142px; /* ← BURASI KRİTİK (FF VE 10 İLE ALT HİZA) */
+  top: 145px;
   width: 152px;
   font-size: 16px;
+  line-height: 1;
   font-weight: 700;
+  color: #000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
-/* 10 */
 .ten {
   position: absolute;
   left: 155px;
   top: 112px;
   font-size: 51px;
+  line-height: 1;
   font-weight: 700;
+  color: #000;
   letter-spacing: -4px;
+  z-index: 5;
 }
 
-/* % → 0'ın TAM ORTASI */
 .percent-small {
   position: absolute;
-  left: 182px;
-  top: 126px;
-  font-size: 10px;
+  left: 194px;
+  top: 129px;
+  font-size: 9px;
+  line-height: 1;
   font-weight: 700;
   color: #000;
   z-index: 6;
 }
 
-/* FF */
 .off {
   position: absolute;
   left: 300px;
   top: 99px;
   font-size: 82px;
+  line-height: 0.85;
   font-weight: 700;
+  color: #000;
   letter-spacing: -5px;
 }
 
-/* NOT */
 .campaign-note {
   position: absolute;
   left: 11px;
   top: 181px;
   width: 390px;
   font-size: 11px;
+  line-height: 1.1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
 }
 
-/* LOGO */
 .logo {
   position: absolute;
   left: 112px;
   top: 816px;
   width: 233px;
+  height: auto;
 }
 
-/* ÇİZGİLER */
 .line-vertical {
   position: absolute;
   left: 1046px;
