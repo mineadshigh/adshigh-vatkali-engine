@@ -8,9 +8,7 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
@@ -26,11 +24,8 @@ img {
   user-select: none;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
-/* ÜST BAŞLIK */
 .top-title {
   position: absolute;
   left: 315px;
@@ -44,7 +39,6 @@ img {
   white-space: nowrap;
 }
 
-/* ANA ÜRÜN GÖRSELİ */
 .main-image-wrap {
   position: absolute;
   left: 457px;
@@ -66,145 +60,136 @@ img {
   position: absolute;
   left: 51px;
   top: 437px;
-  width: 330px;
-  height: 170px;
+  width: 360px;
+  height: 180px;
   color: #000;
 }
 
-/* UP TO 60% */
 .up-to {
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1;
   font-weight: 400;
   color: #000;
   white-space: nowrap;
 }
 
-/* SEAS */
 .seas {
   position: absolute;
   left: 0;
-  top: 30px;
-  font-size: 82px;
-  line-height: 0.86;
+  top: 28px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
   letter-spacing: -3px;
 }
 
-/* Beyaz dikey oval */
 .white-pill {
   position: absolute;
-  left: 155px;
-  top: 28px;
-  width: 62px;
-  height: 110px;
+  left: 158px;
+  top: 25px;
+  width: 58px;
+  height: 96px;
   background: #fff;
   border-radius: 999px;
   z-index: 2;
 }
 
-/* Siyah daire */
 .black-dot {
   position: absolute;
-  left: 167px;
-  top: 78px;
-  width: 48px;
-  height: 48px;
+  left: 171px;
+  top: 72px;
+  width: 45px;
+  height: 45px;
   background: #000;
   border-radius: 50%;
   z-index: 3;
 }
 
-/* N */
 .n-letter {
   position: absolute;
-  left: 228px;
-  top: 30px;
-  font-size: 82px;
-  line-height: 0.86;
+  left: 226px;
+  top: 28px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
   letter-spacing: -3px;
 }
 
-/* HAFTA SONUNA ÖZEL */
 .weekend {
   position: absolute;
   left: 0;
-  top: 91px;
-  font-size: 13px;
+  top: 83px;
+  font-size: 11px;
   line-height: 1;
   font-weight: 400;
   color: #000;
   white-space: nowrap;
+  z-index: 5;
 }
 
-/* SEPETTE EKSTRA */
 .extra {
   position: absolute;
   left: 0;
-  top: 108px;
-  font-size: 18px;
+  top: 98px;
+  font-size: 14px;
   line-height: 1;
   font-weight: 700;
   color: #000;
   white-space: nowrap;
+  z-index: 5;
 }
 
-/* 10 */
 .ten {
   position: absolute;
-  left: 120px;
-  top: 88px;
-  font-size: 50px;
+  left: 129px;
+  top: 86px;
+  font-size: 38px;
   line-height: 1;
   font-weight: 700;
   color: #000;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
+  z-index: 5;
 }
 
-/* % küçük */
 .percent-small {
   position: absolute;
-  left: 150px;
-  top: 102px;
-  font-size: 10px;
+  left: 153px;
+  top: 101px;
+  font-size: 8px;
   line-height: 1;
   font-weight: 700;
   color: #fff;
-  z-index: 4;
+  z-index: 6;
 }
 
-/* OFF */
 .off {
   position: absolute;
-  left: 228px;
-  top: 85px;
-  font-size: 82px;
-  line-height: 0.86;
+  left: 226px;
+  top: 77px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
   letter-spacing: -3px;
 }
 
-/* Açıklama */
 .campaign-note {
   position: absolute;
-  left: 12px;
-  top: 167px;
+  left: 11px;
+  top: 142px;
   width: 325px;
-  font-size: 9px;
+  font-size: 8px;
   line-height: 1;
   font-weight: 400;
   color: #000;
   white-space: nowrap;
 }
 
-/* LOGO */
 .logo {
   position: absolute;
   left: 112px;
@@ -213,7 +198,6 @@ img {
   height: auto;
 }
 
-/* SAĞ ÇİZGİLER */
 .line-vertical {
   position: absolute;
   left: 1046px;
