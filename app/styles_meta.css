@@ -55,6 +55,7 @@ img {
   object-position: center top;
 }
 
+/* PROMO */
 .promo {
   position: absolute;
   left: 52px;
@@ -69,23 +70,19 @@ img {
   left: 0;
   top: 0;
   font-size: 29px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
 }
 
+/* SEAS */
 .seas {
   position: absolute;
   left: 0;
   top: 32px;
   font-size: 82px;
-  line-height: 0.85;
   font-weight: 700;
-  color: #000;
   letter-spacing: -5px;
 }
 
+/* O SHAPE */
 .white-pill {
   position: absolute;
   left: 215px;
@@ -108,97 +105,83 @@ img {
   z-index: 3;
 }
 
+/* N */
 .n-letter {
   position: absolute;
   left: 300px;
   top: 32px;
   font-size: 82px;
-  line-height: 0.85;
   font-weight: 700;
-  color: #000;
   letter-spacing: -5px;
 }
 
+/* ALT YAZILAR (HİZALI) */
 .weekend {
   position: absolute;
   left: 0;
-  top: 132px; /* Hizalama için ayarlandı */
-  width: 180px;
-  font-size: 14px; /* İstediğin gibi büyütüldü */
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
-  z-index: 5;
+  top: 118px;
+  width: 152px;
+  font-size: 12px;
 }
 
 .extra {
   position: absolute;
   left: 0;
-  top: 151px; /* OFF ve 10 ile alt hizası eşitlendi */
-  width: 180px;
-  font-size: 18px; /* İstediğin gibi büyütüldü */
-  line-height: 1;
+  top: 142px; /* ← BURASI KRİTİK (FF VE 10 İLE ALT HİZA) */
+  width: 152px;
+  font-size: 16px;
   font-weight: 700;
-  color: #000;
-  white-space: nowrap;
-  z-index: 5;
 }
 
+/* 10 */
 .ten {
   position: absolute;
-  left: 172px; /* 0'ın merkeze gelmesi için sola çekildi */
-  top: 115px; /* Alt hiza FF ve Extra ile eşitlendi */
+  left: 155px;
+  top: 112px;
   font-size: 51px;
-  line-height: 1;
   font-weight: 700;
-  color: #000;
   letter-spacing: -4px;
-  z-index: 5;
 }
 
+/* % → 0'ın TAM ORTASI */
 .percent-small {
   position: absolute;
-  left: 247px; /* Siyah dairenin/0'ın tam ortası */
-  top: 120px; /* Siyah dairenin/0'ın tam ortası */
-  font-size: 11px;
-  line-height: 1;
+  left: 182px;
+  top: 126px;
+  font-size: 10px;
   font-weight: 700;
-  color: #fff; /* Siyah daire içinde görünmesi için beyaz yapıldı */
+  color: #000;
   z-index: 6;
 }
 
+/* FF */
 .off {
   position: absolute;
   left: 300px;
   top: 99px;
   font-size: 82px;
-  line-height: 0.85;
   font-weight: 700;
-  color: #000;
   letter-spacing: -5px;
 }
 
+/* NOT */
 .campaign-note {
   position: absolute;
   left: 11px;
   top: 181px;
   width: 390px;
   font-size: 11px;
-  line-height: 1.1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
 }
 
+/* LOGO */
 .logo {
   position: absolute;
   left: 112px;
   top: 816px;
   width: 233px;
-  height: auto;
 }
 
+/* ÇİZGİLER */
 .line-vertical {
   position: absolute;
   left: 1046px;
