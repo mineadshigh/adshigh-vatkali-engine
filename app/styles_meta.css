@@ -1,115 +1,218 @@
-/* PROMO BLOK TAM RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #f2f2f2;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden { display: none !important; }
+
+.top-title {
+  position: absolute;
+  left: 315px;
+  top: 46px;
+  width: 450px;
+  font-size: 39px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.main-image-wrap {
+  position: absolute;
+  left: 457px;
+  top: 118px;
+  width: 564px;
+  height: 844px;
+  overflow: hidden;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* SOL KAMPANYA BLOĞU */
 .promo {
   position: absolute;
   left: 51px;
   top: 437px;
-  width: 400px;
-  height: 200px;
+  width: 380px;
+  height: 190px;
+  color: #000;
 }
 
-/* ÜST YAZI */
 .up-to {
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
   font-size: 24px;
+  line-height: 1;
   font-weight: 400;
+  color: #000;
+  white-space: nowrap;
 }
 
-/* SEAS */
 .seas {
   position: absolute;
-  top: 30px;
   left: 0;
-  font-size: 64px;
+  top: 29px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
+  color: #000;
   letter-spacing: -3px;
 }
 
-/* O SHAPE — TAM ORTA */
+/* SEASON / OFF ortak O şekli */
 .white-pill {
   position: absolute;
-  top: 26px;
-  left: 170px;
-  width: 64px;
-  height: 120px;
+  left: 166px;
+  top: 20px;
+  width: 66px;
+  height: 122px;
   background: #fff;
   border-radius: 999px;
   z-index: 2;
 }
 
-/* İÇ NOKTA — TAM MERKEZ */
 .black-dot {
   position: absolute;
-  top: 86px;
-  left: 182px;
-  width: 52px;
-  height: 52px;
+  left: 180px;
+  top: 81px;
+  width: 50px;
+  height: 50px;
   background: #000;
   border-radius: 50%;
   z-index: 3;
 }
 
-/* N */
 .n-letter {
   position: absolute;
-  top: 30px;
-  left: 250px;
-  font-size: 64px;
+  left: 246px;
+  top: 29px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
+  color: #000;
   letter-spacing: -3px;
 }
 
-/* ALT METİN */
 .weekend {
   position: absolute;
-  top: 100px;
   left: 0;
+  top: 95px;
   font-size: 11px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
 .extra {
   position: absolute;
-  top: 115px;
   left: 0;
+  top: 110px;
   font-size: 14px;
+  line-height: 1;
   font-weight: 700;
-}
-
-/* 10 — BÜYÜTÜLDÜ */
-.ten {
-  position: absolute;
-  top: 95px;
-  left: 140px;
-  font-size: 44px;
-  font-weight: 700;
-}
-
-/* % — TAM ORTALI */
-.percent-small {
-  position: absolute;
-  top: 112px;
-  left: 170px;
-  font-size: 9px;
-  color: #fff;
-  font-weight: 700;
+  color: #000;
+  white-space: nowrap;
   z-index: 5;
 }
 
-/* FF — N İLE HİZALI */
+.ten {
+  position: absolute;
+  left: 136px;
+  top: 95px;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -2px;
+  z-index: 5;
+}
+
+.percent-small {
+  position: absolute;
+  left: 163px;
+  top: 109px;
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 700;
+  color: #fff;
+  z-index: 6;
+}
+
 .off {
   position: absolute;
-  top: 86px;
-  left: 250px;
-  font-size: 64px;
+  left: 246px;
+  top: 83px;
+  font-size: 62px;
+  line-height: 0.9;
   font-weight: 700;
+  color: #000;
   letter-spacing: -3px;
 }
 
-/* ALT AÇIKLAMA */
 .campaign-note {
   position: absolute;
-  top: 155px;
-  left: 0;
+  left: 11px;
+  top: 149px;
+  width: 325px;
   font-size: 8px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
+}
+
+.logo {
+  position: absolute;
+  left: 112px;
+  top: 816px;
+  width: 233px;
+  height: auto;
+}
+
+.line-vertical {
+  position: absolute;
+  left: 1046px;
+  top: 423px;
+  width: 1px;
+  height: 546px;
+  background: #a4a4a4;
+}
+
+.line-horizontal {
+  position: absolute;
+  left: 611px;
+  top: 992px;
+  width: 408px;
+  height: 1px;
+  background: #a4a4a4;
 }
