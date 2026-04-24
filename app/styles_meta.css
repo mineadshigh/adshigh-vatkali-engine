@@ -122,9 +122,9 @@ img {
 .weekend {
   position: absolute;
   left: 0;
-  top: 116px;
+  top: 119px;
   width: 152px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
   font-weight: 400;
   color: #000;
@@ -135,9 +135,9 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 135px;
+  top: 136px;
   width: 152px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -147,9 +147,9 @@ img {
 
 .ten {
   position: absolute;
-  left: 154px;
+  left: 155px;
   top: 112px;
-  font-size: 54px;
+  font-size: 51px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -159,9 +159,9 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 187px;
+  left: 186px;
   top: 128px;
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1;
   font-weight: 700;
   color: #000;
