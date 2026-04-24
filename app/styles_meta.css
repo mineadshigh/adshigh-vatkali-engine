@@ -60,7 +60,7 @@ img {
   position: absolute;
   left: 52px;
   top: 408px;
-  width: 360px;
+  width: 405px;
   height: 230px;
   color: #000;
 }
@@ -79,21 +79,21 @@ img {
 .seas {
   position: absolute;
   left: 0;
-  top: 33px;
-  font-size: 76px;
+  top: 32px;
+  font-size: 82px;
   line-height: 0.85;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -5px;
 }
 
 /* SEASON / OFF ortak O şekli */
 .white-pill {
   position: absolute;
-  left: 196px;
-  top: 27px;
-  width: 72px;
-  height: 135px;
+  left: 205px;
+  top: 25px;
+  width: 76px;
+  height: 142px;
   background: #fff;
   border-radius: 999px;
   z-index: 2;
@@ -101,8 +101,8 @@ img {
 
 .black-dot {
   position: absolute;
-  left: 209px;
-  top: 92px;
+  left: 218px;
+  top: 96px;
   width: 56px;
   height: 56px;
   background: #000;
@@ -112,19 +112,19 @@ img {
 
 .n-letter {
   position: absolute;
-  left: 291px;
-  top: 33px;
-  font-size: 76px;
+  left: 300px;
+  top: 32px;
+  font-size: 82px;
   line-height: 0.85;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -5px;
 }
 
 .weekend {
   position: absolute;
   left: 0;
-  top: 101px;
+  top: 108px;
   font-size: 12px;
   line-height: 1;
   font-weight: 400;
@@ -136,7 +136,7 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 118px;
+  top: 126px;
   font-size: 17px;
   line-height: 1;
   font-weight: 700;
@@ -147,21 +147,21 @@ img {
 
 .ten {
   position: absolute;
-  left: 153px;
-  top: 101px;
-  font-size: 48px;
+  left: 151px;
+  top: 104px;
+  font-size: 54px;
   line-height: 1;
   font-weight: 700;
   color: #000;
-  letter-spacing: -3px;
+  letter-spacing: -4px;
   z-index: 5;
 }
 
 .percent-small {
   position: absolute;
-  left: 184px;
-  top: 118px;
-  font-size: 9px;
+  left: 185px;
+  top: 124px;
+  font-size: 10px;
   line-height: 1;
   font-weight: 700;
   color: #fff;
@@ -170,22 +170,22 @@ img {
 
 .off {
   position: absolute;
-  left: 291px;
-  top: 93px;
-  font-size: 76px;
+  left: 300px;
+  top: 99px;
+  font-size: 82px;
   line-height: 0.85;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -5px;
 }
 
 .campaign-note {
   position: absolute;
   left: 11px;
-  top: 175px;
-  width: 360px;
-  font-size: 10px;
-  line-height: 1;
+  top: 181px;
+  width: 390px;
+  font-size: 11px;
+  line-height: 1.1;
   font-weight: 400;
   color: #000;
   white-space: nowrap;
