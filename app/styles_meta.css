@@ -14,27 +14,35 @@ html, body {
   position: relative;
   width: 1080px;
   height: 1080px;
+  overflow: hidden;
   background: #f2f2f2;
 }
 
-/* Üst Başlık */
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden { display: none !important; }
+
 .top-title {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 45px;
-  font-size: 42px;
+  left: 315px;
+  top: 46px;
+  width: 450px;
+  font-size: 39px;
+  line-height: 1;
   font-weight: 700;
   color: #000;
   text-align: center;
-  letter-spacing: 1px;
+  white-space: nowrap;
 }
 
-/* Sağdaki Görsel Kutusu */
 .main-image-wrap {
   position: absolute;
   left: 457px;
-  top: 108px;
+  top: 118px;
   width: 564px;
   height: 844px;
   overflow: hidden;
@@ -44,143 +52,167 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
-/* SOL PROMO ALANI */
+/* SOL KAMPANYA BLOĞU */
 .promo {
   position: absolute;
-  left: 50px;
-  top: 380px;
-  width: 400px;
-  height: 300px;
+  left: 52px;
+  top: 408px;
+  width: 360px;
+  height: 230px;
+  color: #000;
 }
 
 .up-to {
-  font-size: 28px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 29px;
+  line-height: 1;
   font-weight: 400;
-  margin-bottom: 5px;
+  color: #000;
+  white-space: nowrap;
 }
 
-/* SEAS ve N Harfi */
 .seas {
   position: absolute;
   left: 0;
-  top: 40px;
-  font-size: 90px;
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -2px;
+  top: 33px;
+  font-size: 76px;
+  line-height: 0.85;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -4px;
 }
 
-.n-letter {
-  position: absolute;
-  left: 282px;
-  top: 40px;
-  font-size: 90px;
-  font-weight: 800;
-  line-height: 0.8;
-}
-
-/* Beyaz Hap ve Siyah Nokta */
+/* SEASON / OFF ortak O şekli */
 .white-pill {
   position: absolute;
-  left: 195px;
-  top: 40px;
-  width: 78px;
-  height: 145px;
+  left: 196px;
+  top: 27px;
+  width: 72px;
+  height: 135px;
   background: #fff;
-  border-radius: 50px;
-  z-index: 1;
+  border-radius: 999px;
+  z-index: 2;
 }
 
 .black-dot {
   position: absolute;
-  left: 204px;
-  top: 112px;
-  width: 60px;
-  height: 60px;
+  left: 209px;
+  top: 92px;
+  width: 56px;
+  height: 56px;
   background: #000;
   border-radius: 50%;
-  z-index: 2;
+  z-index: 3;
 }
 
-/* Alt Metinler ve 10 Sayısı */
+.n-letter {
+  position: absolute;
+  left: 291px;
+  top: 33px;
+  font-size: 76px;
+  line-height: 0.85;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -4px;
+}
+
 .weekend {
   position: absolute;
   left: 0;
-  top: 135px;
-  font-size: 13px;
-  font-weight: 500;
+  top: 101px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
 .extra {
   position: absolute;
   left: 0;
-  top: 152px;
-  font-size: 16px;
-  font-weight: 800;
+  top: 118px;
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
 .ten {
   position: absolute;
-  left: 145px; /* Siyah dairenin soluna yaklaştı */
-  top: 135px;
-  font-size: 45px;
-  font-weight: 800;
-  letter-spacing: -2px;
+  left: 153px;
+  top: 101px;
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -3px;
+  z-index: 5;
 }
 
 .percent-small {
   position: absolute;
-  left: 228px; /* Siyah dairenin içine ortalandı */
-  top: 134px;
-  font-size: 12px;
+  left: 184px;
+  top: 118px;
+  font-size: 9px;
+  line-height: 1;
   font-weight: 700;
   color: #fff;
-  z-index: 3;
+  z-index: 6;
 }
 
 .off {
   position: absolute;
-  left: 282px;
-  top: 120px;
-  font-size: 90px;
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -2px;
+  left: 291px;
+  top: 93px;
+  font-size: 76px;
+  line-height: 0.85;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -4px;
 }
 
 .campaign-note {
   position: absolute;
-  left: 10px;
-  top: 215px;
+  left: 11px;
+  top: 175px;
+  width: 360px;
   font-size: 10px;
-  color: #333;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
 }
 
-/* Logo */
 .logo {
   position: absolute;
-  left: 115px;
-  top: 805px;
-  width: 230px;
+  left: 112px;
+  top: 816px;
+  width: 233px;
+  height: auto;
 }
 
-/* Sağ Alttaki Çizgiler */
 .line-vertical {
   position: absolute;
-  left: 1045px;
-  top: 420px;
+  left: 1046px;
+  top: 423px;
   width: 1px;
-  height: 550px;
-  background: #ccc;
+  height: 546px;
+  background: #a4a4a4;
 }
 
 .line-horizontal {
   position: absolute;
-  left: 610px;
-  top: 970px;
-  width: 435px;
+  left: 611px;
+  top: 992px;
+  width: 408px;
   height: 1px;
-  background: #ccc;
+  background: #a4a4a4;
 }
