@@ -112,7 +112,7 @@ img {
 
 .n-letter {
   position: absolute;
-  left: 312px;
+  left: 300px;
   top: 32px;
   font-size: 82px;
   line-height: 0.85;
@@ -124,7 +124,7 @@ img {
 .weekend {
   position: absolute;
   left: 0;
-  top: 108px;
+  top: 114px;
   width: 152px;
   font-size: 12px;
   line-height: 1;
@@ -137,7 +137,7 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 126px;
+  top: 131px;
   width: 152px;
   font-size: 16px;
   line-height: 1;
@@ -150,7 +150,7 @@ img {
 .ten {
   position: absolute;
   left: 154px;
-  top: 106px;
+  top: 112px;
   font-size: 54px;
   line-height: 1;
   font-weight: 700;
@@ -162,17 +162,17 @@ img {
 .percent-small {
   position: absolute;
   left: 188px;
-  top: 126px;
+  top: 130px;
   font-size: 10px;
   line-height: 1;
   font-weight: 700;
-  color: #fff;
+  color: #000;
   z-index: 6;
 }
 
 .off {
   position: absolute;
-  left: 312px;
+  left: 300px;
   top: 99px;
   font-size: 82px;
   line-height: 0.85;
