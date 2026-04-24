@@ -60,8 +60,8 @@ img {
   position: absolute;
   left: 51px;
   top: 437px;
-  width: 360px;
-  height: 180px;
+  width: 370px;
+  height: 190px;
   color: #000;
 }
 
@@ -76,6 +76,7 @@ img {
   white-space: nowrap;
 }
 
+/* SEAS */
 .seas {
   position: absolute;
   left: 0;
@@ -87,31 +88,34 @@ img {
   letter-spacing: -3px;
 }
 
+/* SEASON içindeki O */
 .white-pill {
   position: absolute;
   left: 158px;
-  top: 25px;
-  width: 58px;
-  height: 96px;
+  top: 20px;
+  width: 68px;
+  height: 122px;
   background: #fff;
   border-radius: 999px;
   z-index: 2;
 }
 
+/* O içindeki siyah nokta */
 .black-dot {
   position: absolute;
-  left: 171px;
-  top: 72px;
-  width: 45px;
-  height: 45px;
+  left: 172px;
+  top: 78px;
+  width: 54px;
+  height: 54px;
   background: #000;
   border-radius: 50%;
   z-index: 3;
 }
 
+/* N */
 .n-letter {
   position: absolute;
-  left: 226px;
+  left: 246px;
   top: 28px;
   font-size: 62px;
   line-height: 0.9;
@@ -120,10 +124,11 @@ img {
   letter-spacing: -3px;
 }
 
+/* HAFTA SONUNA ÖZEL */
 .weekend {
   position: absolute;
   left: 0;
-  top: 92px;
+  top: 94px;
   font-size: 11px;
   line-height: 1;
   font-weight: 400;
@@ -132,10 +137,11 @@ img {
   z-index: 5;
 }
 
+/* SEPETTE EKSTRA */
 .extra {
   position: absolute;
   left: 0;
-  top: 107px;
+  top: 110px;
   font-size: 14px;
   line-height: 1;
   font-weight: 700;
@@ -144,11 +150,12 @@ img {
   z-index: 5;
 }
 
+/* 10 */
 .ten {
   position: absolute;
-  left: 129px;
-  top: 96px;
-  font-size: 30px;
+  left: 137px;
+  top: 95px;
+  font-size: 38px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -156,21 +163,23 @@ img {
   z-index: 5;
 }
 
+/* 10 içindeki % */
 .percent-small {
   position: absolute;
-  left: 150px;
-  top: 105px;
-  font-size: 7px;
+  left: 163px;
+  top: 108px;
+  font-size: 8px;
   line-height: 1;
   font-weight: 700;
   color: #fff;
   z-index: 6;
 }
 
+/* OFF'in sadece FF kısmı */
 .off {
   position: absolute;
-  left: 262px;
-  top: 77px;
+  left: 246px;
+  top: 84px;
   font-size: 62px;
   line-height: 0.9;
   font-weight: 700;
@@ -178,10 +187,11 @@ img {
   letter-spacing: -3px;
 }
 
+/* Açıklama */
 .campaign-note {
   position: absolute;
   left: 11px;
-  top: 142px;
+  top: 148px;
   width: 325px;
   font-size: 8px;
   line-height: 1;
