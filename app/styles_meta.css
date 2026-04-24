@@ -1,218 +1,122 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1080px;
-  overflow: hidden;
-  background: #f2f2f2;
-  font-family: "Outfit", Arial, sans-serif;
-}
-
-* { box-sizing: border-box; }
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  overflow: hidden;
-  background: #f2f2f2;
-}
-
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.hidden { display: none !important; }
-
-.top-title {
-  position: absolute;
-  left: 315px;
-  top: 46px;
-  width: 450px;
-  font-size: 39px;
-  line-height: 1;
-  font-weight: 700;
-  color: #000;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.main-image-wrap {
-  position: absolute;
-  left: 457px;
-  top: 118px;
-  width: 564px;
-  height: 844px;
-  overflow: hidden;
-}
-
-.main-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* SOL KAMPANYA BLOĞU */
+/* SOL KAMPANYA BLOĞU - Pozisyonu biraz daha yukarı çektik */
 .promo {
   position: absolute;
-  left: 51px;
-  top: 407px;
+  left: 50px;
+  top: 380px; /* 437px'den yukarı çekildi */
   width: 380px;
-  height: 230px;
+  height: 250px;
   color: #000;
 }
 
-.up-to {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 29px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
-}
-
+/* SEASON yazısı hizalaması */
 .seas {
   position: absolute;
   left: 0;
-  top: 32px;
-  font-size: 76px;
-  line-height: 0.85;
+  top: 45px;
+  font-size: 80px; /* Biraz büyütüldü */
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 
-/* SEASON / OFF ortak O şekli */
+/* Beyaz Hap (O harfi yerine) */
 .white-pill {
   position: absolute;
-  left: 205px;
-  top: 28px;
+  left: 205px; /* Konumu Seas sonuna göre ayarlandı */
+  top: 40px;
   width: 75px;
-  height: 133px;
+  height: 140px;
   background: #fff;
   border-radius: 999px;
   z-index: 2;
 }
 
+/* Siyah Daire (On/Off butonu gibi olan) */
 .black-dot {
   position: absolute;
-  left: 217px;
-  top: 93px;
-  width: 58px;
-  height: 58px;
+  left: 212px;
+  top: 110px; /* Aşağıda durması için */
+  width: 60px;
+  height: 60px;
   background: #000;
   border-radius: 50%;
   z-index: 3;
 }
 
+/* N Harfi */
 .n-letter {
   position: absolute;
-  left: 304px;
-  top: 32px;
-  font-size: 76px;
-  line-height: 0.85;
-  font-weight: 700;
-  color: #000;
-  letter-spacing: -4px;
-}
-
-.weekend {
-  position: absolute;
-  left: 0;
-  top: 100px;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
-  z-index: 5;
-}
-
-.extra {
-  position: absolute;
-  left: 0;
-  top: 117px;
-  font-size: 17px;
-  line-height: 1;
-  font-weight: 700;
-  color: #000;
-  white-space: nowrap;
-  z-index: 5;
-}
-
-.ten {
-  position: absolute;
-  left: 150px;
-  top: 99px;
-  font-size: 52px;
-  line-height: 1;
+  left: 290px;
+  top: 45px;
+  font-size: 80px;
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
   letter-spacing: -3px;
+}
+
+/* "10" sayısını siyah dairenin içine veya hemen soluna alalım */
+.ten {
+  position: absolute;
+  left: 175px; /* Siyah dairenin soluna yanaştı */
+  top: 125px;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -1px;
   z-index: 5;
 }
 
+/* Yüzde işareti siyah dairenin içinde */
 .percent-small {
   position: absolute;
-  left: 184px;
-  top: 117px;
+  left: 235px;
+  top: 133px;
   font-size: 10px;
   line-height: 1;
   font-weight: 700;
-  color: #fff;
+  color: #fff; /* Siyah zemin üzerinde beyaz */
   z-index: 6;
 }
 
+/* FF harfleri */
 .off {
   position: absolute;
-  left: 304px;
-  top: 94px;
-  font-size: 76px;
-  line-height: 0.85;
+  left: 290px;
+  top: 115px;
+  font-size: 80px;
+  line-height: 0.9;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 
-.campaign-note {
-  position: absolute;
-  left: 11px;
-  top: 175px;
-  width: 360px;
-  font-size: 10px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  white-space: nowrap;
-}
-
+/* Logo Pozisyonu - Metnin altına tam hizalı */
 .logo {
   position: absolute;
-  left: 112px;
-  top: 816px;
-  width: 233px;
+  left: 110px;
+  top: 780px;
+  width: 210px;
   height: auto;
 }
 
+/* Çizgilerin kesişmesi için */
 .line-vertical {
   position: absolute;
-  left: 1046px;
-  top: 423px;
+  left: 970px; /* Biraz içe çekildi */
+  top: 420px;
   width: 1px;
-  height: 546px;
+  height: 530px;
   background: #a4a4a4;
 }
 
 .line-horizontal {
   position: absolute;
-  left: 611px;
-  top: 992px;
-  width: 408px;
+  left: 580px;
+  top: 950px; /* Dikey çizgiyle birleşecek nokta */
+  width: 390px;
   height: 1px;
   background: #a4a4a4;
 }
