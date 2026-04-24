@@ -148,7 +148,7 @@ img {
 .ten {
   position: absolute;
   left: 155px;
-  top: 112px;
+  top: 120px;
   font-size: 51px;
   line-height: 1;
   font-weight: 700;
@@ -159,8 +159,8 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 194px;
-  top: 129px;
+  left: 191px;
+  top: 138px;
   font-size: 9px;
   line-height: 1;
   font-weight: 700;
@@ -184,7 +184,7 @@ img {
   left: 11px;
   top: 181px;
   width: 390px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.1;
   font-weight: 400;
   color: #000;
