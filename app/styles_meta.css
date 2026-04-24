@@ -36,7 +36,6 @@ img {
   left: 315px;
   top: 46px;
   width: 450px;
-  height: 29px;
   font-size: 39px;
   line-height: 1;
   font-weight: 700;
@@ -67,8 +66,8 @@ img {
   position: absolute;
   left: 51px;
   top: 437px;
-  width: 367px;
-  height: 144px;
+  width: 330px;
+  height: 170px;
   color: #000;
 }
 
@@ -88,53 +87,55 @@ img {
 .seas {
   position: absolute;
   left: 0;
-  top: 28px;
-  font-size: 85px;
+  top: 30px;
+  font-size: 82px;
   line-height: 0.86;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 
 /* Beyaz dikey oval */
 .white-pill {
   position: absolute;
-  left: 172px;
-  top: 26px;
-  width: 69px;
-  height: 118px;
+  left: 155px;
+  top: 28px;
+  width: 62px;
+  height: 110px;
   background: #fff;
   border-radius: 999px;
+  z-index: 2;
 }
 
 /* Siyah daire */
 .black-dot {
   position: absolute;
-  left: 186px;
-  top: 82px;
-  width: 55px;
-  height: 55px;
+  left: 167px;
+  top: 78px;
+  width: 48px;
+  height: 48px;
   background: #000;
   border-radius: 50%;
+  z-index: 3;
 }
 
 /* N */
 .n-letter {
   position: absolute;
-  left: 248px;
-  top: 28px;
-  font-size: 85px;
+  left: 228px;
+  top: 30px;
+  font-size: 82px;
   line-height: 0.86;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 
 /* HAFTA SONUNA ÖZEL */
 .weekend {
   position: absolute;
   left: 0;
-  top: 90px;
+  top: 91px;
   font-size: 13px;
   line-height: 1;
   font-weight: 400;
@@ -146,7 +147,7 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 107px;
+  top: 108px;
   font-size: 18px;
   line-height: 1;
   font-weight: 700;
@@ -157,9 +158,9 @@ img {
 /* 10 */
 .ten {
   position: absolute;
-  left: 137px;
-  top: 85px;
-  font-size: 54px;
+  left: 120px;
+  top: 88px;
+  font-size: 50px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -169,25 +170,25 @@ img {
 /* % küçük */
 .percent-small {
   position: absolute;
-  left: 168px;
-  top: 106px;
-  font-size: 9px;
+  left: 150px;
+  top: 102px;
+  font-size: 10px;
   line-height: 1;
   font-weight: 700;
   color: #fff;
-  z-index: 3;
+  z-index: 4;
 }
 
 /* OFF */
 .off {
   position: absolute;
-  left: 247px;
-  top: 78px;
-  font-size: 85px;
+  left: 228px;
+  top: 85px;
+  font-size: 82px;
   line-height: 0.86;
   font-weight: 700;
   color: #000;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 
 /* Açıklama */
