@@ -122,9 +122,9 @@ img {
 .weekend {
   position: absolute;
   left: 0;
-  top: 119px;
-  width: 152px;
-  font-size: 12px;
+  top: 132px; /* Hizalama için ayarlandı */
+  width: 180px;
+  font-size: 14px; /* İstediğin gibi büyütüldü */
   line-height: 1;
   font-weight: 400;
   color: #000;
@@ -135,9 +135,9 @@ img {
 .extra {
   position: absolute;
   left: 0;
-  top: 136px;
-  width: 152px;
-  font-size: 16px;
+  top: 151px; /* OFF ve 10 ile alt hizası eşitlendi */
+  width: 180px;
+  font-size: 18px; /* İstediğin gibi büyütüldü */
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -147,8 +147,8 @@ img {
 
 .ten {
   position: absolute;
-  left: 155px;
-  top: 112px;
+  left: 172px; /* 0'ın merkeze gelmesi için sola çekildi */
+  top: 115px; /* Alt hiza FF ve Extra ile eşitlendi */
   font-size: 51px;
   line-height: 1;
   font-weight: 700;
@@ -159,12 +159,12 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 186px;
-  top: 128px;
-  font-size: 9px;
+  left: 247px; /* Siyah dairenin/0'ın tam ortası */
+  top: 120px; /* Siyah dairenin/0'ın tam ortası */
+  font-size: 11px;
   line-height: 1;
   font-weight: 700;
-  color: #000;
+  color: #fff; /* Siyah daire içinde görünmesi için beyaz yapıldı */
   z-index: 6;
 }
 
