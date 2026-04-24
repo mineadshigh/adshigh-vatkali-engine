@@ -90,7 +90,7 @@ img {
 /* SEASON / OFF ortak O şekli */
 .white-pill {
   position: absolute;
-  left: 205px;
+  left: 215px;
   top: 25px;
   width: 76px;
   height: 142px;
@@ -101,7 +101,7 @@ img {
 
 .black-dot {
   position: absolute;
-  left: 218px;
+  left: 225px;
   top: 96px;
   width: 56px;
   height: 56px;
@@ -112,7 +112,7 @@ img {
 
 .n-letter {
   position: absolute;
-  left: 300px;
+  left: 312px;
   top: 32px;
   font-size: 82px;
   line-height: 0.85;
@@ -125,6 +125,7 @@ img {
   position: absolute;
   left: 0;
   top: 108px;
+  width: 152px;
   font-size: 12px;
   line-height: 1;
   font-weight: 400;
@@ -137,7 +138,8 @@ img {
   position: absolute;
   left: 0;
   top: 126px;
-  font-size: 17px;
+  width: 152px;
+  font-size: 16px;
   line-height: 1;
   font-weight: 700;
   color: #000;
@@ -147,8 +149,8 @@ img {
 
 .ten {
   position: absolute;
-  left: 151px;
-  top: 104px;
+  left: 154px;
+  top: 106px;
   font-size: 54px;
   line-height: 1;
   font-weight: 700;
@@ -159,8 +161,8 @@ img {
 
 .percent-small {
   position: absolute;
-  left: 185px;
-  top: 124px;
+  left: 188px;
+  top: 126px;
   font-size: 10px;
   line-height: 1;
   font-weight: 700;
@@ -170,7 +172,7 @@ img {
 
 .off {
   position: absolute;
-  left: 300px;
+  left: 312px;
   top: 99px;
   font-size: 82px;
   line-height: 0.85;
