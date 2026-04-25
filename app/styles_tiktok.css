@@ -33,10 +33,10 @@ img {
 /* ÜST BAŞLIK */
 .top-title {
   position: absolute;
-  left: 247px;
+  left: 132px;
   top: 75px;
-  width: 585px;
-  height: 37px;
+  width: 816px;
+  height: 52px;
   font-size: 52px;
   line-height: 1;
   font-weight: 700;
@@ -92,12 +92,12 @@ img {
   height: 52px;
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
   white-space: nowrap;
 }
 
 .big {
-  font-size: 64px;
+  font-size: 56px;
   line-height: 0.9;
   font-weight: 700;
   color: #000000;
@@ -105,7 +105,7 @@ img {
 
 .text,
 .plus {
-  font-size: 44px;
+  font-size: 37px;
   line-height: 1;
   font-weight: 700;
   color: #000000;
@@ -113,10 +113,10 @@ img {
 
 .campaign-note {
   position: absolute;
-  left: 505px;
-  top: 87px;
-  width: 311px;
-  font-size: 29px;
+  left: 496px;
+  top: 86px;
+  width: 320px;
+  font-size: 27px;
   line-height: 1;
   font-weight: 400;
   color: #000000;
