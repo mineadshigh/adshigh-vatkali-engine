@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800;900&display=swap');
+
 html, body {
   margin: 0;
   padding: 0;
@@ -39,7 +41,7 @@ img {
   height: 52px;
   font-size: 52px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 800;
   color: #000000;
   text-align: center;
   white-space: nowrap;
@@ -79,7 +81,7 @@ img {
   top: 0;
   font-size: 35px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 800;
   color: #ac1010;
   white-space: nowrap;
 }
@@ -92,14 +94,15 @@ img {
   height: 52px;
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 0;
   white-space: nowrap;
 }
 
 .big {
   font-size: 56px;
   line-height: 0.9;
-  font-weight: 700;
+  font-weight: 800;
   color: #000000;
 }
 
@@ -107,14 +110,14 @@ img {
 .plus {
   font-size: 37px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 800;
   color: #000000;
 }
 
 .campaign-note {
   position: absolute;
   left: 496px;
-  top: 86px;
+  top: 92px;
   width: 320px;
   font-size: 27px;
   line-height: 1;
