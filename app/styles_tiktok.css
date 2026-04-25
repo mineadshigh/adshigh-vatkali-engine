@@ -16,8 +16,8 @@ html, body {
   position: relative;
   width: 1080px;
   height: 1920px;
-  background: #ffffff;
   overflow: hidden;
+  background: #ffffff;
 }
 
 img {
@@ -33,64 +33,27 @@ img {
 /* ÜST BAŞLIK */
 .top-title {
   position: absolute;
-  left: 0;
-  top: 58px;
-  width: 100%;
+  left: 247px;
+  top: 75px;
+  width: 585px;
+  height: 37px;
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000000;
   text-align: center;
-  font-size: 40px;
-  line-height: 1;
-  font-weight: 700;
-  color: #000000;
-}
-
-/* SOL ÜST OFFER BLOĞU */
-.offer {
-  position: absolute;
-  left: 90px;
-  top: 125px;
-  width: auto;
-}
-
-.offer-top {
-  font-size: 24px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 8px;
-  text-align: left;
-}
-
-.offer-badge {
-  display: inline-block;
-  background: #000000;
-  color: #ffffff;
-  font-size: 28px;
-  line-height: 1;
-  font-weight: 700;
   white-space: nowrap;
-  padding: 10px 14px;
-  margin: 0;
-  text-align: left;
 }
 
-.offer-bottom {
-  margin-top: 10px;
-  font-size: 36px;
-  line-height: 1;
-  font-weight: 700;
-  color: #000000;
-  white-space: nowrap;
-  text-align: left;
-}
-
-/* ANA GÖRSEL */
+/* ANA ÜRÜN GÖRSELİ */
 .main-image-wrap {
   position: absolute;
-  left: 90px;
-  top: 285px;
-  width: 900px;
-  height: 1180px;
+  left: 132px;
+  top: 178px;
+  width: 816px;
+  height: 1225px;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .main-image {
@@ -100,69 +63,71 @@ img {
   object-position: center top;
 }
 
-/* ALT BİLGİ BLOĞU */
-.meta {
+/* KAMPANYA BLOĞU */
+.campaign {
   position: absolute;
-  left: 90px;
-  top: 1478px;
-  width: 900px;
-  min-height: 120px;
-}
-
-.title {
-  width: 100%;
-  font-size: 21px;
-  line-height: 1.15;
-  font-weight: 400;
+  left: 132px;
+  top: 1475px;
+  width: 816px;
+  height: 120px;
   color: #000000;
-  text-align: left;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
-  overflow-wrap: break-word;
 }
 
-.prices {
-  margin-top: 10px;
+.campaign-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 35px;
+  line-height: 1;
+  font-weight: 700;
+  color: #ac1010;
+  white-space: nowrap;
+}
+
+.campaign-line {
+  position: absolute;
+  left: 0;
+  top: 42px;
+  width: 816px;
+  height: 52px;
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 12px;
+  white-space: nowrap;
 }
 
-.old {
-  font-size: 21px;
+.big {
+  font-size: 64px;
+  line-height: 0.9;
+  font-weight: 700;
+  color: #000000;
+}
+
+.text,
+.plus {
+  font-size: 44px;
+  line-height: 1;
+  font-weight: 700;
+  color: #000000;
+}
+
+.campaign-note {
+  position: absolute;
+  left: 505px;
+  top: 87px;
+  width: 311px;
+  font-size: 29px;
   line-height: 1;
   font-weight: 400;
   color: #000000;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-}
-
-.new {
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 700;
-  color: #d92727;
-}
-
-.single {
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 700;
-  color: #d92727;
+  white-space: nowrap;
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  left: 50%;
-  top: 1765px;
-  width: 320px;
+  left: 374px;
+  top: 1717px;
+  width: 332px;
   height: auto;
-  transform: translateX(-50%);
-  z-index: 10;
 }
