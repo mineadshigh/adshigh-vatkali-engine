@@ -1,68 +1,142 @@
-/* BADGE (DAHA KÜÇÜK) */
-.badge {
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* TÜM ELEMANLARI SABİTLE */
+.frame * {
   position: absolute;
+}
+
+img {
+  display: block;
+}
+
+/* LOGO */
+.logo {
+  left: 96px;
+  top: 82px;
+  width: 233px;
+}
+
+/* SAĞ GÖRSEL */
+.image-wrap {
+  left: 431px;
+  top: 82px;
+  width: 612px;
+  height: 917px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* BADGE (PSD SCALE) */
+.badge {
   left: 47px;
   top: 371px;
 
-  width: 340px;
-  height: 34px;
+  width: 330px;
+  height: 32px;
 
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 24px;   /* ⬅️ küçüldü */
-  line-height: 1;
-  font-weight: 600;  /* ⬅️ inceldi */
+  font-size: 23px;
+  font-weight: 600;
   letter-spacing: -0.4px;
 
   white-space: nowrap;
 }
 
-
-/* SEPETTE EKSTRA (DAHA İNCE) */
+/* SEPETTE EKSTRA */
 .discount-text {
-  position: absolute;
   left: 47px;
   top: 426px;
   width: 220px;
 
   font-size: 24px;
   line-height: 1.1;
-  font-weight: 400;  /* ⬅️ normal */
-
-  letter-spacing: -0.3px;
-  color: #000000;
+  font-weight: 400;
+  color: #000;
 }
 
 .discount-text strong {
   display: block;
-  margin-top: 3px;
+  margin-top: 2px;
 
   font-size: 24px;
-  line-height: 1;
-
-  font-weight: 500;  /* ⬅️ çok daha soft */
-  letter-spacing: -0.3px;
+  font-weight: 500;
 }
 
+/* ÜRÜN */
+.product-info {
+  left: 47px;
+  top: 706px;
+  width: 260px;
+}
 
-/* KAMPANYA NOTU (DAHA İNCE) */
+.product-title {
+  font-size: 22px;
+  font-weight: 400;
+  color: #000;
+}
+
+/* FİYAT */
+.price-row {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.old {
+  font-size: 20px;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.new,
+.single {
+  background: #000;
+  color: #fff;
+
+  font-size: 20px;
+  font-weight: 500;
+
+  padding: 2px 6px;
+}
+
+/* KAMPANYA */
 .campaign-note {
-  position: absolute;
-  left: 48px;
+  left: 47px;
   top: 984px;
-  width: 310px;
 
-  font-size: 16px;   /* ⬅️ küçüldü */
-  line-height: 1;
-
-  font-weight: 300;  /* ⬅️ baya inceldi */
-  letter-spacing: -0.15px;
-
-  color: #000000;
-  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 300;
+  color: #000;
 }
