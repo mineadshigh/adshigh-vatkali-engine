@@ -85,19 +85,22 @@ img {
 
 .image-wrap {
   position: absolute;
-  left: 123px;
+  left: 122px;
   top: 334px;
+
   width: 837px;
   height: 919px;
+
   overflow: hidden;
-  background: #f1f1f1;
+  background: transparent; /* ❗ griyi kaldırdık */
 }
 
 .product-image {
   width: 100%;
   height: 100%;
+
   object-fit: contain;
-  object-position: center center;
+  object-position: center;
 }
 
 .product-info {
