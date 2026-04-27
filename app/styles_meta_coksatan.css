@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 html, body {
   margin: 0;
@@ -82,7 +82,7 @@ img {
   width: 292px;
   font-size: 21px;
   line-height: 1.15;
-  font-weight: 400;
+  font-weight: 300 !important;
   letter-spacing: -0.35px;
   color: #000000;
 }
@@ -93,8 +93,9 @@ img {
 
 .desc-2 {
   top: 521px;
-  width: 305px;
+  width: 320px;
   white-space: nowrap;
+  font-weight: 300 !important;
 }
 
 .desc strong {
@@ -102,7 +103,7 @@ img {
   margin-top: 0;
   font-size: 21px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 /* ÜRÜN + FİYAT */
@@ -117,7 +118,7 @@ img {
   width: 270px;
   font-size: 19px;
   line-height: 1.12;
-  font-weight: 400;
+  font-weight: 300 !important;
   letter-spacing: -0.2px;
   color: #000000;
   display: -webkit-box;
