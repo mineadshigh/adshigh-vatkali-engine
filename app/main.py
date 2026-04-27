@@ -460,11 +460,15 @@ def extract_product_id(item: ET.Element, ns: dict | None = None) -> str:
 def pick_design(product_id: str, platform: str) -> str:
     pid = normalize_product_id(product_id)
 
+    # ÇOK SATANLAR (her yerde aktif)
     if pid in COK_SATAN_IDS:
         return f"{platform}_coksatan"
 
+    # SON KALANLAR
     if pid in SON_KALAN_IDS:
-        return f"{platform}_sonkalan"
+        if platform == "tiktok":
+            return f"{platform}_v1"  # ❌ TikTok'ta kapalı
+        return f"{platform}_sonkalan"  # ✅ Meta'da açık
 
     return f"{platform}_v1"
 
