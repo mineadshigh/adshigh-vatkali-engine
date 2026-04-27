@@ -10,16 +10,14 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #ffffff;
   overflow: hidden;
+  background: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -29,19 +27,17 @@ img {
   user-select: none;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
-/* SOL GÖRSEL ALANI */
+/* SOL GÖRSEL */
 .image-wrap {
   position: absolute;
-  left: 48px;
-  top: 104px;
-  width: 582px;
-  height: 872px;
-  border: 8px solid #000000;
-  background: #ffffff;
+  left: 36px;
+  top: 91px;
+  width: 608px;
+  height: 895px;
+  background: #000000;
+  padding: 12px;
   overflow: hidden;
 }
 
@@ -50,6 +46,7 @@ img {
   height: 100%;
   object-fit: contain;
   object-position: center center;
+  background: #ffffff;
 }
 
 /* LOGO */
@@ -62,16 +59,16 @@ img {
 }
 
 /* BAŞLIK */
-.headline {
+.hero-title {
   position: absolute;
   left: 723px;
   top: 325px;
   width: 299px;
 
   font-size: 42px;
-  line-height: 1;
+  line-height: 0.95;
   font-weight: 800;
-  letter-spacing: -0.9px;
+  letter-spacing: -1.2px;
   color: #000000;
   white-space: nowrap;
 }
@@ -79,13 +76,13 @@ img {
 .subtitle {
   position: absolute;
   left: 723px;
-  top: 360px;
-  width: 166px;
+  top: 365px;
+  width: 190px;
 
   font-size: 21px;
   line-height: 1;
   font-weight: 400;
-  letter-spacing: -0.25px;
+  letter-spacing: -0.2px;
   color: #000000;
   white-space: nowrap;
 }
@@ -95,8 +92,8 @@ img {
   position: absolute;
   left: 723px;
   top: 484px;
-  width: 254px;
-  height: 74px;
+  width: 270px;
+  height: 78px;
 }
 
 .discount-main {
@@ -105,7 +102,7 @@ img {
   top: 0;
 
   font-size: 52px;
-  line-height: 0.85;
+  line-height: 0.9;
   font-weight: 800;
   letter-spacing: -1.4px;
   color: #000000;
@@ -113,13 +110,13 @@ img {
 
 .discount-side {
   position: absolute;
-  left: 97px;
-  top: 5px;
+  left: 101px;
+  top: 8px;
 
-  font-size: 17px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 0.95;
   font-weight: 400;
-  letter-spacing: -0.25px;
+  letter-spacing: -0.2px;
   color: #000000;
   white-space: nowrap;
 }
@@ -131,15 +128,15 @@ img {
 
 .discount-side strong {
   display: block;
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 0.95;
   font-weight: 800;
-  line-height: 1;
 }
 
 .basket-badge {
   position: absolute;
-  left: -11px;
-  top: 43px;
+  left: -2px;
+  top: 44px;
 
   width: 254px;
   height: 33px;
@@ -152,7 +149,7 @@ img {
   justify-content: center;
   gap: 5px;
 
-  font-size: 25px;
+  font-size: 24px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.35px;
@@ -163,7 +160,7 @@ img {
   font-weight: 800;
 }
 
-/* ÜRÜN + FİYAT */
+/* ÜRÜN */
 .product-info {
   position: absolute;
   left: 725px;
@@ -175,9 +172,9 @@ img {
   width: 232px;
 
   font-size: 24px;
-  line-height: 1.12;
+  line-height: 1.13;
   font-weight: 400;
-  letter-spacing: -0.25px;
+  letter-spacing: -0.35px;
   color: #000000;
 
   display: -webkit-box;
@@ -186,13 +183,15 @@ img {
   overflow: hidden;
 }
 
-.old {
-  margin-top: 26px;
+/* FİYAT */
+.price-row {
+  margin-top: 24px;
+}
 
+.old {
   font-size: 27px;
   line-height: 1;
   font-weight: 400;
-  letter-spacing: -0.35px;
   color: #000000;
 
   text-decoration: line-through;
@@ -200,7 +199,7 @@ img {
 }
 
 .new-price {
-  margin-top: 7px;
+  margin-top: 9px;
 
   font-size: 37px;
   line-height: 1;
