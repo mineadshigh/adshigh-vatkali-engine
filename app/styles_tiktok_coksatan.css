@@ -46,59 +46,62 @@ img {
   object-position: center top;
 }
 
+/* SOL PROMO */
 .promo-area {
   position: absolute;
   left: 76px;
   top: 1442px;
-  width: 430px;
+  width: 500px;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 59px;
-  padding: 0 15px;
+  height: 50px;
+  padding: 0 13px;
   background: #000000;
   color: #ffffff;
-  font-size: 38px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 700;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.55px;
   white-space: nowrap;
 }
 
 .desc {
   margin-top: 24px;
-  width: 408px;
-  font-size: 34px;
-  line-height: 1.12;
+  width: 500px;
+  font-size: 29px;
+  line-height: 1.08;
   font-weight: 300;
   letter-spacing: -0.45px;
   color: #000000;
+  white-space: nowrap;
 }
 
 .desc strong {
   display: block;
-  margin-top: 4px;
-  font-size: 34px;
+  margin-top: 5px;
+  font-size: 29px;
   line-height: 1;
   font-weight: 700;
 }
 
+/* SAĞ ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
   left: 573px;
   top: 1457px;
-  width: 403px;
+  width: 404px;
 }
 
 .product-title {
-  width: 403px;
-  font-size: 34px;
+  width: 404px;
+  font-size: 28px;
   line-height: 1.12;
   font-weight: 300;
-  letter-spacing: -0.45px;
+  letter-spacing: -0.35px;
   color: #000000;
   white-space: normal;
   overflow: visible;
@@ -109,10 +112,12 @@ img {
 
 .price-row {
   margin-top: 34px;
+  width: 404px;
+  text-align: right;
 }
 
 .old {
-  font-size: 39px;
+  font-size: 35px;
   line-height: 1;
   font-weight: 400;
   color: #000000;
@@ -122,11 +127,12 @@ img {
 
 .new-price {
   margin-top: 11px;
-  font-size: 54px;
+  font-size: 50px;
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.8px;
   color: #000000;
+  text-align: right;
 }
 
 .logo {
