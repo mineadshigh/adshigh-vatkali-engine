@@ -71,16 +71,8 @@ img {
 }
 
 .discount-text strong {
-  display: inline-flex;
-  align-items: center;
   margin-left: 5px;
-  padding: 0 7px 1px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 27px;
-  line-height: 1;
   font-weight: 700;
-  letter-spacing: -0.25px;
 }
 
 .image-wrap {
