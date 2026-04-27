@@ -42,8 +42,9 @@ img {
 .headline {
   position: absolute;
   left: 168px;
-  top: 288px;
+  top: 285px;
   width: 430px;
+  z-index: 5;
 }
 
 .hero-title {
@@ -65,50 +66,56 @@ img {
   white-space: nowrap;
 }
 
-/* SOL DİKEY İNDİRİM */
-.offer-vertical {
+/* SOL DİKEY OFFER */
+.offer-big {
   position: absolute;
-  left: 84px;
-  top: 610px;
-  width: 80px;
-  height: 620px;
-  color: #000000;
+  left: 73px;
+  top: 975px;
+  width: 230px;
   transform: rotate(-90deg);
   transform-origin: left top;
-}
 
-.discount-main {
-  position: absolute;
-  left: -270px;
-  top: 0;
-  font-size: 60px;
-  line-height: 0.9;
+  font-size: 62px;
+  line-height: 1;
   font-weight: 800;
   letter-spacing: -1.8px;
   color: #000000;
+  white-space: nowrap;
+  z-index: 5;
 }
 
-.discount-small {
+.offer-small {
   position: absolute;
-  left: -190px;
-  top: -2px;
+  left: 78px;
+  top: 827px;
+  width: 90px;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+
   font-size: 17px;
   line-height: 1;
   font-weight: 300;
+  letter-spacing: -0.1px;
   color: #000000;
   white-space: nowrap;
+  z-index: 5;
 }
 
-.discount-text {
+.offer-text {
   position: absolute;
-  left: -185px;
-  top: 25px;
+  left: 105px;
+  top: 936px;
+  width: 520px;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+
   font-size: 22px;
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.25px;
   color: #000000;
   white-space: nowrap;
+  z-index: 5;
 }
 
 /* GÖRSEL - SİYAH ARKA PLAN */
@@ -116,19 +123,21 @@ img {
   position: absolute;
   left: 157px;
   top: 333px;
-  width: 617px;
-  height: 837px;
+  width: 780px;
+  height: 1148px;
   background: #000000;
+  z-index: 1;
 }
 
 .image-wrap {
   position: absolute;
   left: 168px;
   top: 344px;
-  width: 595px;
-  height: 815px;
+  width: 758px;
+  height: 1126px;
   overflow: hidden;
   background: #000000;
+  z-index: 2;
 }
 
 .product-image {
@@ -143,8 +152,9 @@ img {
 .product-info {
   position: absolute;
   left: 168px;
-  top: 1218px;
+  top: 1518px;
   width: 430px;
+  z-index: 5;
 }
 
 .product-title {
@@ -154,6 +164,7 @@ img {
   font-weight: 300;
   letter-spacing: -0.2px;
   color: #000000;
+
   white-space: normal;
   overflow: visible;
   display: block;
