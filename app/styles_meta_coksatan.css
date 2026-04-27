@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* SOL GÖRSEL */
+.image-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+  overflow: hidden;
+  background: #b54a42;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* LOGO */
+.logo {
+  position: absolute;
+  left: 777px;
+  top: 99px;
+  width: 261px;
+  height: auto;
+}
+
+/* BADGE */
+.badge {
+  position: absolute;
+  left: 759px;
+  top: 350px;
+  width: 303px;
+  height: 59px;
+
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  white-space: nowrap;
+}
+
+/* AÇIKLAMA */
+.desc {
+  position: absolute;
+  left: 759px;
+  width: 270px;
+
+  font-size: 22px;
+  line-height: 1.18;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  color: #000000;
+}
+
+.desc-1 {
+  top: 434px;
+}
+
+.desc-2 {
+  top: 521px;
+}
+
+.desc strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* ÜRÜN + FİYAT */
+.product-info {
+  position: absolute;
+  left: 759px;
+  top: 705px;
+  width: 260px;
+}
+
+.product-title {
+  width: 260px;
+
+  font-size: 19px;
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  color: #000000;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price-row {
+  margin-top: 20px;
+  height: 26px;
+}
+
+.old {
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000000;
+
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.new-price {
+  margin-top: 4px;
+
+  font-size: 37px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: #000000;
+}
