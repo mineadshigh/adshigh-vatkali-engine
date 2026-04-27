@@ -18,16 +18,7 @@ html, body {
   height: 1920px;
   overflow: hidden;
   background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
 }
-
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.hidden { display: none !important; }
 
 /* LOGO */
 .logo {
@@ -35,159 +26,126 @@ img {
   left: 328px;
   top: 87px;
   width: 425px;
-  height: auto;
 }
 
-/* ÜST BAŞLIK */
+/* ÜST YAZILAR (AŞAĞI ALINDI + BÜYÜTÜLDÜ) */
 .headline {
   position: absolute;
-  left: 168px;
-  top: 292px;
-  width: 430px;
-  z-index: 5;
+  left: 160px;
+  top: 315px; /* ↓ aşağı alındı */
+  width: 500px;
 }
 
 .hero-title {
-  font-size: 35px;
-  line-height: 1;
+  font-size: 38px; /* ↑ büyüdü */
   font-weight: 800;
   letter-spacing: -0.8px;
-  color: #000000;
-  white-space: nowrap;
 }
 
 .subtitle {
   margin-top: 6px;
-  font-size: 22px;
-  line-height: 1;
+  font-size: 24px; /* ↑ büyüdü */
   font-weight: 300;
-  letter-spacing: -0.2px;
-  color: #000000;
-  white-space: nowrap;
 }
 
-/* SOL DİKEY OFFER */
+/* SOL DİKEY ALAN (TAM DÜZELTİLDİ) */
+.left-offer {
+  position: absolute;
+  left: 70px;
+  top: 500px;
+  width: 120px;
+  height: 900px;
+}
+
+/* %60 */
 .offer-big {
   position: absolute;
-  left: 82px;
-  top: 925px;
+  bottom: 0;
+  left: 0;
   transform: rotate(-90deg);
-  transform-origin: left top;
+  transform-origin: left bottom;
 
   font-size: 64px;
-  line-height: 1;
   font-weight: 800;
-  letter-spacing: -1.8px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
+  letter-spacing: -2px;
 }
 
+/* küçük 'a varan' */
 .offer-small {
   position: absolute;
-  left: 88px;
-  top: 770px;
+  bottom: 170px;
+  left: 10px;
   transform: rotate(-90deg);
-  transform-origin: left top;
+  transform-origin: left bottom;
 
-  font-size: 17px;
-  line-height: 1;
+  font-size: 18px;
   font-weight: 300;
-  letter-spacing: -0.1px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
 }
 
+/* uzun metin */
 .offer-text {
   position: absolute;
-  left: 112px;
-  top: 892px;
+  bottom: 320px;
+  left: 10px;
   transform: rotate(-90deg);
-  transform-origin: left top;
+  transform-origin: left bottom;
 
-  font-size: 23px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.25px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
-/* GÖRSEL - SİYAH ARKA PLAN */
+/* GÖRSEL */
 .image-bg {
   position: absolute;
-  left: 130px;
-  top: 375px;
-  width: 815px;
-  height: 1210px;
-  background: #000000;
-  z-index: 1;
+  left: 140px;
+  top: 400px; /* ↓ biraz aşağı */
+  width: 800px;
+  height: 1180px;
+  background: #000;
 }
 
 .image-wrap {
   position: absolute;
-  left: 142px;
-  top: 387px;
-  width: 791px;
-  height: 1186px;
+  left: 152px;
+  top: 412px;
+  width: 776px;
+  height: 1156px;
   overflow: hidden;
-  background: #000000;
-  z-index: 2;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center center;
-  background: #000000;
 }
 
-/* ÜRÜN + FİYAT */
+/* ÜRÜN */
 .product-info {
   position: absolute;
-  left: 142px;
-  top: 1625px;
-  width: 500px;
-  z-index: 5;
+  left: 152px;
+  top: 1620px;
+  width: 520px;
 }
 
 .product-title {
-  width: 500px;
-  font-size: 25px;
-  line-height: 1.15;
+  font-size: 26px; /* ↑ büyüdü */
   font-weight: 300;
-  letter-spacing: -0.25px;
-  color: #000000;
-
-  white-space: normal;
-  overflow: visible;
-  display: block;
-  word-break: normal;
-  overflow-wrap: normal;
+  line-height: 1.2;
 }
 
+/* FİYAT */
 .price-row {
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .old {
-  font-size: 30px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-
+  font-size: 32px;
   text-decoration: line-through;
-  text-decoration-thickness: 2px;
 }
 
 .new-price {
-  margin-top: 8px;
-  font-size: 40px;
-  line-height: 1;
+  margin-top: 6px;
+  font-size: 42px;
   font-weight: 800;
-  letter-spacing: -0.6px;
-  color: #000000;
 }
