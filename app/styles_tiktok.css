@@ -85,10 +85,10 @@ img {
 
 .image-wrap {
   position: absolute;
-  left: 123px;
-  top: 291px;
+  left: 121px;
+  top: 333px;
   width: 837px;
-  height: 962px;
+  height: 1253px;
   overflow: hidden;
   background: #ffffff;
 }
@@ -102,8 +102,8 @@ img {
 
 .product-info {
   position: absolute;
-  left: 123px;
-  top: 1276px;
+  left: 121px;
+  top: 1608px;
   width: 560px;
 }
 
@@ -157,7 +157,7 @@ img {
 .campaign-note {
   position: absolute;
   left: 267px;
-  top: 1647px;
+  top: 1750px;
   width: 500px;
   font-size: 19px;
   line-height: 1;
