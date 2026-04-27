@@ -56,13 +56,15 @@ img {
   object-position: center top;
 }
 
-/* BADGE */
+/* BADGE (FIXED GENİŞLİK) */
 .badge {
   position: absolute;
   left: 47px;
   top: 371px;
-  width: 341px;
+
+  width: 380px; /* 🔥 BURASI GENİŞLEDİ */
   height: 41px;
+
   background: #000000;
   color: #ffffff;
 
@@ -74,10 +76,11 @@ img {
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.6px;
+
   white-space: nowrap;
 }
 
-/* SEPETTE EKSTRA */
+/* SEPETTE EKSTRA (BOLD FIX) */
 .discount-text {
   position: absolute;
   left: 47px;
@@ -86,7 +89,8 @@ img {
 
   font-size: 26px;
   line-height: 1.05;
-  font-weight: 400;
+  font-weight: 400; /* 🔥 NORMAL */
+
   letter-spacing: -0.35px;
   color: #000000;
 }
@@ -94,13 +98,15 @@ img {
 .discount-text strong {
   display: block;
   margin-top: 3px;
+
   font-size: 26px;
   line-height: 1;
-  font-weight: 800;
+
+  font-weight: 700; /* 🔥 SADECE BURASI BOLD */
   letter-spacing: -0.4px;
 }
 
-/* ÜRÜN ADI */
+/* ÜRÜN */
 .product-info {
   position: absolute;
   left: 47px;
@@ -110,10 +116,12 @@ img {
 
 .product-title {
   width: 260px;
+
   font-size: 22px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.25px;
+
   color: #000000;
 
   display: -webkit-box;
@@ -136,6 +144,7 @@ img {
   line-height: 1;
   font-weight: 400;
   color: #000000;
+
   text-decoration: line-through;
   text-decoration-thickness: 1.5px;
 }
@@ -145,9 +154,11 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-width: 85px;
   height: 20px;
   padding: 0 7px;
+
   background: #000000;
   color: #ffffff;
 
@@ -157,7 +168,7 @@ img {
   letter-spacing: -0.25px;
 }
 
-/* KAMPANYA NOTU */
+/* KAMPANYA NOTU (BOLD FIX) */
 .campaign-note {
   position: absolute;
   left: 48px;
@@ -166,8 +177,10 @@ img {
 
   font-size: 17px;
   line-height: 1;
-  font-weight: 400;
+
+  font-weight: 400; /* 🔥 NORMAL */
   letter-spacing: -0.2px;
+
   color: #000000;
   white-space: nowrap;
 }
