@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden { display: none !important; }
+
+/* LOGO */
+.logo {
+  position: absolute;
+  left: 328px;
+  top: 87px;
+  width: 425px;
+  height: auto;
+}
+
+/* ÜST BAŞLIK */
+.headline {
+  position: absolute;
+  left: 168px;
+  top: 288px;
+  width: 430px;
+}
+
+.hero-title {
+  font-size: 35px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.subtitle {
+  margin-top: 5px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* SOL DİKEY İNDİRİM */
+.offer-vertical {
+  position: absolute;
+  left: 84px;
+  top: 610px;
+  width: 80px;
+  height: 620px;
+  color: #000000;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+}
+
+.discount-main {
+  position: absolute;
+  left: -270px;
+  top: 0;
+  font-size: 60px;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  color: #000000;
+}
+
+.discount-small {
+  position: absolute;
+  left: -190px;
+  top: -2px;
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 300;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.discount-text {
+  position: absolute;
+  left: -185px;
+  top: 25px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* GÖRSEL - SİYAH ARKA PLAN */
+.image-bg {
+  position: absolute;
+  left: 157px;
+  top: 333px;
+  width: 617px;
+  height: 837px;
+  background: #000000;
+}
+
+.image-wrap {
+  position: absolute;
+  left: 168px;
+  top: 344px;
+  width: 595px;
+  height: 815px;
+  overflow: hidden;
+  background: #000000;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  background: #000000;
+}
+
+/* ÜRÜN + FİYAT */
+.product-info {
+  position: absolute;
+  left: 168px;
+  top: 1218px;
+  width: 430px;
+}
+
+.product-title {
+  width: 430px;
+  font-size: 20px;
+  line-height: 1.15;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  color: #000000;
+  white-space: normal;
+  overflow: visible;
+  display: block;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.price-row {
+  margin-top: 18px;
+}
+
+.old {
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.new-price {
+  margin-top: 8px;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #000000;
+}
