@@ -91,13 +91,13 @@ img {
 /* SAĞ ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
-  left: 533px;
+  left: 573px;
   top: 1457px;
-  width: 444px;
+  width: 404px;
 }
 
 .product-title {
-  width: 444px;
+  width: 404px;
   font-size: 28px;
   line-height: 1.12;
   font-weight: 300;
