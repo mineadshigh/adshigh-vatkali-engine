@@ -97,28 +97,29 @@ img {
   position: absolute;
   left: 47px;
   top: 706px;
-  width: 260px;
+  width: 285px;
 }
 
 .product-title {
-  width: 260px;
+  width: 285px;
   font-size: 22px;
-  line-height: 1;
+  line-height: 1.16;
   font-weight: 400;
   letter-spacing: -0.25px;
   color: #000000;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  display: block;
+  white-space: normal;
+  overflow: visible;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .price-row {
-  margin-top: 8px;
+  margin-top: 13px;
   display: flex;
   align-items: center;
   gap: 9px;
-  height: 20px;
+  min-height: 20px;
 }
 
 .old {
