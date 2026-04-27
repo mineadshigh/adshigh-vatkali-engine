@@ -91,16 +91,19 @@ img {
   width: 837px;
   height: 919px;
 
+  display: flex;
+  align-items: flex-start; /* ÜSTTEN başlasın */
+  justify-content: center;
+
   overflow: hidden;
-  background: transparent; /* ❗ griyi kaldırdık */
+  background: transparent;
 }
 
 .product-image {
-  width: 100%;
   height: 100%;
+  width: auto;
 
-  object-fit: contain;
-  object-position: center;
+  object-fit: unset;
 }
 
 .product-info {
