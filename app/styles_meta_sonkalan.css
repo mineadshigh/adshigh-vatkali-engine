@@ -29,7 +29,7 @@ img {
 
 .hidden { display: none !important; }
 
-/* SOL GÖRSEL */
+/* SOL GÖRSEL - SİYAH ARKA PLAN */
 .image-wrap {
   position: absolute;
   left: 36px;
@@ -46,7 +46,7 @@ img {
   height: 100%;
   object-fit: contain;
   object-position: center center;
-  background: #ffffff;
+  background: #000000;
 }
 
 /* LOGO */
@@ -63,12 +63,12 @@ img {
   position: absolute;
   left: 723px;
   top: 325px;
-  width: 299px;
+  width: 320px;
 
-  font-size: 42px;
+  font-size: 44px;
   line-height: 0.95;
   font-weight: 800;
-  letter-spacing: -1.2px;
+  letter-spacing: -1.5px;
   color: #000000;
   white-space: nowrap;
 }
@@ -76,8 +76,8 @@ img {
 .subtitle {
   position: absolute;
   left: 723px;
-  top: 365px;
-  width: 190px;
+  top: 372px;
+  width: 220px;
 
   font-size: 21px;
   line-height: 1;
@@ -101,17 +101,17 @@ img {
   left: 0;
   top: 0;
 
-  font-size: 52px;
+  font-size: 54px;
   line-height: 0.9;
   font-weight: 800;
-  letter-spacing: -1.4px;
+  letter-spacing: -1.8px;
   color: #000000;
 }
 
 .discount-side {
   position: absolute;
-  left: 101px;
-  top: 8px;
+  left: 108px;
+  top: 14px;
 
   font-size: 16px;
   line-height: 0.95;
@@ -139,7 +139,7 @@ img {
   top: 44px;
 
   width: 254px;
-  height: 33px;
+  height: 36px;
 
   background: #000000;
   color: #ffffff;
@@ -149,7 +149,7 @@ img {
   justify-content: center;
   gap: 5px;
 
-  font-size: 24px;
+  font-size: 25px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.35px;
@@ -160,30 +160,31 @@ img {
   font-weight: 800;
 }
 
-/* ÜRÜN */
+/* ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
   left: 725px;
   top: 658px;
-  width: 232px;
+  width: 285px;
 }
 
 .product-title {
-  width: 232px;
+  width: 285px;
 
   font-size: 24px;
-  line-height: 1.13;
+  line-height: 1.15;
   font-weight: 400;
   letter-spacing: -0.35px;
   color: #000000;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  white-space: normal;
+  overflow: visible;
+  display: block;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
-/* FİYAT */
+/* FİYAT - ÜRÜN ADINA BAĞLI AŞAĞI KAYAR */
 .price-row {
   margin-top: 24px;
 }
