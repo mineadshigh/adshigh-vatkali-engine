@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>{{CSS}}</style>
+</head>
+<body>
+  <div class="frame">
+
+    <div class="image-wrap">
+      <img class="product-image" src="{{product_image_primary}}" />
+    </div>
+
+    <div class="promo-area">
+      <div class="badge">ÇOK SATANLAR</div>
+      <div class="desc">
+        Tüm indirimlere ek sepette net
+        <strong>%10 İNDİRİM</strong>
+      </div>
+    </div>
+
+    <div class="product-info">
+      <div class="product-title">{{title}}</div>
+
+      <div class="price-row">
+        <div class="old {{old_hidden}}">{{price}}</div>
+        <div class="new-price {{new_hidden}}">{{sale_price}}</div>
+        <div class="new-price {{single_hidden}}">{{price}}</div>
+      </div>
+    </div>
+
+    <img class="logo" src="{{logo_url}}" />
+
+  </div>
+</body>
+</html>
