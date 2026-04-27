@@ -29,7 +29,6 @@ img {
 
 .hidden { display: none !important; }
 
-/* LOGO */
 .logo {
   position: absolute;
   left: 328px;
@@ -38,11 +37,10 @@ img {
   height: auto;
 }
 
-/* ÜST BAŞLIK */
 .headline {
   position: absolute;
   left: 168px;
-  top: 285px;
+  top: 292px;
   width: 430px;
   z-index: 5;
 }
@@ -57,7 +55,7 @@ img {
 }
 
 .subtitle {
-  margin-top: 5px;
+  margin-top: 6px;
   font-size: 22px;
   line-height: 1;
   font-weight: 300;
@@ -66,12 +64,11 @@ img {
   white-space: nowrap;
 }
 
-/* SOL DİKEY OFFER */
+/* SOL DİKEY OFFER - AYRI PARÇALAR, ÜST ÜSTE BİNMEZ */
 .offer-big {
   position: absolute;
-  left: 73px;
-  top: 975px;
-  width: 230px;
+  left: 78px;
+  top: 960px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
@@ -86,9 +83,8 @@ img {
 
 .offer-small {
   position: absolute;
-  left: 78px;
-  top: 827px;
-  width: 90px;
+  left: 82px;
+  top: 820px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
@@ -103,9 +99,8 @@ img {
 
 .offer-text {
   position: absolute;
-  left: 105px;
-  top: 936px;
-  width: 520px;
+  left: 110px;
+  top: 940px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
@@ -118,23 +113,23 @@ img {
   z-index: 5;
 }
 
-/* GÖRSEL - SİYAH ARKA PLAN */
+/* GÖRSEL - DAHA AŞAĞI VE DAHA BÜYÜK */
 .image-bg {
   position: absolute;
-  left: 157px;
-  top: 333px;
-  width: 780px;
-  height: 1148px;
+  left: 130px;
+  top: 375px;
+  width: 815px;
+  height: 1210px;
   background: #000000;
   z-index: 1;
 }
 
 .image-wrap {
   position: absolute;
-  left: 168px;
-  top: 344px;
-  width: 758px;
-  height: 1126px;
+  left: 142px;
+  top: 387px;
+  width: 791px;
+  height: 1186px;
   overflow: hidden;
   background: #000000;
   z-index: 2;
@@ -148,23 +143,21 @@ img {
   background: #000000;
 }
 
-/* ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
-  left: 168px;
-  top: 1518px;
-  width: 430px;
+  left: 142px;
+  top: 1625px;
+  width: 500px;
   z-index: 5;
 }
 
 .product-title {
-  width: 430px;
+  width: 500px;
   font-size: 20px;
   line-height: 1.15;
   font-weight: 300;
   letter-spacing: -0.2px;
   color: #000000;
-
   white-space: normal;
   overflow: visible;
   display: block;
