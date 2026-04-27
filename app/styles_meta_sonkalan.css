@@ -29,7 +29,6 @@ img {
 
 .hidden { display: none !important; }
 
-/* SOL GÖRSEL - SİYAH ARKA PLAN */
 .image-wrap {
   position: absolute;
   left: 36px;
@@ -49,7 +48,6 @@ img {
   background: #000000;
 }
 
-/* LOGO */
 .logo {
   position: absolute;
   left: 742px;
@@ -58,13 +56,11 @@ img {
   height: auto;
 }
 
-/* BAŞLIK */
 .hero-title {
   position: absolute;
   left: 723px;
   top: 325px;
   width: 320px;
-
   font-size: 44px;
   line-height: 0.95;
   font-weight: 800;
@@ -76,31 +72,29 @@ img {
 .subtitle {
   position: absolute;
   left: 723px;
-  top: 372px;
+  top: 374px;
   width: 220px;
-
   font-size: 21px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.2px;
   color: #000000;
   white-space: nowrap;
+  text-shadow: none;
 }
 
-/* İNDİRİM BLOĞU */
 .discount-area {
   position: absolute;
   left: 723px;
   top: 484px;
   width: 270px;
-  height: 78px;
+  height: 86px;
 }
 
 .discount-main {
   position: absolute;
   left: 0;
   top: 0;
-
   font-size: 54px;
   line-height: 0.9;
   font-weight: 800;
@@ -112,7 +106,6 @@ img {
   position: absolute;
   left: 108px;
   top: 14px;
-
   font-size: 16px;
   line-height: 0.95;
   font-weight: 400;
@@ -135,20 +128,18 @@ img {
 
 .basket-badge {
   position: absolute;
-  left: -2px;
-  top: 44px;
-
-  width: 254px;
-  height: 36px;
-
+  left: -4px;
+  top: 51px;
+  width: auto;
+  min-width: 268px;
+  height: 34px;
+  padding: 0 12px;
   background: #000000;
   color: #ffffff;
-
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-
   font-size: 25px;
   line-height: 1;
   font-weight: 400;
@@ -160,7 +151,6 @@ img {
   font-weight: 800;
 }
 
-/* ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
   left: 725px;
@@ -170,21 +160,19 @@ img {
 
 .product-title {
   width: 285px;
-
   font-size: 24px;
   line-height: 1.15;
   font-weight: 400;
   letter-spacing: -0.35px;
   color: #000000;
-
   white-space: normal;
   overflow: visible;
   display: block;
   word-break: normal;
   overflow-wrap: normal;
+  text-shadow: none;
 }
 
-/* FİYAT - ÜRÜN ADINA BAĞLI AŞAĞI KAYAR */
 .price-row {
   margin-top: 24px;
 }
@@ -194,14 +182,12 @@ img {
   line-height: 1;
   font-weight: 400;
   color: #000000;
-
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
 
 .new-price {
   margin-top: 9px;
-
   font-size: 37px;
   line-height: 1;
   font-weight: 800;
