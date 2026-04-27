@@ -29,6 +29,7 @@ img {
 
 .hidden { display: none !important; }
 
+/* LOGO */
 .logo {
   position: absolute;
   left: 328px;
@@ -37,6 +38,7 @@ img {
   height: auto;
 }
 
+/* ÜST BAŞLIK */
 .headline {
   position: absolute;
   left: 168px;
@@ -64,15 +66,15 @@ img {
   white-space: nowrap;
 }
 
-/* SOL DİKEY OFFER - AYRI PARÇALAR, ÜST ÜSTE BİNMEZ */
+/* SOL DİKEY OFFER */
 .offer-big {
   position: absolute;
-  left: 78px;
-  top: 960px;
+  left: 82px;
+  top: 925px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
-  font-size: 62px;
+  font-size: 64px;
   line-height: 1;
   font-weight: 800;
   letter-spacing: -1.8px;
@@ -83,8 +85,8 @@ img {
 
 .offer-small {
   position: absolute;
-  left: 82px;
-  top: 820px;
+  left: 88px;
+  top: 770px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
@@ -99,12 +101,12 @@ img {
 
 .offer-text {
   position: absolute;
-  left: 110px;
-  top: 940px;
+  left: 112px;
+  top: 892px;
   transform: rotate(-90deg);
   transform-origin: left top;
 
-  font-size: 22px;
+  font-size: 23px;
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.25px;
@@ -113,7 +115,7 @@ img {
   z-index: 5;
 }
 
-/* GÖRSEL - DAHA AŞAĞI VE DAHA BÜYÜK */
+/* GÖRSEL - SİYAH ARKA PLAN */
 .image-bg {
   position: absolute;
   left: 130px;
@@ -143,6 +145,7 @@ img {
   background: #000000;
 }
 
+/* ÜRÜN + FİYAT */
 .product-info {
   position: absolute;
   left: 142px;
@@ -153,11 +156,12 @@ img {
 
 .product-title {
   width: 500px;
-  font-size: 20px;
+  font-size: 25px;
   line-height: 1.15;
   font-weight: 300;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.25px;
   color: #000000;
+
   white-space: normal;
   overflow: visible;
   display: block;
@@ -170,19 +174,20 @@ img {
 }
 
 .old {
-  font-size: 25px;
+  font-size: 30px;
   line-height: 1;
   font-weight: 400;
   color: #000000;
+
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
 
 .new-price {
   margin-top: 8px;
-  font-size: 34px;
+  font-size: 40px;
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
   color: #000000;
 }
