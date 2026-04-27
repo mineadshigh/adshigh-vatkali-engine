@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  background: #ffffff;
+  overflow: hidden;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.hidden { display: none !important; }
+
+.image-wrap {
+  position: absolute;
+  left: 75px;
+  top: 74px;
+  width: 902px;
+  height: 1352px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.promo-area {
+  position: absolute;
+  left: 76px;
+  top: 1442px;
+  width: 430px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 59px;
+  padding: 0 15px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  white-space: nowrap;
+}
+
+.desc {
+  margin-top: 24px;
+  width: 408px;
+  font-size: 34px;
+  line-height: 1.12;
+  font-weight: 300;
+  letter-spacing: -0.45px;
+  color: #000000;
+}
+
+.desc strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.product-info {
+  position: absolute;
+  left: 573px;
+  top: 1457px;
+  width: 403px;
+}
+
+.product-title {
+  width: 403px;
+  font-size: 34px;
+  line-height: 1.12;
+  font-weight: 300;
+  letter-spacing: -0.45px;
+  color: #000000;
+  white-space: normal;
+  overflow: visible;
+  display: block;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.price-row {
+  margin-top: 34px;
+}
+
+.old {
+  font-size: 39px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.new-price {
+  margin-top: 11px;
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: #000000;
+}
+
+.logo {
+  position: absolute;
+  left: 325px;
+  top: 1731px;
+  width: 430px;
+  height: auto;
+}
