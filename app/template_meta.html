@@ -1,43 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=1080, initial-scale=1.0" />
-  <style>
-    {{CSS}}
-  </style>
+<meta charset="UTF-8" />
+<style>
+{{CSS}}
+</style>
 </head>
 <body>
-  <div class="frame">
 
-    <div class="top-title">SEZON SONU FIRSATLARI</div>
+<div class="frame">
 
-    <div class="promo">
-      <div class="up-to">UP TO 60%</div>
+  <!-- SOL -->
+  <div class="left">
 
-      <div class="seas">SEAS</div>
-      <div class="white-pill"></div>
-      <div class="black-dot"></div>
-      <div class="n-letter">N</div>
-
-      <div class="weekend">HAFTA SONUNA ÖZEL</div>
-      <div class="extra">SEPETTE EKSTRA</div>
-      <div class="ten">10</div>
-      <div class="percent-small">%</div>
-      <div class="off">FF</div>
-
-      <div class="campaign-note">Kampanya 27.04.2026 10:00’a kadar tüm ürünlerde geçerlidir.</div>
+    <div class="logo">
+      <img src="{{logo_url}}" />
     </div>
 
-    <div class="main-image-wrap">
-      <img class="main-image" src="{{product_image_primary}}" alt="" />
+    <div class="campaign">
+      <div class="badge">ANNELER GÜNÜ SEÇKİSİ</div>
+      <div class="sub">Sepette ekstra</div>
+      <div class="discount">%10 indirim</div>
     </div>
 
-    <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
+    <div class="product">
+      <div class="title">{{title}}</div>
 
-    <div class="line-vertical"></div>
-    <div class="line-horizontal"></div>
+      <div class="prices">
+        <span class="old {{old_hidden}}">{{price}}</span>
+        <span class="new {{new_hidden}}">{{sale_price}}</span>
+        <span class="single {{single_hidden}}">{{price}}</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      Kampanya 11.03.2026 10:00’a kadar geçerlidir.
+    </div>
 
   </div>
+
+  <!-- SAĞ -->
+  <div class="right">
+    <img src="{{product_image_primary}}" />
+  </div>
+
+</div>
+
 </body>
 </html>
