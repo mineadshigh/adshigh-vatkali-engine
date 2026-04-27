@@ -1,69 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1080px;
-  overflow: hidden;
-  background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-}
-
-* { box-sizing: border-box; }
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  background: #ffffff;
-  overflow: hidden;
-  font-family: "Outfit", Arial, sans-serif;
-}
-
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.hidden { display: none !important; }
-
-/* LOGO */
-.logo {
-  position: absolute;
-  left: 96px;
-  top: 82px;
-  width: 233px;
-  height: auto;
-}
-
-/* SAĞ GÖRSEL */
-.image-wrap {
-  position: absolute;
-  left: 431px;
-  top: 82px;
-  width: 612px;
-  height: 917px;
-  overflow: hidden;
-  background: #f1f1f1;
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* BADGE */
+/* BADGE (DAHA KÜÇÜK) */
 .badge {
   position: absolute;
   left: 47px;
   top: 371px;
 
-  width: 360px;
-  height: 37px;
+  width: 340px;
+  height: 34px;
 
   background: #000000;
   color: #ffffff;
@@ -72,26 +14,27 @@ img {
   align-items: center;
   justify-content: center;
 
-  font-size: 27px;
+  font-size: 24px;   /* ⬅️ küçüldü */
   line-height: 1;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-weight: 600;  /* ⬅️ inceldi */
+  letter-spacing: -0.4px;
 
   white-space: nowrap;
 }
 
-/* SEPETTE EKSTRA */
+
+/* SEPETTE EKSTRA (DAHA İNCE) */
 .discount-text {
   position: absolute;
   left: 47px;
   top: 426px;
   width: 220px;
 
-  font-size: 26px;
-  line-height: 1.05;
-  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.1;
+  font-weight: 400;  /* ⬅️ normal */
 
-  letter-spacing: -0.35px;
+  letter-spacing: -0.3px;
   color: #000000;
 }
 
@@ -99,87 +42,26 @@ img {
   display: block;
   margin-top: 3px;
 
-  font-size: 26px;
+  font-size: 24px;
   line-height: 1;
 
-  font-weight: 600;
-  letter-spacing: -0.4px;
+  font-weight: 500;  /* ⬅️ çok daha soft */
+  letter-spacing: -0.3px;
 }
 
-/* ÜRÜN */
-.product-info {
-  position: absolute;
-  left: 47px;
-  top: 706px;
-  width: 260px;
-}
 
-.product-title {
-  width: 260px;
-
-  font-size: 22px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.25px;
-
-  color: #000000;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* FİYAT */
-.price-row {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  height: 20px;
-}
-
-.old {
-  font-size: 21px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-
-  text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
-}
-
-.new,
-.single {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 85px;
-  height: 20px;
-  padding: 0 7px;
-
-  background: #000000;
-  color: #ffffff;
-
-  font-size: 21px;
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: -0.25px;
-}
-
-/* KAMPANYA NOTU */
+/* KAMPANYA NOTU (DAHA İNCE) */
 .campaign-note {
   position: absolute;
   left: 48px;
   top: 984px;
   width: 310px;
 
-  font-size: 17px;
+  font-size: 16px;   /* ⬅️ küçüldü */
   line-height: 1;
 
-  font-weight: 400;
-  letter-spacing: -0.2px;
+  font-weight: 300;  /* ⬅️ baya inceldi */
+  letter-spacing: -0.15px;
 
   color: #000000;
   white-space: nowrap;
