@@ -148,13 +148,43 @@ def build_render_cache_key(
 
 def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
-
+    
 
 def get_template_and_css(design: str) -> tuple[str, str]:
+    if design == "meta_v1":
+        return (
+            os.path.join(BASE_DIR, "template_meta.html"),
+            os.path.join(BASE_DIR, "styles_meta.css"),
+        )
+
     if design == "tiktok_v1":
         return (
             os.path.join(BASE_DIR, "template_tiktok.html"),
             os.path.join(BASE_DIR, "styles_tiktok.css"),
+        )
+
+    if design == "meta_coksatan":
+        return (
+            os.path.join(BASE_DIR, "template_meta_coksatan.html"),
+            os.path.join(BASE_DIR, "styles_meta_coksatan.css"),
+        )
+
+    if design == "meta_sonkalan":
+        return (
+            os.path.join(BASE_DIR, "template_meta_sonkalan.html"),
+            os.path.join(BASE_DIR, "styles_meta_sonkalan.css"),
+        )
+
+    if design == "tiktok_coksatan":
+        return (
+            os.path.join(BASE_DIR, "template_tiktok_coksatan.html"),
+            os.path.join(BASE_DIR, "styles_tiktok_coksatan.css"),
+        )
+
+    if design == "tiktok_sonkalan":
+        return (
+            os.path.join(BASE_DIR, "template_tiktok_sonkalan.html"),
+            os.path.join(BASE_DIR, "styles_tiktok_sonkalan.css"),
         )
 
     return (
@@ -162,6 +192,281 @@ def get_template_and_css(design: str) -> tuple[str, str]:
         os.path.join(BASE_DIR, "styles_meta.css"),
     )
 
+
+SON_KALAN_IDS = {
+    "VTK24-110-06-47",
+    "VTK25-112-05-2",
+    "VTK25-101-62-24",
+    "VTK25-101-35-10",
+    "CKT-BD-23-036-10",
+    "D-SAME-028-3",
+    "VTK24-114-04-29",
+    "VTK25-101-54-3",
+    "VTK25-101-88-9",
+    "VTK26-101-34-3",
+    "D-SAME-123-5",
+    "PNT-RB-23-058-43",
+    "CRP-SPT-22-83-4",
+    "TSR-BD-23-191-4",
+    "VTK24-114-04-9",
+    "VTK23-101-4017-5",
+    "VTK26-101-15-3",
+    "VTK23-101-66-4",
+    "D-SAME-121-3",
+    "VTK25-101-104-10",
+    "VTK26-101-38-10",
+    "VTK26-101-33-10",
+    "VTK26-101-38-3",
+    "D-SAME-269-10",
+    "VTK24-119-32-2",
+    "VTK23-101-48-5",
+    "VTK25-104-02-3",
+    "D-SAME-029-29",
+    "VTK24-101-45-10",
+    "VTK26-101-20-3",
+    "D-SAME-289-3",
+    "VTK25-122-04-3",
+    "VTK20-PNT01041-10",
+    "VTK25-101-106-24",
+    "VTK24-101-51-5",
+    "419174224-25",
+    "419174224-29",
+    "VTK25-101-73-3",
+    "VTK25-101-88-24",
+    "VTK24-101-17-29",
+    "419174224-7",
+    "D-SAME-269-52",
+    "VTK25-101-71-3",
+    "VTK24-101-10-2",
+    "VTK23-101-4017-3",
+    "D-SAME-270-3",
+    "KMR-FİO-23-140-55",
+    "VTK23-106-27-6",
+    "VTK25-114-10-13",
+    "D-SAME-189-5",
+    "VTK25-101-105-24",
+    "VTK24-102-01-16",
+    "VTK23-101-4001-16",
+    "VTK24-112-22-39",
+    "VTK25-122-02-3",
+    "VTK24-112-47-10",
+    "D-SAME-290-3",
+    "D-SAME-88-3",
+    "VTK25-101-95-3",
+    "VTK25-114-04-3",
+    "VTK24-119-25-3",
+    "VTK25-123-05-3",
+    "VTK25-101-124-2",
+    "VTK24-112-26-5",
+    "VTK25-114-15-3",
+    "VTK26-101-05-10",
+    "VTK24-102-06-16",
+    "VTK25-113-06-2",
+    "PNT-BD-23-028-29",
+    "ETK-DLV-23-098-3",
+    "D-SAME-147-13",
+    "VTK25-122-13-3",
+    "VTK25-118-01-3",
+    "VTK20-KMR1005-3",
+    "D-SAME-203-10-5",
+    "VTK25-122-04-10",
+    "VTK24-119-34-2",
+    "VTK24-119-30-3",
+    "VTK24-110-06-52",
+    "VTK24-119-43-3",
+    "VTK25-101-95-10",
+    "D-SAME-189-3",
+    "ELB-DLV-23-095-29",
+    "VTK25-101-116-3",
+    "VTK25-101-41-45",
+    "VTK24-119-36-8",
+    "VTK25-104-04-13",
+    "SWT-MNL-22-194-5",
+    "VTK25-118-03-3",
+    "VTK23-101-71-3",
+    "D-SAME-35-3",
+    "VTK24-114-05-45",
+    "D-SAME-103-13",
+    "VTK25-101-116-10",
+    "D-SAME-116-29",
+    "D-SAME-116-9",
+    "VTK24-119-25-10",
+    "VTK25-119-64-3",
+    "VTK25-101-64-10",
+    "VTK25-104-05-3",
+    "D-SAME-98-13",
+    "VTK20-KZK1023-3",
+    "VTK25-101-45-10",
+    "VTK26-101-25-3",
+    "VTK20-KZK1023-13",
+    "VTK23-101-4017-13",
+    "VTK25-122-06-3",
+    "VTK24-101-53-10",
+    "VTK24-119-33-2",
+    "VTK24-119-05-33",
+    "VTK25-101-91-10",
+    "VTK24-119-03-3",
+    "VTK25-101-123-10",
+    "VTK24-119-26-3",
+    "VTK24-119-35-3",
+    "VTK25-113-08-3",
+    "VTK25-112-03-2",
+    "VTK25-101-105-10",
+    "VTK21-JNS01-6",
+    "VTK25-119-62-10",
+    "VTK23-106-15-29",
+    "VTK24-101-10-52",
+    "SWT-MNL-22-194-10",
+    "VTK24-110-06-13",
+    "VTK24-119-33-3",
+    "D-SAME-252-2",
+    "VTK25-101-91-41",
+    "VTK25-119-64-10",
+    "VTK23-102-06-16",
+    "VTK25-101-107-9",
+    "VTK25-119-49-10",
+    "VTK25-101-88-3",
+    "D-SAME-029-10",
+    "VTK25-101-83-24",
+    "VTK-AKS-100-5",
+    "VTK-24-113-04-10",
+    "VTK23-101-29-5",
+    "VTK25-101-83-10",
+    "VTK23-101-51-9",
+    "VTK24-110-03-13",
+    "VTK25-114-07-5",
+    "VTK23-104-15-29",
+    "VTK24-101-11-2",
+    "VTK23-101-50-9",
+    "VTK23-104-14-29",
+    "VTK23-101-03-71",
+    "VTK-S21-B0006-4",
+    "VTK25-101-55-45",
+    "VTK24-113-09-13",
+    "VTK25-101-107-24",
+    "VTK25-122-18-4",
+    "VTK25-101-47-3",
+    "VTK25-101-51-50",
+    "TRK-EG-22-178-45",
+    "VTK25-101-84-24",
+    "VTK24-119-36-63",
+    "VTK25-122-05-3",
+    "VTK25-101-105-9",
+    "VTK24-101-27-3",
+    "VTK24-110-01-56",
+    "VTK25-112-07-13",
+    "VTK24-101-49-5",
+    "VTK23-106-16-32",
+    "VTK25-114-01-3",
+    "VTK25-101-23-3",
+    "CRP-FFX-23-086-25",
+    "CRP-CAK-23-122-4",
+    "BST-BD-23-066-22",
+    "VTK24-114-10-13",
+    "VTK24-112-24-39",
+    "VTK24-101-45-5",
+    "VTK24-112-17-42",
+    "VTK24-112-12-39",
+    "VTK24-101-50-5",
+    "D-SAME-295-3",
+    "VTK25-101-122-10",
+    "VTK26-101-08-13",
+    "VTK25-101-123-5",
+    "VTK25-101-19-45",
+    "VTK23-102-09-7",
+    "VTK24-112-27-13",
+    "VTK25-101-37-2",
+    "VTK25-123-05-10",
+    "VTK23-103-01-30",
+    "VTK25-112-04-45",
+    "KZ-CMR-23-177-17",
+    "VTK25-101-47-10",
+    "VTK25-104-06-10",
+    "VTK24-112-27-39",
+    "VTK25-118-02-3",
+    "VTK23-101-4001-13",
+    "D-SAME-292-3",
+    "VTK24-113-03-3",
+    "VTK24-101-05-13",
+    "VTK24-112-22-3",
+    "VTK25-101-107-10",
+}
+
+COK_SATAN_IDS = {
+    "VTK25-101-07-3",
+    "VTK26-101-10-13",
+    "VTK20-PNT1044-5",
+    "VTK25-101-07-10",
+    "VTK21-JNS017-7",
+    "VTK25-101-26-3",
+    "VTK25-101-12-3",
+    "VTK26-101-03-10",
+    "CKT-BD-23-036-3",
+    "PNT-BD-23-034-3",
+    "VTK25-112-07-2",
+    "VKT25-101-59-3",
+    "VTK20-PNT1044-3",
+    "VTK25-122-14-3",
+    "VTK24-112-37-3",
+    "VTK25-101-126-3",
+    "VTK25-112-06-3",
+    "VTK26-101-30-3",
+    "VTK25-112-07-3",
+    "VTK26-120-04-87",
+    "VTK26-114-05-13",
+    "VTK25-101-26-89",
+    "VTK25-101-72-3",
+    "CKT-BD-23-036-2",
+    "VTK25-101-110-3",
+    "VTK25-101-16-10",
+    "VTK21-JNS017-16",
+    "VTK25-101-80-13",
+    "VTK25-101-32-13",
+    "VTK26-101-28-3",
+    "PNT-BD-23-034-2",
+    "VTK25-101-83-3",
+    "VTK25-101-13-3",
+}
+
+
+def normalize_product_id(raw_id: str) -> str:
+    return " ".join((raw_id or "").split()).strip().upper()
+
+
+def extract_product_id(item: ET.Element, ns: dict | None = None) -> str:
+    raw_id = (
+        text_of(item, "g:id", ns)
+        or text_of(item, "id")
+    )
+
+    if not raw_id:
+        for child in list(item):
+            tag_name = child.tag.split("}")[-1].lower()
+            if tag_name == "id" and (child.text or "").strip():
+                raw_id = child.text
+                break
+
+    pid = normalize_product_id(raw_id)
+
+    # TikTok örneği: CKT-BD-23-036-2-BEJ → CKT-BD-23-036-2
+    # Meta zaten genelde renksiz geliyor: CKT-BD-23-036-2
+    parts = pid.split("-")
+    if len(parts) >= 3 and not parts[-1].isdigit():
+        pid = "-".join(parts[:-1])
+
+    return pid
+
+
+def pick_design(product_id: str, platform: str) -> str:
+    pid = normalize_product_id(product_id)
+
+    if pid in COK_SATAN_IDS:
+        return f"{platform}_coksatan"
+
+    if pid in SON_KALAN_IDS:
+        return f"{platform}_sonkalan"
+
+    return f"{platform}_v1"
 
 # -------------------------
 # XML utilities
@@ -491,7 +796,7 @@ async def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
+    secondary_for_cache = product_image_secondary_1 if design.startswith("meta") else ""
 
     cache_key = build_render_cache_key(
         title=title,
@@ -513,7 +818,7 @@ async def render_endpoint(
         return Response(content=png, media_type="image/png", headers=headers)
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        if design == "meta_v1":
+        if design.startswith("meta"):
             product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
                 to_data_uri(product_image_primary, client),
                 to_data_uri(product_image_secondary_1, client),
@@ -575,8 +880,9 @@ async def feed_meta(request: Request):
 
         primary, s1 = choose_images_any(item)
 
-        design = "meta_v1"
-        sig = build_sig(design, title, price, sale, primary, s1, fv)
+        product_id = extract_product_id(item, ns)
+        design = pick_design(product_id, "meta")
+        sig = build_sig(design, product_id, title, price, sale, primary, s1, fv)
 
         render_url = (
             f"{base_url}/render.png"
@@ -637,8 +943,9 @@ async def feed_tiktok(request: Request):
 
         primary, _ = choose_images_any(item)
 
-        design = "tiktok_v1"
-        sig = build_sig(design, title, price, sale, primary, fv)
+        product_id = extract_product_id(item, ns)
+        design = pick_design(product_id, "tiktok")
+        sig = build_sig(design, product_id, title, price, sale, primary, fv)
 
         render_url = (
             f"{base_url}/render.png"
