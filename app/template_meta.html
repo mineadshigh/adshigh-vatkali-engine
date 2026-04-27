@@ -1,50 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<style>
-{{CSS}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <style>
+    {{CSS}}
+  </style>
 </head>
 <body>
+  <div class="frame">
 
-<div class="frame">
+    <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
 
-  <!-- SOL -->
-  <div class="left">
-
-    <div class="logo">
-      <img src="{{logo_url}}" />
-    </div>
-
-    <div class="campaign">
+    <div class="left-content">
       <div class="badge">ANNELER GÜNÜ SEÇKİSİ</div>
-      <div class="sub">Sepette ekstra</div>
-      <div class="discount">%10 indirim</div>
-    </div>
 
-    <div class="product">
-      <div class="title">{{title}}</div>
+      <div class="discount-text">
+        <div>Sepette ekstra</div>
+        <strong>%10 indirim</strong>
+      </div>
 
-      <div class="prices">
-        <span class="old {{old_hidden}}">{{price}}</span>
-        <span class="new {{new_hidden}}">{{sale_price}}</span>
-        <span class="single {{single_hidden}}">{{price}}</span>
+      <div class="product-info">
+        <div class="product-title">{{title}}</div>
+
+        <div class="price-row">
+          <span class="old {{old_hidden}}">{{price}}</span>
+          <span class="new {{new_hidden}}">{{sale_price}}</span>
+          <span class="single {{single_hidden}}">{{price}}</span>
+        </div>
+      </div>
+
+      <div class="campaign-note">
+        Kampanya 11.03.2026 10:00’a kadar geçerlidir.
       </div>
     </div>
 
-    <div class="footer">
-      Kampanya 11.03.2026 10:00’a kadar geçerlidir.
+    <div class="image-wrap">
+      <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
 
   </div>
-
-  <!-- SAĞ -->
-  <div class="right">
-    <img src="{{product_image_primary}}" />
-  </div>
-
-</div>
-
 </body>
 </html>
