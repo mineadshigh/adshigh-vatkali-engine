@@ -85,25 +85,19 @@ img {
 
 .image-wrap {
   position: absolute;
-  left: 122px;
-  top: 334px;
-
+  left: 123px;
+  top: 291px;
   width: 837px;
-  height: 919px;
-
-  display: flex;
-  align-items: flex-start; /* ÜSTTEN başlasın */
-  justify-content: center;
-
+  height: 962px;
   overflow: hidden;
   background: transparent;
 }
 
 .product-image {
+  width: 100%;
   height: 100%;
-  width: auto;
-
-  object-fit: unset;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .product-info {
