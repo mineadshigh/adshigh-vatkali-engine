@@ -18,180 +18,116 @@ html, body {
   height: 1920px;
   overflow: hidden;
   background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
 }
 
 img {
   display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.hidden,
-.old_hidden,
-.new_hidden,
-.single_hidden {
-  display: none !important;
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  left: 328px;
-  top: 87px;
-  width: 425px;
-  height: auto;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 420px;
 }
 
-/* ÜST YAZILAR */
+/* HEADLINE */
 .headline {
   position: absolute;
-  left: 168px;
-  top: 300px;
-  width: 500px;
-  z-index: 5;
+  top: 280px;
+  left: 140px;
 }
 
 .hero-title {
-  font-size: 39px;
-  line-height: 1;
+  font-size: 42px;
   font-weight: 800;
-  letter-spacing: -0.8px;
-  color: #000000;
-  white-space: nowrap;
+  letter-spacing: -1px;
 }
 
 .subtitle {
   margin-top: 6px;
-  font-size: 25px;
-  line-height: 1;
+  font-size: 26px;
   font-weight: 300;
-  letter-spacing: -0.2px;
-  color: #000000;
-  white-space: nowrap;
 }
 
-/* SOL DİKEY OFFER - ÜST ÜSTE BİNMEZ */
-.offer-big {
+/* SOL YAZI - TAM SABİT BLOK */
+.left-offer {
   position: absolute;
-  left: 54px;
-  top: 985px;
+  left: 40px;
+  top: 850px;
   transform: rotate(-90deg);
   transform-origin: left top;
-
-  font-size: 58px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -1.8px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
+  width: 900px;
 }
 
+/* ALT ALTA VE AYRI AYRI */
 .offer-small {
-  position: absolute;
-  left: 63px;
-  top: 810px;
-  transform: rotate(-90deg);
-  transform-origin: left top;
-
-  font-size: 17px;
-  line-height: 1;
+  font-size: 18px;
   font-weight: 300;
-  letter-spacing: -0.1px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
+  margin-bottom: 6px;
+}
+
+.offer-big {
+  font-size: 64px;
+  font-weight: 800;
+  margin-bottom: 6px;
 }
 
 .offer-text {
-  position: absolute;
-  left: 116px;
-  top: 970px;
-  transform: rotate(-90deg);
-  transform-origin: left top;
-
-  font-size: 23px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.25px;
-  color: #000000;
-  white-space: nowrap;
-  z-index: 5;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 /* GÖRSEL */
 .image-bg {
   position: absolute;
-  left: 130px;
-  top: 375px;
-  width: 815px;
-  height: 1210px;
-  background: #000000;
-  z-index: 1;
+  top: 380px;
+  left: 120px;
+  width: 840px;
+  height: 1200px;
+  background: #000;
 }
 
 .image-wrap {
   position: absolute;
-  left: 142px;
-  top: 387px;
-  width: 791px;
-  height: 1186px;
+  top: 395px;
+  left: 135px;
+  width: 810px;
+  height: 1170px;
   overflow: hidden;
-  background: #000000;
-  z-index: 2;
+  background: #000;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center center;
-  background: #000000;
+  background: #000;
 }
 
-/* ÜRÜN + FİYAT */
+/* ALT ALAN */
 .product-info {
   position: absolute;
-  left: 142px;
-  top: 1625px;
-  width: 520px;
-  z-index: 5;
+  top: 1620px;
+  left: 135px;
+  width: 600px;
 }
 
 .product-title {
-  width: 520px;
-  font-size: 26px;
-  line-height: 1.15;
+  font-size: 28px;
   font-weight: 300;
-  letter-spacing: -0.25px;
-  color: #000000;
-
-  white-space: normal;
-  overflow: visible;
-  display: block;
-  word-break: normal;
-  overflow-wrap: normal;
-}
-
-.price-row {
-  margin-top: 18px;
 }
 
 .old {
+  margin-top: 14px;
   font-size: 32px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
   text-decoration: line-through;
-  text-decoration-thickness: 2px;
 }
 
 .new-price {
-  margin-top: 8px;
-  font-size: 42px;
-  line-height: 1;
+  margin-top: 6px;
+  font-size: 44px;
   font-weight: 800;
-  letter-spacing: -0.6px;
-  color: #000000;
 }
