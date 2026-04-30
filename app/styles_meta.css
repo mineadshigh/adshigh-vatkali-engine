@@ -47,16 +47,16 @@ img {
 
 .main-title {
   position: absolute;
-  left: 207px;
+  left: 160px;           /* biraz sola aç */
   top: 96px;
-  width: 668px;
-  height: 57px;
+  width: 800px;          /* genişlet → uzar */
+  height: auto;          /* 🔥 en kritik fix */
   color: #3b3b3b;
-  font-size: 56px;
+  font-size: 64px;       /* büyüt */
   line-height: 1;
   font-weight: 400;
-  letter-spacing: -1.2px;
-  white-space: nowrap;
+  letter-spacing: -1.4px;
+  white-space: nowrap;   /* taşma için */
 }
 
 .image-wrap {
