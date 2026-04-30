@@ -30,18 +30,18 @@ img {
 .badge {
   position: absolute;
   left: 207px;
-  top: 57px;
-  width: 264px;
-  height: 26px;
+  top: 52px;
+  width: 330px;
+  height: 36px;
   background: #3b3b3b;
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 29px;
   line-height: 1;
   font-weight: 700;
-  letter-spacing: -0.35px;
+  letter-spacing: -0.45px;
   white-space: nowrap;
 }
 
