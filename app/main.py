@@ -35,7 +35,6 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-
 # -------------------------
 # Helpers
 # -------------------------
@@ -43,13 +42,11 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
-
 def format_currency_tr(s: str) -> str:
     x = norm_price(s)
     if not x:
         return x
     return x.replace("TRY", "TL").replace("try", "TL")
-
 
 def _clean_url(u: str) -> str:
     if not u:
@@ -63,10 +60,8 @@ def _clean_url(u: str) -> str:
     new_query = urlencode(q, doseq=True)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, new_query, parts.fragment))
 
-
 def get_base_url(request: Request) -> str:
     return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
-
 
 def _parse_money_to_float(s: str) -> float | None:
     if not s:
@@ -95,14 +90,12 @@ def _parse_money_to_float(s: str) -> float | None:
     except Exception:
         return None
 
-
 def format_tl(price: str) -> str:
     v = _parse_money_to_float(price)
     if v is None:
         return format_currency_tr(price)
     n = int(round(v))
     return f"{n:,}".replace(",", ".") + " TL"
-
 
 def hidden_flags(price: str, sale: str):
     p = _parse_money_to_float(price)
@@ -116,11 +109,9 @@ def hidden_flags(price: str, sale: str):
 
     return ("", "", "hidden")
 
-
 def build_sig(*parts: str) -> str:
     raw = "|".join([p or "" for p in parts]).encode("utf-8")
     return hashlib.md5(raw).hexdigest()[:12]
-
 
 def build_render_cache_key(
     title: str,
@@ -145,332 +136,20 @@ def build_render_cache_key(
         str(h),
     )
 
-
 def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
-    
 
 def get_template_and_css(design: str) -> tuple[str, str]:
-    if design == "meta_v1":
-        return (
-            os.path.join(BASE_DIR, "template_meta.html"),
-            os.path.join(BASE_DIR, "styles_meta.css"),
-        )
-
     if design == "tiktok_v1":
         return (
             os.path.join(BASE_DIR, "template_tiktok.html"),
             os.path.join(BASE_DIR, "styles_tiktok.css"),
         )
 
-    if design == "meta_coksatan":
-        return (
-            os.path.join(BASE_DIR, "template_meta_coksatan.html"),
-            os.path.join(BASE_DIR, "styles_meta_coksatan.css"),
-        )
-
-    if design == "meta_sonkalan":
-        return (
-            os.path.join(BASE_DIR, "template_meta_sonkalan.html"),
-            os.path.join(BASE_DIR, "styles_meta_sonkalan.css"),
-        )
-
-    if design == "tiktok_coksatan":
-        return (
-            os.path.join(BASE_DIR, "template_tiktok_coksatan.html"),
-            os.path.join(BASE_DIR, "styles_tiktok_coksatan.css"),
-        )
-
-    if design == "tiktok_sonkalan":
-        return (
-            os.path.join(BASE_DIR, "template_tiktok_sonkalan.html"),
-            os.path.join(BASE_DIR, "styles_tiktok_sonkalan.css"),
-        )
-
     return (
         os.path.join(BASE_DIR, "template_meta.html"),
         os.path.join(BASE_DIR, "styles_meta.css"),
     )
-
-
-SON_KALAN_IDS = {
-    "VTK24-110-06-47",
-    "VTK25-112-05-2",
-    "VTK25-101-62-24",
-    "VTK25-101-35-10",
-    "CKT-BD-23-036-10",
-    "D-SAME-028-3",
-    "VTK24-114-04-29",
-    "VTK25-101-54-3",
-    "VTK25-101-88-9",
-    "VTK26-101-34-3",
-    "D-SAME-123-5",
-    "PNT-RB-23-058-43",
-    "CRP-SPT-22-83-4",
-    "TSR-BD-23-191-4",
-    "VTK24-114-04-9",
-    "VTK23-101-4017-5",
-    "VTK26-101-15-3",
-    "VTK23-101-66-4",
-    "D-SAME-121-3",
-    "VTK25-101-104-10",
-    "VTK26-101-38-10",
-    "VTK26-101-33-10",
-    "VTK26-101-38-3",
-    "D-SAME-269-10",
-    "VTK24-119-32-2",
-    "VTK23-101-48-5",
-    "VTK25-104-02-3",
-    "D-SAME-029-29",
-    "VTK24-101-45-10",
-    "VTK26-101-20-3",
-    "D-SAME-289-3",
-    "VTK25-122-04-3",
-    "VTK20-PNT01041-10",
-    "VTK25-101-106-24",
-    "VTK24-101-51-5",
-    "419174224-25",
-    "419174224-29",
-    "VTK25-101-73-3",
-    "VTK25-101-88-24",
-    "VTK24-101-17-29",
-    "419174224-7",
-    "D-SAME-269-52",
-    "VTK25-101-71-3",
-    "VTK24-101-10-2",
-    "VTK23-101-4017-3",
-    "D-SAME-270-3",
-    "KMR-FİO-23-140-55",
-    "VTK23-106-27-6",
-    "VTK25-114-10-13",
-    "D-SAME-189-5",
-    "VTK25-101-105-24",
-    "VTK24-102-01-16",
-    "VTK23-101-4001-16",
-    "VTK24-112-22-39",
-    "VTK25-122-02-3",
-    "VTK24-112-47-10",
-    "D-SAME-290-3",
-    "D-SAME-88-3",
-    "VTK25-101-95-3",
-    "VTK25-114-04-3",
-    "VTK24-119-25-3",
-    "VTK25-123-05-3",
-    "VTK25-101-124-2",
-    "VTK24-112-26-5",
-    "VTK25-114-15-3",
-    "VTK26-101-05-10",
-    "VTK24-102-06-16",
-    "VTK25-113-06-2",
-    "PNT-BD-23-028-29",
-    "ETK-DLV-23-098-3",
-    "D-SAME-147-13",
-    "VTK25-122-13-3",
-    "VTK25-118-01-3",
-    "VTK20-KMR1005-3",
-    "D-SAME-203-10-5",
-    "VTK25-122-04-10",
-    "VTK24-119-34-2",
-    "VTK24-119-30-3",
-    "VTK24-110-06-52",
-    "VTK24-119-43-3",
-    "VTK25-101-95-10",
-    "D-SAME-189-3",
-    "ELB-DLV-23-095-29",
-    "VTK25-101-116-3",
-    "VTK25-101-41-45",
-    "VTK24-119-36-8",
-    "VTK25-104-04-13",
-    "SWT-MNL-22-194-5",
-    "VTK25-118-03-3",
-    "VTK23-101-71-3",
-    "D-SAME-35-3",
-    "VTK24-114-05-45",
-    "D-SAME-103-13",
-    "VTK25-101-116-10",
-    "D-SAME-116-29",
-    "D-SAME-116-9",
-    "VTK24-119-25-10",
-    "VTK25-119-64-3",
-    "VTK25-101-64-10",
-    "VTK25-104-05-3",
-    "D-SAME-98-13",
-    "VTK20-KZK1023-3",
-    "VTK25-101-45-10",
-    "VTK26-101-25-3",
-    "VTK20-KZK1023-13",
-    "VTK23-101-4017-13",
-    "VTK25-122-06-3",
-    "VTK24-101-53-10",
-    "VTK24-119-33-2",
-    "VTK24-119-05-33",
-    "VTK25-101-91-10",
-    "VTK24-119-03-3",
-    "VTK25-101-123-10",
-    "VTK24-119-26-3",
-    "VTK24-119-35-3",
-    "VTK25-113-08-3",
-    "VTK25-112-03-2",
-    "VTK25-101-105-10",
-    "VTK21-JNS01-6",
-    "VTK25-119-62-10",
-    "VTK23-106-15-29",
-    "VTK24-101-10-52",
-    "SWT-MNL-22-194-10",
-    "VTK24-110-06-13",
-    "VTK24-119-33-3",
-    "D-SAME-252-2",
-    "VTK25-101-91-41",
-    "VTK25-119-64-10",
-    "VTK23-102-06-16",
-    "VTK25-101-107-9",
-    "VTK25-119-49-10",
-    "VTK25-101-88-3",
-    "D-SAME-029-10",
-    "VTK25-101-83-24",
-    "VTK-AKS-100-5",
-    "VTK-24-113-04-10",
-    "VTK23-101-29-5",
-    "VTK25-101-83-10",
-    "VTK23-101-51-9",
-    "VTK24-110-03-13",
-    "VTK25-114-07-5",
-    "VTK23-104-15-29",
-    "VTK24-101-11-2",
-    "VTK23-101-50-9",
-    "VTK23-104-14-29",
-    "VTK23-101-03-71",
-    "VTK-S21-B0006-4",
-    "VTK25-101-55-45",
-    "VTK24-113-09-13",
-    "VTK25-101-107-24",
-    "VTK25-122-18-4",
-    "VTK25-101-47-3",
-    "VTK25-101-51-50",
-    "TRK-EG-22-178-45",
-    "VTK25-101-84-24",
-    "VTK24-119-36-63",
-    "VTK25-122-05-3",
-    "VTK25-101-105-9",
-    "VTK24-101-27-3",
-    "VTK24-110-01-56",
-    "VTK25-112-07-13",
-    "VTK24-101-49-5",
-    "VTK23-106-16-32",
-    "VTK25-114-01-3",
-    "VTK25-101-23-3",
-    "CRP-FFX-23-086-25",
-    "CRP-CAK-23-122-4",
-    "BST-BD-23-066-22",
-    "VTK24-114-10-13",
-    "VTK24-112-24-39",
-    "VTK24-101-45-5",
-    "VTK24-112-17-42",
-    "VTK24-112-12-39",
-    "VTK24-101-50-5",
-    "D-SAME-295-3",
-    "VTK25-101-122-10",
-    "VTK26-101-08-13",
-    "VTK25-101-123-5",
-    "VTK25-101-19-45",
-    "VTK23-102-09-7",
-    "VTK24-112-27-13",
-    "VTK25-101-37-2",
-    "VTK25-123-05-10",
-    "VTK23-103-01-30",
-    "VTK25-112-04-45",
-    "KZ-CMR-23-177-17",
-    "VTK25-101-47-10",
-    "VTK25-104-06-10",
-    "VTK24-112-27-39",
-    "VTK25-118-02-3",
-    "VTK23-101-4001-13",
-    "D-SAME-292-3",
-    "VTK24-113-03-3",
-    "VTK24-101-05-13",
-    "VTK24-112-22-3",
-    "VTK25-101-107-10",
-}
-
-COK_SATAN_IDS = {
-    "VTK25-101-07-3",
-    "VTK26-101-10-13",
-    "VTK20-PNT1044-5",
-    "VTK25-101-07-10",
-    "VTK21-JNS017-7",
-    "VTK25-101-26-3",
-    "VTK25-101-12-3",
-    "VTK26-101-03-10",
-    "CKT-BD-23-036-3",
-    "PNT-BD-23-034-3",
-    "VTK25-112-07-2",
-    "VKT25-101-59-3",
-    "VTK20-PNT1044-3",
-    "VTK25-122-14-3",
-    "VTK24-112-37-3",
-    "VTK25-101-126-3",
-    "VTK25-112-06-3",
-    "VTK26-101-30-3",
-    "VTK25-112-07-3",
-    "VTK26-120-04-87",
-    "VTK26-114-05-13",
-    "VTK25-101-26-89",
-    "VTK25-101-72-3",
-    "CKT-BD-23-036-2",
-    "VTK25-101-110-3",
-    "VTK25-101-16-10",
-    "VTK21-JNS017-16",
-    "VTK25-101-80-13",
-    "VTK25-101-32-13",
-    "VTK26-101-28-3",
-    "PNT-BD-23-034-2",
-    "VTK25-101-83-3",
-    "VTK25-101-13-3",
-}
-
-
-def normalize_product_id(raw_id: str) -> str:
-    return " ".join((raw_id or "").split()).strip().upper()
-
-
-def extract_product_id(item: ET.Element, ns: dict | None = None) -> str:
-    raw_id = (
-        text_of(item, "g:id", ns)
-        or text_of(item, "id")
-    )
-
-    if not raw_id:
-        for child in list(item):
-            tag_name = child.tag.split("}")[-1].lower()
-            if tag_name == "id" and (child.text or "").strip():
-                raw_id = child.text
-                break
-
-    pid = normalize_product_id(raw_id)
-
-    # TikTok örneği: CKT-BD-23-036-2-BEJ → CKT-BD-23-036-2
-    # Meta zaten genelde renksiz geliyor: CKT-BD-23-036-2
-    parts = pid.split("-")
-    if len(parts) >= 3 and not parts[-1].isdigit():
-        pid = "-".join(parts[:-1])
-
-    return pid
-
-
-def pick_design(product_id: str, platform: str) -> str:
-    pid = normalize_product_id(product_id)
-
-    # ÇOK SATANLAR (her yerde aktif)
-    if pid in COK_SATAN_IDS:
-        return f"{platform}_coksatan"
-
-    # SON KALANLAR
-    if pid in SON_KALAN_IDS:
-        if platform == "tiktok":
-            return f"{platform}_v1"  # ❌ TikTok'ta kapalı
-        return f"{platform}_sonkalan"  # ✅ Meta'da açık
-
-    return f"{platform}_v1"
 
 # -------------------------
 # XML utilities
@@ -480,7 +159,6 @@ def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
     if ns and ":" in tag:
         return (item.findtext(tag, default="", namespaces=ns) or "").strip()
     return (item.findtext(tag, default="") or "").strip()
-
 
 def set_image_link(item: ET.Element, new_url: str):
     ns = {"g": "http://base.google.com/ns/1.0"}
@@ -501,7 +179,6 @@ def set_image_link(item: ET.Element, new_url: str):
 
     ET.SubElement(item, "image_link").text = new_url
 
-
 def extract_title(item: ET.Element, ns: dict | None = None) -> str:
     candidates = [
         text_of(item, "title", ns),
@@ -519,7 +196,6 @@ def extract_title(item: ET.Element, ns: dict | None = None) -> str:
             return " ".join(c.split()).strip()
 
     return ""
-
 
 # -------------------------
 # Image selection
@@ -554,7 +230,6 @@ def choose_images_any(item: ET.Element):
 
     return primary, s1
 
-
 # -------------------------
 # HTTP -> Data URI
 # -------------------------
@@ -563,10 +238,8 @@ _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
 
-
 def _transparent_data_uri() -> str:
     return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
-
 
 def _guess_mime(url: str, content_type: str | None) -> str:
     if content_type and "image/" in content_type:
@@ -579,7 +252,6 @@ def _guess_mime(url: str, content_type: str | None) -> str:
     if ".svg" in u:
         return "image/svg+xml"
     return "image/jpeg"
-
 
 async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
     if not url:
@@ -624,7 +296,6 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
         # eskiden transparan png dönüyordu → şimdi URL fallback
         return cleaned_url
 
-
 # -------------------------
 # Playwright
 # -------------------------
@@ -632,7 +303,6 @@ async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
 _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
-
 
 def _is_fatal_playwright_error(e: Exception) -> bool:
     msg = str(e).lower()
@@ -647,7 +317,6 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
             "playwright connection closed",
         ]
     )
-
 
 async def _restart_playwright():
     global _pw, _browser
@@ -677,7 +346,6 @@ async def _restart_playwright():
             "--disable-gpu",
         ],
     )
-
 
 async def _ensure_browser():
     global _pw, _browser
@@ -710,11 +378,9 @@ async def _ensure_browser():
             else:
                 raise
 
-
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
-
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -733,7 +399,6 @@ async def _shutdown():
     except Exception:
         pass
     _pw = None
-
 
 async def render_png(html: str, width=1080, height=1080) -> bytes:
     global _browser
@@ -764,7 +429,6 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
                 await _restart_playwright()
                 return await _do()
             raise
-
 
 # -------------------------
 # Endpoints
@@ -800,7 +464,7 @@ async def render_endpoint(
         base_url = get_base_url(request)
         logo_url = f"{base_url}/static/vatkalilogo.svg"
 
-    secondary_for_cache = product_image_secondary_1 if design.startswith("meta") else ""
+    secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
 
     cache_key = build_render_cache_key(
         title=title,
@@ -822,7 +486,7 @@ async def render_endpoint(
         return Response(content=png, media_type="image/png", headers=headers)
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        if design.startswith("meta"):
+        if design == "meta_v1":
             product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
                 to_data_uri(product_image_primary, client),
                 to_data_uri(product_image_secondary_1, client),
@@ -857,7 +521,6 @@ async def render_endpoint(
     headers = {"Cache-Control": "public, max-age=31536000, immutable"}
     return Response(content=png, media_type="image/png", headers=headers)
 
-
 @app.get("/feed_meta.xml", response_class=PlainTextResponse)
 async def feed_meta(request: Request):
     base_url = get_base_url(request)
@@ -884,9 +547,8 @@ async def feed_meta(request: Request):
 
         primary, s1 = choose_images_any(item)
 
-        product_id = extract_product_id(item, ns)
-        design = pick_design(product_id, "meta")
-        sig = build_sig(design, product_id, title, price, sale, primary, s1, fv)
+        design = "meta_v1"
+        sig = build_sig(design, title, price, sale, primary, s1, fv)
 
         render_url = (
             f"{base_url}/render.png"
@@ -907,11 +569,9 @@ async def feed_meta(request: Request):
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
 
-
 @app.get("/feed.xml", response_class=PlainTextResponse)
 async def feed_legacy(request: Request):
     return await feed_meta(request)
-
 
 @app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
 async def feed_tiktok(request: Request):
@@ -947,9 +607,8 @@ async def feed_tiktok(request: Request):
 
         primary, _ = choose_images_any(item)
 
-        product_id = extract_product_id(item, ns)
-        design = pick_design(product_id, "tiktok")
-        sig = build_sig(design, product_id, title, price, sale, primary, fv)
+        design = "tiktok_v1"
+        sig = build_sig(design, title, price, sale, primary, fv)
 
         render_url = (
             f"{base_url}/render.png"
@@ -968,7 +627,6 @@ async def feed_tiktok(request: Request):
     xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
     headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
     return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
-
 
 @app.get("/probe")
 async def probe(url: str = Query(...)):
