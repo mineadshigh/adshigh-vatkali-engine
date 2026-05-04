@@ -562,7 +562,11 @@ async def feed_meta(request: Request):
 
         primary, s1 = choose_images_any(item)
 
-        custom_labels = get_custom_labels(item, ns)
+        custom_labels = (
+            get_custom_labels(item, ns)
+            .replace("`", "'")
+            .replace("’", "'")
+        )
 
         if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
             design = "meta_summer26"
