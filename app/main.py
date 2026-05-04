@@ -428,16 +428,19 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
                 await page.wait_for_timeout(120)
                 
                 ok = await page.locator(".product-image").evaluate(
+
                     """img => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0"""
+
                 )
 
-        if not ok:
-            raise Exception("PRODUCT_IMAGE_NOT_LOADED")
-
+                if not ok:
+                    raise Exception("PRODUCT_IMAGE_NOT_LOADED")
+                    
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
-
+                
                 return await frame.screenshot(type="png")
+                
             finally:
                 try:
                     await page.close()
@@ -537,12 +540,9 @@ async def render_endpoint(
         with open(cache_file, "wb") as f:
             f.write(png)
     except Exception as e:
-    print("RENDER_FAILED:", repr(e))
-    return Response(
-        content=f"Render failed: {repr(e)}",
-        status_code=500,
-        media_type="text/plain"
-    )
+        print("RENDER_FAILED:", repr(e))
+        return Response(status_code=500)
+    
 
     headers = {"Cache-Control": "public, max-age=31536000, immutable"}
     return Response(content=png, media_type="image/png", headers=headers)
