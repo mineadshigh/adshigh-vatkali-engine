@@ -10,17 +10,18 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 .frame {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #000000;
   overflow: hidden;
 }
 
-/* SOL ÜRÜN GÖRSELİ */
+/* SOL ÜRÜN */
 .image-wrap {
   position: absolute;
   left: 0;
@@ -35,7 +36,7 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center;
 }
 
 /* SAĞ SİYAH PANEL */
@@ -45,49 +46,53 @@ html, body {
   top: 0;
   width: 360px;
   height: 1080px;
-  background: #000000;
+  background: #000;
 }
 
-/* VATKALI LOGO - DİKEY */
+/* LOGO */
 .logo {
   position: absolute;
-  left: 130px;
-  top: 130px;
+  left: 50%;
+  top: 300px;
+
   width: 230px;
-  height: auto;
-  transform: rotate(90deg);
-  transform-origin: left top;
+
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center;
+
   filter: brightness(0) invert(1);
 }
 
-/* SS '26 DUALITY */
+/* SS26 */
 .season-text {
   position: absolute;
-  left: 145px;
-  top: 610px;
+  left: 50%;
+  top: 720px;
+
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center;
+
   display: flex;
   align-items: center;
-  gap: 34px;
-  transform: rotate(90deg);
-  transform-origin: left top;
-  color: #ffffff;
+  gap: 28px;
+
+  color: #fff;
   white-space: nowrap;
 }
 
 .season-text span {
-  font-size: 47px;
-  line-height: 1;
+  font-size: 46px;
   font-weight: 400;
   letter-spacing: -0.5px;
 }
 
 .season-text strong {
-  font-size: 47px;
-  line-height: 1;
+  font-size: 46px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
+/* GENEL */
 .hidden {
   display: none !important;
 }
