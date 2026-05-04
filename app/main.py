@@ -140,6 +140,12 @@ def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
 
 def get_template_and_css(design: str) -> tuple[str, str]:
+    if design == "meta_summer26":
+        return (
+            os.path.join(BASE_DIR, "template_meta_summer26.html"),
+            os.path.join(BASE_DIR, "styles_meta_summer26.css"),
+        )
+
     if design == "tiktok_v1":
         return (
             os.path.join(BASE_DIR, "template_tiktok.html"),
@@ -196,6 +202,15 @@ def extract_title(item: ET.Element, ns: dict | None = None) -> str:
             return " ".join(c.split()).strip()
 
     return ""
+
+def get_custom_labels(item: ET.Element, ns: dict | None = None) -> str:
+    labels = []
+
+    for i in range(5):
+        labels.append(text_of(item, f"g:custom_label_{i}", ns))
+        labels.append(text_of(item, f"custom_label_{i}", ns))
+
+    return " ".join([x for x in labels if x]).lower()
 
 # -------------------------
 # Image selection
@@ -547,7 +562,13 @@ async def feed_meta(request: Request):
 
         primary, s1 = choose_images_any(item)
 
-        design = "meta_v1"
+        custom_labels = get_custom_labels(item, ns)
+
+        if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
+            design = "meta_summer26"
+        else:
+            design = "meta_v1"
+
         sig = build_sig(design, title, price, sale, primary, s1, fv)
 
         render_url = (
