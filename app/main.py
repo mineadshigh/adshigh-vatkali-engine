@@ -530,8 +530,12 @@ async def render_endpoint(
         with open(cache_file, "wb") as f:
             f.write(png)
     except Exception as e:
-        print("RENDER_FAILED:", repr(e))
-        png = _TRANSPARENT_PNG
+    print("RENDER_FAILED:", repr(e))
+    return Response(
+        content=f"Render failed: {repr(e)}",
+        status_code=500,
+        media_type="text/plain"
+    )
 
     headers = {"Cache-Control": "public, max-age=31536000, immutable"}
     return Response(content=png, media_type="image/png", headers=headers)
