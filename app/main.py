@@ -426,6 +426,13 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
                 await page.wait_for_timeout(120)
+                
+                ok = await page.locator(".product-image").evaluate(
+                    """img => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0"""
+                )
+
+        if not ok:
+            raise Exception("PRODUCT_IMAGE_NOT_LOADED")
 
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
