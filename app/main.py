@@ -564,7 +564,7 @@ async def feed_meta(request: Request):
 
         custom_labels = get_custom_labels(item, ns)
 
-        if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
+        if "duality-s'26" in custom_labels:
             design = "meta_summer26"
         else:
             design = "meta_v1"
