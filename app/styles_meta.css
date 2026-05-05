@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=ADLaM+Display&display=swap');
 
 html, body {
   margin: 0;
@@ -18,7 +18,6 @@ html, body {
   height: 1080px;
   background: #ffffff;
   overflow: hidden;
-  font-family: "Outfit", Arial, sans-serif;
 }
 
 img {
@@ -27,49 +26,13 @@ img {
   user-select: none;
 }
 
-.badge {
-  position: absolute;
-  left: 207px;
-  top: 52px;
-  width: 330px;
-  height: 36px;
-  background: #3b3b3b;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 29px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: -0.45px;
-  white-space: nowrap;
-}
-
-.main-title {
-  position: absolute;
-  top: 96px;
-  left: 50%;
-  transform: translateX(-50%);  /* gerçek ortalama */
-
-  width: 820px;
-  height: auto;
-
-  color: #3b3b3b;
-  font-size: 64px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -1.5px;
-
-  white-space: nowrap;
-  text-align: center; /* önemli */
-}
-
+/* ORTA ÜRÜN GÖRSELİ */
 .image-wrap {
   position: absolute;
-  left: 292px;
-  top: 168px;
-  width: 496px;
-  height: 744px;
+  left: 180px;
+  top: 0;
+  width: 720px;
+  height: 1080px;
   overflow: hidden;
   background: #f1f1f1;
 }
@@ -78,13 +41,47 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 
+/* SOL VATKALI LOGO */
 .logo {
   position: absolute;
-  left: 401px;
-  top: 972px;
-  width: 278px;
+  left: 90px;
+  top: 540px;
+  width: 352px;
   height: auto;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
+}
+
+/* SAĞ DİKEY OFFER */
+.offer-text {
+  position: absolute;
+  left: 990px;
+  top: 540px;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
+
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+
+  width: 420px;
+  color: #000000;
+  white-space: nowrap;
+  font-family: "ADLaM Display", "Outfit", Arial, sans-serif;
+}
+
+.offer-text span {
+  font-size: 46px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.offer-text strong {
+  font-size: 58px;
+  line-height: 1;
+  font-weight: 700;
 }
