@@ -42,7 +42,7 @@ img {
   position: absolute;
   left: 260px;
   top: 145px;
-  width: 311px;
+  width: 331px;
   height: auto;
   transform: translate(-50%, -50%);
   filter: brightness(0) invert(1);
@@ -51,7 +51,7 @@ img {
 /* SS '26 DUALITY */
 .season-text {
   position: absolute;
-  left: 705px;
+  left: 600px;
   top: 145px;
   transform: translateY(-50%);
 
