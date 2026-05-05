@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: #000000;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.frame {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  background: #000000;
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ÜST SİYAH ALAN */
+.top-area {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 300px;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* LOGO */
+.logo {
+  position: absolute;
+  left: 260px;
+  top: 145px;
+  width: 311px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  filter: brightness(0) invert(1);
+}
+
+/* SS '26 DUALITY */
+.season-text {
+  position: absolute;
+  left: 705px;
+  top: 145px;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+
+  color: #ffffff;
+  white-space: nowrap;
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+.season-text span {
+  font-size: 47px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.season-text strong {
+  font-size: 47px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ÜRÜN GÖRSELİ */
+.image-wrap {
+  position: absolute;
+  left: 0;
+  top: 300px;
+  width: 1080px;
+  height: 1620px;
+  overflow: hidden;
+  background: #f1f1f1;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.hidden {
+  display: none !important;
+}
