@@ -1,41 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
   <style>
-  {{CSS}}
+    {{CSS}}
   </style>
 </head>
-
 <body>
   <div class="frame">
 
-    <!-- SOL STRIP -->
-    <div class="left-strip"></div>
-
-    <!-- SAĞ STRIP -->
-    <div class="right-strip"></div>
-
-    <!-- ÜRÜN GÖRSELİ -->
-    <img 
-      class="product-image"
-      src="{{product_image_primary}}"
-    />
-
-    <!-- SOL YAZI -->
-    <div class="left-text">
-      VATKALI
+    <div class="image-wrap">
+      <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
 
-    <!-- SAĞ BADGE -->
-    <div class="right-badge">
-      <span class="small">NET</span>
-      <span class="big">%40</span>
-      <span class="small">İNDİRİM</span>
+    <div class="left-panel">
+      <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
+    </div>
+
+    <div class="right-panel">
+      <div class="offer-text">
+        <span class="small">NET</span>
+        <span class="big">%40</span>
+        <span class="small">İNDİRİM</span>
+      </div>
     </div>
 
   </div>
