@@ -1,175 +1,111 @@
-* { box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&display=swap');
 
 html, body {
   margin: 0;
   padding: 0;
-  background: #fff;
+  width: 1080px;
+  height: 1080px;
   overflow: hidden;
+  background: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
 }
 
-body {
-  font-family: "Outfit", Arial, sans-serif;
-  font-synthesis: none;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #fff;
+  background: #ffffff;
   overflow: hidden;
 }
 
-/* ---------- IMAGES ---------- */
-.img {
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ORTA ÜRÜN GÖRSELİ */
+.image-wrap {
+  position: absolute;
+  left: 180px;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+  overflow: hidden;
+  background: #f1f1f1;
+}
+
+.product-image {
   width: 100%;
   height: 100%;
-  display: block;
-  object-fit: contain;      /* KESME YOK */
-  object-position: center;
-  background: #fff;
+  object-fit: cover;
+  object-position: center center;
 }
 
-/* ---------- LOGO ---------- */
-.logoTop {
+/* SOL BEYAZ PANEL */
+.left-panel {
   position: absolute;
-  left: 43px;              /* optik düzeltme */
-  top: 34px;
-  width: 200px;
-  height: 25px;
-  object-fit: contain;
-  object-position: left center;
-}
-
-/* ---------- MAIN IMAGE ---------- */
-.imgPrimaryWrap {
-  position: absolute;
-  left: 51px;
-  top: 86px;
-  width: 605px;
-  height: 908px;
-  background: #fff;
+  left: 0;
+  top: 0;
+  width: 180px;
+  height: 1080px;
+  background: #ffffff;
   overflow: hidden;
 }
 
-/* ---------- RIGHT IMAGES ---------- */
-.imgTopWrap {
+/* SAĞ BEYAZ PANEL */
+.right-panel {
   position: absolute;
-  left: 732px;
-  top: 87px;
-  width: 296px;
-  height: 444px;
-  background: #fff;
+  left: 900px;
+  top: 0;
+  width: 180px;
+  height: 1080px;
+  background: #ffffff;
   overflow: hidden;
 }
 
-.imgBottomWrap {
-  position: absolute;
-  left: 732px;
-  top: 550px;
-  width: 297px;
-  height: 445px;
-  background: #fff;
-  overflow: hidden;
-}
-
-/* ---------- NEW SEASON STRIP (PSD hizaya yakın) ---------- */
-.seasonWrap {
-  position: absolute;
-  left: 679px;
-  top: 89px;
-  width: 28px;
-  height: 902px;
-  background: transparent;
-  overflow: visible; /* 28px şerit içinde kesilmesin */
-}
-
-/* 4 tekrar kalsın diye font-size 38.84 yerine biraz düşürüyoruz (sığma sorunu) */
-.seasonText {
+/* SOL VATKALI LOGO */
+.logo {
   position: absolute;
   left: 50%;
   top: 50%;
+  width: 352px;
+  height: auto;
   transform: translate(-50%, -50%) rotate(-90deg);
-  transform-origin: center;
-
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 34.8px;
-  letter-spacing: 0;     /* tracking(izleme) 0 */
-  line-height: 1;
-  color: #000000;        /* #000000 = siyah */
-  white-space: nowrap;
+  transform-origin: center center;
 }
 
-.seasonText .bold { font-weight: 500; } /* ilk kalın */
-.seasonText .thin { font-weight: 200; } /* ikinci ince */
-
-
-/* ---------- FOOTER TEXTS ---------- */
-/* CAPSULE: sabit kalsın */
-.collection {
+/* SAĞ NET %40 İNDİRİM */
+.offer-text {
   position: absolute;
-  left: 148px;
-  top: 1021px;
-  width: 412px;
-  height: 19px;
-
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 26.71px;
-  font-weight: 300;
-  color: #000000;
-
-  letter-spacing: 0;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-/*
-  ✅ ÜRÜN BAŞLIĞI (TITLE)
-  - 1 satırsa: collection ile aynı baseline'da dursun
-  - 2 satırsa: iki satır blok olarak ortalansın (wrap biraz yukarı)
-*/
-.productTitleWrap {
-  position: absolute;
-  left: 732px;
-  top: 1021px;      /* collection ile aynı referans çizgi */
-  width: 296px;
-  height: 42px;
+  left: 50%;
+  top: 50%;
+  width: 430px;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
 
   display: flex;
-  align-items: flex-start;   /* 1 satır yukarıdan başlasın */
+  align-items: baseline;
   justify-content: center;
-
-  pointer-events: none;
-
-  /* ✅ TEK SATIRDA baseline'ı collection ile çakıştırmak için hafif aşağı */
-  transform: translateY(3px);
-}
-
-/* ✅ 2 satırsa: bloğu görsel olarak ortalamak için yukarı kaydır */
-.productTitleWrap.twoLines {
-  transform: translateY(-7.5px); /* 3px aşağıdan -> toplamda 10.5px yukarı gibi düşün */
-}
-
-.productTitle {
-  width: 100%;
-  text-align: center;
+  gap: 8px;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 20.74px;
-  font-weight: 200;
-  color: #2b2b2b;
+  color: #000000;
+  white-space: nowrap;
+}
 
-  letter-spacing: 0;
+.offer-text .small {
+  font-size: 44px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+}
 
-  /* 🔧 BURAYI DEĞİŞTİR */
-  line-height: 24px;      /* 21px yerine 24px -> g/y/p kesilmez */
-  padding-bottom: 6px;    /* descender payı */
-  box-sizing: border-box; /* padding’i clamp hesabına doğru dahil et */
-
-  white-space: normal;
-  overflow: hidden;
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+.offer-text .big {
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
