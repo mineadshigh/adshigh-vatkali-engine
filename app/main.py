@@ -146,6 +146,12 @@ def get_template_and_css(design: str) -> tuple[str, str]:
             os.path.join(BASE_DIR, "styles_meta_summer26.css"),
         )
 
+    if design == "tiktok_summer26":
+        return (
+            os.path.join(BASE_DIR, "template_tiktok_summer26.html"),
+            os.path.join(BASE_DIR, "styles_tiktok_summer26.css"),
+        )
+
     if design == "tiktok_v1":
         return (
             os.path.join(BASE_DIR, "template_tiktok.html"),
@@ -643,7 +649,17 @@ async def feed_tiktok(request: Request):
 
         primary, _ = choose_images_any(item)
 
-        design = "tiktok_v1"
+        custom_labels = (
+            get_custom_labels(item, ns)
+            .replace("`", "'")
+            .replace("’", "'")
+        )
+
+        if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
+            design = "tiktok_summer26"
+        else:
+            design = "tiktok_v1"
+
         sig = build_sig(design, title, price, sale, primary, fv)
 
         render_url = (
