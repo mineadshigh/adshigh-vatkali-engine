@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&display=swap');
 
 html, body {
   margin: 0;
@@ -18,7 +18,6 @@ html, body {
   height: 1920px;
   background: #ffffff;
   overflow: hidden;
-  font-family: "Outfit", Arial, sans-serif;
 }
 
 img {
@@ -27,136 +26,74 @@ img {
   user-select: none;
 }
 
-.hidden { display: none !important; }
+/* ÜST BEYAZ ALAN */
+.top-area {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 300px;
+  background: #ffffff;
+  overflow: hidden;
+}
 
+/* LOGO */
 .logo {
   position: absolute;
-  left: 328px;
-  top: 87px;
-  width: 425px;
+  left: 50%;
+  top: 97px;
+  width: 352px;
   height: auto;
+  transform: translateX(-50%);
 }
 
-.top-content {
+/* NET %40 İNDİRİM */
+.offer-text {
   position: absolute;
-  left: 123px;
-  top: 240px;
-  width: 560px;
-  z-index: 2;
-}
+  left: 50%;
+  top: 169px;
+  width: 360px;
+  height: 45px;
+  transform: translateX(-50%);
 
-.badge {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: baseline;
   justify-content: center;
-  height: 38px;
-  padding: 0 15px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 30px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  white-space: nowrap;
-}
+  gap: 6px;
 
-.discount-text {
-  margin-top: 7px;
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: -0.25px;
   color: #000000;
   white-space: nowrap;
+  font-family: "Outfit", Arial, sans-serif;
 }
 
-.discount-text strong {
-  margin-left: 5px;
+.offer-text span {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.4px;
+}
+
+.offer-text strong {
+  font-size: 48px;
+  line-height: 1;
   font-weight: 700;
+  letter-spacing: -0.8px;
 }
 
+/* ÜRÜN GÖRSELİ */
 .image-wrap {
   position: absolute;
-  left: 121px;
-  top: 333px;
-  width: 837px;
-  height: 1253px;
+  left: 0;
+  top: 300px;
+  width: 1080px;
+  height: 1620px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f1f1f1;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
-}
-
-.product-info {
-  position: absolute;
-  left: 121px;
-  top: 1608px;
-  width: 560px;
-}
-
-.product-title {
-  width: 560px;
-  font-size: 31px;
-  line-height: 1.12;
-  font-weight: 400;
-  letter-spacing: -0.35px;
-  color: #000000;
-  white-space: normal;
-  overflow: visible;
-  display: block;
-  word-break: normal;
-  overflow-wrap: normal;
-}
-
-.price-row {
-  margin-top: 13px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 34px;
-}
-
-.old {
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-}
-
-.new,
-.single {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 144px;
-  height: 34px;
-  padding: 0 10px 2px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: -0.35px;
-}
-
-.campaign-note {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 1750px;
-  width: 600px;
-  font-size: 22px;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: -0.2px;
-  color: #000000;
-  text-align: center;
-  white-space: nowrap;
+  object-position: center center;
 }
