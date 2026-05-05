@@ -75,6 +75,10 @@ img {
   letter-spacing: -0.4px;
 }
 
+.offer-text span:last-child {
+  top: 4px; /* 🔥 sadece İNDİRİM aşağı iner */
+}
+
 .offer-text strong {
   position: relative;
   top: 0;
