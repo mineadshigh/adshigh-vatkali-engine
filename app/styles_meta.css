@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=ADLaM+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&display=swap');
 
 html, body {
   margin: 0;
@@ -7,10 +7,12 @@ html, body {
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 .frame {
   position: relative;
@@ -20,68 +22,74 @@ html, body {
   overflow: hidden;
 }
 
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
 /* ORTA ÜRÜN GÖRSELİ */
-.image-wrap {
+.product-image {
   position: absolute;
   left: 180px;
   top: 0;
   width: 720px;
   height: 1080px;
-  overflow: hidden;
-  background: #f1f1f1;
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  object-position: center center;
 }
 
-/* SOL VATKALI LOGO */
-.logo {
+/* SOL BEYAZ ALAN */
+.left-strip {
   position: absolute;
-  left: 90px;
-  top: 540px;
-  width: 352px;
-  height: auto;
-  transform: translate(-50%, -50%) rotate(-90deg);
-  transform-origin: center center;
+  left: 0;
+  top: 0;
+  width: 180px;
+  height: 100%;
+  background: #f2f2f2;
 }
 
-/* SAĞ DİKEY OFFER */
-.offer-text {
+/* SAĞ BEYAZ ALAN */
+.right-strip {
   position: absolute;
-  left: 990px;
-  top: 540px;
+  right: 0;
+  top: 0;
+  width: 180px;
+  height: 100%;
+  background: #f2f2f2;
+}
+
+/* SOL VATKALI YAZI */
+.left-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
-  transform-origin: center center;
+
+  font-size: 60px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+/* SAĞ BADGE (NET %40 İNDİRİM) */
+.right-badge {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%) rotate(90deg);
 
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
 
-  width: 420px;
-  color: #000000;
-  white-space: nowrap;
-  font-family: "ADLaM Display", "Outfit", Arial, sans-serif;
+  text-align: center;
 }
 
-.offer-text span {
-  font-size: 46px;
-  line-height: 1;
-  font-weight: 400;
+/* NET ve İNDİRİM */
+.right-badge .small {
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 2px;
 }
 
-.offer-text strong {
-  font-size: 58px;
-  line-height: 1;
+/* %40 */
+.right-badge .big {
+  font-size: 80px;
   font-weight: 700;
+  line-height: 0.9;
+  margin: 4px 0;
 }
