@@ -16,7 +16,7 @@ APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
 FEED_URL_META = os.getenv(
     "FEED_URL_META",
-    "https://www.vatkali.com/Xml/?Type=FACEBOOK&fname=vatkali",
+    "https://www.vatkali.com/Xml/?Type=FACEBOOK2&fname=vatkali",
 )
 FEED_URL_TIKTOK = os.getenv(
     "FEED_URL_TIKTOK",
