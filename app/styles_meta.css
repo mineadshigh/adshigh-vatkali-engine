@@ -10,7 +10,9 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 .frame {
   position: relative;
@@ -98,14 +100,15 @@ img {
 
 .net-text {
   position: absolute;
-  left: 0;
-  top: 43px;
+  left: -6px;
+  top: 92px;
 
   font-size: 33px;
   line-height: 1;
   font-weight: 400;
+
   transform: rotate(-90deg);
-  transform-origin: left center;
+  transform-origin: left top;
 }
 
 .discount {
@@ -168,7 +171,6 @@ img {
 
 .product-title {
   width: 285px;
-  min-height: 68px;
 
   font-size: 27px;
   line-height: 1.13;
@@ -176,10 +178,8 @@ img {
   letter-spacing: -0.3px;
   color: #000;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow: visible;
+  word-break: break-word;
 }
 
 .price-block {
