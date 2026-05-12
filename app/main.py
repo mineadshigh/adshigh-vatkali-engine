@@ -586,7 +586,7 @@ async def feed_meta(request: Request):
         )
 
         if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
-            design = "meta_summer26"
+            design = "meta_v1"
         else:
             design = "meta_v1"
 
@@ -656,7 +656,7 @@ async def feed_tiktok(request: Request):
         )
 
         if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
-            design = "tiktok_summer26"
+            design = "tiktok_v1"
         else:
             design = "tiktok_v1"
 
