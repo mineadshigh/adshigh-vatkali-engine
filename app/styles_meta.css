@@ -100,15 +100,18 @@ img {
 
 .net-text {
   position: absolute;
-  left: 6px;
-  top: 78px;
+
+  left: -18px;
+  top: 52px;
+
+  width: 120px;
+  text-align: center;
 
   font-size: 33px;
   line-height: 1;
   font-weight: 400;
 
   transform: rotate(-90deg);
-  transform-origin: center center;
 }
 
 .discount {
