@@ -101,17 +101,17 @@ img {
 .net-text {
   position: absolute;
 
-  left: -18px;
-  top: 52px;
+  left: -6px;
+  top: 18px;
 
-  width: 120px;
-  text-align: center;
+  width: auto;
 
   font-size: 33px;
   line-height: 1;
   font-weight: 400;
 
   transform: rotate(-90deg);
+  transform-origin: top left;
 }
 
 .discount {
