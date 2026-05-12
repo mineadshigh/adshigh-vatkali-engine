@@ -10,9 +10,7 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
@@ -28,7 +26,7 @@ img {
   user-select: none;
 }
 
-/* SOL GÖRSEL ALANI */
+/* SOL GÖRSEL */
 .image-wrap {
   position: absolute;
   left: 0;
@@ -69,17 +67,17 @@ img {
 /* BAYRAMA ÖZEL */
 .bayram-badge {
   position: absolute;
-  left: 33px;
+  left: 20px;
   top: 254px;
-  width: 269px;
+  width: 330px;
   height: 59px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 
   font-size: 38px;
   line-height: 1;
@@ -91,29 +89,29 @@ img {
 /* NET %40 İNDİRİME EK */
 .main-offer {
   position: absolute;
-  left: 39px;
-  top: 466px;
-  width: 213px;
-  height: 110px;
-  color: #000000;
+  left: 42px;
+  top: 438px;
+  width: 260px;
+  height: 125px;
+  color: #000;
 }
 
 .net-text {
   position: absolute;
-  left: -7px;
-  top: 0;
+  left: 0;
+  top: 43px;
 
-  font-size: 34px;
+  font-size: 33px;
   line-height: 1;
   font-weight: 400;
   transform: rotate(-90deg);
-  transform-origin: left top;
+  transform-origin: left center;
 }
 
 .discount {
   position: absolute;
   left: 42px;
-  top: -9px;
+  top: 0;
 
   font-size: 82px;
   line-height: 0.95;
@@ -124,9 +122,9 @@ img {
 .extra-text {
   position: absolute;
   left: 0;
-  top: 70px;
+  top: 76px;
 
-  font-size: 39px;
+  font-size: 38px;
   line-height: 1;
   font-weight: 800;
   letter-spacing: -1px;
@@ -136,20 +134,20 @@ img {
 /* SEPETTE BAR */
 .basket-offer {
   position: absolute;
-  left: -75px;
-  top: 535px;
-  width: 404px;
-  height: 57px;
+  left: -80px;
+  top: 575px;
+  width: 440px;
+  height: 58px;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
 
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 
-  font-size: 43px;
+  font-size: 41px;
   line-height: 1;
   font-weight: 300;
   letter-spacing: -1.2px;
@@ -163,20 +161,20 @@ img {
 /* ÜRÜN BİLGİ */
 .product-info {
   position: absolute;
-  left: 39px;
-  top: 657px;
-  width: 260px;
+  left: 58px;
+  top: 790px;
+  width: 285px;
 }
 
 .product-title {
-  width: 260px;
+  width: 285px;
   min-height: 68px;
 
   font-size: 27px;
   line-height: 1.13;
   font-weight: 400;
   letter-spacing: -0.3px;
-  color: #000000;
+  color: #000;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -185,14 +183,14 @@ img {
 }
 
 .price-block {
-  margin-top: 23px;
+  margin-top: 22px;
 }
 
 .old-price {
   font-size: 27px;
   line-height: 1;
   font-weight: 400;
-  color: #000000;
+  color: #000;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
@@ -203,19 +201,20 @@ img {
   font-size: 37px;
   line-height: 1;
   font-weight: 800;
-  color: #000000;
+  color: #000;
   letter-spacing: -0.7px;
 }
 
 .legal-note {
-  margin-top: 31px;
-  width: 260px;
+  margin-top: 34px;
+  width: 300px;
 
-  font-size: 12.5px;
-  line-height: 1.15;
+  font-size: 10.5px;
+  line-height: 1;
   font-weight: 400;
-  color: #000000;
-  letter-spacing: -0.1px;
+  color: #000;
+  letter-spacing: -0.15px;
+  white-space: nowrap;
 }
 
 .hidden {
