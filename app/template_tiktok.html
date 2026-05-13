@@ -10,19 +10,40 @@
 <body>
   <div class="frame">
 
-    <div class="top-area">
-      <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
+    <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
 
-      <div class="offer-text">
-        <span>NET</span>
+    <div class="top-offer">
+      <div class="net-discount">
+        <span class="net">NET</span>
         <strong>%40</strong>
-        <span>İNDİRİM</span>
       </div>
+      <div class="extra">İNDİRİME EK</div>
+    </div>
+
+    <div class="product-copy">
+      <div class="product-title">{{title}}</div>
+
+      <div class="price-row">
+        <span class="old-price {{old_hidden}}">{{price}}</span>
+        <span class="new-price {{new_hidden}}">{{sale_price}}</span>
+        <span class="single-price {{single_hidden}}">{{price}}</span>
+      </div>
+    </div>
+
+    <div class="basket-offer">
+      <span>SEPETTE</span>
+      <strong>%20 İNDİRİM</strong>
     </div>
 
     <div class="image-wrap">
       <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
+
+    <div class="legal-note">
+      *Aksesuar koleksiyonu hariç tüm ürünlerde geçerlidir.
+    </div>
+
+    <div class="bayram-badge">BAYRAMA ÖZEL</div>
 
   </div>
 </body>
