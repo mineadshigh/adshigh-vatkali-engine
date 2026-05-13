@@ -10,9 +10,7 @@ html, body {
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
@@ -22,13 +20,6 @@ html, body {
   overflow: hidden;
 }
 
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-/* LOGO */
 .logo {
   position: absolute;
   left: 50%;
@@ -39,20 +30,20 @@ img {
   z-index: 5;
 }
 
-/* NET %40 İNDİRİME EK */
+/* SOL OFFER */
 .main-offer {
   position: absolute;
   left: 84px;
-  top: 265px;
-  width: 360px;
-  z-index: 6;
-  color: #000000;
+  top: 255px;
+  width: 430px;
+  color: #000;
+  z-index: 7;
 }
 
-.offer-top {
+.offer-row {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
+  gap: 12px;
 }
 
 .net-text {
@@ -61,47 +52,41 @@ img {
   font-weight: 400;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  margin-top: 4px;
-}
-
-.offer-main {
-  display: flex;
-  flex-direction: column;
+  margin-top: 8px;
 }
 
 .discount {
-  font-size: 84px;
+  font-size: 78px;
   line-height: 0.9;
   font-weight: 800;
   letter-spacing: -3px;
 }
 
 .extra-text {
-  margin-top: 2px;
-  font-size: 54px;
-  line-height: 0.9;
+  margin-top: 0;
+  font-size: 43px;
+  line-height: 0.95;
   font-weight: 800;
-  letter-spacing: -1.5px;
+  letter-spacing: -1.2px;
   white-space: nowrap;
 }
 
-/* ÜRÜN BİLGİSİ */
+/* SAĞ ÜRÜN BİLGİSİ */
 .product-info {
   position: absolute;
-  right: 84px;
-  top: 295px;
-  width: 315px;
+  left: 695px;
+  top: 282px;
+  width: 300px;
+  color: #000;
   z-index: 7;
-  color: #000000;
 }
 
 .product-title {
-  width: 315px;
-  font-size: 28px;
+  width: 300px;
+  font-size: 29px;
   line-height: 1.12;
   font-weight: 400;
   letter-spacing: -0.3px;
-  color: #000000;
   white-space: normal;
   word-break: normal;
   overflow-wrap: break-word;
@@ -110,54 +95,52 @@ img {
 
 .price-block {
   margin-top: 18px;
-  width: 100%;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  gap: 12px;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 10px;
   white-space: nowrap;
 }
 
 .old-price {
-  font-size: 24px;
+  font-size: 29px;
   line-height: 1;
   font-weight: 400;
-  color: #000000;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
+  color: #000;
 }
 
 .new-price,
 .single-price {
-  font-size: 43px;
-  line-height: 0.9;
+  font-size: 38px;
+  line-height: 1;
   font-weight: 800;
-  color: #000000;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
+  color: #000;
 }
 
 /* SEPETTE BAR */
 .basket-offer {
   position: absolute;
   left: 84px;
-  top: 390px;
+  top: 392px;
   height: 62px;
-  padding: 0 26px;
+  padding: 0 30px;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 
-  font-size: 33px;
+  font-size: 37px;
   line-height: 1;
   font-weight: 300;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.7px;
   white-space: nowrap;
-
   z-index: 8;
 }
 
@@ -165,64 +148,66 @@ img {
   font-weight: 800;
 }
 
-/* ÜRÜN GÖRSELİ */
+/* GÖRSEL - KESİLMEZ */
 .image-wrap {
   position: absolute;
   left: 84px;
-  top: 438px;
+  top: 454px;
   width: 912px;
-  height: 1180px;
+  height: 1248px;
   overflow: hidden;
   background: #f2f2f2;
   z-index: 1;
 }
 
 .product-image {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
 }
 
-/* ALT NOT */
-.legal-note {
+/* ALT SATIR */
+.bottom-row {
   position: absolute;
   left: 84px;
-  bottom: 56px;
-  width: 620px;
-
-  font-size: 17px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-  letter-spacing: -0.1px;
-  white-space: nowrap;
-
+  top: 1702px;
+  width: 912px;
+  height: 70px;
   z-index: 6;
 }
 
-/* ALT SAĞ BAYRAMA ÖZEL */
+.legal-note {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 610px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  color: #000;
+  white-space: nowrap;
+}
+
 .bayram-badge-bottom {
   position: absolute;
-  right: 84px;
-  bottom: 44px;
-  height: 58px;
-  padding: 0 24px;
+  right: 0;
+  top: 0;
+  height: 62px;
+  padding: 0 28px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 
-  font-size: 32px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -0.4px;
   white-space: nowrap;
-
-  z-index: 6;
 }
 
 .hidden {
