@@ -3,28 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1080, initial-scale=1.0" />
-  <style>
-    {{CSS}}
-  </style>
+  <style>{{CSS}}</style>
 </head>
 <body>
   <div class="frame">
-
     <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
 
     <div class="main-offer">
-      <div class="offer-top">
+      <div class="offer-row">
         <div class="net-text">NET</div>
-        <div class="offer-main">
-          <div class="discount">%40</div>
-          <div class="extra-text">İNDİRİME EK</div>
-        </div>
+        <div class="discount">%40</div>
       </div>
+      <div class="extra-text">İNDİRİME EK</div>
     </div>
 
     <div class="product-info">
       <div class="product-title">{{title}}</div>
-
       <div class="price-block">
         <span class="old-price {{old_hidden}}">{{price}}</span>
         <span class="new-price {{new_hidden}}">{{sale_price}}</span>
@@ -41,12 +35,10 @@
       <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
 
-    <div class="legal-note">
-      *Aksesuar koleksiyonu hariç tüm ürünlerde geçerlidir.
+    <div class="bottom-row">
+      <div class="legal-note">*Aksesuar koleksiyonu hariç tüm ürünlerde geçerlidir.</div>
+      <div class="bayram-badge-bottom">BAYRAMA ÖZEL</div>
     </div>
-
-    <div class="bayram-badge-bottom">BAYRAMA ÖZEL</div>
-
   </div>
 </body>
 </html>
