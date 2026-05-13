@@ -56,6 +56,7 @@ img {
   display: flex;
   align-items: flex-start;
   gap: 9px;
+  transform: translateY(-2px);
 }
 
 .net-text {
@@ -113,9 +114,9 @@ img {
 
 .product-info {
   position: absolute;
-  left: 697px;
+  left: 685px;
   top: 266px;
-  width: 285px;
+  width: 297px;
   height: 120px;
   color: #000000;
   z-index: 10;
@@ -126,27 +127,16 @@ img {
 }
 
 .product-title {
-  width: 285px;
-
+  width: 297px;
   font-size: 26px;
   line-height: 1.12;
   font-weight: 400;
-
   letter-spacing: -0.2px;
-
   color: #000000;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-
-  overflow: hidden;
-
-  word-break: normal;
-  overflow-wrap: break-word;
-
-  min-height: 58px;
-  max-height: 88px;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .price-block {
