@@ -46,7 +46,7 @@ img {
 .main-offer {
   position: absolute;
   left: 96px;
-  top: 238px;
+  top: 235px;
   width: 360px;
   color: #000000;
   z-index: 10;
@@ -209,7 +209,7 @@ img {
   left: 96px;
   top: 1738px;
   width: 600px;
-  font-size: 15px;
+  font-size: 21px;
   line-height: 1;
   font-weight: 400;
   color: #000000;
