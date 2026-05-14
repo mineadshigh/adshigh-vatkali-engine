@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 1080px;
@@ -28,15 +29,80 @@ img {
   user-select: none;
 }
 
-/* SOL GÖRSEL */
-.image-wrap {
+/* ÜST OFFER */
+.top-offer {
+  position: absolute;
+  left: 264px;
+  top: 83px;
+  width: 389px;
+  height: 77px;
+  z-index: 10;
+}
+
+.bayram-label {
   position: absolute;
   left: 0;
   top: 0;
-  width: 720px;
-  height: 1080px;
+
+  height: 20px;
+  padding: 1px 9px 2px 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #000000;
+  color: #ffffff;
+
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 400;
+
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.discount-text {
+  position: absolute;
+  left: 0;
+  top: 15px;
+
+  color: #000000;
+
+  font-size: 68px;
+  line-height: 0.95;
+  font-weight: 800;
+
+  letter-spacing: -2px;
+  white-space: nowrap;
+}
+
+/* SOL DİKEY LOGO */
+.side-logo {
+  position: absolute;
+  left: 99px;
+  top: 431px;
+
+  width: 339px;
+  height: 43px;
+
+  transform-origin: left top;
+  transform: rotate(-90deg);
+
+  z-index: 10;
+}
+
+/* ÜRÜN GÖRSELİ */
+.image-wrap {
+  position: absolute;
+  left: 264px;
+  top: 167px;
+  width: 688px;
+  height: 1033px;
+
   overflow: hidden;
-  background: #f2f2f2;
+  background: #ffffff;
+  z-index: 1;
 }
 
 .product-image {
@@ -44,182 +110,4 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-}
-
-/* SAĞ PANEL */
-.side-panel {
-  position: absolute;
-  left: 720px;
-  top: 0;
-  width: 360px;
-  height: 1080px;
-  background: #ffffff;
-}
-
-/* LOGO */
-.logo {
-  position: absolute;
-  left: 180px;
-  top: 67px;
-  width: 261px;
-  height: auto;
-  transform: translateX(-50%);
-}
-
-/* BAYRAMA ÖZEL */
-.bayram-badge {
-  position: absolute;
-  left: 20px;
-  top: 254px;
-  width: 330px;
-  height: 59px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #000;
-  color: #fff;
-
-  font-size: 38px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
-}
-
-/* NET %40 İNDİRİME EKK */
-.main-offer {
-  position: absolute;
-  left: 42px;
-  top: 438px;
-  width: 260px;
-  height: 125px;
-  color: #000;
-}
-
-.net-text {
-  position: absolute;
-
-  left: 0px;
-  top: 69px;
-
-  width: auto;
-
-  font-size: 30px;
-  line-height: 1;
-  font-weight: 400;
-
-  transform: rotate(-90deg);
-  transform-origin: top left;
-}
-
-.discount {
-  position: absolute;
-  left: 42px;
-  top: 0;
-
-  font-size: 82px;
-  line-height: 0.95;
-  font-weight: 800;
-  letter-spacing: -3px;
-}
-
-.extra-text {
-  position: absolute;
-  left: 0;
-  top: 76px;
-
-  font-size: 38px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -1px;
-  white-space: nowrap;
-}
-
-/* SEPETTE BAR */
-.basket-offer {
-  position: absolute;
-  left: -80px;
-  top: 575px;
-  width: 440px;
-  height: 58px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-
-  background: #000;
-  color: #fff;
-
-  font-size: 41px;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: -1.2px;
-  white-space: nowrap;
-}
-
-.basket-offer strong {
-  font-weight: 800;
-}
-
-/* ÜRÜN BİLGİ */
-.product-info {
-  position: absolute;
-  left: 58px;
-  top: 790px;
-  width: 285px;
-}
-
-.product-title {
-  width: 285px;
-
-  font-size: 27px;
-  line-height: 1.13;
-  font-weight: 400;
-  letter-spacing: -0.3px;
-  color: #000;
-
-  overflow: visible;
-  word-break: break-word;
-}
-
-.price-block {
-  margin-top: 22px;
-}
-
-.old-price {
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-}
-
-.new-price,
-.single-price {
-  margin-top: 9px;
-  font-size: 37px;
-  line-height: 1;
-  font-weight: 800;
-  color: #000;
-  letter-spacing: -0.7px;
-}
-
-.legal-note {
-  margin-top: 34px;
-  width: 300px;
-
-  font-size: 10.5px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000;
-  letter-spacing: -0.15px;
-  white-space: nowrap;
-}
-
-.hidden {
-  display: none !important;
 }
