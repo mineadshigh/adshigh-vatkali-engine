@@ -32,7 +32,7 @@ img {
 /* ÜST OFFER */
 .top-offer {
   position: absolute;
-  left: 196px;
+  left: 236px;
   top: 58px;
   width: 480px;
   height: 105px;
@@ -42,7 +42,7 @@ img {
 .bayram-label {
   position: absolute;
   left: 6px;
-  top: 0;
+  top: -6px;
   height: 24px;
   padding: 2px 9px 3px 9px;
   display: flex;
