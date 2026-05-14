@@ -32,7 +32,7 @@ img {
 /* ÜST OFFER */
 .top-offer {
   position: absolute;
-  left: 258px;
+  left: 196px;
   top: 58px;
   width: 480px;
   height: 105px;
@@ -72,7 +72,7 @@ img {
 /* SOL DİKEY LOGO */
 .side-logo {
   position: absolute;
-  left: 118px;
+  left: 93px;
   top: 772px;
   width: 339px;
   height: auto;
@@ -84,7 +84,7 @@ img {
 /* GÖRSEL ALANI */
 .image-wrap {
   position: absolute;
-  left: 258px;
+  left: 196px;
   bottom: 0;
   width: 688px;
   height: 913px;
@@ -98,5 +98,4 @@ img {
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  transform: translateX(-30px);
 }
