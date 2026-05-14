@@ -98,7 +98,7 @@ img {
   width: 608px;
   height: 944px;
   overflow: hidden;
-  background: transparent;
+  background: #ffffff;
   z-index: 1;
 
   display: flex;
