@@ -40,20 +40,30 @@ img {
 
 .bayram-label {
   position: absolute;
-  left: 0;          /* tam görsel hizası */
-  top: -10px;       /* biraz daha yukarı */
-  height: 30px;
-  padding: 3px 14px 4px 14px;
+  left: 0;
+  top: -10px;
+
+  height: 28px;              /* biraz küçüldü */
+  padding: 2px 10px 3px 10px; /* sağ padding küçüldü */
+
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* text sola yaslı */
+
   background: #000000;
   color: #ffffff;
+
   font-size: 19px;
   line-height: 1;
   font-weight: 500;
+
   border-radius: 2px;
   white-space: nowrap;
+}
+
+.bayram-label span {
+  position: relative;
+  left: -1px; /* text 1 milim daha sola */
 }
 
 .discount-text {
