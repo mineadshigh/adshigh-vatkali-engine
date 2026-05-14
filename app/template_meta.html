@@ -3,45 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1080, initial-scale=1.0" />
-  <style>
-    {{CSS}}
-  </style>
+  <style>{{CSS}}</style>
 </head>
+
 <body>
   <div class="frame">
 
-    <div class="image-wrap">
-      <img class="product-image" src="{{product_image_primary}}" alt="" />
+    <div class="top-offer">
+      <div class="bayram-label">Bayrama özel</div>
+      <div class="discount-text">%20 İNDİRİM</div>
     </div>
 
-    <div class="side-panel">
-      <img class="logo" src="{{logo_url}}" alt="Vatkalı" />
+    <img class="side-logo" src="{{logo_url}}" alt="Vatkalı" />
 
-      <div class="bayram-badge">BAYRAMA ÖZEL</div>
-
-      <div class="main-offer">
-        <div class="net-text">NET</div>
-        <div class="discount">%40</div>
-        <div class="extra-text">İNDİRİME EK</div>
-      </div>
-
-      <div class="basket-offer">
-        SEPETTE <strong>%20 İNDİRİM</strong>
-      </div>
-
-      <div class="product-info">
-        <div class="product-title">{{title}}</div>
-
-        <div class="price-block">
-          <div class="old-price {{old_hidden}}">{{price}}</div>
-          <div class="new-price {{new_hidden}}">{{sale_price}}</div>
-          <div class="single-price {{single_hidden}}">{{price}}</div>
-        </div>
-
-        <div class="legal-note">
-          *Aksesuar koleksiyonu hariç tüm ürünlerde geçerlidir.
-        </div>
-      </div>
+    <div class="image-wrap">
+      <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
 
   </div>
