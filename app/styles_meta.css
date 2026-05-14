@@ -19,7 +19,7 @@ body {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #ffffff;
+  background: #f3f3f3;
   overflow: hidden;
 }
 
@@ -32,19 +32,20 @@ img {
 /* ÜST OFFER */
 .top-offer {
   position: absolute;
-  left: 236px;
-  top: 58px;
-  width: 480px;
-  height: 105px;
+  left: 258px;
+  top: 52px;
+  width: 520px;
+  height: 120px;
   z-index: 20;
 }
 
+/* BAYRAMA ÖZEL */
 .bayram-label {
   position: absolute;
-  left: 6px;
-  top: -6px;
+  left: 8px;
+  top: -4px; /* biraz daha yukarı */
   height: 24px;
-  padding: 2px 9px 3px 9px;
+  padding: 2px 10px 3px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,6 +58,7 @@ img {
   white-space: nowrap;
 }
 
+/* %20 İNDİRİM */
 .discount-text {
   position: absolute;
   left: 0;
@@ -64,16 +66,16 @@ img {
   color: #000000;
   font-size: 67px;
   line-height: 0.9;
-  font-weight: 800;
-  letter-spacing: -2px;
+  font-weight: 700; /* 800 yerine */
+  letter-spacing: -1px; /* daha doğal */
   white-space: nowrap;
 }
 
 /* SOL DİKEY LOGO */
 .side-logo {
   position: absolute;
-  left: 93px;
-  top: 772px;
+  left: 98px;
+  top: 748px; /* biraz yukarı alındı */
   width: 339px;
   height: auto;
   transform-origin: left top;
@@ -84,17 +86,21 @@ img {
 /* GÖRSEL ALANI */
 .image-wrap {
   position: absolute;
-  left: 196px;
+  left: 236px;
   bottom: 0;
-  width: 688px;
-  height: 913px;
+  width: 608px;
+  height: 944px;
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
   z-index: 1;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .product-image {
-  width: 100%;
+  width: auto;
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
