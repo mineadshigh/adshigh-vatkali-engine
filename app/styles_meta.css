@@ -8,6 +8,7 @@ body {
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
+  background-color: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,6 +21,7 @@ body {
   width: 1080px;
   height: 1080px;
   background: #ffffff; /* bunu yap */
+  background-color: #ffffff;
   overflow: hidden;
 }
 
