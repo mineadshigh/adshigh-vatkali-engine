@@ -100,16 +100,16 @@ img {
 .discount-area {
   position: absolute;
   left: 61px;
-  top: 16px;
-  width: 320px;
-  height: 95px;
+  top: 15px;
+  width: 360px;
+  height: 96px;
   color: #ffffff;
 }
 
 .percent {
   position: absolute;
   left: 0;
-  top: 14px;
+  top: 6px;
   font-size: 42px;
   line-height: 1;
   font-weight: 500;
@@ -129,7 +129,7 @@ img {
 .discount-copy {
   position: absolute;
   left: 162px;
-  top: 20px;
+  top: 17px;
   color: #ffffff;
 }
 
@@ -154,7 +154,7 @@ img {
 .legal-note {
   position: absolute;
   left: 542px;
-  top: 77px;
+  top: 64px;
   width: 500px;
   color: #ffffff;
   font-size: 17.5px;
