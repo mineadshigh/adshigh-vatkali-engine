@@ -49,6 +49,11 @@ img {
   width: 350px;
   height: 44px;
   z-index: 999;
+
+  background-image: url("{{logo_url}}");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left center;
 }
 
 /* GÖRSELLER */
