@@ -47,7 +47,8 @@ img {
   left: 61px;
   top: 59px;
   width: 350px;
-  height: auto;
+  height: 44px;
+  z-index: 999;
 }
 
 /* GÖRSELLER */
