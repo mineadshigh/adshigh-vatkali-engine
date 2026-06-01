@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;700;800&display=swap');
 
 html,
 body {
@@ -7,8 +7,8 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #ffffff;
-  background-color: #ffffff;
+  background: #000000;
+  background-color: #000000;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,9 +20,9 @@ body {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #ffffff; /* bunu yap */
-  background-color: #ffffff;
   overflow: hidden;
+  background: #000000;
+  background-color: #000000;
 }
 
 img {
@@ -31,86 +31,134 @@ img {
   user-select: none;
 }
 
-.top-offer {
-  position: absolute;
-  left: 236px;
-  top: 52px;
-  width: 520px;
-  height: 120px;
-  z-index: 20;
-}
-
-.bayram-label {
+/* ÜST SİYAH ALAN */
+.top-bar {
   position: absolute;
   left: 0;
-  top: -10px;
-
-  height: 28px;              /* biraz küçüldü */
-  padding: 2px 10px 3px 10px; /* sağ padding küçüldü */
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* text sola yaslı */
-
+  top: 0;
+  width: 1080px;
+  height: 135px;
   background: #000000;
-  color: #ffffff;
-
-  font-size: 19px;
-  line-height: 1;
-  font-weight: 500;
-
-  border-radius: 2px;
-  white-space: nowrap;
+  z-index: 10;
 }
 
-.bayram-label span {
-  position: relative;
-  left: -1px; /* text 1 milim daha sola */
+.logo {
+  position: absolute;
+  left: 61px;
+  top: 59px;
+  width: 350px;
+  height: auto;
 }
 
-.discount-text {
+/* GÖRSELLER */
+.images-row {
   position: absolute;
   left: 0;
-  top: 18px;        /* %20 aynı yerde kaldı */
-  color: #000000;
-  font-size: 67px;
-  line-height: 0.9;
-  font-weight: 700;
-  letter-spacing: -1px;
-  white-space: nowrap;
+  top: 135px;
+  width: 1080px;
+  height: 811px;
+  display: flex;
+  z-index: 1;
+  background: #ffffff;
 }
 
-/* SOL DİKEY LOGO */
-.side-logo {
-  position: absolute;
-  left: 98px;
-  top: 748px; /* biraz yukarı alındı */
-  width: 339px;
-  height: auto;
-  transform-origin: left top;
-  transform: rotate(-90deg);
-  z-index: 20;
-}
-
-/* GÖRSEL ALANI */
-.image-wrap {
-  position: absolute;
-  left: 236px;
-  bottom: 0;
-  width: 608px;
-  height: 944px;
+.image-col {
+  width: 540px;
+  height: 811px;
   overflow: hidden;
   background: #ffffff;
-  z-index: 1;
+}
 
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+.left-image {
+  width: 540px;
+}
+
+.right-image {
+  width: 540px;
 }
 
 .product-image {
-  width: auto;
+  width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* ALT SİYAH ALAN */
+.bottom-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1080px;
+  height: 134px;
+  background: #000000;
+  z-index: 10;
+}
+
+/* İNDİRİM ALANI */
+.discount-area {
+  position: absolute;
+  left: 61px;
+  top: 16px;
+  width: 320px;
+  height: 95px;
+  color: #ffffff;
+}
+
+.percent {
+  position: absolute;
+  left: 0;
+  top: 14px;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+
+.number {
+  position: absolute;
+  left: 36px;
+  top: -6px;
+  font-size: 94px;
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -4px;
+}
+
+.discount-copy {
+  position: absolute;
+  left: 162px;
+  top: 20px;
+  color: #ffffff;
+}
+
+.basket-text {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.discount-word {
+  margin-top: 4px;
+  font-size: 39px;
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -1.2px;
+  white-space: nowrap;
+}
+
+/* LEGAL */
+.legal-note {
+  position: absolute;
+  left: 542px;
+  top: 77px;
+  width: 500px;
+  color: #ffffff;
+  font-size: 17.5px;
+  line-height: 1;
+  font-weight: 100;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
 }
