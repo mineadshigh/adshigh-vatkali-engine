@@ -492,7 +492,7 @@ async def render_endpoint(
 
     if not logo_url:
         base_url = get_base_url(request)
-        logo_url = f"{base_url}/static/vatkalilogo_white.png"
+        logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
 
     secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
 
