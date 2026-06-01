@@ -23,7 +23,6 @@ FEED_URL_TIKTOK = os.getenv(
     "https://www.vatkali.com/feed/tiktokfeed.xml",
 )
 
-
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
