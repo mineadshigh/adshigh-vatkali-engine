@@ -42,18 +42,15 @@ img {
   z-index: 10;
 }
 
+/* LOGO */
 .logo {
   position: absolute;
   left: 61px;
   top: 59px;
   width: 350px;
   height: 44px;
-
   object-fit: contain;
   object-position: left center;
-
-  filter: invert(1) brightness(2) contrast(2);
-
   z-index: 999;
 }
 
@@ -76,10 +73,7 @@ img {
   background: #ffffff;
 }
 
-.left-image {
-  width: 540px;
-}
-
+.left-image,
 .right-image {
   width: 540px;
 }
