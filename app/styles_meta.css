@@ -154,12 +154,17 @@ img {
 .legal-note {
   position: absolute;
   left: 542px;
-  top: 64px;
+  top: 61px;
   width: 500px;
+
   color: #ffffff;
-  font-size: 17.5px;
+
+  font-size: 19px;
   line-height: 1;
-  font-weight: 100;
+  font-weight: 400;
+
   letter-spacing: -0.2px;
   white-space: nowrap;
+
+  text-align: center;
 }
