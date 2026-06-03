@@ -89,7 +89,7 @@ img {
 
 .top-number {
   position: absolute;
-  left: 166px;
+  left: 170px;
   top: -2px;
   font-size: 89px;
   line-height: 0.9;
@@ -99,8 +99,8 @@ img {
 
 .percent-inside {
   position: absolute;
-  left: 59px;
-  top: 27px;
+  left: 58px;
+  top: 28px;
   font-size: 25px;
   line-height: 1;
   font-weight: 600;
@@ -109,7 +109,7 @@ img {
 
 .top-word {
   position: absolute;
-  left: 288px;
+  left: 285px;
   top: 24px;
   font-size: 40px;
   line-height: 1;
