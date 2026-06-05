@@ -34,7 +34,7 @@ img {
   position: absolute;
   left: 0;
   top: 0;
-  width: 282px;
+  width: 360px;
   height: 1080px;
   background: #ffffff;
   z-index: 10;
@@ -49,49 +49,46 @@ img {
   height: 40px;
   object-fit: contain;
   object-position: left center;
-  z-index: 20;
 }
 
-/* OFFER */
-.offer-area {
-  position: absolute;
-  left: 17px;
-  top: 413px;
-  width: 250px;
-  color: #000000;
-  text-align: center;
-  z-index: 20;
-}
-
+/* 2 VE ÜZERİ */
 .condition-text {
-  font-size: 34px;
+  position: absolute;
+  left: 41px;
+  top: 362px;
+  width: 278px;
+  font-size: 41px;
   line-height: 1;
   font-weight: 400;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
+  color: #000000;
   white-space: nowrap;
 }
 
-.discount-main {
-  position: relative;
-  width: 250px;
-  height: 148px;
-  margin-top: 6px;
+/* 20 + % */
+.discount-area {
+  position: absolute;
+  left: 39px;
+  top: 413px;
+  width: 281px;
+  height: 180px;
 }
 
 .discount-number {
   position: absolute;
   left: 0;
-  top: -12px;
-  font-size: 168px;
-  line-height: 0.9;
+  top: -21px;
+  font-size: 251px;
+  line-height: 0.82;
   font-weight: 400;
-  letter-spacing: -8px;
+  letter-spacing: -13px;
+  color: #000000;
 }
 
 .discount-percent {
   position: absolute;
-  left: 172px;
-  top: 45px;
+  left: 186px;
+  top: 57px;
   width: 66px;
   height: 66px;
   border: 6px solid #000000;
@@ -101,34 +98,48 @@ img {
   align-items: center;
   justify-content: center;
 
-  font-size: 43px;
+  font-size: 46px;
   line-height: 1;
-  font-weight: 500;
-  letter-spacing: -1px;
+  font-weight: 400;
+  color: #000000;
 }
 
+/* İNDİRİM */
 .discount-word {
-  margin-top: -7px;
+  position: absolute;
+  left: 38px;
+  top: 603px;
+  width: 283px;
   font-size: 75px;
-  line-height: 0.92;
+  line-height: 0.95;
   font-weight: 700;
   letter-spacing: -2px;
+  color: #000000;
+  white-space: nowrap;
 }
 
+/* ÇİZGİ */
 .divider-line {
+  position: absolute;
+  left: 90px;
+  top: 719px;
   width: 179px;
-  height: 2px;
+  height: 3px;
   background: #000000;
-  margin: 34px auto 0 auto;
 }
 
+/* ALT METİN */
 .extra-offer {
-  margin-top: 31px;
-  font-size: 29px;
+  position: absolute;
+  left: 18px;
+  top: 769px;
+  width: 325px;
+  font-size: 29.5px;
   line-height: 1.12;
   font-weight: 400;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.6px;
   color: #000000;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -136,12 +147,12 @@ img {
   font-weight: 700;
 }
 
-/* ÜRÜN GÖRSELİ */
+/* GÖRSEL */
 .image-wrap {
   position: absolute;
-  left: 282px;
+  left: 360px;
   top: 0;
-  width: 798px;
+  width: 720px;
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
