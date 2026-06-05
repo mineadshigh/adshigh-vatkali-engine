@@ -41,12 +41,17 @@ img {
 }
 
 /* LOGO */
+/* LOGO */
 .logo {
   position: absolute;
-  left: 21px;
+  left: 50%;
   top: 115px;
   width: 318px;
   height: 40px;
+  transform: translateX(-50%);
+  object-fit: contain;
+  object-position: center;
+  z-index: 20;
 }
 
 /* 2 VE ÜZERİ */
