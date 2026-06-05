@@ -8,7 +8,6 @@ body {
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
-  background-color: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -22,7 +21,6 @@ body {
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
-  background-color: #ffffff;
 }
 
 img {
@@ -31,12 +29,12 @@ img {
   user-select: none;
 }
 
-/* SOL BEYAZ PANEL */
+/* SOL PANEL */
 .left-panel {
   position: absolute;
   left: 0;
   top: 0;
-  width: 360px;
+  width: 282px;
   height: 1080px;
   background: #ffffff;
   z-index: 10;
@@ -54,12 +52,12 @@ img {
   z-index: 20;
 }
 
-/* OFFER ALANI */
+/* OFFER */
 .offer-area {
   position: absolute;
-  left: 39px;
+  left: 17px;
   top: 413px;
-  width: 281px;
+  width: 250px;
   color: #000000;
   text-align: center;
   z-index: 20;
@@ -75,15 +73,15 @@ img {
 
 .discount-main {
   position: relative;
-  width: 281px;
-  height: 156px;
-  margin-top: 8px;
+  width: 250px;
+  height: 148px;
+  margin-top: 6px;
 }
 
 .discount-number {
   position: absolute;
   left: 0;
-  top: -10px;
+  top: -12px;
   font-size: 168px;
   line-height: 0.9;
   font-weight: 400;
@@ -92,44 +90,44 @@ img {
 
 .discount-percent {
   position: absolute;
-  left: 188px;
-  top: 43px;
-  width: 72px;
-  height: 72px;
-  border: 7px solid #000000;
+  left: 172px;
+  top: 45px;
+  width: 66px;
+  height: 66px;
+  border: 6px solid #000000;
   border-radius: 50%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 46px;
+  font-size: 43px;
   line-height: 1;
   font-weight: 500;
   letter-spacing: -1px;
 }
 
 .discount-word {
-  margin-top: -8px;
+  margin-top: -7px;
   font-size: 75px;
-  line-height: 0.95;
+  line-height: 0.92;
   font-weight: 700;
   letter-spacing: -2px;
 }
 
 .divider-line {
   width: 179px;
-  height: 3px;
+  height: 2px;
   background: #000000;
-  margin: 37px auto 0 auto;
+  margin: 34px auto 0 auto;
 }
 
 .extra-offer {
-  margin-top: 35px;
-  font-size: 30px;
+  margin-top: 31px;
+  font-size: 29px;
   line-height: 1.12;
   font-weight: 400;
-  letter-spacing: -0.7px;
+  letter-spacing: -0.8px;
   color: #000000;
   white-space: nowrap;
 }
@@ -138,12 +136,12 @@ img {
   font-weight: 700;
 }
 
-/* SAĞ ÜRÜN GÖRSELİ */
+/* ÜRÜN GÖRSELİ */
 .image-wrap {
   position: absolute;
-  left: 360px;
+  left: 282px;
   top: 0;
-  width: 720px;
+  width: 798px;
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
