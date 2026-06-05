@@ -74,22 +74,23 @@ img {
 
 .percent {
   position: absolute;
-  left: 82px;
-  top: 28px;
-  font-size: 80px;
+  left: 70px;
+  top: 24px;
+  font-size: 22px;
   line-height: 1;
-  font-weight: 400;
+  font-weight: 600;
+  color: #000000;
 }
 
 /* 2 ve üzeri ürüne */
 .condition-text {
   position: absolute;
   left: 242px;
-  top: 149px;
+  top: 140px;
   width: 285px;
   font-size: 42px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.5px;
   color: #000000;
   white-space: nowrap;
@@ -124,13 +125,14 @@ img {
   position: absolute;
   left: 631px;
   top: 163px;
-  width: 405px;
+  width: 430px;
   font-size: 36.8px;
   line-height: 1.2;
   font-weight: 400;
   letter-spacing: -0.5px;
   color: #000000;
   white-space: nowrap;
+  text-align: center;
 }
 
 .extra-offer strong {
