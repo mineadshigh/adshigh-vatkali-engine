@@ -74,9 +74,9 @@ img {
 
 .percent {
   position: absolute;
-  left: 70px;
-  top: 24px;
-  font-size: 22px;
+  left: 56px;
+  top: 16px;
+  font-size: 50px;
   line-height: 1;
   font-weight: 600;
   color: #000000;
@@ -86,7 +86,7 @@ img {
 .condition-text {
   position: absolute;
   left: 242px;
-  top: 140px;
+  top: 138px;
   width: 285px;
   font-size: 42px;
   line-height: 1;
