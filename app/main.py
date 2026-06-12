@@ -25,7 +25,7 @@ FEED_URL_TIKTOK = os.getenv(
 
 FEED_URL_KAYA = os.getenv(
     "FEED_URL_KAYA",
-    "https://feedman.kayakirtasiye.com.tr/api/feed/TPcJthTdHae5hgwuXnhaQUnm.xml",
+    "https://feedman.kayakirtasiye.com.tr/api/feed/Zc_3wFPkKx53zzduUbPbG2MN.xml",
 )
 
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
