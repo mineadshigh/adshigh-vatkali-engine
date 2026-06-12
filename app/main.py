@@ -23,6 +23,11 @@ FEED_URL_TIKTOK = os.getenv(
     "https://www.vatkali.com/feed/tiktokfeed.xml",
 )
 
+FEED_URL_KAYA = os.getenv(
+    "FEED_URL_KAYA",
+    "https://feedman.kayakirtasiye.com.tr/api/feed/TPcJthTdHae5hgwuXnhaQUnm.xml",
+)
+
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
@@ -140,6 +145,12 @@ def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
 
 def get_template_and_css(design: str) -> tuple[str, str]:
+    if design == "kaya_meta_v1":
+        return (
+            os.path.join(BASE_DIR, "clients", "kayakirtasiye", "meta.html"),
+            os.path.join(BASE_DIR, "clients", "kayakirtasiye", "meta.css"),
+        )
+        
     if design == "meta_summer26":
         return (
             os.path.join(BASE_DIR, "template_meta_summer26.html"),
@@ -490,10 +501,16 @@ async def render_endpoint(
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
 
+
     if not logo_url:
         base_url = get_base_url(request)
-        logo_url = f"{base_url}/static/vatkalilogo.svg"
+        
+        if design == "kaya_meta_v1":
+            logo_url = f"{base_url}/static/kayakirtasiyelogo.png"
+        else:
+            logo_url = f"{base_url}/static/vatkalilogo.svg"
 
+    
     secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
 
     cache_key = build_render_cache_key(
@@ -669,6 +686,59 @@ async def feed_tiktok(request: Request):
             f"&product_image_primary={quote_plus(primary)}"
             f"&design={quote_plus(design)}"
             f"&w=1080&h=1920"
+            f"&fv={quote_plus(fv)}"
+            f"&v={sig}"
+        )
+
+        set_image_link(item, render_url)
+
+    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
+    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+
+@app.get("/feed_kaya.xml", response_class=PlainTextResponse)
+async def feed_kaya(request: Request):
+    base_url = get_base_url(request)
+    fv = (request.query_params.get("v") or "").strip()
+
+    async with httpx.AsyncClient(timeout=90) as client:
+        r = await client.get(FEED_URL_KAYA)
+        r.raise_for_status()
+
+    root = ET.fromstring(r.text)
+    channel = root.find("channel")
+    if channel is None:
+        return PlainTextResponse(r.text, media_type="application/xml")
+
+    items = channel.findall("item")
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    for item in items:
+        title = extract_title(item, ns)
+
+        price = format_currency_tr(
+            item.findtext("g:price", default="", namespaces=ns)
+            or item.findtext("price")
+            or ""
+        )
+
+        sale = price
+
+        primary, s1 = choose_images_any(item)
+
+        design = "kaya_meta_v1"
+
+        sig = build_sig(design, title, price, primary, fv)
+
+        render_url = (
+            f"{base_url}/render.png"
+            f"?title={quote_plus(title)}"
+            f"&price={quote_plus(price)}"
+            f"&sale_price={quote_plus(sale)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&product_image_secondary_1={quote_plus(s1)}"
+            f"&design={quote_plus(design)}"
+            f"&w=1080&h=1080"
             f"&fv={quote_plus(fv)}"
             f"&v={sig}"
         )
