@@ -694,9 +694,17 @@ async def feed_tiktok(request: Request):
 async def feed_kaya(request: Request):
     base_url = get_base_url(request)
     fv = (request.query_params.get("v") or "").strip()
-
+    
     async with httpx.AsyncClient(timeout=90) as client:
-        r = await client.get(FEED_URL_KAYA)
+        r = await client.get(
+            FEED_URL_KAYA,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+                "Accept": "application/xml,text/xml,*/*",
+                "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+                "Referer": "https://www.kayakirtasiye.com.tr/",
+            },
+        )
         r.raise_for_status()
 
     root = ET.fromstring(r.text)
