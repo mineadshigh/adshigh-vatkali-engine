@@ -442,15 +442,7 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_timeout(500)
-
-                imgs_ok = await page.locator(".product-image").evaluate_all(
-
-                    """imgs => imgs.every(img => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0)"""
-                )
-                
-                if not imgs_ok:
-                    raise Exception("PRODUCT_IMAGES_NOT_LOADED")
+                await page.wait_for_timeout(1500)
                     
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
@@ -487,6 +479,7 @@ async def render_endpoint(
     design: str = Query("meta_v1"),
     w: int = Query(1080),
     h: int = Query(1080),
+    fv: str = Query(""),
 ):
     price = format_tl(price)
     sale_price = format_tl(sale_price)
@@ -520,9 +513,10 @@ async def render_endpoint(
         product_image_primary=product_image_primary,
         product_image_secondary_1=secondary_for_cache,
         logo_url=logo_url,
-        design=design,
+        design=f"{design}_{fv}",
         w=w,
         h=h,
+
     )
     cache_file = get_cache_file_path(cache_key)
 
