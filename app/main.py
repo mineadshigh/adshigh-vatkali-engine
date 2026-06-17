@@ -442,7 +442,7 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
                 await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_timeout(1500)
+                await page.wait_for_timeout(500)
                     
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
