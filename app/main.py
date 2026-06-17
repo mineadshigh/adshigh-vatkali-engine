@@ -493,15 +493,16 @@ async def render_endpoint(
 
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
-
-
-    if not logo_url:
+        
         base_url = get_base_url(request)
         
-        if design == "kaya_meta_v1":
-            logo_url = f"{base_url}/static/kayakirtasiyelogo.png"
-        else:
-            logo_url = f"{base_url}/static/vatkalilogo.svg"
+        if not logo_url:
+            if design == "kaya_meta_v1":
+                logo_url = f"{base_url}/static/kayakirtasiyelogo.png"
+            else:
+                logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
+                
+        background_url = f"{base_url}/static/background_summer26.png"
 
     
     secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
@@ -528,15 +529,17 @@ async def render_endpoint(
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
         if design == "meta_v1":
-            product_image_primary_data, product_image_secondary_1_data, logo_data = await asyncio.gather(
+            product_image_primary_data, product_image_secondary_1_data, logo_data, background_data = await asyncio.gather(
                 to_data_uri(product_image_primary, client),
                 to_data_uri(product_image_secondary_1, client),
                 to_data_uri(logo_url, client),
+                to_data_uri(background_url, client),
             )
         else:
-            product_image_primary_data, logo_data = await asyncio.gather(
+            product_image_primary_data, logo_data, background_data = await asyncio.gather(
                 to_data_uri(product_image_primary, client),
                 to_data_uri(logo_url, client),
+                to_data_uri(background_url, client),
             )
             product_image_secondary_1_data = ""
 
@@ -544,6 +547,7 @@ async def render_endpoint(
     html = html.replace("{{product_image_primary}}", product_image_primary_data)
     html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1_data)
     html = html.replace("{{logo_url}}", logo_data)
+    html = html.replace("{{background_url}}", background_data)
     html = html.replace("{{title}}", title)
     html = html.replace("{{price}}", price)
     html = html.replace("{{sale_price}}", sale_price)
