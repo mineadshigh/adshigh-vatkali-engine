@@ -76,7 +76,7 @@ body {
   position: absolute;
 
   left: 750px;
-  top: 500px;
+  top: 485px;
 
   width: 300px;
 
@@ -96,14 +96,16 @@ body {
   left: 750px;
   top: 610px;
 
-  width: 320px;
+  width: 300px;
 
   color: #ffffff;
 
   font-family: "Bebas Neue", sans-serif;
-  font-size: 28px;
+  font-size: 34px;
   line-height: 1;
 
+  text-align: justify;
+  text-align-last: justify;
   white-space: nowrap;
 
   z-index: 10;
@@ -113,19 +115,20 @@ body {
   position: absolute;
 
   left: 688px;
-  top: 655px;
+  top: 657px;
 
   width: 392px;
 
-  padding: 12px 16px;
+  padding: 10px 14px;
 
   background: #000000;
 
   color: #ffffff;
 
   font-family: "Outfit", sans-serif;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 1.2;
+  font-weight: 400;
 
   text-align: center;
 
