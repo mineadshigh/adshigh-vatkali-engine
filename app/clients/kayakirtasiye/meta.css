@@ -7,7 +7,7 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #ffffff;
+  background: #ef3127;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -19,25 +19,26 @@ body {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #ffffff;
+  background: #ef3127;
   overflow: hidden;
 }
 
 .inner-border {
   position: absolute;
-  left: 28px;
-  top: 20px;
-  width: 1024px;
-  height: 1040px;
-  border: 4px solid #ef3127;
+  left: 24px;
+  top: 24px;
+  width: 1032px;
+  height: 1032px;
+  background: #ffffff;
+  border: none;
   pointer-events: none;
 }
 
 .logo-area {
   position: absolute;
-  left: 365px;
-  top: 40px;
-  width: 350px;
+  left: 400px;
+  top: 50px;
+  width: 280px;
   height: 95px;
   display: flex;
   align-items: center;
@@ -53,10 +54,10 @@ body {
 
 .product-area {
   position: absolute;
-  left: 315px;
-  top: 175px;
-  width: 450px;
-  height: 610px;
+  left: 310px;
+  top: 185px;
+  width: 460px;
+  height: 455px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,28 +74,31 @@ body {
 
 .bottom-area {
   position: absolute;
-  left: 70px;
-  top: 815px;
-  width: 940px;
-  height: 185px;
+  left: 120px;
+  top: 675px;
+  width: 840px;
+  height: 330px;
+  text-align: center;
 }
 
 .title-area {
   position: absolute;
-  left: 0;
-  top: 45px;
-  width: 610px;
-  height: 95px;
+  left: 40px;
+  top: 0;
+  width: 760px;
+  height: 105px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .product-title {
-  font-size: 36px;
-  line-height: 1.12;
-  font-weight: 800;
+  font-size: 30px;
+  line-height: 1.18;
+  font-weight: 500;
   color: #000000;
-  letter-spacing: -0.7px;
+  letter-spacing: -0.3px;
+  text-align: center;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -104,19 +108,19 @@ body {
 
 .divider {
   position: absolute;
-  left: 635px;
-  top: 10px;
-  width: 4px;
-  height: 160px;
-  background: #000000;
+  left: 0;
+  top: 130px;
+  width: 840px;
+  height: 4px;
+  background: #ef3127;
 }
 
 .promo-area {
   position: absolute;
-  left: 675px;
-  top: 5px;
-  width: 270px;
-  height: 170px;
+  left: 190px;
+  top: 170px;
+  width: 460px;
+  height: 145px;
   text-align: center;
 }
 
@@ -125,7 +129,7 @@ body {
   line-height: 1;
   font-weight: 800;
   color: #000000;
-  margin-top: 10px;
+  margin-top: 0;
   white-space: nowrap;
 }
 
@@ -142,11 +146,11 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
-  width: 270px;
-  height: 70px;
+  margin-top: 12px;
+  width: 285px;
+  height: 78px;
   background: #ef3127;
-  border-radius: 14px;
+  border-radius: 15px;
   color: #ffffff;
   font-size: 32px;
   line-height: 1;
