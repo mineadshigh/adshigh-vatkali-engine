@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 html,
 body {
@@ -7,7 +7,6 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
-  background: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,135 +19,108 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
-  background: #ffffff;
+  background: #000000;
 }
 
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 1080px;
+  height: 1920px;
+  object-fit: cover;
+  z-index: 1;
 }
 
-/* ÜST BEYAZ ALAN */
 .top-area {
   position: absolute;
   left: 0;
   top: 0;
   width: 1080px;
-  height: 300px;
-  background: #ffffff;
-  z-index: 20;
+  height: 309px;
+  z-index: 10;
 }
 
-/* LOGO */
 .logo {
   position: absolute;
-  left: 340px;
-  top: 35px;
-  width: 400px;
-  height: 50px;
+  left: 95px;
+  top: 118px;
+  width: 309px;
+  height: auto;
   object-fit: contain;
-  object-position: center;
-  z-index: 30;
+  z-index: 12;
 }
 
-/* 20 */
-.discount-block {
-  position: absolute;
-  left: 43px;
-  top: 147px;
-  width: 180px;
-  height: 115px;
-  color: #000000;
-}
-
-.number {
-  position: absolute;
-  left: 0;
-  top: -22px;
-  font-size: 160px;
-  line-height: 0.85;
-  font-weight: 400;
-  letter-spacing: -8px;
-}
-
-.percent {
-  position: absolute;
-  left: 116px;
-  top: 24px;
-  font-size: 50px;
-  line-height: 1;
-  font-weight: 600;
-  color: #000000;
-}
-
-/* 2 ve üzeri ürüne */
-.condition-text {
-  position: absolute;
-  left: 242px;
-  top: 138px;
-  width: 285px;
-  font-size: 42px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  color: #000000;
-  white-space: nowrap;
-}
-
-/* İNDİRİM */
-.discount-word {
-  position: absolute;
-  left: 243px;
-  top: 185px;
-  width: 287px;
-  font-size: 77px;
-  line-height: 0.95;
-  font-weight: 700;
-  letter-spacing: -2px;
-  color: #000000;
-  white-space: nowrap;
-}
-
-/* AYRAÇ */
 .divider {
   position: absolute;
-  left: 587px;
-  top: 147px;
-  width: 4px;
-  height: 114px;
-  background: #000000;
+  left: 520px;
+  top: 81px;
+  width: 3px;
+  height: 81px;
+  background: #ffffff;
+  z-index: 12;
 }
 
-/* SAĞ METİN */
-.extra-offer {
+.offer-block {
   position: absolute;
-  left: 631px;
-  top: 163px;
+  left: 569px;
+  top: 57px;
   width: 430px;
-  font-size: 36.8px;
-  line-height: 1.2;
+  color: #ffffff;
+  z-index: 12;
+}
+
+.discount-line {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 55px;
+  line-height: 1;
   font-weight: 400;
   letter-spacing: -0.5px;
-  color: #000000;
   white-space: nowrap;
-  text-align: center;
 }
 
-.extra-offer strong {
-  font-weight: 700;
+.campaign-text {
+  margin-top: 4px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
 }
 
-/* GÖRSEL */
-.image-wrap {
+.legal-note {
   position: absolute;
   left: 0;
-  top: 300px;
+  top: 211px;
   width: 1080px;
-  height: 1620px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #000000;
+  color: #ffffff;
+
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+
+  white-space: nowrap;
+  z-index: 15;
+}
+
+.product-frame {
+  position: absolute;
+  left: 1px;
+  top: 309px;
+  width: 1079px;
+  height: 1618px;
   overflow: hidden;
-  background: #ffffff;
-  z-index: 1;
+  background: transparent;
+  z-index: 5;
 }
 
 .product-image {
@@ -156,6 +128,7 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  display: block;
 }
 
 .hidden {
