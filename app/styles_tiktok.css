@@ -7,6 +7,7 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
+  background: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -19,35 +20,29 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
-  background: #000000;
+  background: #ffffff;
 }
 
 .bg {
   position: absolute;
-  inset: 0;
-  width: 1080px;
-  height: 1920px;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.top-area {
-  position: absolute;
   left: 0;
   top: 0;
   width: 1080px;
-  height: 309px;
-  z-index: 10;
+  height: 247px;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
 }
 
 .logo {
   position: absolute;
-  left: 95px;
+  left: 59px;
   top: 118px;
-  width: 309px;
-  height: auto;
+  width: 406px;
+  height: 51px;
   object-fit: contain;
-  z-index: 12;
+  object-position: left center;
+  z-index: 10;
 }
 
 .divider {
@@ -55,45 +50,47 @@ body {
   left: 520px;
   top: 81px;
   width: 3px;
-  height: 81px;
+  height: 126px;
   background: #ffffff;
-  z-index: 12;
+  z-index: 10;
 }
 
-.offer-block {
+.discount-main {
+  position: absolute;
+  left: 572px;
+  top: 57px;
+  width: 427px;
+  color: #ffffff;
+  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
+  font-size: 124px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -1px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.campaign-text {
   position: absolute;
   left: 569px;
-  top: 57px;
+  top: 169px;
   width: 430px;
   color: #ffffff;
-  z-index: 12;
-}
-
-.discount-line {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
   font-size: 55px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.5px;
   white-space: nowrap;
-}
-
-.campaign-text {
-  margin-top: 4px;
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.2px;
-  white-space: nowrap;
+  z-index: 10;
 }
 
 .legal-note {
   position: absolute;
   left: 0;
-  top: 211px;
+  top: 247px;
   width: 1080px;
-  height: 48px;
+  height: 62px;
 
   display: flex;
   align-items: center;
@@ -103,12 +100,12 @@ body {
   color: #ffffff;
 
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 18px;
+  font-size: 31px;
   line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.1px;
-
+  font-weight: 300;
+  letter-spacing: -0.3px;
   white-space: nowrap;
+
   z-index: 15;
 }
 
@@ -117,9 +114,9 @@ body {
   left: 1px;
   top: 309px;
   width: 1079px;
-  height: 1618px;
+  height: 1611px;
   overflow: hidden;
-  background: transparent;
+  background: #ffffff;
   z-index: 5;
 }
 
