@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 html,
 body {
@@ -7,7 +7,7 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #ffffff;
+  background: #000000;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,144 +20,107 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #ffffff;
-}
-
-img {
-  display: block;
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-/* SOL PANEL */
-.left-panel {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 360px;
-  height: 1080px;
-  background: #ffffff;
-  z-index: 10;
-}
-
-/* LOGO */
-.logo {
-  position: absolute;
-  left: 50%;
-  top: 115px;
-  width: 318px;
-  height: 40px;
-  transform: translateX(-50%);
-  object-fit: contain;
-  object-position: center;
-  z-index: 20;
-}
-
-/* 2 VE ÜZERİ */
-.condition-text {
-  position: absolute;
-  left: 41px;
-  top: 362px;
-  width: 278px;
-  font-size: 41px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  color: #000000;
-  white-space: nowrap;
-}
-
-/* 20 + % */
-.discount-area {
-  position: absolute;
-  left: 39px;
-  top: 413px;
-  width: 281px;
-  height: 180px;
-}
-
-.discount-number {
-  position: absolute;
-  left: 0;
-  top: -21px;
-  font-size: 251px;
-  line-height: 0.82;
-  font-weight: 400;
-  letter-spacing: -13px;
-  color: #000000;
-}
-
-.discount-percent {
-  position: absolute;
-  left: 181px;
-  top: 55px;
-
-  font-size: 80px;
-  line-height: 1;
-  font-weight: 400;
-  color: #000000;
-}
-
-/* İNDİRİM */
-.discount-word {
-  position: absolute;
-  left: 38px;
-  top: 603px;
-  width: 283px;
-  font-size: 75px;
-  line-height: 0.95;
-  font-weight: 700;
-  letter-spacing: -2px;
-  color: #000000;
-  white-space: nowrap;
-}
-
-/* ÇİZGİ */
-.divider-line {
-  position: absolute;
-  left: 90px;
-  top: 719px;
-  width: 179px;
-  height: 3px;
   background: #000000;
 }
 
-/* ALT METİN */
-.extra-offer {
+.bg {
   position: absolute;
-  left: 18px;
-  top: 769px;
-  width: 325px;
-  font-size: 29.5px;
-  line-height: 1.12;
-  font-weight: 400;
-  letter-spacing: -0.6px;
-  color: #000000;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.extra-offer strong {
-  font-weight: 700;
-}
-
-/* GÖRSEL */
-.image-wrap {
-  position: absolute;
-  left: 360px;
+  left: 0;
   top: 0;
-  width: 720px;
+  width: 1080px;
   height: 1080px;
-  overflow: hidden;
-  background: #ffffff;
+  object-fit: cover;
   z-index: 1;
+}
+
+.product-frame {
+  position: absolute;
+  left: 58px;
+  top: 68px;
+  width: 630px;
+  height: 945px;
+  border: 8px solid #000000;
+  background: #ffffff;
+  overflow: hidden;
+  z-index: 5;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.discount-main {
+  position: absolute;
+  left: 749px;
+  top: 371px;
+  width: 270px;
+  color: #ffffff;
+  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
+  font-size: 134px;
+  line-height: 0.9;
+  font-weight: 400;
+  letter-spacing: -2px;
+  z-index: 10;
+}
+
+.discount-word {
+  position: absolute;
+  left: 754px;
+  top: 477px;
+  width: 276px;
+  color: #ffffff;
+  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
+  font-size: 134px;
+  line-height: 0.82;
+  font-weight: 400;
+  letter-spacing: -1px;
+  z-index: 10;
+}
+
+.campaign-text {
+  position: absolute;
+  left: 754px;
+  top: 597px;
+  width: 275px;
+  color: #ffffff;
+  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
+  font-size: 35px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  z-index: 10;
+}
+
+.legal-note {
+  position: absolute;
+  left: 735px;
+  top: 658px;
+  width: 325px;
+  min-height: 52px;
+  padding: 8px 10px;
+  background: #000000;
+  color: #ffffff;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.15;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: -0.2px;
+  z-index: 12;
+}
+
+.logo {
+  position: absolute;
+  left: 749px;
+  top: 852px;
+  width: 270px;
+  height: 34px;
+  object-fit: contain;
+  object-position: center;
+  z-index: 10;
 }
 
 .hidden {
