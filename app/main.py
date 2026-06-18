@@ -441,8 +441,13 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
         async def _do() -> bytes:
             page = await _browser.new_page(viewport={"width": width, "height": height})
             try:
-                await page.set_content(html, wait_until="domcontentloaded")
-                await page.wait_for_timeout(500)
+                await page.set_content(html, wait_until="networkidle", timeout=15000)
+                try:
+                    await page.evaluate("""() => document.fonts.ready""")
+                except Exception:
+                    pass
+            
+                await page.wait_for_timeout(300)
                     
                 frame = page.locator(".frame")
                 await frame.wait_for(state="visible", timeout=5000)
