@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 
 html,
 body {
@@ -23,100 +23,31 @@ body {
   background: #ffffff;
 }
 
-.bg {
+.headline {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 150px;
   width: 1080px;
-  height: 247px;
-  object-fit: cover;
-  object-position: center top;
-  z-index: 1;
-}
 
-.logo {
-  position: absolute;
-  left: 59px;
-  top: 118px;
-  width: 406px;
-  height: 51px;
-  object-fit: contain;
-  object-position: left center;
-  z-index: 10;
-}
-
-.divider {
-  position: absolute;
-  left: 520px;
-  top: 81px;
-  width: 3px;
-  height: 126px;
-  background: #ffffff;
-  z-index: 10;
-}
-
-.discount-main {
-  position: absolute;
-  left: 572px;
-  top: 57px;
-  width: 427px;
-  color: #ffffff;
-  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
-  font-size: 108px;
+  font-size: 47px;
   line-height: 1;
-  font-weight: 400;
-  letter-spacing: -1px;
-  white-space: nowrap;
-  z-index: 10;
-}
-
-.campaign-text {
-  position: absolute;
-  left: 569px;
-  top: 169px;
-  width: 430px;
-  color: #ffffff;
-  font-family: "Bebas Neue", "Outfit", Arial, sans-serif;
-  font-size: 49px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
-  z-index: 10;
-}
-
-.legal-note {
-  position: absolute;
-  left: 0;
-  top: 247px;
-  width: 1080px;
-  height: 62px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #000000;
-  color: #ffffff;
-
-  font-family: "Outfit", Arial, sans-serif;
-  font-size: 24px;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: -0.3px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  text-align: center;
   white-space: nowrap;
 
-  z-index: 15;
+  color: #000000;
+  z-index: 10;
 }
 
-.product-frame {
+.product-area {
   position: absolute;
-  left: 1px;
-  top: 309px;
-  width: 1079px;
-  height: 1611px;
+  left: 160px;
+  top: 305px;
+  width: 760px;
+  height: 1070px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f5f5f5;
   z-index: 5;
 }
 
@@ -124,8 +55,89 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
   display: block;
+}
+
+.product-info {
+  position: absolute;
+  left: 160px;
+  top: 1415px;
+  width: 760px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+
+  z-index: 10;
+}
+
+.product-title {
+  width: 420px;
+
+  font-size: 34px;
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: #000000;
+
+  text-transform: uppercase;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price-block {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  padding-top: 2px;
+}
+
+.old-price {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 500;
+  color: #000000;
+  text-decoration: line-through;
+}
+
+.new-price {
+  font-size: 37px;
+  line-height: 1;
+  font-weight: 800;
+  color: #c91818;
+}
+
+.single-price {
+  font-size: 37px;
+  line-height: 1;
+  font-weight: 800;
+  color: #c91818;
+}
+
+.discount-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 270px;
+  transform: translateX(-50%);
+
+  padding: 12px 17px;
+  background: #000000;
+  color: #ffffff;
+
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  white-space: nowrap;
+
+  z-index: 10;
 }
 
 .hidden {
