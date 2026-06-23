@@ -51,11 +51,19 @@ body {
 }
 
 .headline {
+  position: absolute;
+  left: 528px;
+  top: 240px;
+  width: 300px;
+
   font-size: 43px;
   line-height: 1;
   font-weight: 800;
   letter-spacing: -1.5px;
   white-space: nowrap;
+
+  color: #000;
+  z-index: 10;
 }
 
 .product-info {
