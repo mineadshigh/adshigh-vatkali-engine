@@ -51,23 +51,18 @@ body {
 }
 
 .headline {
-  position: absolute;
-  left: 38px;
-  top: 135px;
-  width: 300px;
-
-  font-size: 48px;
-  line-height: 1.05;
+  font-size: 43px;
+  line-height: 1;
   font-weight: 800;
-  letter-spacing: -1px;
-  color: #000;
+  letter-spacing: -1.5px;
+  white-space: nowrap;
 }
 
 .product-info {
   position: absolute;
   left: 38px;
   top: 470px;
-  width: 285px;
+  width: 300px;
 
   display: flex;
   flex-direction: column;
@@ -75,12 +70,12 @@ body {
 }
 
 .product-title {
-  width: 285px;
+  width: 300px;
 
-  font-size: 27px;
-  line-height: 1.15;
-  font-weight: 700;
-  letter-spacing: -0.3px;
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.9px;
   color: #000;
 
   text-transform: uppercase;
