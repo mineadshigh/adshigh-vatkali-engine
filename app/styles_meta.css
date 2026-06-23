@@ -7,6 +7,7 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
+  background: #c91818;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -19,88 +20,67 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
+  background: #c91818;
 }
 
-.bg {
+.product-area {
   position: absolute;
-  inset: 0;
-  width: 1080px;
+  left: 0;
+  top: 0;
+  width: 720px;
   height: 1080px;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.product-frame {
-  position: absolute;
-  left: 58px;
-  top: 68px;
-
-  width: 630px;
-  height: 945px;
-
-  border: 8px solid #000;
   overflow: hidden;
-
-  z-index: 5;
+  background: #f5f5f5;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   display: block;
 }
 
-/* SAĞ ALAN */
-
 .right-panel {
   position: absolute;
-  left: 735px;
-  top: 80px;
-  width: 300px;
-  height: 920px;
-  z-index: 10;
+  right: 0;
+  top: 0;
+  width: 360px;
+  height: 1080px;
+  background: #ffffff;
 }
-
-/* SUMMER SALE SABİT */
 
 .headline {
   position: absolute;
-  top: 0;
-  left: 0;
+  left: 38px;
+  top: 135px;
   width: 300px;
 
-  font-family: "Outfit", sans-serif;
+  font-size: 48px;
+  line-height: 1.05;
   font-weight: 800;
-  font-size: 54px;
-  line-height: 1;
-
+  letter-spacing: -1px;
   color: #000;
 }
 
-/* ÜRÜN ADI + FİYAT BLOĞU */
-
 .product-info {
   position: absolute;
-  top: 285px;
-  left: 0;
-
-  width: 300px;
+  left: 38px;
+  top: 470px;
+  width: 285px;
 
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 28px;
 }
 
 .product-title {
-  width: 300px;
+  width: 285px;
 
-  font-family: "Outfit", sans-serif;
-  font-weight: 700;
-  font-size: 30px;
+  font-size: 27px;
   line-height: 1.15;
-
+  font-weight: 700;
+  letter-spacing: -0.3px;
   color: #000;
 
   text-transform: uppercase;
@@ -108,65 +88,52 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
 }
 
 .price-block {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .old-price {
-  font-family: "Outfit", sans-serif;
-  font-weight: 500;
   font-size: 28px;
   line-height: 1;
-
+  font-weight: 500;
   color: #000;
   text-decoration: line-through;
 }
 
 .new-price {
-  font-family: "Outfit", sans-serif;
-  font-weight: 700;
-  font-size: 34px;
+  font-size: 32px;
   line-height: 1;
-
-  color: #d11d1d;
+  font-weight: 800;
+  color: #c91818;
 }
 
 .single-price {
-  font-family: "Outfit", sans-serif;
-  font-weight: 700;
-  font-size: 34px;
+  font-size: 32px;
   line-height: 1;
-
-  color: #000;
+  font-weight: 800;
+  color: #c91818;
 }
-
-/* NET %20 İNDİRİM SABİT */
 
 .discount-badge {
   position: absolute;
+  left: 38px;
+  bottom: 170px;
 
-  left: 0;
-  bottom: 110px;
-
+  padding: 10px 14px;
   background: #000;
-
   color: #fff;
 
-  padding: 10px 18px;
-
-  font-family: "Outfit", sans-serif;
-  font-weight: 800;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
 }
-
-/* GİZLEME */
 
 .hidden {
   display: none !important;
