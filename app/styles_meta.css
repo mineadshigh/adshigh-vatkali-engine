@@ -7,7 +7,7 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #c91818;
+  background: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,17 +20,17 @@ body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #c91818;
+  background: #ffffff;
 }
 
-.product-area {
+.product-frame {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 720px;
-  height: 1080px;
+  left: 44px;
+  top: 80px;
+  width: 600px;
+  height: 900px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #f6f6f6;
 }
 
 .product-image {
@@ -41,101 +41,111 @@ body {
   display: block;
 }
 
-.right-panel {
+.sale-box {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 360px;
-  height: 1080px;
-  background: #ffffff;
-}
+  left: 683px;
+  top: 248px;
+  width: 332px;
+  height: 124px;
 
-.headline {
-  position: absolute;
-  left: 38px;
-  top: 118px;
-  width: 300px;
+  background: #d80000;
+  color: #ffffff;
 
-  font-size: 43px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  white-space: nowrap;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 110px;
+  line-height: 124px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-align: center;
 
-  color: #000;
   z-index: 10;
 }
 
-.product-info {
+.discount {
   position: absolute;
-  left: 38px;
-  top: 470px;
-  width: 300px;
+  left: 760px;
+  width: 181px;
 
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  color: #000000;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 109px;
+  line-height: 0.9;
+  font-weight: 400;
+  letter-spacing: -4px;
+  text-align: center;
+
+  z-index: 10;
 }
 
-.product-title {
-  width: 300px;
-
-  font-size: 26px;
-  line-height: 1.12;
-  font-weight: 600;
-  letter-spacing: -0.9px;
-  color: #000;
-
-  text-transform: uppercase;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.discount-20 {
+  top: 414px;
 }
 
-.price-block {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.discount-30 {
+  top: 555px;
 }
 
-.old-price {
-  font-size: 28px;
+.discount-sub {
+  position: absolute;
+  left: 763px;
+  width: 176px;
+
+  color: #000000;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  text-align: center;
+  white-space: nowrap;
+
+  z-index: 10;
+}
+
+.sub-20 {
+  top: 498px;
+}
+
+.sub-30 {
+  top: 640px;
+}
+
+.divider {
+  position: absolute;
+  left: 755px;
+  top: 681px;
+  width: 189px;
+  height: 2px;
+  background: #000000;
+  opacity: 0.9;
+  z-index: 10;
+}
+
+.discount-word {
+  position: absolute;
+  left: 749px;
+  top: 702px;
+  width: 203px;
+
+  color: #000000;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 61px;
   line-height: 1;
   font-weight: 500;
-  color: #000;
-  text-decoration: line-through;
+  letter-spacing: -2px;
+  text-align: center;
+
+  z-index: 10;
 }
 
-.new-price {
-  font-size: 32px;
-  line-height: 1;
-  font-weight: 800;
-  color: #c91818;
-}
-
-.single-price {
-  font-size: 32px;
-  line-height: 1;
-  font-weight: 800;
-  color: #c91818;
-}
-
-.discount-badge {
+.logo {
   position: absolute;
-  left: 38px;
-  bottom: 170px;
-
-  padding: 10px 14px;
-  background: #000;
-  color: #fff;
-
-  font-size: 30px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
+  left: 727px;
+  top: 890px;
+  width: 243px;
+  height: auto;
+  object-fit: contain;
+  z-index: 10;
 }
 
 .hidden {
