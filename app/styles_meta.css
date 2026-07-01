@@ -44,7 +44,7 @@ body {
 .sale-box {
   position: absolute;
   left: 683px;
-  top: 248px;
+  top: 225px;
   width: 332px;
   height: 124px;
 
@@ -68,8 +68,8 @@ body {
 
   color: #000000;
   font-family: "Outfit", Arial, sans-serif;
-  font-size: 109px;
-  line-height: 0.9;
+  font-size: 105px;
+  line-height: 0.82;
   font-weight: 400;
   letter-spacing: -4px;
   text-align: center;
@@ -78,11 +78,11 @@ body {
 }
 
 .discount-20 {
-  top: 414px;
+  top: 385px;
 }
 
 .discount-30 {
-  top: 555px;
+  top: 530px;
 }
 
 .discount-sub {
@@ -93,7 +93,7 @@ body {
   color: #000000;
   font-family: "Outfit", Arial, sans-serif;
   font-size: 24px;
-  line-height: 1;
+  line-height: 1.1;
   font-weight: 400;
   letter-spacing: -0.5px;
   text-align: center;
@@ -103,17 +103,17 @@ body {
 }
 
 .sub-20 {
-  top: 498px;
+  top: 500px;
 }
 
 .sub-30 {
-  top: 640px;
+  top: 645px;
 }
 
 .divider {
   position: absolute;
   left: 755px;
-  top: 681px;
+  top: 688px;
   width: 189px;
   height: 2px;
   background: #000000;
@@ -124,7 +124,7 @@ body {
 .discount-word {
   position: absolute;
   left: 749px;
-  top: 702px;
+  top: 712px;
   width: 203px;
 
   color: #000000;
