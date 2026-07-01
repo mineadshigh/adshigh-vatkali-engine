@@ -505,7 +505,7 @@ async def render_endpoint(
             if design == "kaya_meta_v1":
                 logo_url = f"{base_url}/static/kayakirtasiyelogo.png"
             else:
-                logo_url = f"{base_url}/static/vatkalilogo-beyaz.png"
+                logo_url = f"{base_url}/static/vatkalilogo.svg"
                 
         background_url = f"{base_url}/static/background_summer26.png"
 
