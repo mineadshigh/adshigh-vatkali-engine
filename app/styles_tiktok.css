@@ -26,10 +26,10 @@ body {
 /* Ürün görseli */
 .product-frame {
   position: absolute;
-  left: 78px;
-  top: 150px;
-  width: 930px;
-  height: 1260px;
+  left: 86px;
+  top: 84px;
+  width: 908px;
+  height: 1362px;
   overflow: hidden;
   background: #f5f5f5;
 }
@@ -45,24 +45,24 @@ body {
 /* SALE */
 .sale-box {
   position: absolute;
-  left: 105px;
-  top: 1470px;
-  width: 335px;
-  height: 125px;
+  left: 86px;
+  top: 1486px;
+  width: 297px;
+  height: 93px;
 
   background: #d80000;
   color: #ffffff;
 
-  font-size: 88px;
-  line-height: 125px;
+  font-size: 84px;
+  line-height: 93px;
   font-weight: 400;
-  text-align: center;
   letter-spacing: 1px;
+  text-align: center;
 
   z-index: 10;
 }
 
-/* İndirimler */
+/* İndirim yüzdeleri */
 .discount {
   position: absolute;
 
@@ -77,15 +77,15 @@ body {
 }
 
 .discount-20 {
-  left: 515px;
-  top: 1475px;
+  left: 400px;
+  top: 1474px;
   width: 205px;
 }
 
 .discount-30 {
-  left: 785px;
-  top: 1475px;
-  width: 205px;
+  left: 786px;
+  top: 1474px;
+  width: 203px;
 }
 
 /* Alt yazılar */
@@ -104,7 +104,7 @@ body {
 }
 
 .sub-20 {
-  left: 519px;
+  left: 400px;
   top: 1571px;
   width: 205px;
 }
@@ -112,10 +112,10 @@ body {
 .sub-30 {
   left: 787px;
   top: 1571px;
-  width: 205px;
+  width: 203px;
 }
 
-/* Ayırıcı çizgi */
+/* Dikey çizgi */
 .divider {
   position: absolute;
   left: 758px;
@@ -129,7 +129,7 @@ body {
   z-index: 10;
 }
 
-/* TikTok'ta İNDİRİM yazısı yok */
+/* TikTok tasarımında kullanılmıyor */
 .discount-word {
   display: none;
 }
