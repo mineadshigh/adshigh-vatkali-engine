@@ -23,32 +23,15 @@ body {
   background: #ffffff;
 }
 
-.headline {
+/* Ürün görseli */
+.product-frame {
   position: absolute;
-  left: 0;
+  left: 78px;
   top: 150px;
-  width: 1080px;
-
-  font-size: 47px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  text-align: center;
-  white-space: nowrap;
-
-  color: #000000;
-  z-index: 10;
-}
-
-.product-area {
-  position: absolute;
-  left: 160px;
-  top: 305px;
-  width: 760px;
-  height: 1070px;
+  width: 930px;
+  height: 1260px;
   overflow: hidden;
   background: #f5f5f5;
-  z-index: 5;
 }
 
 .product-image {
@@ -59,83 +42,106 @@ body {
   display: block;
 }
 
-.product-info {
+/* SALE */
+.sale-box {
   position: absolute;
-  left: 160px;
-  top: 1415px;
-  width: 760px;
+  left: 105px;
+  top: 1470px;
+  width: 335px;
+  height: 125px;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
+  background: #d80000;
+  color: #ffffff;
+
+  font-size: 88px;
+  line-height: 125px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 1px;
 
   z-index: 10;
 }
 
-.product-title {
-  width: 420px;
-
-  font-size: 34px;
-  line-height: 1.12;
-  font-weight: 600;
-  letter-spacing: -1px;
-  color: #000000;
-
-  text-transform: uppercase;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.price-block {
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 7px;
-  padding-top: 2px;
-}
-
-.old-price {
-  font-size: 34px;
-  line-height: 1;
-  font-weight: 500;
-  color: #000000;
-  text-decoration: line-through;
-}
-
-.new-price {
-  font-size: 37px;
-  line-height: 1;
-  font-weight: 800;
-  color: #c91818;
-}
-
-.single-price {
-  font-size: 37px;
-  line-height: 1;
-  font-weight: 800;
-  color: #c91818;
-}
-
-.discount-badge {
+/* İndirimler */
+.discount {
   position: absolute;
-  left: 50%;
-  bottom: 270px;
-  transform: translateX(-50%);
 
-  padding: 12px 17px;
-  background: #000000;
-  color: #ffffff;
+  color: #000;
+  font-size: 126px;
+  line-height: 0.82;
+  font-weight: 400;
+  letter-spacing: -4px;
+  text-align: center;
 
-  font-size: 40px;
+  z-index: 10;
+}
+
+.discount-20 {
+  left: 515px;
+  top: 1475px;
+  width: 205px;
+}
+
+.discount-30 {
+  left: 785px;
+  top: 1475px;
+  width: 205px;
+}
+
+/* Alt yazılar */
+.discount-sub {
+  position: absolute;
+
+  color: #000;
+  font-size: 28px;
   line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.7px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  text-align: center;
   white-space: nowrap;
+
+  z-index: 10;
+}
+
+.sub-20 {
+  left: 519px;
+  top: 1571px;
+  width: 205px;
+}
+
+.sub-30 {
+  left: 787px;
+  top: 1571px;
+  width: 205px;
+}
+
+/* Ayırıcı çizgi */
+.divider {
+  position: absolute;
+  left: 758px;
+  top: 1474px;
+  width: 2px;
+  height: 118px;
+
+  background: #000;
+  opacity: 0.9;
+
+  z-index: 10;
+}
+
+/* TikTok'ta İNDİRİM yazısı yok */
+.discount-word {
+  display: none;
+}
+
+/* Logo */
+.logo {
+  position: absolute;
+  left: 400px;
+  top: 1735px;
+  width: 281px;
+  height: auto;
+  object-fit: contain;
 
   z-index: 10;
 }
