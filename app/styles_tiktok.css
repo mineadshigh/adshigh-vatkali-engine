@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 html,
 body {
@@ -7,7 +7,7 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f2f2f2;
   font-family: "Outfit", Arial, sans-serif;
 }
 
@@ -20,25 +20,25 @@ body {
   width: 1080px;
   height: 1920px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f2f2f2;
 }
 
 /* Ürün görseli */
 .product-frame {
   position: absolute;
-  left: 86px;
-  top: 84px;
-  width: 908px;
-  height: 1362px;
+  left: 68px;
+  top: 149px;
+  width: 944px;
+  height: 1254px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #ececec;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center top;
   display: block;
 }
 
@@ -47,43 +47,37 @@ body {
   position: absolute;
   left: 86px;
   top: 1486px;
-  width: 297px;
+  width: 334px;
   height: 93px;
+  background: #e10000;
 
-  background: #d80000;
   color: #ffffff;
-
-  font-size: 84px;
+  font-size: 78px;
   line-height: 93px;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 1px;
   text-align: center;
-
-  z-index: 10;
 }
 
-/* İndirim yüzdeleri */
+/* Yüzdeler */
 .discount {
   position: absolute;
-
   color: #000;
-  font-size: 126px;
-  line-height: 0.82;
+  font-size: 96px;
+  line-height: 0.85;
   font-weight: 400;
   letter-spacing: -4px;
   text-align: center;
-
-  z-index: 10;
 }
 
 .discount-20 {
-  left: 400px;
+  left: 470px;
   top: 1474px;
   width: 205px;
 }
 
 .discount-30 {
-  left: 786px;
+  left: 735px;
   top: 1474px;
   width: 203px;
 }
@@ -91,59 +85,45 @@ body {
 /* Alt yazılar */
 .discount-sub {
   position: absolute;
-
   color: #000;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1;
   font-weight: 400;
   letter-spacing: -0.5px;
   text-align: center;
   white-space: nowrap;
-
-  z-index: 10;
 }
 
 .sub-20 {
-  left: 400px;
+  left: 470px;
   top: 1571px;
   width: 205px;
 }
 
 .sub-30 {
-  left: 787px;
+  left: 735px;
   top: 1571px;
   width: 203px;
 }
 
-/* Dikey çizgi */
+/* Ayırıcı çizgi */
 .divider {
   position: absolute;
-  left: 758px;
+  left: 705px;
   top: 1474px;
   width: 2px;
   height: 118px;
-
   background: #000;
-  opacity: 0.9;
-
-  z-index: 10;
-}
-
-/* TikTok tasarımında kullanılmıyor */
-.discount-word {
-  display: none;
 }
 
 /* Logo */
 .logo {
   position: absolute;
-  left: 400px;
-  top: 1735px;
-  width: 281px;
+  left: 390px;
+  top: 1765px;
+  width: 300px;
   height: auto;
   object-fit: contain;
-
-  z-index: 10;
 }
 
 .hidden {
