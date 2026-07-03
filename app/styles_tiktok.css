@@ -47,13 +47,13 @@ body {
   top: 1415px;
   width: 360px;
   height: 124px;
-  background: #c90000;
+  background: #b90000;
   color: #ffffff;
 
-  font-size: 88px;
+  font-size: 104px;
   line-height: 124px;
   font-weight: 300;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-align: center;
 }
 
@@ -68,13 +68,13 @@ body {
 }
 
 .discount-20 {
-  left: 500px;
+  left: 505px;
   top: 1410px;
-  width: 190px;
+  width: 205px;
 }
 
 .discount-30 {
-  left: 775px;
+  left: 805px;
   top: 1410px;
   width: 205px;
 }
@@ -91,20 +91,20 @@ body {
 }
 
 .sub-20 {
-  left: 500px;
+  left: 505px;
   top: 1512px;
-  width: 190px;
+  width: 205px;
 }
 
 .sub-30 {
-  left: 775px;
+  left: 805px;
   top: 1512px;
   width: 205px;
 }
 
 .divider {
   position: absolute;
-  left: 728px;
+  left: 755px;
   top: 1408px;
   width: 2px;
   height: 125px;
