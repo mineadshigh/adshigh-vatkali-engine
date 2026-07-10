@@ -125,7 +125,7 @@ body {
 
   font-size: 20px;
   line-height: 20px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.45px;
 
   text-align: center;
@@ -157,7 +157,7 @@ body {
 .discount-divider {
   position: absolute;
   left: 189px;
-  top: 54px;
+  top: 48px;
   width: 2px;
   height: 44px;
 
