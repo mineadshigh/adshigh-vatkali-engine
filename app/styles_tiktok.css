@@ -23,197 +23,105 @@ body {
   background: #ffffff;
 }
 
-/* İNDİRİM */
-
-.headline {
-  position: absolute;
-  left: 366px;
-  top: 66px;
-
-  width: 348px;
-  height: 88px;
-
-  color: #000000;
-
-  font-size: 100px;
-  line-height: 88px;
-  font-weight: 700;
-  letter-spacing: -4px;
-
-  text-align: center;
-  white-space: nowrap;
-
-  z-index: 10;
-}
-
-/* ÜRÜN GÖRSELİ */
-
 .product-frame {
   position: absolute;
-  left: 144px;
-  top: 216px;
-
-  width: 793px;
-  height: 1189px;
-
+  left: 68px;
+  top: 80px;
+  width: 944px;
+  height: 1288px;
   overflow: hidden;
   background: #f6f6f6;
-
-  z-index: 5;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
   object-position: center center;
-
   display: block;
 }
 
-/* OFFER ALANI */
-
-.offers {
+.sale-box {
   position: absolute;
-  left: 294px;
-  top: 1446px;
+  left: 68px;
+  top: 1415px;
+  width: 360px;
+  height: 124px;
+  background: #b90000;
+  color: #ffffff;
 
-  width: 492px;
-  height: 134px;
-
-  z-index: 10;
+  font-size: 104px;
+  line-height: 124px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
-.offer {
+.discount {
   position: absolute;
-  top: 0;
-
-  width: 208px;
-
   color: #000000;
-  text-align: center;
-}
-
-.offer-20 {
-  left: 0;
-}
-
-.offer-30 {
-  right: 0;
-}
-
-/* Medium — bold değil */
-
-.offer-label {
-  width: 208px;
-  height: 26px;
-
-  font-size: 28px;
-  line-height: 26px;
-  font-weight: 500;
-  letter-spacing: -0.7px;
-
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* Yüzdeler */
-
-.offer-rate {
-  width: 208px;
-  margin-top: 25px;
-
-  font-size: 108px;
-  line-height: 0.68;
-  font-weight: 600;
+  font-size: 105px;
+  line-height: 0.82;
+  font-weight: 400;
   letter-spacing: -4px;
+  text-align: center;
+}
 
+.discount-20 {
+  left: 505px;
+  top: 1410px;
+  width: 205px;
+}
+
+.discount-30 {
+  left: 805px;
+  top: 1410px;
+  width: 205px;
+}
+
+.discount-sub {
+  position: absolute;
+  color: #000000;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.6px;
   text-align: center;
   white-space: nowrap;
 }
 
-/* %20 – %30 arasındaki dikey çizgi */
+.sub-20 {
+  left: 505px;
+  top: 1512px;
+  width: 205px;
+}
 
-.offer-divider {
+.sub-30 {
+  left: 805px;
+  top: 1512px;
+  width: 205px;
+}
+
+.divider {
   position: absolute;
-  left: 242px;
-  top: 69px;
-
+  left: 755px;
+  top: 1408px;
   width: 2px;
-  height: 56px;
-
+  height: 125px;
   background: #000000;
-
-  transform: translateX(-50%);
-
-  z-index: 11;
 }
 
-/* TÜM İNDİRİMLERE EK +%10 İNDİRİM KUPONU */
-
-.coupon-message {
+.logo {
   position: absolute;
-  left: 103px;
-  top: 1623px;
-
-  width: 885px;
-  height: 41px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-
-  color: #000000;
-
-  font-size: 42px;
-  line-height: 41px;
-  font-weight: 500;
-  letter-spacing: -1.2px;
-
-  text-align: center;
-  white-space: nowrap;
-
-  z-index: 10;
+  left: 390px;
+  top: 1735px;
+  width: 300px;
+  height: auto;
+  object-fit: contain;
 }
 
-/* Sadece +%10 bold */
-
-.coupon-percent {
-  font-size: 60px;
-  font-weight: 650;
-  line-height: 1;
-}
-
-/* JULY10 */
-
-.coupon-code {
-  position: absolute;
-  left: 425px;
-  top: 1704px;
-
-  width: 229px;
-  height: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 2px solid #000000;
-
-  color: #000000;
-  background: #ffffff;
-
-  font-size: 58px;
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: -1px;
-
-  text-align: center;
-  white-space: nowrap;
-
-  z-index: 10;
+.discount-word {
+  display: none !important;
 }
 
 .hidden {
