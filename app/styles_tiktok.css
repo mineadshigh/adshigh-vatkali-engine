@@ -23,105 +23,92 @@ body {
   background: #ffffff;
 }
 
+/* ÜST BAŞLIK */
+
+.headline {
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 1080px;
+
+  color: #ef1b1b;
+
+  font-size: 93px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -2px;
+
+  text-align: center;
+  white-space: nowrap;
+
+  z-index: 10;
+}
+
+/* ÜRÜN GÖRSELİ */
+
 .product-frame {
   position: absolute;
-  left: 68px;
-  top: 80px;
-  width: 944px;
-  height: 1288px;
+  left: 55px;
+  top: 206px;
+
+  width: 970px;
+  height: 1250px;
+
   overflow: hidden;
-  background: #f6f6f6;
+  background: #f4f4f4;
 }
 
 .product-image {
+  display: block;
+
   width: 100%;
   height: 100%;
+
   object-fit: cover;
   object-position: center center;
-  display: block;
 }
 
-.sale-box {
+/* ALT KAMPANYA METNİ */
+
+.offer-line {
   position: absolute;
-  left: 68px;
-  top: 1415px;
-  width: 360px;
-  height: 124px;
-  background: #b90000;
-  color: #ffffff;
+  left: 55px;
+  top: 1510px;
 
-  font-size: 104px;
-  line-height: 124px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  text-align: center;
-}
+  width: 970px;
+  height: 100px;
 
-.discount {
-  position: absolute;
-  color: #000000;
-  font-size: 105px;
-  line-height: 0.82;
-  font-weight: 400;
-  letter-spacing: -4px;
-  text-align: center;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.discount-20 {
-  left: 505px;
-  top: 1410px;
-  width: 205px;
-}
+  color: #ef1b1b;
 
-.discount-30 {
-  left: 805px;
-  top: 1410px;
-  width: 205px;
-}
-
-.discount-sub {
-  position: absolute;
-  color: #000000;
-  font-size: 24px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.6px;
-  text-align: center;
   white-space: nowrap;
+  text-align: center;
+
+  z-index: 10;
 }
 
-.sub-20 {
-  left: 505px;
-  top: 1512px;
-  width: 205px;
+.offer-text {
+  display: inline-block;
+
+  font-size: 44px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -1px;
 }
 
-.sub-30 {
-  left: 805px;
-  top: 1512px;
-  width: 205px;
-}
+.offer-percent {
+  display: inline-block;
 
-.divider {
-  position: absolute;
-  left: 755px;
-  top: 1408px;
-  width: 2px;
-  height: 125px;
-  background: #000000;
-}
+  margin-left: 8px;
+  margin-right: 5px;
 
-.logo {
-  position: absolute;
-  left: 390px;
-  top: 1735px;
-  width: 300px;
-  height: auto;
-  object-fit: contain;
-}
-
-.discount-word {
-  display: none !important;
+  font-size: 75px;
+  line-height: 0.9;
+  font-weight: 700;
+  letter-spacing: -3px;
 }
 
 .hidden {
