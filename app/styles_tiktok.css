@@ -50,7 +50,6 @@ body {
   position: absolute;
   left: 55px;
   top: 206px;
-
   width: 970px;
   height: 1250px;
 
@@ -60,7 +59,6 @@ body {
 
 .product-image {
   display: block;
-
   width: 100%;
   height: 100%;
 
@@ -73,17 +71,14 @@ body {
 .offer-line {
   position: absolute;
   left: 55px;
-  top: 1510px;
-
+  top: 1518px;
   width: 970px;
-  height: 100px;
 
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
 
   color: #ef1b1b;
-
   white-space: nowrap;
   text-align: center;
 
@@ -106,9 +101,11 @@ body {
   margin-right: 5px;
 
   font-size: 75px;
-  line-height: 0.9;
+  line-height: 1;
   font-weight: 700;
   letter-spacing: -3px;
+
+  vertical-align: baseline;
 }
 
 .hidden {
