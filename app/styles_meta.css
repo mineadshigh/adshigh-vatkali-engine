@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 html,
 body {
@@ -23,127 +23,211 @@ body {
   background: #ffffff;
 }
 
+/* -------------------------------------------------
+   ÜRÜN GÖRSELİ
+   PSD: X 69 / Y 88 / W 600 / H 900
+-------------------------------------------------- */
+
 .product-frame {
   position: absolute;
-  left: 44px;
-  top: 80px;
+  left: 69px;
+  top: 88px;
   width: 600px;
   height: 900px;
   overflow: hidden;
-  background: #f6f6f6;
+  background: #f4f4f4;
 }
 
 .product-image {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  display: block;
 }
 
-.sale-box {
+/* -------------------------------------------------
+   SAĞ KAMPANYA ALANI
+-------------------------------------------------- */
+
+.campaign-area {
   position: absolute;
-  left: 683px;
-  top: 225px;
-  width: 332px;
-  height: 124px;
-
-  background: #d80000;
-  color: #ffffff;
-
-  font-size: 110px;
-  line-height: 124px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  text-align: center;
-
-  z-index: 10;
+  left: 669px;
+  top: 0;
+  width: 411px;
+  height: 1080px;
 }
 
-.discount {
+/* -------------------------------------------------
+   İNDİRİM
+   PSD: X 713 / Y 196 / W 316 / H 82
+   Outfit SemiBold / 92.81 px
+-------------------------------------------------- */
+
+.headline {
   position: absolute;
-  left: 760px;
-  width: 181px;
+  left: 44px;
+  top: 196px;
+  width: 316px;
+  height: 82px;
 
-  color: #000000;
-  font-size: 105px;
-  line-height: 0.82;
-  font-weight: 400;
-  letter-spacing: -4px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  z-index: 10;
-}
-
-.discount-20 {
-  top: 385px;
-}
-
-.discount-30 {
-  top: 530px;
-}
-
-.discount-sub {
-  position: absolute;
-  left: 763px;
-  width: 176px;
-
-  color: #000000;
-  font-size: 24px;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  text-align: center;
+  color: #f01818;
+  font-size: 93px;
+  line-height: 0.88;
+  font-weight: 600;
+  letter-spacing: -3.5px;
   white-space: nowrap;
-
-  z-index: 10;
 }
 
-.sub-20 {
-  top: 485px;
-}
+/* -------------------------------------------------
+   İNDİRİM ORANI BLOĞU
+-------------------------------------------------- */
 
-.sub-30 {
-  top: 630px;
-}
-
-.divider {
+.discount-content {
   position: absolute;
-  left: 755px;
-  top: 675px;
-  width: 189px;
-  height: 2px;
-  background: #000000;
-  opacity: 0.9;
-  z-index: 10;
+  left: 64px;
+  top: 423px;
+  width: 278px;
+  height: 170px;
 }
 
-.discount-word {
-  position: absolute;
-  left: 749px;
-  top: 700px;
-  width: 203px;
+/*
+   TÜM ÜRÜNLERDE
+   PSD: X 736 / Y 423 / W 238 / H 28
+   Outfit Medium / 31.67 px
+*/
 
-  color: #000000;
-  font-size: 61px;
+.discount-label {
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 238px;
+  height: 32px;
+
+  color: #f01818;
+  font-size: 32px;
   line-height: 1;
   font-weight: 500;
-  letter-spacing: -2px;
-  text-align: center;
-
-  z-index: 10;
+  letter-spacing: -1px;
+  white-space: nowrap;
+  text-align: left;
 }
 
-.logo {
+/*
+   60%
+   PSD: X 733 / Y 473 / W 252 / H 102
+   Outfit Medium / 149.84 px
+*/
+
+.discount-row {
   position: absolute;
-  left: 727px;
-  top: 890px;
-  width: 243px;
-  height: auto;
-  object-fit: contain;
-  z-index: 10;
+  left: 0;
+  top: 50px;
+  width: 278px;
+  height: 108px;
 }
 
+.discount-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 252px;
+  height: 103px;
+
+  color: #f01818;
+  font-size: 150px;
+  line-height: 0.68;
+  font-weight: 500;
+  letter-spacing: -7px;
+  white-space: nowrap;
+}
+
+/*
+   'A VARAN
+   PSD: X 993 / Y 472 / W 18 / H 97
+   Outfit Light / 25.06 px
+*/
+
+.discount-suffix {
+  position: absolute;
+  left: 260px;
+  top: -1px;
+  width: 25px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #f01818;
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* -------------------------------------------------
+   KEŞFET BUTONU
+
+   Çerçeve:
+   PSD: X 796 / Y 692 / W 147 / H 51
+
+   Yazı:
+   PSD: X 822 / Y 707 / W 98 / H 27
+-------------------------------------------------- */
+
+.discover-box {
+  position: absolute;
+  left: 127px;
+  top: 692px;
+  width: 147px;
+  height: 51px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1.5px solid #f01818;
+  background: transparent;
+  color: #f01818;
+
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.7px;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------
+   KAMPANYA AÇIKLAMASI
+   PSD: X 731 / Y 860 / W 278 / H 45
+   Outfit Light / 21.72 px
+-------------------------------------------------- */
+
+.campaign-note {
+  position: absolute;
+  left: 62px;
+  top: 860px;
+  width: 278px;
+  height: 48px;
+
+  color: #f01818;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 300;
+  letter-spacing: -0.35px;
+  text-align: left;
+}
+
+/* Render sistemindeki ortak sınıf */
 .hidden {
   display: none !important;
 }
