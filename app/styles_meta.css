@@ -154,7 +154,7 @@ body {
 
 .discount-suffix {
   position: absolute;
-  left: 260px;
+  left: 275px;
   top: -1px;
   width: 25px;
   height: 100px;
@@ -212,19 +212,23 @@ body {
    Outfit Light / 21.72 px
 -------------------------------------------------- */
 
-.campaign-note {
-  position: absolute;
-  left: 62px;
-  top: 860px;
-  width: 278px;
-  height: 48px;
+.campaign-note{
+    position:absolute;
 
-  color: #f01818;
-  font-size: 22px;
-  line-height: 1.15;
-  font-weight: 300;
-  letter-spacing: -0.35px;
-  text-align: left;
+    left:62px;
+    top:860px;
+
+    width:315px;
+
+    color:#f01818;
+
+    font-size:20px;
+    line-height:1.22;
+
+    font-weight:300;
+    letter-spacing:-0.2px;
+
+    text-align:left;
 }
 
 /* Render sistemindeki ortak sınıf */
