@@ -57,37 +57,52 @@ body {
 
 /* SEZON SONU */
 
-.season-title{
-    position:absolute;
-    left:38px;          /* biraz sola */
-    top:215px;
+.season-title {
+  position: absolute;
+  left: 51px;
+  top: 215px;
+  width: 336px;
+  height: 41px;
 
-    width:390px;        /* 336 -> 390 */
+  margin: 0;
+  padding: 0;
 
-    font-size:56px;     /* 54-55 yerine 56 */
-    font-weight:600;    /* SemiBold */
-    letter-spacing:0.3px;
-    line-height:1;
+  color: #000000;
 
-    text-align:center;
-    white-space:nowrap;
+  font-size: 58px;
+  line-height: 41px;
+  font-weight: 600;
+  letter-spacing: 0;
+
+  text-align: left;
+  white-space: nowrap;
+
+  opacity: 0.9;
 }
 
-.discount-title{
-    position:absolute;
-    left:46px;          /* biraz sola */
-    top:282px;          /* biraz aşağı */
+/* İNDİRİMİ */
 
-    width:390px;        /* season ile aynı genişlik */
+.discount-title {
+  position: absolute;
+  left: 56px;
+  top: 268px;
+  width: 330px;
+  height: 78px;
 
-    font-size:88px;
-    font-weight:700;
-    letter-spacing:-2px;
-    line-height:.92;
+  margin: 0;
+  padding: 0;
 
-    text-align:center;
-    white-space:nowrap;
+  color: #000000;
+
+  font-size: 88px;
+  line-height: 78px;
+  font-weight: 700;
+  letter-spacing: 0;
+
+  text-align: left;
+  white-space: nowrap;
 }
+
 /* TÜM ÜRÜNLERDE NET */
 
 .offer-label {
@@ -95,16 +110,19 @@ body {
   left: 40px;
   top: 404px;
   width: 360px;
-  height: 44px;
+  height: 33px;
+
+  margin: 0;
+  padding: 0;
 
   color: #000000;
 
   font-size: 38px;
-  line-height: 1;
+  line-height: 33px;
   font-weight: 500;
-  letter-spacing: -1px;
+  letter-spacing: 0;
 
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -115,6 +133,9 @@ body {
   left: 137px;
   width: 174px;
   height: 82px;
+
+  margin: 0;
+  padding: 0;
 
   color: #000000;
 
