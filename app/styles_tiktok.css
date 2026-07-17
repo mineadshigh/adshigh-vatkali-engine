@@ -32,28 +32,24 @@ body {
 
 /* SEZON SONU İNDİRİMİ */
 
-.campaign-title {
-  position: absolute;
+.campaign-title{
+    position:absolute;
 
-  left: 125px;
-  top: 100px;
+    /* ürün görseliyle aynı hizalar */
+    left:110px;
+    top:100px;
 
-  width: 830px;
-  height: 75px;
+    width:860px;      /* product-frame ile aynı */
 
-  color: #000000;
+    font-family:"Outfit",sans-serif;
+    font-size:84px;
+    font-weight:700;
+    line-height:1;
 
-  font-size: 84px;
-  line-height: 75px;
-  font-weight: 700;
+    text-align:center;
+    white-space:nowrap;
 
-  letter-spacing: -2.2px;
-
-  text-align: center;
-  white-space: nowrap;
-
-  transform: scaleX(0.94);
-  transform-origin: center center;
+    letter-spacing:-2px;
 }
 
 /* ÜRÜN GÖRSELİ */
