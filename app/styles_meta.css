@@ -57,52 +57,37 @@ body {
 
 /* SEZON SONU */
 
-.season-title {
-  position: absolute;
-  left: 51px;
-  top: 215px;
-  width: 336px;
+.season-title{
+    position:absolute;
+    left:38px;          /* biraz sola */
+    top:215px;
 
-  font-size: 55px;      /* 58 -> 55 */
-  font-weight: 600;     /* SemiBold */
-  line-height: 1;
-  letter-spacing: -0.8px;   /* -1.6 yerine */
+    width:390px;        /* 336 -> 390 */
 
-  color: #000;
-  text-align: center;
-  white-space: nowrap;
+    font-size:56px;     /* 54-55 yerine 56 */
+    font-weight:600;    /* SemiBold */
+    letter-spacing:0.3px;
+    line-height:1;
+
+    text-align:center;
+    white-space:nowrap;
 }
 
-/* İNDİRİMİ */
+.discount-title{
+    position:absolute;
+    left:46px;          /* biraz sola */
+    top:282px;          /* biraz aşağı */
 
-.discount-title {
+    width:390px;        /* season ile aynı genişlik */
 
-  position: absolute;
+    font-size:88px;
+    font-weight:700;
+    letter-spacing:-2px;
+    line-height:.92;
 
-  left: 56px;
-
-  top: 278px;
-
-  width: 330px;
-
-  height: 90px;
-
-  color: #000000;
-
-  font-size: 88px;
-
-  line-height: 0.95;
-
-  font-weight: 700;
-
-  letter-spacing: -3px;
-
-  text-align: center;
-
-  white-space: nowrap;
-
+    text-align:center;
+    white-space:nowrap;
 }
-
 /* TÜM ÜRÜNLERDE NET */
 
 .offer-label {
