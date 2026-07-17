@@ -58,41 +58,60 @@ body {
 /* SEZON SONU */
 
 .season-title {
+
   position: absolute;
+
   left: 51px;
+
   top: 215px;
+
   width: 336px;
+
   height: 55px;
 
   color: #000000;
 
   font-size: 58px;
+
   line-height: 1;
+
   font-weight: 600;
+
   letter-spacing: -1.6px;
 
   text-align: center;
-  white-space: nowrap;
-}
 
+  white-space: nowrap;
+
+}
 /* İNDİRİMİ */
 
 .discount-title {
+
   position: absolute;
+
   left: 56px;
-  top: 267px;
+
+  top: 278px;
+
   width: 330px;
+
   height: 90px;
 
   color: #000000;
 
   font-size: 88px;
+
   line-height: 0.95;
+
   font-weight: 700;
+
   letter-spacing: -3px;
 
   text-align: center;
+
   white-space: nowrap;
+
 }
 
 /* TÜM ÜRÜNLERDE NET */
