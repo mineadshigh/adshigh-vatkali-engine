@@ -59,17 +59,17 @@ body {
 
 .season-title{
     position:absolute;
-    left:40px;          /* değiştirme */
-    top:208px;          /* 8px yukarı */
+    left:40px;
+    top:206px;              /* yukarı */
 
-    width:360px;        /* değiştirme */
+    width:360px;
 
-    font-size:49px;     /* biraz küçült */
-    font-weight:600;    /* SemiBold */
+    font-size:50px;
+    font-weight:600;        /* SemiBold */
+
+    letter-spacing:0.8px;   /* en önemli değişiklik */
 
     line-height:1;
-    letter-spacing:-0.6px;
-
     text-align:center;
     white-space:nowrap;
 }
