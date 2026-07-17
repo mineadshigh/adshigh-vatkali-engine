@@ -55,32 +55,38 @@ body {
 
 /* SEZON SONU */
 
+/* SEZON SONU */
+
 .season-title{
     position:absolute;
-    left:40px;
-    top:210px;          /* 216 -> 210 */
+    left:40px;          /* değiştirme */
+    top:208px;          /* 8px yukarı */
 
-    width:388px;        /* 360 -> 388 (İNDİRİMİ ile aynı genişlik hissi) */
+    width:360px;        /* değiştirme */
 
-    font-size:51px;
-    font-weight:500;
+    font-size:49px;     /* biraz küçült */
+    font-weight:600;    /* SemiBold */
+
     line-height:1;
-    letter-spacing:-1px;
+    letter-spacing:-0.6px;
 
     text-align:center;
     white-space:nowrap;
 }
 
+/* İNDİRİMİ */
+
 .discount-title{
     position:absolute;
-    left:40px;
-    top:270px;
+    left:40px;          /* değiştirme */
+    top:258px;          /* yaklaşık 10-12px yukarı */
 
-    width:388px;        /* season ile aynı */
+    width:360px;        /* değiştirme */
 
-    font-size:78px;
+    font-size:79px;
     font-weight:700;
-    line-height:.90;
+
+    line-height:.92;
     letter-spacing:-2px;
 
     text-align:center;
