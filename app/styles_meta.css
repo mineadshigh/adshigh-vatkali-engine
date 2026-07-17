@@ -58,32 +58,21 @@ body {
 /* SEZON SONU */
 
 .season-title {
-
   position: absolute;
-
   left: 51px;
-
   top: 215px;
-
   width: 336px;
 
-  height: 55px;
-
-  color: #000000;
-
-  font-size: 58px;
-
+  font-size: 55px;      /* 58 -> 55 */
+  font-weight: 600;     /* SemiBold */
   line-height: 1;
+  letter-spacing: -0.8px;   /* -1.6 yerine */
 
-  font-weight: 600;
-
-  letter-spacing: -1.6px;
-
+  color: #000;
   text-align: center;
-
   white-space: nowrap;
-
 }
+
 /* İNDİRİMİ */
 
 .discount-title {
