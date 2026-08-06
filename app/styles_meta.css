@@ -50,16 +50,18 @@ body {
   top: 409px;
   width: 35px;
   height: 262px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-size: 47px;
-  line-height: 35px;
-  font-weight: 700;
-  letter-spacing: -2px;
-  white-space: nowrap;
+}
+
+.net40-logo img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 262px;
+  height: 35px;
+  object-fit: contain;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
 }
 
 .variant-net40 .offer-panel { display: none; }
@@ -165,14 +167,4 @@ body {
   line-height: 24px;
   font-weight: 400;
   white-space: nowrap;
-}
-
-.cta::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 12px;
-  bottom: 7px;
-  height: 2px;
-  background: #ffffff;
 }
