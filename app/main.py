@@ -665,6 +665,11 @@ async def feed_tiktok(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
+        product_id = (
+            item.findtext("g:id", default="", namespaces=ns)
+            or item.findtext("id")
+            or ""
+        ).strip()
         title = extract_title(item, ns)
         price = format_currency_tr(
             item.findtext("g:price", default="", namespaces=ns)
@@ -692,11 +697,12 @@ async def feed_tiktok(request: Request):
         else:
             design = "tiktok_v1"
 
-        sig = build_sig(design, title, price, sale, primary, fv)
+        sig = build_sig(product_id, design, title, price, sale, primary, fv)
 
         render_url = (
             f"{base_url}/render.png"
-            f"?title={quote_plus(title)}"
+            f"?product_id={quote_plus(product_id)}"
+            f"&title={quote_plus(title)}"
             f"&price={quote_plus(price)}"
             f"&sale_price={quote_plus(sale)}"
             f"&product_image_primary={quote_plus(primary)}"
