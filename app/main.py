@@ -119,6 +119,7 @@ def build_sig(*parts: str) -> str:
     return hashlib.md5(raw).hexdigest()[:12]
 
 def build_render_cache_key(
+    product_id: str,
     title: str,
     price: str,
     sale_price: str,
@@ -129,7 +130,7 @@ def build_render_cache_key(
     w: int,
     h: int,
 ) -> str:
-    return build_sig(
+    parts = [
         title,
         price,
         sale_price,
@@ -139,7 +140,10 @@ def build_render_cache_key(
         design,
         str(w),
         str(h),
-    )
+    ]
+    if product_id:
+        parts.append(product_id)
+    return build_sig(*parts)
 
 def get_cache_file_path(cache_key: str) -> str:
     return os.path.join(CACHE_DIR, f"{cache_key}.png")
@@ -475,6 +479,7 @@ async def render_png(html: str, width=1080, height=1080) -> bytes:
 @app.get("/render.png")
 async def render_endpoint(
     request: Request,
+    product_id: str = Query(""),
     title: str = Query(""),
     price: str = Query(""),
     sale_price: str = Query(""),
@@ -513,6 +518,7 @@ async def render_endpoint(
     secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
 
     cache_key = build_render_cache_key(
+        product_id=product_id,
         title=title,
         price=price,
         sale_price=sale_price,
@@ -549,6 +555,7 @@ async def render_endpoint(
             product_image_secondary_1_data = ""
 
     html = tpl.replace("{{CSS}}", css)
+    html = html.replace("{{product_id}}", product_id)
     html = html.replace("{{product_image_primary}}", product_image_primary_data)
     html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1_data)
     html = html.replace("{{logo_url}}", logo_data)
@@ -590,6 +597,11 @@ async def feed_meta(request: Request):
     ns = {"g": "http://base.google.com/ns/1.0"}
 
     for item in items:
+        product_id = (
+            item.findtext("g:id", default="", namespaces=ns)
+            or item.findtext("id")
+            or ""
+        ).strip()
         title = extract_title(item, ns)
         price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
         sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
@@ -609,11 +621,12 @@ async def feed_meta(request: Request):
         else:
             design = "meta_v1"
 
-        sig = build_sig(design, title, price, sale, primary, s1, fv)
+        sig = build_sig(product_id, design, title, price, sale, primary, s1, fv)
 
         render_url = (
             f"{base_url}/render.png"
-            f"?title={quote_plus(title)}"
+            f"?product_id={quote_plus(product_id)}"
+            f"&title={quote_plus(title)}"
             f"&price={quote_plus(price)}"
             f"&sale_price={quote_plus(sale)}"
             f"&product_image_primary={quote_plus(primary)}"
