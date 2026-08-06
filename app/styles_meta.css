@@ -1,19 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
 
 html,
 body {
-  margin: 0;
-  padding: 0;
   width: 1080px;
   height: 1080px;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   background: #ffffff;
   font-family: "Outfit", Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .frame {
   position: relative;
@@ -21,18 +19,13 @@ body {
   height: 1080px;
   overflow: hidden;
   background: #ffffff;
+  color: #000000;
 }
-
-/* ÜRÜN GÖRSELİ */
 
 .product-frame {
   position: absolute;
-  left: 38px;
-  top: 95px;
-  width: 593px;
-  height: 890px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #f3f3f3;
 }
 
 .product-image {
@@ -43,130 +36,143 @@ body {
   object-position: center center;
 }
 
-/* SAĞ ALAN */
+/* Net %40 — Kare.40.psd */
+.variant-net40 .product-frame {
+  left: 30px;
+  top: 25px;
+  width: 686px;
+  height: 1030px;
+}
 
-.right-panel {
+.net40-logo {
   position: absolute;
-  left: 631px;
-  top: 0;
-  width: 449px;
-  height: 1080px;
+  left: 886px;
+  top: 409px;
+  width: 35px;
+  height: 262px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 47px;
+  line-height: 35px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  white-space: nowrap;
 }
 
-/* SEZON SONU */
+.variant-net40 .offer-panel { display: none; }
 
-/* SEZON SONU */
-
-.season-title{
-    position:absolute;
-    left:40px;
-    top:200px;              /* yukarı */
-
-    width:360px;
-
-    font-size:50px;
-    font-weight:550;        /* SemiBold */
-
-    letter-spacing:0.8px;   /* en önemli değişiklik */
-
-    line-height:1;
-    text-align:center;
-    white-space:nowrap;
+/* Net %40 + sepette %20 — kare.40+20.psd */
+.variant-net40plus20 .product-frame {
+  left: 65px;
+  top: 96px;
+  width: 592px;
+  height: 888px;
 }
 
-/* İNDİRİMİ */
+.variant-net40plus20 .net40-logo { display: none; }
 
-.discount-title{
-    position:absolute;
-    left:40px;          /* değiştirme */
-    top:258px;          /* yaklaşık 10-12px yukarı */
-
-    width:360px;        /* değiştirme */
-
-    font-size:79px;
-    font-weight:700;
-
-    line-height:.92;
-    letter-spacing:-2px;
-
-    text-align:center;
-    white-space:nowrap;
-}
-/* TÜM ÜRÜNLERDE NET */
-
-.offer-label {
+.offer-panel {
   position: absolute;
-  left: 40px;
-  top: 404px;
-  width: 360px;
+  inset: 0;
+}
 
+.campaign-title {
+  position: absolute;
+  left: 707px;
+  top: 189px;
+  width: 336px;
+  height: 40px;
   margin: 0;
-  padding: 0;
-
-  color: #000000;
-
-  font-size: 38px;
-  line-height: 1;
-  font-weight: 500;
+  font-size: 35px;
+  line-height: 40px;
+  font-weight: 700;
   letter-spacing: -1px;
-
-  text-align: center;
   white-space: nowrap;
 }
 
-/* ORANLAR */
-
-.rate {
+.campaign-offer {
   position: absolute;
-  left: 137px;
-  width: 174px;
-  height: 82px;
-
+  left: 708px;
+  top: 237px;
+  width: 309px;
+  height: 32px;
   margin: 0;
-  padding: 0;
+  color: #bd0707;
+  font-size: 25px;
+  line-height: 32px;
+  white-space: nowrap;
+  transform: scaleX(.93);
+  transform-origin: left center;
+}
 
-  color: #000000;
+.campaign-offer .medium { font-weight: 500; }
+.campaign-offer .regular { font-weight: 400; }
+.campaign-offer strong { font-size: 35px; font-weight: 700; }
 
-  font-size: 88px;
-  line-height: 0.9;
-  font-weight: 600;
-  letter-spacing: -3px;
+.product-title {
+  position: absolute;
+  left: 708px;
+  top: 493px;
+  width: 300px;
+  margin: 0;
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: -.2px;
+  text-transform: uppercase;
+}
 
-  text-align: center;
+.prices {
+  position: absolute;
+  left: 708px;
+  top: 579px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   white-space: nowrap;
 }
 
-.rate-40 {
-  top: 494px;
+.old-price {
+  font-size: 21px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: line-through;
 }
 
-.rate-50 {
-  top: 642px;
+.sale-price {
+  color: #bd0707;
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 500;
 }
 
-.rate-60 {
-  top: 786px;
-}
-
-/* AYIRICI ÇİZGİLER */
-
-.divider {
+.cta {
   position: absolute;
-  left: 150px;
-  width: 147px;
-  height: 1px;
+  left: 793px;
+  top: 860px;
+  width: 164px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
   background: #000000;
-  opacity: 0.9;
+  color: #ffffff;
+  font-size: 22px;
+  line-height: 24px;
+  font-weight: 400;
+  white-space: nowrap;
 }
 
-.divider-1 {
-  top: 604px;
-}
-
-.divider-2 {
-  top: 752px;
-}
-
-.hidden {
-  display: none !important;
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 12px;
+  bottom: 7px;
+  height: 2px;
+  background: #ffffff;
 }
