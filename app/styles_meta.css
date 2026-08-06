@@ -57,8 +57,9 @@ body {
   left: 50%;
   top: 50%;
   display: block;
-  width: 262px;
-  height: 35px;
+  /* SVG viewBox iç boşluğunu telafi ederek PSD'deki 34×262 px görünür logoyu verir. */
+  width: 279px;
+  height: 42.4px;
   object-fit: contain;
   transform: translate(-50%, -50%) rotate(-90deg);
   transform-origin: center center;
