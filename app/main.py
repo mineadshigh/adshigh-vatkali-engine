@@ -53,10 +53,8 @@ def norm_price(s: str) -> str:
 
 def format_currency_tr(s: str) -> str:
     x = norm_price(s)
-
     if not x:
         return x
-
     return x.replace("TRY", "TL").replace("try", "TL")
 
 
@@ -89,11 +87,7 @@ def _clean_url(u: str) -> str:
 
 
 def get_base_url(request: Request) -> str:
-    return (
-        APP_BASE_URL
-        if APP_BASE_URL
-        else str(request.base_url).rstrip("/")
-    )
+    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
 
 
 def _parse_money_to_float(s: str) -> float | None:
@@ -112,18 +106,15 @@ def _parse_money_to_float(s: str) -> float | None:
             t = t.replace(",", ".")
         else:
             t = t.replace(",", "")
-
     else:
         if "," in t and "." not in t:
             t = t.replace(",", ".")
-
         elif "." in t and "," not in t:
             if re.fullmatch(r"\d{1,3}(\.\d{3})+", t):
                 t = t.replace(".", "")
 
     try:
         return float(t)
-
     except Exception:
         return None
 
@@ -153,10 +144,7 @@ def hidden_flags(price: str, sale: str):
 
 
 def build_sig(*parts: str) -> str:
-    raw = "|".join(
-        [p or "" for p in parts]
-    ).encode("utf-8")
-
+    raw = "|".join([p or "" for p in parts]).encode("utf-8")
     return hashlib.md5(raw).hexdigest()[:12]
 
 
@@ -192,10 +180,7 @@ def build_render_cache_key(
 
 
 def get_cache_file_path(cache_key: str) -> str:
-    return os.path.join(
-        CACHE_DIR,
-        f"{cache_key}.png",
-    )
+    return os.path.join(CACHE_DIR, f"{cache_key}.png")
 
 
 def get_template_and_css(design: str) -> tuple[str, str]:
@@ -218,49 +203,25 @@ def get_template_and_css(design: str) -> tuple[str, str]:
 
     if design == "meta_summer26":
         return (
-            os.path.join(
-                BASE_DIR,
-                "template_meta_summer26.html",
-            ),
-            os.path.join(
-                BASE_DIR,
-                "styles_meta_summer26.css",
-            ),
+            os.path.join(BASE_DIR, "template_meta_summer26.html"),
+            os.path.join(BASE_DIR, "styles_meta_summer26.css"),
         )
 
     if design == "tiktok_summer26":
         return (
-            os.path.join(
-                BASE_DIR,
-                "template_tiktok_summer26.html",
-            ),
-            os.path.join(
-                BASE_DIR,
-                "styles_tiktok_summer26.css",
-            ),
+            os.path.join(BASE_DIR, "template_tiktok_summer26.html"),
+            os.path.join(BASE_DIR, "styles_tiktok_summer26.css"),
         )
 
     if design == "tiktok_v1":
         return (
-            os.path.join(
-                BASE_DIR,
-                "template_tiktok.html",
-            ),
-            os.path.join(
-                BASE_DIR,
-                "styles_tiktok.css",
-            ),
+            os.path.join(BASE_DIR, "template_tiktok.html"),
+            os.path.join(BASE_DIR, "styles_tiktok.css"),
         )
 
     return (
-        os.path.join(
-            BASE_DIR,
-            "template_meta.html",
-        ),
-        os.path.join(
-            BASE_DIR,
-            "styles_meta.css",
-        ),
+        os.path.join(BASE_DIR, "template_meta.html"),
+        os.path.join(BASE_DIR, "styles_meta.css"),
     )
 
 
@@ -284,35 +245,19 @@ def text_of(
             or ""
         ).strip()
 
-    return (
-        item.findtext(
-            tag,
-            default="",
-        )
-        or ""
-    ).strip()
+    return (item.findtext(tag, default="") or "").strip()
 
 
-def set_image_link(
-    item: ET.Element,
-    new_url: str,
-):
-    ns = {
-        "g": "http://base.google.com/ns/1.0"
-    }
+def set_image_link(item: ET.Element, new_url: str):
 
-    img = item.find(
-        "g:image_link",
-        ns,
-    )
+    ns = {"g": "http://base.google.com/ns/1.0"}
+
+    img = item.find("g:image_link", ns)
 
     if img is not None:
         img.text = new_url
 
-        for extra in item.findall(
-            "g:additional_image_link",
-            ns,
-        ):
+        for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
 
         return
@@ -322,17 +267,12 @@ def set_image_link(
     if img is not None:
         img.text = new_url
 
-        for extra in item.findall(
-            "additional_image_link"
-        ):
+        for extra in item.findall("additional_image_link"):
             item.remove(extra)
 
         return
 
-    ET.SubElement(
-        item,
-        "image_link",
-    ).text = new_url
+    ET.SubElement(item, "image_link").text = new_url
 
 
 def extract_title(
@@ -353,9 +293,7 @@ def extract_title(
 
     for c in candidates:
         if c:
-            return " ".join(
-                c.split()
-            ).strip()
+            return " ".join(c.split()).strip()
 
     return ""
 
@@ -368,25 +306,10 @@ def get_custom_labels(
     labels = []
 
     for i in range(5):
-        labels.append(
-            text_of(
-                item,
-                f"g:custom_label_{i}",
-                ns,
-            )
-        )
+        labels.append(text_of(item, f"g:custom_label_{i}", ns))
+        labels.append(text_of(item, f"custom_label_{i}", ns))
 
-        labels.append(
-            text_of(
-                item,
-                f"custom_label_{i}",
-                ns,
-            )
-        )
-
-    return " ".join(
-        [x for x in labels if x]
-    ).lower()
+    return " ".join([x for x in labels if x]).lower()
 
 
 # -------------------------
@@ -395,20 +318,11 @@ def get_custom_labels(
 
 def choose_images_any(item: ET.Element):
 
-    ns = {
-        "g": "http://base.google.com/ns/1.0"
-    }
+    ns = {"g": "http://base.google.com/ns/1.0"}
 
     primary_raw = (
-        text_of(
-            item,
-            "g:image_link",
-            ns=ns,
-        )
-        or text_of(
-            item,
-            "image_link",
-        )
+        text_of(item, "g:image_link", ns=ns)
+        or text_of(item, "image_link")
     )
 
     additional_raw = []
@@ -417,28 +331,14 @@ def choose_images_any(item: ET.Element):
         "g:additional_image_link",
         namespaces=ns,
     ):
-        if (
-            e is not None
-            and (e.text or "").strip()
-        ):
-            additional_raw.append(
-                (e.text or "").strip()
-            )
+        if e is not None and (e.text or "").strip():
+            additional_raw.append((e.text or "").strip())
 
-    for e in item.findall(
-        "additional_image_link"
-    ):
-        if (
-            e is not None
-            and (e.text or "").strip()
-        ):
-            additional_raw.append(
-                (e.text or "").strip()
-            )
+    for e in item.findall("additional_image_link"):
+        if e is not None and (e.text or "").strip():
+            additional_raw.append((e.text or "").strip())
 
-    all_urls = [
-        primary_raw
-    ] + additional_raw
+    all_urls = [primary_raw] + additional_raw
 
     seen = set()
     uniq = []
@@ -450,17 +350,8 @@ def choose_images_any(item: ET.Element):
             seen.add(cu)
             uniq.append(u)
 
-    primary = (
-        uniq[0]
-        if uniq
-        else primary_raw
-    )
-
-    s1 = (
-        uniq[1]
-        if len(uniq) > 1
-        else primary
-    )
+    primary = uniq[0] if uniq else primary_raw
+    s1 = uniq[1] if len(uniq) > 1 else primary
 
     return primary, s1
 
@@ -477,9 +368,7 @@ _TRANSPARENT_PNG = base64.b64decode(
 def _transparent_data_uri() -> str:
     return (
         "data:image/png;base64,"
-        + base64.b64encode(
-            _TRANSPARENT_PNG
-        ).decode("ascii")
+        + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
     )
 
 
@@ -488,15 +377,8 @@ def _guess_mime(
     content_type: str | None,
 ) -> str:
 
-    if (
-        content_type
-        and "image/" in content_type
-    ):
-        return (
-            content_type
-            .split(";")[0]
-            .strip()
-        )
+    if content_type and "image/" in content_type:
+        return content_type.split(";")[0].strip()
 
     u = (url or "").lower()
 
@@ -512,56 +394,127 @@ def _guess_mime(
     return "image/jpeg"
 
 
-def _image_headers(url: str) -> dict:
-    """
-    Görselin geldiği domaine göre doğru HTTP header'larını üretir.
-    Kaya görseline Vatkalı referer gönderilmesini engeller.
-    """
+def _is_kaya_url(url: str) -> bool:
+    hostname = (urlsplit(url).hostname or "").lower()
 
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/126.0 Safari/537.36"
-        ),
-        "Accept": (
-            "image/avif,"
-            "image/webp,"
-            "image/apng,"
-            "image/*,"
-            "*/*;q=0.8"
-        ),
-        "Accept-Language": (
-            "tr-TR,tr;q=0.9,en;q=0.8"
-        ),
-    }
-
-    hostname = (
-        urlsplit(url).hostname
-        or ""
-    ).lower()
-
-    if (
+    return (
         hostname == "kayakirtasiye.com.tr"
-        or hostname.endswith(
-            ".kayakirtasiye.com.tr"
-        )
-    ):
-        headers["Referer"] = (
-            "https://www.kayakirtasiye.com.tr/"
-        )
+        or hostname.endswith(".kayakirtasiye.com.tr")
+    )
 
-    elif (
+
+def _is_vatkali_url(url: str) -> bool:
+    hostname = (urlsplit(url).hostname or "").lower()
+
+    return (
         hostname == "vatkali.com"
-        or hostname.endswith(
-            ".vatkali.com"
-        )
-    ):
-        headers["Referer"] = (
-            "https://www.vatkali.com/"
+        or hostname.endswith(".vatkali.com")
+    )
+
+
+async def fetch_kaya_with_browser(url: str) -> str:
+    """
+    Kayak görselleri Railway/httpx isteğine 403 verirse,
+    aynı görseli gerçek Chromium context'i üzerinden çekmeyi dener.
+    """
+
+    global _browser
+
+    await _ensure_browser()
+
+    context = None
+
+    try:
+        context = await _browser.new_context(
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/126.0 Safari/537.36"
+            ),
+            locale="tr-TR",
+            extra_http_headers={
+                "Accept": (
+                    "image/avif,"
+                    "image/webp,"
+                    "image/apng,"
+                    "image/*,"
+                    "*/*;q=0.8"
+                ),
+                "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+                "Referer": "https://www.kayakirtasiye.com.tr/",
+            },
         )
 
-    return headers
+        response = await context.request.get(
+            url,
+            timeout=30000,
+        )
+
+        if not response.ok:
+            print(
+                "KAYA_BROWSER_FETCH_FAILED:",
+                url,
+                "status=",
+                response.status,
+            )
+            return url
+
+        body = await response.body()
+        headers = await response.all_headers()
+
+        content_type = (
+            headers.get("content-type")
+            or ""
+        ).lower()
+
+        if "image/" not in content_type:
+            print(
+                "KAYA_BROWSER_NOT_IMAGE:",
+                url,
+                "content-type=",
+                content_type,
+            )
+            return url
+
+        if len(body) > 8_000_000:
+            print(
+                "KAYA_BROWSER_IMAGE_TOO_LARGE:",
+                url,
+                len(body),
+            )
+            return url
+
+        mime = _guess_mime(
+            url,
+            content_type,
+        )
+
+        b64 = base64.b64encode(body).decode("ascii")
+
+        print(
+            "KAYA_BROWSER_FETCH_OK:",
+            url,
+            "bytes=",
+            len(body),
+        )
+
+        return f"data:{mime};base64,{b64}"
+
+    except Exception as e:
+        print(
+            "KAYA_BROWSER_FETCH_EXCEPTION:",
+            url,
+            repr(e),
+        )
+
+        return url
+
+    finally:
+        if context is not None:
+            try:
+                await context.close()
+            except Exception:
+                pass
 
 
 async def to_data_uri(
@@ -577,60 +530,56 @@ async def to_data_uri(
 
     cleaned_url = _clean_url(url)
 
-    headers = _image_headers(
-        cleaned_url
-    )
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/126.0 Safari/537.36"
+        ),
+        "Accept": (
+            "image/avif,"
+            "image/webp,"
+            "image/apng,"
+            "image/*,"
+            "*/*;q=0.8"
+        ),
+        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    }
 
-    async def fetch(
-        request_headers: dict,
-    ):
-        return await client.get(
+    if _is_kaya_url(cleaned_url):
+        headers["Referer"] = "https://www.kayakirtasiye.com.tr/"
+
+    elif _is_vatkali_url(cleaned_url):
+        headers["Referer"] = "https://www.vatkali.com/"
+
+    try:
+        r = await client.get(
             cleaned_url,
-            headers=request_headers,
+            headers=headers,
             timeout=30.0,
             follow_redirects=True,
         )
 
-    try:
-        # 1. deneme:
-        # Domain'e uygun Referer ile
-        r = await fetch(headers)
-
-        # Eğer sunucu engellediyse,
-        # Referer olmadan bir kez daha dene.
-        if r.status_code >= 400:
+        # Kaya httpx tarafında 403 verirse
+        # doğrudan Chromium fallback'e geç.
+        if _is_kaya_url(cleaned_url) and r.status_code == 403:
 
             print(
-                "IMAGE_FETCH_RETRY:",
+                "KAYA_HTTPX_403_BROWSER_RETRY:",
                 cleaned_url,
-                "status=",
-                r.status_code,
             )
 
-            headers_without_referer = (
-                headers.copy()
-            )
-
-            headers_without_referer.pop(
-                "Referer",
-                None,
-            )
-
-            r = await fetch(
-                headers_without_referer
+            return await fetch_kaya_with_browser(
+                cleaned_url
             )
 
         r.raise_for_status()
 
         ct = (
-            r.headers.get(
-                "content-type"
-            )
+            r.headers.get("content-type")
             or ""
         ).lower()
 
-        # Image değilse HTML'e doğrudan
-        # URL bırakıyoruz.
         if "image/" not in ct:
 
             print(
@@ -639,15 +588,17 @@ async def to_data_uri(
                 "status=",
                 r.status_code,
                 "content-type=",
-                r.headers.get(
-                    "content-type"
-                ),
+                r.headers.get("content-type"),
             )
+
+            # Kaya ise Chromium ile bir kez daha dene.
+            if _is_kaya_url(cleaned_url):
+                return await fetch_kaya_with_browser(
+                    cleaned_url
+                )
 
             return cleaned_url
 
-        # Çok büyük dosyayı base64'e
-        # çevirmiyoruz.
         if len(r.content) > 8_000_000:
 
             print(
@@ -660,18 +611,14 @@ async def to_data_uri(
 
         mime = _guess_mime(
             cleaned_url,
-            r.headers.get(
-                "content-type"
-            ),
+            r.headers.get("content-type"),
         )
 
         b64 = base64.b64encode(
             r.content
         ).decode("ascii")
 
-        return (
-            f"data:{mime};base64,{b64}"
-        )
+        return f"data:{mime};base64,{b64}"
 
     except Exception as e:
 
@@ -681,8 +628,19 @@ async def to_data_uri(
             repr(e),
         )
 
-        # Son fallback:
-        # Görsel URL'sini HTML'e bırak.
+        # Kaya için httpx exception oluştuysa
+        # Chromium ile son bir deneme.
+        if _is_kaya_url(cleaned_url):
+
+            print(
+                "KAYA_EXCEPTION_BROWSER_RETRY:",
+                cleaned_url,
+            )
+
+            return await fetch_kaya_with_browser(
+                cleaned_url
+            )
+
         return cleaned_url
 
 
@@ -695,9 +653,7 @@ _browser = None
 _pw_lock = asyncio.Lock()
 
 
-def _is_fatal_playwright_error(
-    e: Exception,
-) -> bool:
+def _is_fatal_playwright_error(e: Exception) -> bool:
 
     msg = str(e).lower()
 
@@ -715,12 +671,12 @@ def _is_fatal_playwright_error(
 
 
 async def _restart_playwright():
+
     global _pw, _browser
 
     try:
         if _browser:
             await _browser.close()
-
     except Exception:
         pass
 
@@ -729,9 +685,10 @@ async def _restart_playwright():
     try:
         if _pw:
             await _pw.stop()
-
     except Exception:
         pass
+
+    _pw = None
 
     _pw = await async_playwright().start()
 
@@ -748,24 +705,19 @@ async def _restart_playwright():
 
 
 async def _ensure_browser():
+
     global _pw, _browser
 
     async with _pw_lock:
 
         try:
             if _pw is None:
-                _pw = (
-                    await async_playwright()
-                    .start()
-                )
+                _pw = await async_playwright().start()
 
             if (
                 _browser is None
                 or (
-                    hasattr(
-                        _browser,
-                        "is_connected",
-                    )
+                    hasattr(_browser, "is_connected")
                     and not _browser.is_connected()
                 )
             ):
@@ -773,28 +725,24 @@ async def _ensure_browser():
                 try:
                     if _browser:
                         await _browser.close()
-
                 except Exception:
                     pass
 
-                _browser = (
-                    await _pw.chromium.launch(
-                        headless=True,
-                        args=[
-                            "--no-sandbox",
-                            "--disable-setuid-sandbox",
-                            "--disable-dev-shm-usage",
-                            "--no-zygote",
-                            "--disable-gpu",
-                        ],
-                    )
+                _browser = await _pw.chromium.launch(
+                    headless=True,
+                    args=[
+                        "--no-sandbox",
+                        "--disable-setuid-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--no-zygote",
+                        "--disable-gpu",
+                    ],
                 )
 
         except Exception as e:
 
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
-
             else:
                 raise
 
@@ -806,12 +754,12 @@ async def _startup():
 
 @app.on_event("shutdown")
 async def _shutdown():
+
     global _pw, _browser
 
     try:
         if _browser:
             await _browser.close()
-
     except Exception:
         pass
 
@@ -820,7 +768,6 @@ async def _shutdown():
     try:
         if _pw:
             await _pw.stop()
-
     except Exception:
         pass
 
@@ -860,17 +807,12 @@ async def render_png(
                     await page.evaluate(
                         "() => document.fonts.ready"
                     )
-
                 except Exception:
                     pass
 
-                await page.wait_for_timeout(
-                    300
-                )
+                await page.wait_for_timeout(300)
 
-                frame = page.locator(
-                    ".frame"
-                )
+                frame = page.locator(".frame")
 
                 await frame.wait_for(
                     state="visible",
@@ -885,7 +827,6 @@ async def render_png(
 
                 try:
                     await page.close()
-
                 except Exception:
                     pass
 
@@ -924,23 +865,14 @@ async def render_endpoint(
 ):
 
     price = format_tl(price)
-    sale_price = format_tl(
-        sale_price
-    )
+    sale_price = format_tl(sale_price)
 
-    (
-        old_hidden,
-        new_hidden,
-        single_hidden,
-    ) = hidden_flags(
+    old_hidden, new_hidden, single_hidden = hidden_flags(
         price,
         sale_price,
     )
 
-    (
-        template_path,
-        css_path,
-    ) = get_template_and_css(
+    template_path, css_path = get_template_and_css(
         design
     )
 
@@ -958,31 +890,26 @@ async def render_endpoint(
     ) as f:
         css = f.read()
 
-    base_url = get_base_url(
-        request
-    )
+    base_url = get_base_url(request)
 
     if not logo_url:
 
         if design == "kaya_meta_v1":
 
             logo_url = (
-                f"{base_url}"
-                "/static/"
+                f"{base_url}/static/"
                 "kayakirtasiyelogo.png"
             )
 
         else:
 
             logo_url = (
-                f"{base_url}"
-                "/static/"
+                f"{base_url}/static/"
                 "vatkalilogo.svg"
             )
 
     background_url = (
-        f"{base_url}"
-        "/static/"
+        f"{base_url}/static/"
         "background_summer26.png"
     )
 
@@ -997,12 +924,8 @@ async def render_endpoint(
         title=title,
         price=price,
         sale_price=sale_price,
-        product_image_primary=(
-            product_image_primary
-        ),
-        product_image_secondary_1=(
-            secondary_for_cache
-        ),
+        product_image_primary=product_image_primary,
+        product_image_secondary_1=secondary_for_cache,
         logo_url=logo_url,
         design=f"{design}_{fv}",
         w=w,
@@ -1193,13 +1116,9 @@ async def render_endpoint(
     "/feed_meta.xml",
     response_class=PlainTextResponse,
 )
-async def feed_meta(
-    request: Request,
-):
+async def feed_meta(request: Request):
 
-    base_url = get_base_url(
-        request
-    )
+    base_url = get_base_url(request)
 
     fv = (
         request.query_params.get("v")
@@ -1216,13 +1135,9 @@ async def feed_meta(
 
         r.raise_for_status()
 
-    root = ET.fromstring(
-        r.text
-    )
+    root = ET.fromstring(r.text)
 
-    channel = root.find(
-        "channel"
-    )
+    channel = root.find("channel")
 
     if channel is None:
 
@@ -1231,9 +1146,7 @@ async def feed_meta(
             media_type="application/xml",
         )
 
-    items = channel.findall(
-        "item"
-    )
+    items = channel.findall("item")
 
     ns = {
         "g": "http://base.google.com/ns/1.0"
@@ -1277,8 +1190,8 @@ async def feed_meta(
         if not sale:
             sale = price
 
-        primary, s1 = (
-            choose_images_any(item)
+        primary, s1 = choose_images_any(
+            item
         )
 
         custom_labels = (
@@ -1296,7 +1209,6 @@ async def feed_meta(
             or "summer 26" in custom_labels
         ):
             design = "meta_v1"
-
         else:
             design = "meta_v1"
 
@@ -1352,9 +1264,7 @@ async def feed_meta(
     "/feed.xml",
     response_class=PlainTextResponse,
 )
-async def feed_legacy(
-    request: Request,
-):
+async def feed_legacy(request: Request):
 
     return await feed_meta(
         request
@@ -1365,13 +1275,9 @@ async def feed_legacy(
     "/feed_tiktok.xml",
     response_class=PlainTextResponse,
 )
-async def feed_tiktok(
-    request: Request,
-):
+async def feed_tiktok(request: Request):
 
-    base_url = get_base_url(
-        request
-    )
+    base_url = get_base_url(request)
 
     fv = (
         request.query_params.get("v")
@@ -1444,17 +1350,15 @@ async def feed_tiktok(
                 default="",
                 namespaces=ns,
             )
-            or item.findtext(
-                "sale_price"
-            )
+            or item.findtext("sale_price")
             or ""
         )
 
         if not sale:
             sale = price
 
-        primary, _ = (
-            choose_images_any(item)
+        primary, _ = choose_images_any(
+            item
         )
 
         custom_labels = (
@@ -1472,7 +1376,6 @@ async def feed_tiktok(
             or "summer 26" in custom_labels
         ):
             design = "tiktok_v1"
-
         else:
             design = "tiktok_v1"
 
@@ -1526,9 +1429,7 @@ async def feed_tiktok(
     "/feed_kaya.xml",
     response_class=PlainTextResponse,
 )
-async def feed_kaya(
-    request: Request,
-):
+async def feed_kaya(request: Request):
 
     base_url = get_base_url(
         request
@@ -1558,12 +1459,10 @@ async def feed_kaya(
                     "text/xml,"
                     "*/*"
                 ),
-                "Accept-Language": (
-                    "tr-TR,tr;q=0.9,en;q=0.8"
-                ),
-                "Referer": (
-                    "https://www.kayakirtasiye.com.tr/"
-                ),
+                "Accept-Language":
+                    "tr-TR,tr;q=0.9,en;q=0.8",
+                "Referer":
+                    "https://www.kayakirtasiye.com.tr/",
             },
         )
 
@@ -1605,21 +1504,17 @@ async def feed_kaya(
                 default="",
                 namespaces=ns,
             )
-            or item.findtext(
-                "price"
-            )
+            or item.findtext("price")
             or ""
         )
 
         sale = price
 
-        primary, s1 = (
-            choose_images_any(item)
+        primary, s1 = choose_images_any(
+            item
         )
 
-        design = (
-            "kaya_meta_v1"
-        )
+        design = "kaya_meta_v1"
 
         sig = build_sig(
             design,
@@ -1685,9 +1580,8 @@ async def probe(
             "image/*,"
             "*/*;q=0.8"
         ),
-        "Accept-Language": (
-            "tr-TR,tr;q=0.9,en;q=0.8"
-        ),
+        "Accept-Language":
+            "tr-TR,tr;q=0.9,en;q=0.8",
     }
 
     try:
