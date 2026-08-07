@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8" />
 
@@ -10,318 +11,294 @@
 
 <body>
 
-  <div class="frame">
+<div class="frame">
 
-    <div class="canvas">
+  <div class="canvas">
 
-      <!-- subtle decorative elements -->
-      <div class="product-circle"></div>
-      <div class="dot-pattern"></div>
+    <!-- BACKGROUND DECOR -->
 
+    <div class="product-circle-main"></div>
+    <div class="product-circle-inner"></div>
 
-      <!-- LEFT CONTENT -->
-      <div class="left-column">
-
-        <div class="logo-area">
-          <img
-            class="logo"
-            src="{{logo_url}}"
-            alt=""
-          />
-        </div>
+    <div class="dot-pattern top-right"></div>
+    <div class="dot-pattern bottom-left"></div>
 
 
-        <div class="brand-line"></div>
+    <!-- LEFT SIDE -->
+
+    <div class="left-column">
+
+      <!-- LOGO -->
+
+      <div class="logo-area">
+        <img
+          class="logo"
+          src="{{logo_url}}"
+          alt=""
+        />
+      </div>
 
 
-        <div class="title-area">
-          <div
-            class="product-title"
-            id="productTitle"
-          >{{title}}</div>
-        </div>
+      <!-- SHORT RED LINE -->
+
+      <div class="brand-line"></div>
 
 
-        <div class="price-area">
-          <div
-            class="product-price"
-            id="productPrice"
-          >{{price}}</div>
-        </div>
+      <!-- TITLE -->
 
+      <div class="title-area">
 
-        <div class="shipping-badge">
-
-          <div class="shipping-icon">
-
-            <div class="truck-body"></div>
-            <div class="truck-cabin"></div>
-
-            <div class="truck-wheel one"></div>
-            <div class="truck-wheel two"></div>
-
-          </div>
-
-
-          <div class="shipping-text">
-
-            <div class="shipping-main">
-              900 TL VE ÜZERİ
-            </div>
-
-            <div class="shipping-sub">
-              KARGO BEDAVA
-            </div>
-
-          </div>
-
-        </div>
+        <div
+          class="product-title"
+          id="productTitle"
+        >{{title}}</div>
 
       </div>
 
 
-      <!-- PRODUCT -->
-      <div class="product-area">
+      <!-- PRICE -->
 
-        <img
-          class="product-image"
-          src="{{product_image_primary}}"
-          alt=""
-        />
+      <div class="price-area">
+
+        <div
+          class="product-price"
+          id="productPrice"
+        >{{price}}</div>
+
+      </div>
+
+
+      <!-- SHIPPING -->
+
+      <div class="shipping-card">
+
+        <div class="shipping-icon">
+
+          <div class="truck-body"></div>
+          <div class="truck-cabin"></div>
+
+          <div class="truck-wheel one"></div>
+          <div class="truck-wheel two"></div>
+
+        </div>
+
+
+        <div class="shipping-text">
+
+          <div class="shipping-main">
+            900 TL VE ÜZERİ
+          </div>
+
+          <div class="shipping-sub">
+            KARGO BEDAVA
+          </div>
+
+        </div>
 
       </div>
 
     </div>
 
 
-    <!-- FOOTER -->
-    <div class="footer">
+    <!-- PRODUCT -->
 
-      <div class="footer-line"></div>
+    <div class="product-area">
 
-      <div>
-        kayakirtasiye.com.tr
-      </div>
-
-      <div class="footer-line"></div>
+      <img
+        class="product-image"
+        src="{{product_image_primary}}"
+        alt=""
+      />
 
     </div>
 
   </div>
 
 
-  <script>
+  <!-- FOOTER -->
 
-    /*
-    -------------------------------------------
-    TITLE
-    Maximum 2 lines.
+  <div class="footer">
 
-    First decrease font size.
-    If it still does not fit,
-    shorten at a complete word and add ...
-    -------------------------------------------
-    */
+    <div class="footer-line"></div>
 
-    function titleFits(el) {
+    <div>
+      kayakirtasiye.com.tr
+    </div>
 
-      const lineHeight =
-        parseFloat(
-          window.getComputedStyle(el).lineHeight
-        );
+    <div class="footer-line"></div>
 
-      const maxHeight =
-        lineHeight * 2 + 2;
+  </div>
 
-      return el.scrollHeight <= maxHeight;
-
-    }
+</div>
 
 
-    function fitTitle() {
+<script>
 
-      const el =
-        document.getElementById("productTitle");
+/* ==================================================
+   TITLE FITTING
+   max 2 lines
+================================================== */
 
-      if (!el) return;
+function titleFits(el) {
 
+  const style =
+    window.getComputedStyle(el);
 
-      const original =
-        el.textContent.trim();
+  const lineHeight =
+    parseFloat(style.lineHeight);
 
+  const maxHeight =
+    (lineHeight * 2) + 5;
 
-      let size = 40;
-
-      const minSize = 30;
-
-
-      el.style.fontSize =
-        size + "px";
-
-
-      /*
-      Reduce title size until it fits
-      or reaches minimum.
-      */
-
-      while (
-        size > minSize &&
-        !titleFits(el)
-      ) {
-
-        size--;
-
-        el.style.fontSize =
-          size + "px";
-
-      }
+  return el.scrollHeight <= maxHeight;
+}
 
 
-      /*
-      Still doesn't fit:
-      shorten WORD BY WORD.
-      */
+function fitTitle() {
 
-      if (!titleFits(el)) {
+  const el =
+    document.getElementById("productTitle");
 
-        const words =
-          original.split(/\s+/);
+  if (!el) return;
 
+  const original =
+    el.textContent
+      .replace(/\s+/g, " ")
+      .trim();
 
-        let low = 1;
-        let high = words.length;
+  el.textContent = original;
 
-        let best = "";
+  let size = 40;
+  const minSize = 31;
 
+  el.style.fontSize =
+    size + "px";
 
-        while (low <= high) {
+  /* full title first */
 
-          const mid =
-            Math.floor(
-              (low + high) / 2
-            );
+  while (
+    size > minSize &&
+    !titleFits(el)
+  ) {
 
+    size--;
 
-          const candidate =
-            words
-              .slice(0, mid)
-              .join(" ")
-            + "...";
+    el.style.fontSize =
+      size + "px";
 
+  }
 
-          el.textContent =
-            candidate;
+  /* still too long -> truncate on full word */
 
+  if (!titleFits(el)) {
 
-          if (titleFits(el)) {
+    const words =
+      original.split(" ");
 
-            best =
-              candidate;
+    let low = 1;
+    let high = words.length;
+    let best = words[0] + "...";
 
-            low =
-              mid + 1;
+    while (low <= high) {
 
-          } else {
+      const mid =
+        Math.floor((low + high) / 2);
 
-            high =
-              mid - 1;
+      const candidate =
+        words
+          .slice(0, mid)
+          .join(" ")
+        + "...";
 
-          }
+      el.textContent =
+        candidate;
 
-        }
+      if (titleFits(el)) {
 
+        best =
+          candidate;
 
-        if (best) {
+        low =
+          mid + 1;
 
-          el.textContent =
-            best;
+      } else {
 
-        }
+        high =
+          mid - 1;
 
       }
 
     }
 
+    el.textContent =
+      best;
 
-    /*
-    -------------------------------------------
-    PRICE
-    Never truncate price.
+  }
 
-    Shrink only if necessary.
-    -------------------------------------------
-    */
-
-    function fitPrice() {
-
-      const el =
-        document.getElementById("productPrice");
+}
 
 
-      if (!el) return;
+/* ==================================================
+   PRICE FITTING
+   never truncate
+================================================== */
+
+function fitPrice() {
+
+  const el =
+    document.getElementById("productPrice");
+
+  if (!el) return;
+
+  let size = 86;
+
+  const minSize = 54;
+
+  const maxWidth = 430;
+
+  el.style.fontSize =
+    size + "px";
+
+  while (
+    el.scrollWidth > maxWidth &&
+    size > minSize
+  ) {
+
+    size--;
+
+    el.style.fontSize =
+      size + "px";
+
+  }
+
+}
 
 
-      const maxWidth =
-        420;
+/* ==================================================
+   WAIT FOR OUTFIT
+================================================== */
 
+async function prepareFrame() {
 
-      let size =
-        72;
+  try {
 
-
-      const minSize =
-        48;
-
-
-      el.style.fontSize =
-        size + "px";
-
-
-      while (
-        el.scrollWidth > maxWidth &&
-        size > minSize
-      ) {
-
-        size--;
-
-        el.style.fontSize =
-          size + "px";
-
-      }
-
+    if (
+      document.fonts &&
+      document.fonts.ready
+    ) {
+      await document.fonts.ready;
     }
 
+  } catch (e) {}
 
-    /*
-    Google font may load slightly later.
-    Recalculate after fonts are ready.
-    */
+  fitTitle();
+  fitPrice();
+}
 
-    async function applyFits() {
+prepareFrame();
 
-      try {
-
-        if (
-          document.fonts &&
-          document.fonts.ready
-        ) {
-
-          await document.fonts.ready;
-
-        }
-
-      } catch (e) {}
-
-
-      fitTitle();
-      fitPrice();
-
-    }
-
-
-    applyFits();
-
-  </script>
+</script>
 
 </body>
+
 </html>
