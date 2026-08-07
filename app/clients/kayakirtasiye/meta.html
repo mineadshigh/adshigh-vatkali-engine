@@ -135,112 +135,9 @@
 <script>
 
 /* ==================================================
-   TITLE FITTING
-   max 2 lines
-================================================== */
-
-function titleFits(el) {
-
-  const style =
-    window.getComputedStyle(el);
-
-  const lineHeight =
-    parseFloat(style.lineHeight);
-
-  const maxHeight =
-    (lineHeight * 2) + 5;
-
-  return el.scrollHeight <= maxHeight;
-}
-
-
-function fitTitle() {
-
-  const el =
-    document.getElementById("productTitle");
-
-  if (!el) return;
-
-  const original =
-    el.textContent
-      .replace(/\s+/g, " ")
-      .trim();
-
-  el.textContent = original;
-
-  let size = 40;
-  const minSize = 31;
-
-  el.style.fontSize =
-    size + "px";
-
-  /* full title first */
-
-  while (
-    size > minSize &&
-    !titleFits(el)
-  ) {
-
-    size--;
-
-    el.style.fontSize =
-      size + "px";
-
-  }
-
-  /* still too long -> truncate on full word */
-
-  if (!titleFits(el)) {
-
-    const words =
-      original.split(" ");
-
-    let low = 1;
-    let high = words.length;
-    let best = words[0] + "...";
-
-    while (low <= high) {
-
-      const mid =
-        Math.floor((low + high) / 2);
-
-      const candidate =
-        words
-          .slice(0, mid)
-          .join(" ")
-        + "...";
-
-      el.textContent =
-        candidate;
-
-      if (titleFits(el)) {
-
-        best =
-          candidate;
-
-        low =
-          mid + 1;
-
-      } else {
-
-        high =
-          mid - 1;
-
-      }
-
-    }
-
-    el.textContent =
-      best;
-
-  }
-
-}
-
-
-/* ==================================================
    PRICE FITTING
-   never truncate
+   Fiyatın içeriğine dokunmaz.
+   Yalnızca çok uzun fiyatlarda fontu küçültür.
 ================================================== */
 
 function fitPrice() {
@@ -251,9 +148,7 @@ function fitPrice() {
   if (!el) return;
 
   let size = 86;
-
   const minSize = 54;
-
   const maxWidth = 430;
 
   el.style.fontSize =
@@ -291,7 +186,6 @@ async function prepareFrame() {
 
   } catch (e) {}
 
-  fitTitle();
   fitPrice();
 }
 
