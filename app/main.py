@@ -1632,3 +1632,10 @@ async def probe(
             "url": url,
             "error": str(e),
         }
+
+@app.get("/outbound-ip")
+async def outbound_ip():
+    async with httpx.AsyncClient(timeout=10) as client:
+        r = await client.get("https://api.ipify.org?format=json")
+        r.raise_for_status()
+        return r.json()
