@@ -19,141 +19,419 @@ body {
   position: relative;
   width: 1080px;
   height: 1080px;
-  background: #ef3127;
   overflow: hidden;
+  background: #ef3127;
 }
 
-.inner-border {
+/* --------------------------------------------------
+   WHITE MAIN AREA
+-------------------------------------------------- */
+
+.canvas {
   position: absolute;
-  left: 24px;
-  top: 24px;
-  width: 1032px;
-  height: 1032px;
-  background: #ffffff;
-  border: none;
+  left: 18px;
+  top: 18px;
+  width: 1044px;
+  height: 982px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 78% 45%,
+      rgba(239, 49, 39, 0.035) 0,
+      rgba(239, 49, 39, 0.018) 230px,
+      transparent 231px
+    ),
+    #ffffff;
+}
+
+/* --------------------------------------------------
+   SUBTLE PRODUCT BACKGROUND DECORATION
+-------------------------------------------------- */
+
+.product-circle {
+  position: absolute;
+  left: 535px;
+  top: 155px;
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+  border: 2px solid rgba(239, 49, 39, 0.12);
+
   pointer-events: none;
 }
 
+.product-circle::before {
+  content: "";
+  position: absolute;
+
+  left: 48px;
+  top: 48px;
+
+  width: 400px;
+  height: 400px;
+
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.018);
+}
+
+/* --------------------------------------------------
+   LEFT COLUMN
+-------------------------------------------------- */
+
+.left-column {
+  position: absolute;
+
+  left: 72px;
+  top: 60px;
+
+  width: 420px;
+  height: 830px;
+
+  z-index: 3;
+}
+
+/* --------------------------------------------------
+   LOGO
+-------------------------------------------------- */
+
 .logo-area {
   position: absolute;
-  left: 400px;
-  top: 50px;
-  width: 280px;
-  height: 95px;
+
+  left: 0;
+  top: 0;
+
+  width: 300px;
+  height: 105px;
+
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .logo {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
   display: block;
-}
 
-.product-area {
-  position: absolute;
-  left: 310px;
-  top: 185px;
-  width: 460px;
-  height: 455px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-image {
   max-width: 100%;
   max-height: 100%;
+
   width: auto;
   height: auto;
+
   object-fit: contain;
-  display: block;
 }
 
-.bottom-area {
+/* --------------------------------------------------
+   SMALL RED LINE
+-------------------------------------------------- */
+
+.brand-line {
   position: absolute;
-  left: 120px;
-  top: 675px;
-  width: 840px;
-  height: 330px;
-  text-align: center;
+
+  left: 0;
+  top: 190px;
+
+  width: 78px;
+  height: 4px;
+
+  border-radius: 4px;
+
+  background: #ef3127;
 }
+
+/* --------------------------------------------------
+   TITLE
+-------------------------------------------------- */
 
 .title-area {
   position: absolute;
-  left: 40px;
-  top: 0;
-  width: 760px;
-  height: 105px;
+
+  left: 0;
+  top: 245px;
+
+  width: 420px;
+  height: 118px;
+
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .product-title {
-  font-size: 30px;
-  line-height: 1.18;
-  font-weight: 500;
-  color: #000000;
-  letter-spacing: -0.3px;
-  text-align: center;
+  width: 100%;
+  max-height: 118px;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  margin: 0;
+
+  color: #111111;
+
+  font-size: 40px;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+
+  text-align: left;
+
+  word-break: normal;
+  overflow-wrap: normal;
+
   overflow: hidden;
 }
 
-.divider {
+/* --------------------------------------------------
+   PRICE
+-------------------------------------------------- */
+
+.price-area {
   position: absolute;
+
   left: 0;
-  top: 130px;
-  width: 840px;
-  height: 4px;
-  background: #ef3127;
+  top: 415px;
+
+  width: 420px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.promo-area {
-  position: absolute;
-  left: 190px;
-  top: 170px;
-  width: 460px;
-  height: 145px;
-  text-align: center;
-}
+.product-price {
+  display: inline-block;
 
-.shipping-title {
-  font-size: 30px;
+  max-width: 100%;
+
+  color: #ef3127;
+
+  font-size: 72px;
   line-height: 1;
   font-weight: 800;
-  color: #000000;
-  margin-top: 0;
+
+  letter-spacing: -2px;
+
   white-space: nowrap;
 }
 
-.shipping-subtitle {
-  font-size: 22px;
-  line-height: 1.2;
-  font-weight: 400;
-  color: #000000;
-  margin-top: 12px;
+/* --------------------------------------------------
+   SHIPPING BADGE
+-------------------------------------------------- */
+
+.shipping-badge {
+  position: absolute;
+
+  left: 0;
+  top: 560px;
+
+  width: 390px;
+  min-height: 92px;
+
+  padding: 17px 25px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ef3127;
+
+  border-radius: 22px;
+
+  color: #ffffff;
+}
+
+.shipping-icon {
+  position: relative;
+
+  flex: 0 0 55px;
+
+  width: 55px;
+  height: 45px;
+
+  margin-right: 18px;
+}
+
+/* simple CSS truck */
+.truck-body {
+  position: absolute;
+
+  left: 0;
+  top: 7px;
+
+  width: 32px;
+  height: 25px;
+
+  border: 4px solid #ffffff;
+  border-radius: 3px;
+}
+
+.truck-cabin {
+  position: absolute;
+
+  left: 31px;
+  top: 15px;
+
+  width: 19px;
+  height: 17px;
+
+  border: 4px solid #ffffff;
+  border-left: 0;
+
+  border-radius: 0 5px 4px 0;
+}
+
+.truck-wheel {
+  position: absolute;
+
+  bottom: 0;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+.truck-wheel.one {
+  left: 8px;
+}
+
+.truck-wheel.two {
+  left: 36px;
+}
+
+.shipping-text {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.shipping-main {
+  font-size: 25px;
+  line-height: 1.02;
+  font-weight: 800;
+
+  letter-spacing: -0.3px;
+
   white-space: nowrap;
 }
 
-.cta-button {
-  display: inline-flex;
+.shipping-sub {
+  margin-top: 4px;
+
+  font-size: 25px;
+  line-height: 1.02;
+  font-weight: 800;
+
+  letter-spacing: -0.3px;
+
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   PRODUCT AREA
+-------------------------------------------------- */
+
+.product-area {
+  position: absolute;
+
+  /*
+    IMPORTANT:
+    Product area and left text column NEVER overlap.
+  */
+
+  left: 530px;
+  top: 130px;
+
+  width: 485px;
+  height: 730px;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 12px;
-  width: 285px;
-  height: 78px;
+
+  overflow: hidden;
+
+  z-index: 2;
+}
+
+.product-image {
+  display: block;
+
+  /*
+    NO CROP.
+    NO DISTORTION.
+    NO OVERFLOW.
+  */
+
+  max-width: 100%;
+  max-height: 100%;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+/* --------------------------------------------------
+   LIGHT DOT DECORATION
+-------------------------------------------------- */
+
+.dot-pattern {
+  position: absolute;
+
+  right: 30px;
+  top: 25px;
+
+  width: 145px;
+  height: 105px;
+
+  opacity: 0.25;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.16) 2px,
+      transparent 2.5px
+    );
+
+  background-size: 17px 17px;
+
+  pointer-events: none;
+}
+
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
+
+.footer {
+  position: absolute;
+
+  left: 18px;
+  bottom: 18px;
+
+  width: 1044px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background: #ef3127;
-  border-radius: 15px;
+
   color: #ffffff;
-  font-size: 32px;
+
+  font-size: 25px;
   line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.4px;
+  font-weight: 600;
+
+  letter-spacing: -0.2px;
+}
+
+.footer-line {
+  width: 170px;
+  height: 2px;
+
+  margin: 0 28px;
+
+  background: rgba(255, 255, 255, 0.8);
 }
