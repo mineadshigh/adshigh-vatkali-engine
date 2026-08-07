@@ -2,35 +2,326 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
+
   <style>
     {{CSS}}
   </style>
 </head>
+
 <body>
+
   <div class="frame">
-    <div class="inner-border"></div>
 
-    <div class="logo-area">
-      <img class="logo" src="{{logo_url}}" />
-    </div>
+    <div class="canvas">
 
-    <div class="product-area">
-      <img class="product-image" src="{{product_image_primary}}" />
-    </div>
+      <!-- subtle decorative elements -->
+      <div class="product-circle"></div>
+      <div class="dot-pattern"></div>
 
-    <div class="bottom-area">
-      <div class="title-area">
-        <div class="product-title">{{title}}</div>
+
+      <!-- LEFT CONTENT -->
+      <div class="left-column">
+
+        <div class="logo-area">
+          <img
+            class="logo"
+            src="{{logo_url}}"
+            alt=""
+          />
+        </div>
+
+
+        <div class="brand-line"></div>
+
+
+        <div class="title-area">
+          <div
+            class="product-title"
+            id="productTitle"
+          >{{title}}</div>
+        </div>
+
+
+        <div class="price-area">
+          <div
+            class="product-price"
+            id="productPrice"
+          >{{price}}</div>
+        </div>
+
+
+        <div class="shipping-badge">
+
+          <div class="shipping-icon">
+
+            <div class="truck-body"></div>
+            <div class="truck-cabin"></div>
+
+            <div class="truck-wheel one"></div>
+            <div class="truck-wheel two"></div>
+
+          </div>
+
+
+          <div class="shipping-text">
+
+            <div class="shipping-main">
+              900 TL VE ÜZERİ
+            </div>
+
+            <div class="shipping-sub">
+              KARGO BEDAVA
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
-      <div class="divider"></div>
 
-      <div class="promo-area">
-        <div class="shipping-title">KARGO BEDAVA</div>
-        <div class="shipping-subtitle">900 TL ve üzeri alışverişlerde</div>
-        <div class="cta-button">HEMEN İNCELE</div>
+      <!-- PRODUCT -->
+      <div class="product-area">
+
+        <img
+          class="product-image"
+          src="{{product_image_primary}}"
+          alt=""
+        />
+
       </div>
+
     </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+      <div class="footer-line"></div>
+
+      <div>
+        kayakirtasiye.com.tr
+      </div>
+
+      <div class="footer-line"></div>
+
+    </div>
+
   </div>
+
+
+  <script>
+
+    /*
+    -------------------------------------------
+    TITLE
+    Maximum 2 lines.
+
+    First decrease font size.
+    If it still does not fit,
+    shorten at a complete word and add ...
+    -------------------------------------------
+    */
+
+    function titleFits(el) {
+
+      const lineHeight =
+        parseFloat(
+          window.getComputedStyle(el).lineHeight
+        );
+
+      const maxHeight =
+        lineHeight * 2 + 2;
+
+      return el.scrollHeight <= maxHeight;
+
+    }
+
+
+    function fitTitle() {
+
+      const el =
+        document.getElementById("productTitle");
+
+      if (!el) return;
+
+
+      const original =
+        el.textContent.trim();
+
+
+      let size = 40;
+
+      const minSize = 30;
+
+
+      el.style.fontSize =
+        size + "px";
+
+
+      /*
+      Reduce title size until it fits
+      or reaches minimum.
+      */
+
+      while (
+        size > minSize &&
+        !titleFits(el)
+      ) {
+
+        size--;
+
+        el.style.fontSize =
+          size + "px";
+
+      }
+
+
+      /*
+      Still doesn't fit:
+      shorten WORD BY WORD.
+      */
+
+      if (!titleFits(el)) {
+
+        const words =
+          original.split(/\s+/);
+
+
+        let low = 1;
+        let high = words.length;
+
+        let best = "";
+
+
+        while (low <= high) {
+
+          const mid =
+            Math.floor(
+              (low + high) / 2
+            );
+
+
+          const candidate =
+            words
+              .slice(0, mid)
+              .join(" ")
+            + "...";
+
+
+          el.textContent =
+            candidate;
+
+
+          if (titleFits(el)) {
+
+            best =
+              candidate;
+
+            low =
+              mid + 1;
+
+          } else {
+
+            high =
+              mid - 1;
+
+          }
+
+        }
+
+
+        if (best) {
+
+          el.textContent =
+            best;
+
+        }
+
+      }
+
+    }
+
+
+    /*
+    -------------------------------------------
+    PRICE
+    Never truncate price.
+
+    Shrink only if necessary.
+    -------------------------------------------
+    */
+
+    function fitPrice() {
+
+      const el =
+        document.getElementById("productPrice");
+
+
+      if (!el) return;
+
+
+      const maxWidth =
+        420;
+
+
+      let size =
+        72;
+
+
+      const minSize =
+        48;
+
+
+      el.style.fontSize =
+        size + "px";
+
+
+      while (
+        el.scrollWidth > maxWidth &&
+        size > minSize
+      ) {
+
+        size--;
+
+        el.style.fontSize =
+          size + "px";
+
+      }
+
+    }
+
+
+    /*
+    Google font may load slightly later.
+    Recalculate after fonts are ready.
+    */
+
+    async function applyFits() {
+
+      try {
+
+        if (
+          document.fonts &&
+          document.fonts.ready
+        ) {
+
+          await document.fonts.ready;
+
+        }
+
+      } catch (e) {}
+
+
+      fitTitle();
+      fitPrice();
+
+    }
+
+
+    applyFits();
+
+  </script>
+
 </body>
 </html>
