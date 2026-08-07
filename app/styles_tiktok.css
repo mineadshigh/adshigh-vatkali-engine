@@ -1,119 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 1080px;
-  height: 1920px;
-  overflow: hidden;
-  background: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1920px;
-  overflow: hidden;
-  background: #ffffff;
-}
-
-/* ÜST BAŞLIK */
-
-.main-title {
-  position: absolute;
-  left: 125px;
-  top: 100px;
-  width: 830px;
-  height: 75px;
-
-  margin: 0;
-  padding: 0;
-
-  color: #000000;
-
-  font-size: 84px;
-  line-height: 75px;
-  font-weight: 700;
-  letter-spacing: -2px;
-
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* ÜRÜN GÖRSELİ */
-
-.product-frame {
-  position: absolute;
-  left: 110px;
-  top: 253px;
-  width: 860px;
-  height: 1289px;
-
-  overflow: hidden;
-  background: #f5f5f5;
-}
-
-.product-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-  object-position: center center;
-}
-
-/* TÜM ÜRÜNLERDE NET */
-
-.offer-label {
-  position: absolute;
-  left: 146px;
-  top: 1586px;
-  width: 459px;
-  height: 42px;
-
-  margin: 0;
-  padding: 0;
-
-  color: #000000;
-
-  font-size: 48px;
-  line-height: 42px;
-  font-weight: 400;
-  letter-spacing: -0.8px;
-
-  text-align: left;
-  white-space: nowrap;
-}
-
-/* 40%-50%-60% */
-
-.rate-line {
-  position: absolute;
-  left: 143px;
-  top: 1660px;
-  width: 791px;
-  height: 89px;
-
-  margin: 0;
-  padding: 0;
-
-  color: #000000;
-
-  font-size: 127px;
-  line-height: 89px;
-  font-weight: 700;
-  letter-spacing: -5px;
-
-  text-align: left;
-  white-space: nowrap;
-}
-
-.hidden {
-  display: none !important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
+* { box-sizing:border-box; }
+.frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#fff; color:#000; }
+.product-frame { position:absolute; overflow:hidden; background:#f3f3f3; }
+.product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.variant-net40 .product-frame { left:37px; top:113px; width:1006px; height:1510px; }
+.net40-logo { position:absolute; left:366px; top:1716px; width:349px; height:46px; }
+.net40-logo img { position:absolute; left:50%; top:50%; display:block; width:389px; height:59px; object-fit:contain; transform:translate(-50%,-50%) scaleX(.955); transform-origin:center; }
+.variant-net40 .offer-panel { display:none; }
+.variant-net40plus20 .product-frame { left:105px; top:284px; width:870px; height:1304px; }
+.variant-net40plus20 .net40-logo { display:none; }
+.offer-panel { position:absolute; inset:0; }
+.campaign-title { position:absolute; left:279px; top:108px; width:523px; height:62px; margin:0; font-size:55px; line-height:62px; font-weight:700; letter-spacing:-1.4px; white-space:nowrap; }
+.campaign-offer { position:absolute; left:300px; top:174px; width:481px; height:52px; margin:0; color:#bd0707; font-size:40px; line-height:52px; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
+.campaign-offer .medium { font-weight:500; }
+.campaign-offer .regular { font-weight:400; }
+.campaign-offer strong { font-size:54px; font-weight:700; }
+.product-title { position:absolute; left:105px; top:1605px; width:530px; margin:0; font-size:32px; line-height:39px; font-weight:400; letter-spacing:-.2px; text-transform:uppercase; }
+.prices { position:absolute; right:105px; top:1603px; display:flex; flex-direction:column; align-items:flex-end; white-space:nowrap; }
+.old-price { font-size:32px; line-height:35px; font-weight:400; text-decoration:line-through; }
+.sale-price { color:#bd0707; font-size:40px; line-height:43px; font-weight:500; }
+.cta { position:absolute; left:781px; top:1691px; width:196px; height:53px; display:flex; align-items:center; justify-content:center; padding-bottom:2px; background:#000; color:#fff; font-size:27px; line-height:30px; font-weight:400; white-space:nowrap; }
