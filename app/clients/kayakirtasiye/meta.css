@@ -111,7 +111,6 @@ body {
 
 /* ==================================================
    LOGO
-   Daha büyük
 ================================================== */
 
 .logo-area {
@@ -157,7 +156,8 @@ body {
 
 /* ==================================================
    PRODUCT TITLE
-   Gerçek maksimum 2 satır
+   Maksimum 2 satır.
+   Sığmazsa ikinci satırın sonunda ...
 ================================================== */
 
 .title-area {
@@ -166,7 +166,7 @@ body {
   top: 310px;
 
   width: 445px;
-  height: 112px;
+  height: 116px;
 
   overflow: visible;
 }
@@ -175,27 +175,26 @@ body {
   width: 100%;
 
   margin: 0;
-  padding: 3px 0 7px 0;
+  padding: 4px 0 8px 0;
 
   color: #202020;
 
-  font-size: 40px !important;
-  line-height: 1.25 !important;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 40px;
+  line-height: 1.28;
   font-weight: 700;
 
   letter-spacing: -0.8px;
-
   text-align: left;
 
   word-break: normal;
   overflow-wrap: normal;
 
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 2 !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 
-  overflow: hidden !important;
-  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* ==================================================
@@ -361,9 +360,9 @@ body {
 /* ==================================================
    PRODUCT AREA
 
-   Ürün büyük kalır.
-   Crop YOK.
-   Metin alanına taşamaz.
+   Crop yok.
+   Görsel oranını korur.
+   Kendisine ayrılan alanın dışına çıkmaz.
 ================================================== */
 
 .product-area {
