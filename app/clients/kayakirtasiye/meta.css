@@ -38,7 +38,7 @@ body {
 }
 
 /* ==================================================
-   BACKGROUND DECOR
+   BACKGROUND CIRCLES
 ================================================== */
 
 .product-circle-main {
@@ -64,7 +64,7 @@ body {
 }
 
 /* ==================================================
-   DOT PATTERNS
+   DOT PATTERN
 ================================================== */
 
 .dot-pattern {
@@ -81,6 +81,7 @@ body {
 
   background-size: 17px 17px;
   opacity: 0.33;
+
   z-index: 1;
   pointer-events: none;
 }
@@ -96,28 +97,30 @@ body {
 }
 
 /* ==================================================
-   LEFT CONTENT AREA
+   LEFT COLUMN
 ================================================== */
 
 .left-column {
   position: absolute;
   left: 88px;
-  top: 74px;
-  width: 430px;
-  height: 800px;
+  top: 65px;
+  width: 450px;
+  height: 820px;
   z-index: 4;
 }
 
 /* ==================================================
    LOGO
+   Daha büyük
 ================================================== */
 
 .logo-area {
   position: absolute;
   left: 0;
   top: 0;
-  width: 320px;
-  height: 145px;
+
+  width: 385px;
+  height: 160px;
 
   display: flex;
   align-items: flex-start;
@@ -126,54 +129,60 @@ body {
 
 .logo {
   display: block;
+
   max-width: 100%;
   max-height: 100%;
+
   width: auto;
   height: auto;
+
   object-fit: contain;
 }
 
 /* ==================================================
-   SHORT RED LINE
+   RED LINE
 ================================================== */
 
 .brand-line {
   position: absolute;
   left: 0;
-  top: 252px;
+  top: 255px;
+
   width: 92px;
   height: 4px;
+
   background: #ef3127;
   border-radius: 4px;
 }
 
 /* ==================================================
-   TITLE
+   PRODUCT TITLE
+   Gerçek maksimum 2 satır
 ================================================== */
 
 .title-area {
   position: absolute;
   left: 0;
-  top: 315px;
-  width: 440px;
-  height: 126px;
+  top: 310px;
 
-  display: flex;
-  align-items: flex-start;
+  width: 445px;
+  height: 112px;
 
-  overflow: hidden;
+  overflow: visible;
 }
 
 .product-title {
   width: 100%;
+
   margin: 0;
-  padding: 2px 0 8px 0;
+  padding: 3px 0 7px 0;
 
   color: #202020;
 
-  font-size: 40px;
-  line-height: 1.18;
+  font-size: 40px !important;
+  line-height: 1.25 !important;
   font-weight: 700;
+
   letter-spacing: -0.8px;
 
   text-align: left;
@@ -181,7 +190,12 @@ body {
   word-break: normal;
   overflow-wrap: normal;
 
-  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
 /* ==================================================
@@ -191,9 +205,10 @@ body {
 .price-area {
   position: absolute;
   left: 0;
-  top: 492px;
-  width: 430px;
-  height: 112px;
+  top: 475px;
+
+  width: 445px;
+  height: 115px;
 
   display: flex;
   align-items: center;
@@ -202,12 +217,14 @@ body {
 
 .product-price {
   display: inline-block;
+
   max-width: 100%;
 
   color: #ef3127;
 
   font-size: 86px;
   line-height: 1;
+
   font-weight: 800;
 
   letter-spacing: -3px;
@@ -216,49 +233,54 @@ body {
 }
 
 /* ==================================================
-   SHIPPING BADGE
+   SHIPPING CTA
 ================================================== */
 
 .shipping-card {
   position: absolute;
   left: 0;
-  top: 650px;
+  top: 630px;
 
-  width: 420px;
-  height: 96px;
+  width: 435px;
+  height: 112px;
 
   display: flex;
   align-items: center;
 
-  padding: 0 24px;
+  padding: 0 26px;
 
-  border-radius: 28px;
+  border-radius: 30px;
 
   background: #ef3127;
-
   color: #ffffff;
 
   box-shadow:
-    0 10px 26px rgba(239, 49, 39, 0.16);
+    0 12px 28px rgba(239, 49, 39, 0.20);
 }
 
-/* truck */
+/* ==================================================
+   TRUCK
+================================================== */
 
 .shipping-icon {
   position: relative;
-  flex: 0 0 67px;
-  width: 67px;
-  height: 52px;
-  margin-right: 18px;
+
+  flex: 0 0 70px;
+
+  width: 70px;
+  height: 56px;
+
+  margin-right: 19px;
 }
 
 .truck-body {
   position: absolute;
+
   left: 0;
   top: 7px;
 
-  width: 40px;
-  height: 30px;
+  width: 42px;
+  height: 32px;
 
   border: 4px solid #ffffff;
   border-radius: 4px;
@@ -266,11 +288,12 @@ body {
 
 .truck-cabin {
   position: absolute;
-  left: 38px;
+
+  left: 40px;
   top: 16px;
 
-  width: 22px;
-  height: 21px;
+  width: 24px;
+  height: 23px;
 
   border: 4px solid #ffffff;
   border-left: 0;
@@ -280,12 +303,14 @@ body {
 
 .truck-wheel {
   position: absolute;
-  bottom: 2px;
 
-  width: 11px;
-  height: 11px;
+  bottom: 1px;
+
+  width: 12px;
+  height: 12px;
 
   border-radius: 50%;
+
   background: #ffffff;
 }
 
@@ -294,47 +319,61 @@ body {
 }
 
 .truck-wheel.two {
-  left: 44px;
+  left: 47px;
 }
+
+/* ==================================================
+   SHIPPING TEXT
+================================================== */
 
 .shipping-text {
   min-width: 0;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .shipping-main {
-  font-size: 26px;
+  font-size: 27px;
   line-height: 1;
+
   font-weight: 800;
-  letter-spacing: -0.4px;
+
+  letter-spacing: -0.45px;
+
   white-space: nowrap;
 }
 
 .shipping-sub {
-  margin-top: 6px;
+  margin-top: 8px;
 
-  font-size: 26px;
+  font-size: 27px;
   line-height: 1;
+
   font-weight: 800;
-  letter-spacing: -0.4px;
+
+  letter-spacing: -0.45px;
 
   white-space: nowrap;
 }
 
 /* ==================================================
    PRODUCT AREA
+
+   Ürün büyük kalır.
+   Crop YOK.
+   Metin alanına taşamaz.
 ================================================== */
 
 .product-area {
   position: absolute;
 
-  left: 545px;
-  top: 145px;
+  left: 555px;
+  top: 135px;
 
-  width: 455px;
-  height: 700px;
+  width: 445px;
+  height: 720px;
 
   display: flex;
   align-items: center;
@@ -357,7 +396,7 @@ body {
   object-fit: contain;
   object-position: center;
 
-  /* kesinlikle crop/deformasyon yok */
+  flex-shrink: 0;
 }
 
 /* ==================================================
@@ -366,6 +405,7 @@ body {
 
 .footer {
   position: absolute;
+
   left: 0;
   bottom: 0;
 
@@ -382,13 +422,17 @@ body {
 
   font-size: 27px;
   line-height: 1;
+
   font-weight: 600;
+
   letter-spacing: -0.3px;
 }
 
 .footer-line {
   width: 185px;
   height: 2px;
+
   margin: 0 28px;
+
   background: rgba(255, 255, 255, 0.9);
 }
