@@ -18,6 +18,7 @@ FEED_URL_META = os.getenv(
     "FEED_URL_META",
     "https://www.vatkali.com/Xml/?Type=FACEBOOK2&fname=vatkali",
 )
+
 FEED_URL_TIKTOK = os.getenv(
     "FEED_URL_TIKTOK",
     "https://www.vatkali.com/feed/tiktokfeed.xml",
@@ -36,9 +37,11 @@ app = FastAPI()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frameassets"))
 CACHE_DIR = os.path.join(BASE_DIR, "render_cache")
+
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 
 # -------------------------
 # Helpers
@@ -47,26 +50,51 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 def norm_price(s: str) -> str:
     return " ".join((s or "").split()).strip()
 
+
 def format_currency_tr(s: str) -> str:
     x = norm_price(s)
+
     if not x:
         return x
+
     return x.replace("TRY", "TL").replace("try", "TL")
+
 
 def _clean_url(u: str) -> str:
     if not u:
         return ""
+
     parts = urlsplit(u)
+
     q = [
         (k, v)
         for (k, v) in parse_qsl(parts.query, keep_blank_values=True)
-        if not (k.lower().startswith("utm_") or k.lower() in {"fbclid", "gclid"})
+        if not (
+            k.lower().startswith("utm_")
+            or k.lower() in {"fbclid", "gclid"}
+        )
     ]
+
     new_query = urlencode(q, doseq=True)
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, new_query, parts.fragment))
+
+    return urlunsplit(
+        (
+            parts.scheme,
+            parts.netloc,
+            parts.path,
+            new_query,
+            parts.fragment,
+        )
+    )
+
 
 def get_base_url(request: Request) -> str:
-    return APP_BASE_URL if APP_BASE_URL else str(request.base_url).rstrip("/")
+    return (
+        APP_BASE_URL
+        if APP_BASE_URL
+        else str(request.base_url).rstrip("/")
+    )
+
 
 def _parse_money_to_float(s: str) -> float | None:
     if not s:
@@ -74,6 +102,7 @@ def _parse_money_to_float(s: str) -> float | None:
 
     t = str(s).strip()
     t = re.sub(r"[^\d.,]", "", t)
+
     if not t:
         return None
 
@@ -83,24 +112,32 @@ def _parse_money_to_float(s: str) -> float | None:
             t = t.replace(",", ".")
         else:
             t = t.replace(",", "")
+
     else:
         if "," in t and "." not in t:
             t = t.replace(",", ".")
+
         elif "." in t and "," not in t:
             if re.fullmatch(r"\d{1,3}(\.\d{3})+", t):
                 t = t.replace(".", "")
 
     try:
         return float(t)
+
     except Exception:
         return None
 
+
 def format_tl(price: str) -> str:
     v = _parse_money_to_float(price)
+
     if v is None:
         return format_currency_tr(price)
+
     n = int(round(v))
+
     return f"{n:,}".replace(",", ".") + " TL"
+
 
 def hidden_flags(price: str, sale: str):
     p = _parse_money_to_float(price)
@@ -114,9 +151,14 @@ def hidden_flags(price: str, sale: str):
 
     return ("", "", "hidden")
 
+
 def build_sig(*parts: str) -> str:
-    raw = "|".join([p or "" for p in parts]).encode("utf-8")
+    raw = "|".join(
+        [p or "" for p in parts]
+    ).encode("utf-8")
+
     return hashlib.md5(raw).hexdigest()[:12]
+
 
 def build_render_cache_key(
     product_id: str,
@@ -130,6 +172,7 @@ def build_render_cache_key(
     w: int,
     h: int,
 ) -> str:
+
     parts = [
         title,
         price,
@@ -141,72 +184,162 @@ def build_render_cache_key(
         str(w),
         str(h),
     ]
+
     if product_id:
         parts.append(product_id)
+
     return build_sig(*parts)
 
+
 def get_cache_file_path(cache_key: str) -> str:
-    return os.path.join(CACHE_DIR, f"{cache_key}.png")
+    return os.path.join(
+        CACHE_DIR,
+        f"{cache_key}.png",
+    )
+
 
 def get_template_and_css(design: str) -> tuple[str, str]:
+
     if design == "kaya_meta_v1":
         return (
-            os.path.join(BASE_DIR, "clients", "kayakirtasiye", "meta.html"),
-            os.path.join(BASE_DIR, "clients", "kayakirtasiye", "meta.css"),
+            os.path.join(
+                BASE_DIR,
+                "clients",
+                "kayakirtasiye",
+                "meta.html",
+            ),
+            os.path.join(
+                BASE_DIR,
+                "clients",
+                "kayakirtasiye",
+                "meta.css",
+            ),
         )
-        
+
     if design == "meta_summer26":
         return (
-            os.path.join(BASE_DIR, "template_meta_summer26.html"),
-            os.path.join(BASE_DIR, "styles_meta_summer26.css"),
+            os.path.join(
+                BASE_DIR,
+                "template_meta_summer26.html",
+            ),
+            os.path.join(
+                BASE_DIR,
+                "styles_meta_summer26.css",
+            ),
         )
 
     if design == "tiktok_summer26":
         return (
-            os.path.join(BASE_DIR, "template_tiktok_summer26.html"),
-            os.path.join(BASE_DIR, "styles_tiktok_summer26.css"),
+            os.path.join(
+                BASE_DIR,
+                "template_tiktok_summer26.html",
+            ),
+            os.path.join(
+                BASE_DIR,
+                "styles_tiktok_summer26.css",
+            ),
         )
 
     if design == "tiktok_v1":
         return (
-            os.path.join(BASE_DIR, "template_tiktok.html"),
-            os.path.join(BASE_DIR, "styles_tiktok.css"),
+            os.path.join(
+                BASE_DIR,
+                "template_tiktok.html",
+            ),
+            os.path.join(
+                BASE_DIR,
+                "styles_tiktok.css",
+            ),
         )
 
     return (
-        os.path.join(BASE_DIR, "template_meta.html"),
-        os.path.join(BASE_DIR, "styles_meta.css"),
+        os.path.join(
+            BASE_DIR,
+            "template_meta.html",
+        ),
+        os.path.join(
+            BASE_DIR,
+            "styles_meta.css",
+        ),
     )
+
 
 # -------------------------
 # XML utilities
 # -------------------------
 
-def text_of(item: ET.Element, tag: str, ns: dict | None = None) -> str:
+def text_of(
+    item: ET.Element,
+    tag: str,
+    ns: dict | None = None,
+) -> str:
+
     if ns and ":" in tag:
-        return (item.findtext(tag, default="", namespaces=ns) or "").strip()
-    return (item.findtext(tag, default="") or "").strip()
+        return (
+            item.findtext(
+                tag,
+                default="",
+                namespaces=ns,
+            )
+            or ""
+        ).strip()
 
-def set_image_link(item: ET.Element, new_url: str):
-    ns = {"g": "http://base.google.com/ns/1.0"}
+    return (
+        item.findtext(
+            tag,
+            default="",
+        )
+        or ""
+    ).strip()
 
-    img = item.find("g:image_link", ns)
+
+def set_image_link(
+    item: ET.Element,
+    new_url: str,
+):
+    ns = {
+        "g": "http://base.google.com/ns/1.0"
+    }
+
+    img = item.find(
+        "g:image_link",
+        ns,
+    )
+
     if img is not None:
         img.text = new_url
-        for extra in item.findall("g:additional_image_link", ns):
+
+        for extra in item.findall(
+            "g:additional_image_link",
+            ns,
+        ):
             item.remove(extra)
+
         return
 
     img = item.find("image_link")
+
     if img is not None:
         img.text = new_url
-        for extra in item.findall("additional_image_link"):
+
+        for extra in item.findall(
+            "additional_image_link"
+        ):
             item.remove(extra)
+
         return
 
-    ET.SubElement(item, "image_link").text = new_url
+    ET.SubElement(
+        item,
+        "image_link",
+    ).text = new_url
 
-def extract_title(item: ET.Element, ns: dict | None = None) -> str:
+
+def extract_title(
+    item: ET.Element,
+    ns: dict | None = None,
+) -> str:
+
     candidates = [
         text_of(item, "title", ns),
         text_of(item, "g:title", ns),
@@ -220,51 +353,117 @@ def extract_title(item: ET.Element, ns: dict | None = None) -> str:
 
     for c in candidates:
         if c:
-            return " ".join(c.split()).strip()
+            return " ".join(
+                c.split()
+            ).strip()
 
     return ""
 
-def get_custom_labels(item: ET.Element, ns: dict | None = None) -> str:
+
+def get_custom_labels(
+    item: ET.Element,
+    ns: dict | None = None,
+) -> str:
+
     labels = []
 
     for i in range(5):
-        labels.append(text_of(item, f"g:custom_label_{i}", ns))
-        labels.append(text_of(item, f"custom_label_{i}", ns))
+        labels.append(
+            text_of(
+                item,
+                f"g:custom_label_{i}",
+                ns,
+            )
+        )
 
-    return " ".join([x for x in labels if x]).lower()
+        labels.append(
+            text_of(
+                item,
+                f"custom_label_{i}",
+                ns,
+            )
+        )
+
+    return " ".join(
+        [x for x in labels if x]
+    ).lower()
+
 
 # -------------------------
 # Image selection
 # -------------------------
 
 def choose_images_any(item: ET.Element):
-    ns = {"g": "http://base.google.com/ns/1.0"}
 
-    primary_raw = text_of(item, "g:image_link", ns=ns) or text_of(item, "image_link")
+    ns = {
+        "g": "http://base.google.com/ns/1.0"
+    }
+
+    primary_raw = (
+        text_of(
+            item,
+            "g:image_link",
+            ns=ns,
+        )
+        or text_of(
+            item,
+            "image_link",
+        )
+    )
+
     additional_raw = []
 
-    for e in item.findall("g:additional_image_link", namespaces=ns):
-        if e is not None and (e.text or "").strip():
-            additional_raw.append((e.text or "").strip())
+    for e in item.findall(
+        "g:additional_image_link",
+        namespaces=ns,
+    ):
+        if (
+            e is not None
+            and (e.text or "").strip()
+        ):
+            additional_raw.append(
+                (e.text or "").strip()
+            )
 
-    for e in item.findall("additional_image_link"):
-        if e is not None and (e.text or "").strip():
-            additional_raw.append((e.text or "").strip())
+    for e in item.findall(
+        "additional_image_link"
+    ):
+        if (
+            e is not None
+            and (e.text or "").strip()
+        ):
+            additional_raw.append(
+                (e.text or "").strip()
+            )
 
-    all_urls = [primary_raw] + additional_raw
+    all_urls = [
+        primary_raw
+    ] + additional_raw
 
     seen = set()
     uniq = []
+
     for u in all_urls:
         cu = _clean_url(u)
+
         if cu and cu not in seen:
             seen.add(cu)
             uniq.append(u)
 
-    primary = uniq[0] if uniq else primary_raw
-    s1 = uniq[1] if len(uniq) > 1 else primary
+    primary = (
+        uniq[0]
+        if uniq
+        else primary_raw
+    )
+
+    s1 = (
+        uniq[1]
+        if len(uniq) > 1
+        else primary
+    )
 
     return primary, s1
+
 
 # -------------------------
 # HTTP -> Data URI
@@ -274,63 +473,218 @@ _TRANSPARENT_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
 )
 
-def _transparent_data_uri() -> str:
-    return "data:image/png;base64," + base64.b64encode(_TRANSPARENT_PNG).decode("ascii")
 
-def _guess_mime(url: str, content_type: str | None) -> str:
-    if content_type and "image/" in content_type:
-        return content_type.split(";")[0].strip()
+def _transparent_data_uri() -> str:
+    return (
+        "data:image/png;base64,"
+        + base64.b64encode(
+            _TRANSPARENT_PNG
+        ).decode("ascii")
+    )
+
+
+def _guess_mime(
+    url: str,
+    content_type: str | None,
+) -> str:
+
+    if (
+        content_type
+        and "image/" in content_type
+    ):
+        return (
+            content_type
+            .split(";")[0]
+            .strip()
+        )
+
     u = (url or "").lower()
+
     if ".png" in u:
         return "image/png"
+
     if ".webp" in u:
         return "image/webp"
+
     if ".svg" in u:
         return "image/svg+xml"
+
     return "image/jpeg"
 
-async def to_data_uri(url: str, client: httpx.AsyncClient) -> str:
+
+def _image_headers(url: str) -> dict:
+    """
+    Görselin geldiği domaine göre doğru HTTP header'larını üretir.
+    Kaya görseline Vatkalı referer gönderilmesini engeller.
+    """
+
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/126.0 Safari/537.36"
+        ),
+        "Accept": (
+            "image/avif,"
+            "image/webp,"
+            "image/apng,"
+            "image/*,"
+            "*/*;q=0.8"
+        ),
+        "Accept-Language": (
+            "tr-TR,tr;q=0.9,en;q=0.8"
+        ),
+    }
+
+    hostname = (
+        urlsplit(url).hostname
+        or ""
+    ).lower()
+
+    if (
+        hostname == "kayakirtasiye.com.tr"
+        or hostname.endswith(
+            ".kayakirtasiye.com.tr"
+        )
+    ):
+        headers["Referer"] = (
+            "https://www.kayakirtasiye.com.tr/"
+        )
+
+    elif (
+        hostname == "vatkali.com"
+        or hostname.endswith(
+            ".vatkali.com"
+        )
+    ):
+        headers["Referer"] = (
+            "https://www.vatkali.com/"
+        )
+
+    return headers
+
+
+async def to_data_uri(
+    url: str,
+    client: httpx.AsyncClient,
+) -> str:
+
     if not url:
         return _transparent_data_uri()
+
     if url.startswith("data:"):
         return url
 
     cleaned_url = _clean_url(url)
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-        "Referer": "https://www.vatkali.com/",
-    }
+    headers = _image_headers(
+        cleaned_url
+    )
 
-    try:
-        r = await client.get(
+    async def fetch(
+        request_headers: dict,
+    ):
+        return await client.get(
             cleaned_url,
-            headers=headers,
+            headers=request_headers,
             timeout=30.0,
             follow_redirects=True,
         )
+
+    try:
+        # 1. deneme:
+        # Domain'e uygun Referer ile
+        r = await fetch(headers)
+
+        # Eğer sunucu engellediyse,
+        # Referer olmadan bir kez daha dene.
+        if r.status_code >= 400:
+
+            print(
+                "IMAGE_FETCH_RETRY:",
+                cleaned_url,
+                "status=",
+                r.status_code,
+            )
+
+            headers_without_referer = (
+                headers.copy()
+            )
+
+            headers_without_referer.pop(
+                "Referer",
+                None,
+            )
+
+            r = await fetch(
+                headers_without_referer
+            )
+
         r.raise_for_status()
 
-        ct = (r.headers.get("content-type") or "").lower()
+        ct = (
+            r.headers.get(
+                "content-type"
+            )
+            or ""
+        ).lower()
 
-        # ❗ image değilse direkt URL dön
+        # Image değilse HTML'e doğrudan
+        # URL bırakıyoruz.
         if "image/" not in ct:
+
+            print(
+                "IMAGE_NOT_IMAGE:",
+                cleaned_url,
+                "status=",
+                r.status_code,
+                "content-type=",
+                r.headers.get(
+                    "content-type"
+                ),
+            )
+
             return cleaned_url
 
-        # ❗ çok büyükse base64 yapma (performans + timeout)
+        # Çok büyük dosyayı base64'e
+        # çevirmiyoruz.
         if len(r.content) > 8_000_000:
+
+            print(
+                "IMAGE_TOO_LARGE:",
+                cleaned_url,
+                len(r.content),
+            )
+
             return cleaned_url
 
-        mime = _guess_mime(cleaned_url, r.headers.get("content-type"))
-        b64 = base64.b64encode(r.content).decode("ascii")
-        return f"data:{mime};base64,{b64}"
+        mime = _guess_mime(
+            cleaned_url,
+            r.headers.get(
+                "content-type"
+            ),
+        )
 
-    except Exception:
-        # 🔥 EN KRİTİK FIX
-        # eskiden transparan png dönüyordu → şimdi URL fallback
+        b64 = base64.b64encode(
+            r.content
+        ).decode("ascii")
+
+        return (
+            f"data:{mime};base64,{b64}"
+        )
+
+    except Exception as e:
+
+        print(
+            "IMAGE_FETCH_FAILED:",
+            cleaned_url,
+            repr(e),
+        )
+
+        # Son fallback:
+        # Görsel URL'sini HTML'e bırak.
         return cleaned_url
+
 
 # -------------------------
 # Playwright
@@ -340,8 +694,13 @@ _pw = None
 _browser = None
 _pw_lock = asyncio.Lock()
 
-def _is_fatal_playwright_error(e: Exception) -> bool:
+
+def _is_fatal_playwright_error(
+    e: Exception,
+) -> bool:
+
     msg = str(e).lower()
+
     return any(
         s in msg
         for s in [
@@ -354,24 +713,28 @@ def _is_fatal_playwright_error(e: Exception) -> bool:
         ]
     )
 
+
 async def _restart_playwright():
     global _pw, _browser
 
     try:
         if _browser:
             await _browser.close()
+
     except Exception:
         pass
+
     _browser = None
 
     try:
         if _pw:
             await _pw.stop()
+
     except Exception:
         pass
-    _pw = None
 
     _pw = await async_playwright().start()
+
     _browser = await _pw.chromium.launch(
         headless=True,
         args=[
@@ -383,40 +746,63 @@ async def _restart_playwright():
         ],
     )
 
+
 async def _ensure_browser():
     global _pw, _browser
 
     async with _pw_lock:
+
         try:
             if _pw is None:
-                _pw = await async_playwright().start()
+                _pw = (
+                    await async_playwright()
+                    .start()
+                )
 
-            if _browser is None or (hasattr(_browser, "is_connected") and not _browser.is_connected()):
+            if (
+                _browser is None
+                or (
+                    hasattr(
+                        _browser,
+                        "is_connected",
+                    )
+                    and not _browser.is_connected()
+                )
+            ):
+
                 try:
                     if _browser:
                         await _browser.close()
+
                 except Exception:
                     pass
 
-                _browser = await _pw.chromium.launch(
-                    headless=True,
-                    args=[
-                        "--no-sandbox",
-                        "--disable-setuid-sandbox",
-                        "--disable-dev-shm-usage",
-                        "--no-zygote",
-                        "--disable-gpu",
-                    ],
+                _browser = (
+                    await _pw.chromium.launch(
+                        headless=True,
+                        args=[
+                            "--no-sandbox",
+                            "--disable-setuid-sandbox",
+                            "--disable-dev-shm-usage",
+                            "--no-zygote",
+                            "--disable-gpu",
+                        ],
+                    )
                 )
+
         except Exception as e:
+
             if _is_fatal_playwright_error(e):
                 await _restart_playwright()
+
             else:
                 raise
+
 
 @app.on_event("startup")
 async def _startup():
     await _ensure_browser()
+
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -425,52 +811,97 @@ async def _shutdown():
     try:
         if _browser:
             await _browser.close()
+
     except Exception:
         pass
+
     _browser = None
 
     try:
         if _pw:
             await _pw.stop()
+
     except Exception:
         pass
+
     _pw = None
 
-async def render_png(html: str, width=1080, height=1080) -> bytes:
+
+async def render_png(
+    html: str,
+    width=1080,
+    height=1080,
+) -> bytes:
+
     global _browser
 
     async with _render_sem:
+
         await _ensure_browser()
 
         async def _do() -> bytes:
-            page = await _browser.new_page(viewport={"width": width, "height": height})
+
+            page = await _browser.new_page(
+                viewport={
+                    "width": width,
+                    "height": height,
+                }
+            )
+
             try:
-                await page.set_content(html, wait_until="networkidle", timeout=15000)
+
+                await page.set_content(
+                    html,
+                    wait_until="networkidle",
+                    timeout=15000,
+                )
+
                 try:
-                    await page.evaluate("""() => document.fonts.ready""")
+                    await page.evaluate(
+                        "() => document.fonts.ready"
+                    )
+
                 except Exception:
                     pass
-            
-                await page.wait_for_timeout(300)
-                    
-                frame = page.locator(".frame")
-                await frame.wait_for(state="visible", timeout=5000)
-                
-                return await frame.screenshot(type="png")
-                
+
+                await page.wait_for_timeout(
+                    300
+                )
+
+                frame = page.locator(
+                    ".frame"
+                )
+
+                await frame.wait_for(
+                    state="visible",
+                    timeout=5000,
+                )
+
+                return await frame.screenshot(
+                    type="png"
+                )
+
             finally:
+
                 try:
                     await page.close()
+
                 except Exception:
                     pass
 
         try:
             return await _do()
+
         except Exception as e:
+
             if _is_fatal_playwright_error(e):
+
                 await _restart_playwright()
+
                 return await _do()
+
             raise
+
 
 # -------------------------
 # Endpoints
@@ -491,137 +922,394 @@ async def render_endpoint(
     h: int = Query(1080),
     fv: str = Query(""),
 ):
+
     price = format_tl(price)
-    sale_price = format_tl(sale_price)
+    sale_price = format_tl(
+        sale_price
+    )
 
-    old_hidden, new_hidden, single_hidden = hidden_flags(price, sale_price)
+    (
+        old_hidden,
+        new_hidden,
+        single_hidden,
+    ) = hidden_flags(
+        price,
+        sale_price,
+    )
 
-    template_path, css_path = get_template_and_css(design)
+    (
+        template_path,
+        css_path,
+    ) = get_template_and_css(
+        design
+    )
 
-    with open(template_path, "r", encoding="utf-8") as f:
+    with open(
+        template_path,
+        "r",
+        encoding="utf-8",
+    ) as f:
         tpl = f.read()
 
-    with open(css_path, "r", encoding="utf-8") as f:
+    with open(
+        css_path,
+        "r",
+        encoding="utf-8",
+    ) as f:
         css = f.read()
-        
-        base_url = get_base_url(request)
-        
-        if not logo_url:
-            if design == "kaya_meta_v1":
-                logo_url = f"{base_url}/static/kayakirtasiyelogo.png"
-            else:
-                logo_url = f"{base_url}/static/vatkalilogo.svg"
-                
-        background_url = f"{base_url}/static/background_summer26.png"
 
-    
-    secondary_for_cache = product_image_secondary_1 if design == "meta_v1" else ""
+    base_url = get_base_url(
+        request
+    )
+
+    if not logo_url:
+
+        if design == "kaya_meta_v1":
+
+            logo_url = (
+                f"{base_url}"
+                "/static/"
+                "kayakirtasiyelogo.png"
+            )
+
+        else:
+
+            logo_url = (
+                f"{base_url}"
+                "/static/"
+                "vatkalilogo.svg"
+            )
+
+    background_url = (
+        f"{base_url}"
+        "/static/"
+        "background_summer26.png"
+    )
+
+    secondary_for_cache = (
+        product_image_secondary_1
+        if design == "meta_v1"
+        else ""
+    )
 
     cache_key = build_render_cache_key(
         product_id=product_id,
         title=title,
         price=price,
         sale_price=sale_price,
-        product_image_primary=product_image_primary,
-        product_image_secondary_1=secondary_for_cache,
+        product_image_primary=(
+            product_image_primary
+        ),
+        product_image_secondary_1=(
+            secondary_for_cache
+        ),
         logo_url=logo_url,
         design=f"{design}_{fv}",
         w=w,
         h=h,
-
     )
-    cache_file = get_cache_file_path(cache_key)
+
+    cache_file = get_cache_file_path(
+        cache_key
+    )
 
     if os.path.exists(cache_file):
-        with open(cache_file, "rb") as f:
-            png = f.read()
-        headers = {"Cache-Control": "public, max-age=31536000, immutable"}
-        return Response(content=png, media_type="image/png", headers=headers)
 
-    async with httpx.AsyncClient(follow_redirects=True) as client:
+        with open(
+            cache_file,
+            "rb",
+        ) as f:
+            png = f.read()
+
+        headers = {
+            "Cache-Control":
+            "public, max-age=31536000, immutable"
+        }
+
+        return Response(
+            content=png,
+            media_type="image/png",
+            headers=headers,
+        )
+
+    async with httpx.AsyncClient(
+        follow_redirects=True
+    ) as client:
+
         if design == "meta_v1":
-            product_image_primary_data, product_image_secondary_1_data, logo_data, background_data = await asyncio.gather(
-                to_data_uri(product_image_primary, client),
-                to_data_uri(product_image_secondary_1, client),
-                to_data_uri(logo_url, client),
-                to_data_uri(background_url, client),
+
+            (
+                product_image_primary_data,
+                product_image_secondary_1_data,
+                logo_data,
+                background_data,
+            ) = await asyncio.gather(
+
+                to_data_uri(
+                    product_image_primary,
+                    client,
+                ),
+
+                to_data_uri(
+                    product_image_secondary_1,
+                    client,
+                ),
+
+                to_data_uri(
+                    logo_url,
+                    client,
+                ),
+
+                to_data_uri(
+                    background_url,
+                    client,
+                ),
             )
+
         else:
-            product_image_primary_data, logo_data, background_data = await asyncio.gather(
-                to_data_uri(product_image_primary, client),
-                to_data_uri(logo_url, client),
-                to_data_uri(background_url, client),
+
+            (
+                product_image_primary_data,
+                logo_data,
+                background_data,
+            ) = await asyncio.gather(
+
+                to_data_uri(
+                    product_image_primary,
+                    client,
+                ),
+
+                to_data_uri(
+                    logo_url,
+                    client,
+                ),
+
+                to_data_uri(
+                    background_url,
+                    client,
+                ),
             )
+
             product_image_secondary_1_data = ""
 
-    html = tpl.replace("{{CSS}}", css)
-    html = html.replace("{{product_id}}", product_id)
-    html = html.replace("{{product_image_primary}}", product_image_primary_data)
-    html = html.replace("{{product_image_secondary_1}}", product_image_secondary_1_data)
-    html = html.replace("{{logo_url}}", logo_data)
-    html = html.replace("{{background_url}}", background_data)
-    html = html.replace("{{title}}", title)
-    html = html.replace("{{price}}", price)
-    html = html.replace("{{sale_price}}", sale_price)
-    html = html.replace("{{old_hidden}}", old_hidden)
-    html = html.replace("{{new_hidden}}", new_hidden)
-    html = html.replace("{{single_hidden}}", single_hidden)
+    html = tpl.replace(
+        "{{CSS}}",
+        css,
+    )
+
+    html = html.replace(
+        "{{product_id}}",
+        product_id,
+    )
+
+    html = html.replace(
+        "{{product_image_primary}}",
+        product_image_primary_data,
+    )
+
+    html = html.replace(
+        "{{product_image_secondary_1}}",
+        product_image_secondary_1_data,
+    )
+
+    html = html.replace(
+        "{{logo_url}}",
+        logo_data,
+    )
+
+    html = html.replace(
+        "{{background_url}}",
+        background_data,
+    )
+
+    html = html.replace(
+        "{{title}}",
+        title,
+    )
+
+    html = html.replace(
+        "{{price}}",
+        price,
+    )
+
+    html = html.replace(
+        "{{sale_price}}",
+        sale_price,
+    )
+
+    html = html.replace(
+        "{{old_hidden}}",
+        old_hidden,
+    )
+
+    html = html.replace(
+        "{{new_hidden}}",
+        new_hidden,
+    )
+
+    html = html.replace(
+        "{{single_hidden}}",
+        single_hidden,
+    )
 
     try:
-        png = await render_png(html, width=w, height=h)
-        with open(cache_file, "wb") as f:
+
+        png = await render_png(
+            html,
+            width=w,
+            height=h,
+        )
+
+        with open(
+            cache_file,
+            "wb",
+        ) as f:
             f.write(png)
+
     except Exception as e:
-        print("RENDER_FAILED:", repr(e))
-        return Response(status_code=500)
-    
 
-    headers = {"Cache-Control": "public, max-age=31536000, immutable"}
-    return Response(content=png, media_type="image/png", headers=headers)
+        print(
+            "RENDER_FAILED:",
+            repr(e),
+        )
 
-@app.get("/feed_meta.xml", response_class=PlainTextResponse)
-async def feed_meta(request: Request):
-    base_url = get_base_url(request)
-    fv = (request.query_params.get("v") or "").strip()
+        return Response(
+            status_code=500
+        )
 
-    async with httpx.AsyncClient(timeout=90) as client:
-        r = await client.get(FEED_URL_META)
+    headers = {
+        "Cache-Control":
+        "public, max-age=31536000, immutable"
+    }
+
+    return Response(
+        content=png,
+        media_type="image/png",
+        headers=headers,
+    )
+
+
+@app.get(
+    "/feed_meta.xml",
+    response_class=PlainTextResponse,
+)
+async def feed_meta(
+    request: Request,
+):
+
+    base_url = get_base_url(
+        request
+    )
+
+    fv = (
+        request.query_params.get("v")
+        or ""
+    ).strip()
+
+    async with httpx.AsyncClient(
+        timeout=90
+    ) as client:
+
+        r = await client.get(
+            FEED_URL_META
+        )
+
         r.raise_for_status()
 
-    root = ET.fromstring(r.text)
-    channel = root.find("channel")
-    if channel is None:
-        return PlainTextResponse(r.text, media_type="application/xml")
+    root = ET.fromstring(
+        r.text
+    )
 
-    items = channel.findall("item")
-    ns = {"g": "http://base.google.com/ns/1.0"}
+    channel = root.find(
+        "channel"
+    )
+
+    if channel is None:
+
+        return PlainTextResponse(
+            r.text,
+            media_type="application/xml",
+        )
+
+    items = channel.findall(
+        "item"
+    )
+
+    ns = {
+        "g": "http://base.google.com/ns/1.0"
+    }
 
     for item in items:
+
         product_id = (
-            item.findtext("g:id", default="", namespaces=ns)
+            item.findtext(
+                "g:id",
+                default="",
+                namespaces=ns,
+            )
             or item.findtext("id")
             or ""
         ).strip()
-        title = extract_title(item, ns)
-        price = format_currency_tr(item.findtext("g:price", default="", namespaces=ns) or "")
-        sale = format_currency_tr(item.findtext("g:sale_price", default="", namespaces=ns) or "")
+
+        title = extract_title(
+            item,
+            ns,
+        )
+
+        price = format_currency_tr(
+            item.findtext(
+                "g:price",
+                default="",
+                namespaces=ns,
+            )
+            or ""
+        )
+
+        sale = format_currency_tr(
+            item.findtext(
+                "g:sale_price",
+                default="",
+                namespaces=ns,
+            )
+            or ""
+        )
+
         if not sale:
             sale = price
 
-        primary, s1 = choose_images_any(item)
+        primary, s1 = (
+            choose_images_any(item)
+        )
 
         custom_labels = (
-            get_custom_labels(item, ns)
+            get_custom_labels(
+                item,
+                ns,
+            )
             .replace("`", "'")
             .replace("’", "'")
         )
 
-        if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
+        if (
+            "summer'26" in custom_labels
+            or "summer26" in custom_labels
+            or "summer 26" in custom_labels
+        ):
             design = "meta_v1"
+
         else:
             design = "meta_v1"
 
-        sig = build_sig(product_id, design, title, price, sale, primary, s1, fv)
+        sig = build_sig(
+            product_id,
+            design,
+            title,
+            price,
+            sale,
+            primary,
+            s1,
+            fv,
+        )
 
         render_url = (
             f"{base_url}/render.png"
@@ -637,67 +1325,166 @@ async def feed_meta(request: Request):
             f"&v={sig}"
         )
 
-        set_image_link(item, render_url)
+        set_image_link(
+            item,
+            render_url,
+        )
 
-    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+    xml_out = ET.tostring(
+        root,
+        encoding="utf-8",
+        xml_declaration=True,
+    ).decode("utf-8")
 
-@app.get("/feed.xml", response_class=PlainTextResponse)
-async def feed_legacy(request: Request):
-    return await feed_meta(request)
+    headers = {
+        "Cache-Control":
+        "no-store, no-cache, must-revalidate, max-age=0"
+    }
 
-@app.get("/feed_tiktok.xml", response_class=PlainTextResponse)
-async def feed_tiktok(request: Request):
-    base_url = get_base_url(request)
-    fv = (request.query_params.get("v") or "").strip()
+    return PlainTextResponse(
+        xml_out,
+        media_type="application/xml",
+        headers=headers,
+    )
 
-    async with httpx.AsyncClient(timeout=90) as client:
-        r = await client.get(FEED_URL_TIKTOK)
+
+@app.get(
+    "/feed.xml",
+    response_class=PlainTextResponse,
+)
+async def feed_legacy(
+    request: Request,
+):
+
+    return await feed_meta(
+        request
+    )
+
+
+@app.get(
+    "/feed_tiktok.xml",
+    response_class=PlainTextResponse,
+)
+async def feed_tiktok(
+    request: Request,
+):
+
+    base_url = get_base_url(
+        request
+    )
+
+    fv = (
+        request.query_params.get("v")
+        or ""
+    ).strip()
+
+    async with httpx.AsyncClient(
+        timeout=90
+    ) as client:
+
+        r = await client.get(
+            FEED_URL_TIKTOK
+        )
+
         r.raise_for_status()
 
-    root = ET.fromstring(r.text)
-    channel = root.find("channel")
-    if channel is None:
-        return PlainTextResponse(r.text, media_type="application/xml")
+    root = ET.fromstring(
+        r.text
+    )
 
-    items = channel.findall("item")
-    ns = {"g": "http://base.google.com/ns/1.0"}
+    channel = root.find(
+        "channel"
+    )
+
+    if channel is None:
+
+        return PlainTextResponse(
+            r.text,
+            media_type="application/xml",
+        )
+
+    items = channel.findall(
+        "item"
+    )
+
+    ns = {
+        "g": "http://base.google.com/ns/1.0"
+    }
 
     for item in items:
+
         product_id = (
-            item.findtext("g:id", default="", namespaces=ns)
+            item.findtext(
+                "g:id",
+                default="",
+                namespaces=ns,
+            )
             or item.findtext("id")
             or ""
         ).strip()
-        title = extract_title(item, ns)
+
+        title = extract_title(
+            item,
+            ns,
+        )
+
         price = format_currency_tr(
-            item.findtext("g:price", default="", namespaces=ns)
+            item.findtext(
+                "g:price",
+                default="",
+                namespaces=ns,
+            )
             or item.findtext("price")
             or ""
         )
+
         sale = format_currency_tr(
-            item.findtext("g:sale_price", default="", namespaces=ns)
-            or item.findtext("sale_price")
+            item.findtext(
+                "g:sale_price",
+                default="",
+                namespaces=ns,
+            )
+            or item.findtext(
+                "sale_price"
+            )
             or ""
         )
+
         if not sale:
             sale = price
 
-        primary, _ = choose_images_any(item)
+        primary, _ = (
+            choose_images_any(item)
+        )
 
         custom_labels = (
-            get_custom_labels(item, ns)
+            get_custom_labels(
+                item,
+                ns,
+            )
             .replace("`", "'")
             .replace("’", "'")
         )
 
-        if "summer'26" in custom_labels or "summer26" in custom_labels or "summer 26" in custom_labels:
+        if (
+            "summer'26" in custom_labels
+            or "summer26" in custom_labels
+            or "summer 26" in custom_labels
+        ):
             design = "tiktok_v1"
+
         else:
             design = "tiktok_v1"
 
-        sig = build_sig(product_id, design, title, price, sale, primary, fv)
+        sig = build_sig(
+            product_id,
+            design,
+            title,
+            price,
+            sale,
+            primary,
+            fv,
+        )
 
         render_url = (
             f"{base_url}/render.png"
@@ -712,53 +1499,135 @@ async def feed_tiktok(request: Request):
             f"&v={sig}"
         )
 
-        set_image_link(item, render_url)
+        set_image_link(
+            item,
+            render_url,
+        )
 
-    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+    xml_out = ET.tostring(
+        root,
+        encoding="utf-8",
+        xml_declaration=True,
+    ).decode("utf-8")
 
-@app.get("/feed_kaya.xml", response_class=PlainTextResponse)
-async def feed_kaya(request: Request):
-    base_url = get_base_url(request)
-    fv = (request.query_params.get("v") or "").strip()
-    
-    async with httpx.AsyncClient(timeout=90) as client:
+    headers = {
+        "Cache-Control":
+        "no-store, no-cache, must-revalidate, max-age=0"
+    }
+
+    return PlainTextResponse(
+        xml_out,
+        media_type="application/xml",
+        headers=headers,
+    )
+
+
+@app.get(
+    "/feed_kaya.xml",
+    response_class=PlainTextResponse,
+)
+async def feed_kaya(
+    request: Request,
+):
+
+    base_url = get_base_url(
+        request
+    )
+
+    fv = (
+        request.query_params.get("v")
+        or ""
+    ).strip()
+
+    async with httpx.AsyncClient(
+        timeout=90
+    ) as client:
+
         r = await client.get(
             FEED_URL_KAYA,
             headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
-                "Accept": "application/xml,text/xml,*/*",
-                "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
-                "Referer": "https://www.kayakirtasiye.com.tr/",
+                "User-Agent": (
+                    "Mozilla/5.0 "
+                    "(Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) "
+                    "Chrome/126.0 Safari/537.36"
+                ),
+                "Accept": (
+                    "application/xml,"
+                    "text/xml,"
+                    "*/*"
+                ),
+                "Accept-Language": (
+                    "tr-TR,tr;q=0.9,en;q=0.8"
+                ),
+                "Referer": (
+                    "https://www.kayakirtasiye.com.tr/"
+                ),
             },
         )
+
         r.raise_for_status()
 
-    root = ET.fromstring(r.text)
-    channel = root.find("channel")
-    if channel is None:
-        return PlainTextResponse(r.text, media_type="application/xml")
+    root = ET.fromstring(
+        r.text
+    )
 
-    items = channel.findall("item")
-    ns = {"g": "http://base.google.com/ns/1.0"}
+    channel = root.find(
+        "channel"
+    )
+
+    if channel is None:
+
+        return PlainTextResponse(
+            r.text,
+            media_type="application/xml",
+        )
+
+    items = channel.findall(
+        "item"
+    )
+
+    ns = {
+        "g": "http://base.google.com/ns/1.0"
+    }
 
     for item in items:
-        title = extract_title(item, ns)
+
+        title = extract_title(
+            item,
+            ns,
+        )
 
         price = format_currency_tr(
-            item.findtext("g:price", default="", namespaces=ns)
-            or item.findtext("price")
+            item.findtext(
+                "g:price",
+                default="",
+                namespaces=ns,
+            )
+            or item.findtext(
+                "price"
+            )
             or ""
         )
 
         sale = price
 
-        primary, s1 = choose_images_any(item)
+        primary, s1 = (
+            choose_images_any(item)
+        )
 
-        design = "kaya_meta_v1"
+        design = (
+            "kaya_meta_v1"
+        )
 
-        sig = build_sig(design, title, price, primary, fv)
+        sig = build_sig(
+            design,
+            title,
+            price,
+            primary,
+            fv,
+        )
 
         render_url = (
             f"{base_url}/render.png"
@@ -773,33 +1642,99 @@ async def feed_kaya(request: Request):
             f"&v={sig}"
         )
 
-        set_image_link(item, render_url)
+        set_image_link(
+            item,
+            render_url,
+        )
 
-    xml_out = ET.tostring(root, encoding="utf-8", xml_declaration=True).decode("utf-8")
-    headers = {"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
-    return PlainTextResponse(xml_out, media_type="application/xml", headers=headers)
+    xml_out = ET.tostring(
+        root,
+        encoding="utf-8",
+        xml_declaration=True,
+    ).decode("utf-8")
+
+    headers = {
+        "Cache-Control":
+        "no-store, no-cache, must-revalidate, max-age=0"
+    }
+
+    return PlainTextResponse(
+        xml_out,
+        media_type="application/xml",
+        headers=headers,
+    )
+
 
 @app.get("/probe")
-async def probe(url: str = Query(...)):
+async def probe(
+    url: str = Query(...),
+):
+
     headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome Safari",
-        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+        "User-Agent": (
+            "Mozilla/5.0 "
+            "(Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 "
+            "(KHTML, like Gecko) "
+            "Chrome/126.0 Safari/537.36"
+        ),
+        "Accept": (
+            "image/avif,"
+            "image/webp,"
+            "image/apng,"
+            "image/*,"
+            "*/*;q=0.8"
+        ),
+        "Accept-Language": (
+            "tr-TR,tr;q=0.9,en;q=0.8"
+        ),
     }
 
     try:
-        async with httpx.AsyncClient(follow_redirects=True, timeout=20, headers=headers) as client:
-            r = await client.get(url)
-            content_type = r.headers.get("content-type", "")
-            is_text = ("text" in content_type) or ("html" in content_type)
+
+        async with httpx.AsyncClient(
+            follow_redirects=True,
+            timeout=20,
+            headers=headers,
+        ) as client:
+
+            r = await client.get(
+                url
+            )
+
+            content_type = (
+                r.headers.get(
+                    "content-type",
+                    "",
+                )
+            )
+
+            is_text = (
+                "text" in content_type
+                or "html" in content_type
+            )
 
             return {
                 "url": url,
-                "status_code": r.status_code,
-                "content_type": content_type,
-                "content_length": len(r.content),
-                "first_50_bytes_base64": base64.b64encode(r.content[:50]).decode("ascii"),
-                "text_preview": r.text[:300] if is_text else None,
+                "status_code":
+                    r.status_code,
+                "content_type":
+                    content_type,
+                "content_length":
+                    len(r.content),
+                "first_50_bytes_base64":
+                    base64.b64encode(
+                        r.content[:50]
+                    ).decode("ascii"),
+                "text_preview":
+                    r.text[:300]
+                    if is_text
+                    else None,
             }
+
     except Exception as e:
-        return {"url": url, "error": str(e)}
+
+        return {
+            "url": url,
+            "error": str(e),
+        }
