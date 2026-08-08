@@ -21,27 +21,27 @@
     <div class="dot-pattern bottom-left"></div>
 
 
-    <!-- LEFT SIDE -->
+    <!-- LOGO -->
 
-    <div class="left-column">
+    <div class="logo-area">
 
-      <!-- LOGO -->
+      <img
+        class="logo"
+        src="{{logo_url}}"
+        alt=""
+      />
 
-      <div class="logo-area">
-        <img
-          class="logo"
-          src="{{logo_url}}"
-          alt=""
-        />
-      </div>
+    </div>
 
 
-      <!-- SHORT RED LINE -->
+    <!-- LEFT CONTENT -->
+
+    <div class="left-content">
 
       <div class="brand-line"></div>
 
 
-      <!-- TITLE -->
+      <!-- PRODUCT TITLE -->
 
       <div class="title-area">
 
@@ -51,6 +51,9 @@
         >{{title}}</div>
 
       </div>
+
+
+      <div class="content-divider"></div>
 
 
       <!-- PRICE -->
@@ -132,8 +135,104 @@
 <script>
 
 /* ==================================================
-   PRICE FITTING
-   Fiyatın içeriğine dokunmaz.
+   TITLE
+   Önce küçült.
+   Hâlâ sığmıyorsa kelime bazlı ...
+================================================== */
+
+function titleFits(el) {
+
+  const style = window.getComputedStyle(el);
+
+  const lineHeight = parseFloat(style.lineHeight);
+
+  const maxHeight = (lineHeight * 2) + 7;
+
+  return el.scrollHeight <= maxHeight;
+}
+
+
+function fitTitle() {
+
+  const el = document.getElementById("productTitle");
+
+  if (!el) return;
+
+  const original =
+    el.textContent
+      .replace(/\s+/g, " ")
+      .trim();
+
+  el.textContent = original;
+
+  let size = 40;
+  const minSize = 31;
+
+  el.style.fontSize = size + "px";
+
+
+  /* Önce tam başlığı koru */
+
+  while (
+    size > minSize &&
+    !titleFits(el)
+  ) {
+
+    size--;
+
+    el.style.fontSize = size + "px";
+
+  }
+
+
+  /* Minimum boyutta hâlâ taşarsa
+     kelime bazlı kısalt */
+
+  if (!titleFits(el)) {
+
+    const words = original.split(" ");
+
+    let low = 1;
+    let high = words.length;
+
+    let best = words[0] + "...";
+
+    while (low <= high) {
+
+      const mid =
+        Math.floor((low + high) / 2);
+
+      const candidate =
+        words
+          .slice(0, mid)
+          .join(" ") + "...";
+
+      el.textContent = candidate;
+
+      if (titleFits(el)) {
+
+        best = candidate;
+        low = mid + 1;
+
+      } else {
+
+        high = mid - 1;
+
+      }
+
+    }
+
+    el.textContent = best;
+
+  }
+
+}
+
+
+/* ==================================================
+   PRICE
+   İçeriğe kesinlikle dokunma.
+   Yalnızca font size küçült.
 ================================================== */
 
 function fitPrice() {
@@ -143,12 +242,12 @@ function fitPrice() {
 
   if (!el) return;
 
-  let size = 86;
-  const minSize = 54;
-  const maxWidth = 440;
+  let size = 92;
+  const minSize = 50;
 
-  el.style.fontSize =
-    size + "px";
+  const maxWidth = 385;
+
+  el.style.fontSize = size + "px";
 
   while (
     el.scrollWidth > maxWidth &&
@@ -157,8 +256,7 @@ function fitPrice() {
 
     size--;
 
-    el.style.fontSize =
-      size + "px";
+    el.style.fontSize = size + "px";
 
   }
 
@@ -166,7 +264,7 @@ function fitPrice() {
 
 
 /* ==================================================
-   WAIT FOR FONT
+   WAIT FOR OUTFIT
 ================================================== */
 
 async function prepareFrame() {
@@ -177,12 +275,16 @@ async function prepareFrame() {
       document.fonts &&
       document.fonts.ready
     ) {
+
       await document.fonts.ready;
+
     }
 
   } catch (e) {}
 
+  fitTitle();
   fitPrice();
+
 }
 
 prepareFrame();
