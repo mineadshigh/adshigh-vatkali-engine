@@ -23,29 +23,26 @@ body {
   background: #ef3127;
 }
 
-/* ==================================================
+/* =========================
    WHITE CANVAS
-================================================== */
+========================= */
 
 .canvas {
   position: absolute;
   left: 20px;
   top: 20px;
-
   width: 1040px;
   height: 960px;
-
-  background: #ffffff;
   overflow: hidden;
+  background: #ffffff;
 }
 
-/* ==================================================
-   SUBTLE DOT DECOR
-================================================== */
+/* =========================
+   DOT DETAILS
+========================= */
 
 .dot-pattern {
   position: absolute;
-
   width: 145px;
   height: 120px;
 
@@ -57,8 +54,7 @@ body {
     );
 
   background-size: 17px 17px;
-
-  opacity: 0.24;
+  opacity: 0.22;
 
   pointer-events: none;
   z-index: 1;
@@ -74,57 +70,57 @@ body {
   bottom: 35px;
 }
 
-/* ==================================================
+/* =========================
    LOGO
-================================================== */
+========================= */
 
 .logo-area {
   position: absolute;
 
   left: 58px;
-  top: 48px;
+  top: 42px;
 
-  width: 330px;
-  height: 145px;
+  width: 385px;
+  height: 155px;
 
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
 
-  z-index: 5;
+  z-index: 6;
 }
 
 .logo {
   display: block;
 
-  max-width: 100%;
-  max-height: 100%;
-
   width: auto;
   height: auto;
+
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: contain;
 }
 
-/* ==================================================
+/* =========================
    LEFT CONTENT
-================================================== */
+========================= */
 
 .left-content {
   position: absolute;
 
   left: 58px;
-  top: 260px;
+  top: 220px;
 
-  width: 390px;
-  height: 610px;
+  width: 405px;
+  height: 600px;
 
-  z-index: 5;
+  z-index: 6;
 }
 
-/* ==================================================
-   RED BRAND LINE
-================================================== */
+/* =========================
+   BRAND LINE
+========================= */
 
 .brand-line {
   position: absolute;
@@ -136,80 +132,78 @@ body {
   height: 5px;
 
   background: #ef3127;
-
   border-radius: 5px;
 }
 
-/* ==================================================
-   PRODUCT TITLE
-================================================== */
+/* =========================
+   TITLE
+========================= */
 
 .title-area {
   position: absolute;
 
   left: 0;
-  top: 54px;
+  top: 62px;
 
-  width: 390px;
-  height: 122px;
+  width: 405px;
+  height: 118px;
 
-  overflow: visible;
+  overflow: hidden;
 }
 
 .product-title {
+  display: block;
+
   width: 100%;
 
   margin: 0;
-  padding: 3px 0 8px 0;
+  padding: 2px 0 6px 0;
 
-  color: #171717;
+  color: #191919;
 
   font-size: 40px;
-  line-height: 1.24;
+  line-height: 1.22;
   font-weight: 700;
 
   letter-spacing: -1px;
 
   text-align: left;
 
+  white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 
   overflow: hidden;
 }
 
-/* ==================================================
-   SMALL SEPARATOR
-================================================== */
+/* =========================
+   DIVIDER
+========================= */
 
 .content-divider {
   position: absolute;
 
   left: 0;
-  top: 202px;
+  top: 205px;
 
   width: 335px;
   height: 2px;
 
-  background: #eeeeee;
+  background: #ededed;
 }
 
-/* ==================================================
+/* =========================
    PRICE
-================================================== */
+========================= */
 
 .price-area {
   position: absolute;
 
   left: 0;
-  top: 232px;
+  top: 235px;
 
-  width: 390px;
-  height: 120px;
+  width: 405px;
+  height: 112px;
 
   display: flex;
   align-items: center;
@@ -222,6 +216,7 @@ body {
   max-width: 100%;
 
   margin: 0;
+  padding: 0;
 
   color: #ef3127;
 
@@ -235,23 +230,23 @@ body {
   white-space: nowrap;
 }
 
-/* ==================================================
+/* =========================
    SHIPPING CTA
-================================================== */
+========================= */
 
 .shipping-card {
   position: absolute;
 
   left: 0;
-  top: 390px;
+  top: 385px;
 
-  width: 390px;
-  height: 108px;
+  width: 405px;
+  height: 110px;
 
   display: flex;
   align-items: center;
 
-  padding: 0 22px;
+  padding: 0 24px;
 
   background: #ef3127;
 
@@ -260,22 +255,22 @@ body {
   color: #ffffff;
 
   box-shadow:
-    0 12px 26px rgba(239, 49, 39, 0.18);
+    0 12px 26px rgba(239, 49, 39, 0.20);
 }
 
-/* ==================================================
-   TRUCK ICON
-================================================== */
+/* =========================
+   TRUCK
+========================= */
 
 .shipping-icon {
   position: relative;
 
-  flex: 0 0 67px;
+  flex: 0 0 68px;
 
-  width: 67px;
+  width: 68px;
   height: 55px;
 
-  margin-right: 19px;
+  margin-right: 20px;
 }
 
 .truck-body {
@@ -284,7 +279,7 @@ body {
   left: 0;
   top: 7px;
 
-  width: 40px;
+  width: 41px;
   height: 31px;
 
   border: 4px solid #ffffff;
@@ -294,7 +289,7 @@ body {
 .truck-cabin {
   position: absolute;
 
-  left: 38px;
+  left: 39px;
   top: 16px;
 
   width: 24px;
@@ -324,12 +319,12 @@ body {
 }
 
 .truck-wheel.two {
-  left: 45px;
+  left: 46px;
 }
 
-/* ==================================================
+/* =========================
    SHIPPING TEXT
-================================================== */
+========================= */
 
 .shipping-text {
   min-width: 0;
@@ -343,29 +338,27 @@ body {
 .shipping-sub {
   color: #ffffff;
 
-  font-size: 24px;
-  line-height: 1.05;
+  font-size: 25px;
+  line-height: 1;
 
   font-weight: 800;
 
-  letter-spacing: -0.35px;
+  letter-spacing: -0.4px;
 
   white-space: nowrap;
 }
 
 .shipping-sub {
-  margin-top: 7px;
+  margin-top: 8px;
 }
 
-/* ==================================================
-   PRODUCT AREA
+/* =========================
+   PRODUCT
 
-   Feedin kare görselleri düşünülerek geniş tutuldu.
-
+   BÜYÜK ALAN
    CROP YOK
-   STRETCH YOK
-   object-fit: contain
-================================================== */
+   ORAN BOZULMAZ
+========================= */
 
 .product-area {
   position: absolute;
@@ -400,9 +393,9 @@ body {
   flex-shrink: 0;
 }
 
-/* ==================================================
+/* =========================
    FOOTER
-================================================== */
+========================= */
 
 .footer {
   position: absolute;
