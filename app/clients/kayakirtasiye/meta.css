@@ -24,26 +24,29 @@ body {
 }
 
 /* ==================================================
-   MAIN WHITE CANVAS
+   WHITE CANVAS
 ================================================== */
 
 .canvas {
   position: absolute;
   left: 20px;
   top: 20px;
+
   width: 1040px;
   height: 960px;
-  overflow: hidden;
+
   background: #ffffff;
+  overflow: hidden;
 }
 
 /* ==================================================
-   DOT PATTERNS
+   SUBTLE DOT DECOR
 ================================================== */
 
 .dot-pattern {
   position: absolute;
-  width: 150px;
+
+  width: 145px;
   height: 120px;
 
   background-image:
@@ -54,33 +57,21 @@ body {
     );
 
   background-size: 17px 17px;
-  opacity: 0.30;
+
+  opacity: 0.24;
 
   pointer-events: none;
   z-index: 1;
 }
 
 .dot-pattern.top-right {
-  right: 32px;
-  top: 24px;
+  right: 25px;
+  top: 22px;
 }
 
 .dot-pattern.bottom-left {
-  left: 18px;
-  bottom: 78px;
-}
-
-/* ==================================================
-   LEFT COLUMN
-================================================== */
-
-.left-column {
-  position: absolute;
-  left: 78px;
-  top: 58px;
-  width: 455px;
-  height: 830px;
-  z-index: 4;
+  left: 22px;
+  bottom: 35px;
 }
 
 /* ==================================================
@@ -89,15 +80,18 @@ body {
 
 .logo-area {
   position: absolute;
-  left: 0;
-  top: 0;
 
-  width: 390px;
-  height: 165px;
+  left: 58px;
+  top: 48px;
+
+  width: 330px;
+  height: 145px;
 
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+
+  z-index: 5;
 }
 
 .logo {
@@ -113,33 +107,51 @@ body {
 }
 
 /* ==================================================
-   SHORT RED LINE
+   LEFT CONTENT
+================================================== */
+
+.left-content {
+  position: absolute;
+
+  left: 58px;
+  top: 260px;
+
+  width: 390px;
+  height: 610px;
+
+  z-index: 5;
+}
+
+/* ==================================================
+   RED BRAND LINE
 ================================================== */
 
 .brand-line {
   position: absolute;
+
   left: 0;
-  top: 255px;
+  top: 0;
 
   width: 92px;
-  height: 4px;
+  height: 5px;
 
   background: #ef3127;
+
   border-radius: 5px;
 }
 
 /* ==================================================
-   TITLE
-   max 2 lines
+   PRODUCT TITLE
 ================================================== */
 
 .title-area {
   position: absolute;
-  left: 0;
-  top: 315px;
 
-  width: 450px;
-  height: 118px;
+  left: 0;
+  top: 54px;
+
+  width: 390px;
+  height: 122px;
 
   overflow: visible;
 }
@@ -148,15 +160,16 @@ body {
   width: 100%;
 
   margin: 0;
-  padding: 4px 0 8px 0;
+  padding: 3px 0 8px 0;
 
-  color: #202020;
+  color: #171717;
 
   font-size: 40px;
-  line-height: 1.27;
+  line-height: 1.24;
   font-weight: 700;
 
-  letter-spacing: -0.8px;
+  letter-spacing: -1px;
+
   text-align: left;
 
   word-break: normal;
@@ -170,16 +183,33 @@ body {
 }
 
 /* ==================================================
+   SMALL SEPARATOR
+================================================== */
+
+.content-divider {
+  position: absolute;
+
+  left: 0;
+  top: 202px;
+
+  width: 335px;
+  height: 2px;
+
+  background: #eeeeee;
+}
+
+/* ==================================================
    PRICE
 ================================================== */
 
 .price-area {
   position: absolute;
-  left: 0;
-  top: 485px;
 
-  width: 445px;
-  height: 115px;
+  left: 0;
+  top: 232px;
+
+  width: 390px;
+  height: 120px;
 
   display: flex;
   align-items: center;
@@ -188,58 +218,64 @@ body {
 
 .product-price {
   display: inline-block;
+
   max-width: 100%;
+
+  margin: 0;
 
   color: #ef3127;
 
-  font-size: 86px;
+  font-size: 92px;
   line-height: 1;
+
   font-weight: 800;
 
-  letter-spacing: -3px;
+  letter-spacing: -4px;
 
   white-space: nowrap;
 }
 
 /* ==================================================
-   SHIPPING CARD
+   SHIPPING CTA
 ================================================== */
 
 .shipping-card {
   position: absolute;
-  left: 0;
-  top: 635px;
 
-  width: 440px;
-  height: 112px;
+  left: 0;
+  top: 390px;
+
+  width: 390px;
+  height: 108px;
 
   display: flex;
   align-items: center;
 
-  padding: 0 26px;
+  padding: 0 22px;
 
   background: #ef3127;
+
+  border-radius: 28px;
+
   color: #ffffff;
 
-  border-radius: 30px;
-
   box-shadow:
-    0 12px 28px rgba(239, 49, 39, 0.18);
+    0 12px 26px rgba(239, 49, 39, 0.18);
 }
 
 /* ==================================================
-   TRUCK
+   TRUCK ICON
 ================================================== */
 
 .shipping-icon {
   position: relative;
 
-  flex: 0 0 72px;
+  flex: 0 0 67px;
 
-  width: 72px;
-  height: 56px;
+  width: 67px;
+  height: 55px;
 
-  margin-right: 18px;
+  margin-right: 19px;
 }
 
 .truck-body {
@@ -248,8 +284,8 @@ body {
   left: 0;
   top: 7px;
 
-  width: 42px;
-  height: 32px;
+  width: 40px;
+  height: 31px;
 
   border: 4px solid #ffffff;
   border-radius: 4px;
@@ -258,11 +294,11 @@ body {
 .truck-cabin {
   position: absolute;
 
-  left: 40px;
+  left: 38px;
   top: 16px;
 
   width: 24px;
-  height: 23px;
+  height: 22px;
 
   border: 4px solid #ffffff;
   border-left: 0;
@@ -284,11 +320,11 @@ body {
 }
 
 .truck-wheel.one {
-  left: 9px;
+  left: 8px;
 }
 
 .truck-wheel.two {
-  left: 47px;
+  left: 45px;
 }
 
 /* ==================================================
@@ -303,47 +339,42 @@ body {
   justify-content: center;
 }
 
-.shipping-main {
-  font-size: 27px;
-  line-height: 1;
+.shipping-main,
+.shipping-sub {
+  color: #ffffff;
+
+  font-size: 24px;
+  line-height: 1.05;
 
   font-weight: 800;
 
-  letter-spacing: -0.45px;
+  letter-spacing: -0.35px;
 
   white-space: nowrap;
 }
 
 .shipping-sub {
-  margin-top: 8px;
-
-  font-size: 27px;
-  line-height: 1;
-
-  font-weight: 800;
-
-  letter-spacing: -0.45px;
-
-  white-space: nowrap;
+  margin-top: 7px;
 }
 
 /* ==================================================
    PRODUCT AREA
 
-   Daha büyük güvenli alan.
-   Crop yok.
-   Deformasyon yok.
-   Sol metin alanına taşamaz.
+   Feedin kare görselleri düşünülerek geniş tutuldu.
+
+   CROP YOK
+   STRETCH YOK
+   object-fit: contain
 ================================================== */
 
 .product-area {
   position: absolute;
 
-  left: 505px;
-  top: 120px;
+  left: 430px;
+  top: 180px;
 
-  width: 520px;
-  height: 745px;
+  width: 600px;
+  height: 650px;
 
   display: flex;
   align-items: center;
@@ -357,11 +388,11 @@ body {
 .product-image {
   display: block;
 
-  max-width: 100%;
-  max-height: 100%;
-
   width: auto;
   height: auto;
+
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: contain;
   object-position: center;
@@ -404,5 +435,5 @@ body {
 
   margin: 0 28px;
 
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
 }
