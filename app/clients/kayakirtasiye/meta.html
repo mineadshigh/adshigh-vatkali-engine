@@ -15,6 +15,8 @@
 
   <div class="canvas">
 
+    <!-- DECOR -->
+
     <div class="dot-pattern top-right"></div>
     <div class="dot-pattern bottom-left"></div>
 
@@ -36,20 +38,23 @@
 
     <div class="left-content">
 
+      <!-- RED LINE -->
+
       <div class="brand-line"></div>
 
 
-      <!-- TITLE -->
+      <!-- PRODUCT TITLE -->
 
-      <div class="title-area" id="titleArea">
+      <div class="title-area">
 
-        <div
-          class="product-title"
-          id="productTitle"
-        >{{title}}</div>
+        <div class="product-title">
+          {{title}}
+        </div>
 
       </div>
 
+
+      <!-- DIVIDER -->
 
       <div class="content-divider"></div>
 
@@ -61,21 +66,25 @@
         <div
           class="product-price"
           id="productPrice"
-        >{{price}}</div>
+        >
+          {{price}}
+        </div>
 
       </div>
 
 
-      <!-- SHIPPING -->
+      <!-- SHIPPING CTA -->
 
       <div class="shipping-card">
 
         <div class="shipping-icon">
 
           <div class="truck-body"></div>
+
           <div class="truck-cabin"></div>
 
           <div class="truck-wheel one"></div>
+
           <div class="truck-wheel two"></div>
 
         </div>
@@ -98,7 +107,7 @@
     </div>
 
 
-    <!-- PRODUCT -->
+    <!-- PRODUCT IMAGE -->
 
     <div class="product-area">
 
@@ -133,143 +142,10 @@
 <script>
 
 /* ==================================================
-   TITLE FIT
+   PRICE FITTING
 
-   1. Tam başlığı dene
-   2. 40px -> 32px küçült
-   3. Hâlâ taşarsa kelime bazlı ...
-   4. Gerçek 2 satır kullanılır
-================================================== */
-
-function getTitleMaxHeight(el) {
-
-  const style =
-    window.getComputedStyle(el);
-
-  const lineHeight =
-    parseFloat(style.lineHeight);
-
-  return (lineHeight * 2) + 4;
-
-}
-
-
-function titleFits(el) {
-
-  return (
-    el.scrollHeight <= getTitleMaxHeight(el) &&
-    el.scrollHeight <= 118
-  );
-
-}
-
-
-function fitTitle() {
-
-  const el =
-    document.getElementById("productTitle");
-
-  if (!el) return;
-
-
-  const original =
-    el.textContent
-      .replace(/\s+/g, " ")
-      .trim();
-
-
-  let fontSize = 40;
-  const minFontSize = 32;
-
-
-  el.textContent = original;
-  el.style.fontSize = fontSize + "px";
-
-
-  /* -------------------------
-     FIRST:
-     KEEP FULL TITLE
-  ------------------------- */
-
-  while (
-    fontSize > minFontSize &&
-    !titleFits(el)
-  ) {
-
-    fontSize--;
-
-    el.style.fontSize =
-      fontSize + "px";
-
-  }
-
-
-  /* Full title fits */
-
-  if (titleFits(el)) {
-    return;
-  }
-
-
-  /* -------------------------
-     STILL TOO LONG:
-     WORD BASED ELLIPSIS
-  ------------------------- */
-
-  const words =
-    original.split(" ");
-
-
-  let low = 1;
-  let high = words.length;
-
-  let best =
-    words[0] + "...";
-
-
-  while (low <= high) {
-
-    const mid =
-      Math.floor(
-        (low + high) / 2
-      );
-
-
-    const candidate =
-      words
-        .slice(0, mid)
-        .join(" ") + "...";
-
-
-    el.textContent =
-      candidate;
-
-
-    if (titleFits(el)) {
-
-      best = candidate;
-
-      low = mid + 1;
-
-    } else {
-
-      high = mid - 1;
-
-    }
-
-  }
-
-
-  el.textContent = best;
-
-}
-
-
-/* ==================================================
-   PRICE FIT
-
-   FİYAT DEĞERİNE DOKUNMAZ.
-   SADECE FONT KÜÇÜLÜR.
+   PRICE VALUE IS NEVER CHANGED.
+   ONLY FONT SIZE IS REDUCED IF NECESSARY.
 ================================================== */
 
 function fitPrice() {
@@ -306,7 +182,7 @@ function fitPrice() {
 
 
 /* ==================================================
-   PREPARE
+   WAIT FOR FONT
 ================================================== */
 
 async function prepareFrame() {
@@ -325,7 +201,6 @@ async function prepareFrame() {
   } catch (e) {}
 
 
-  fitTitle();
   fitPrice();
 
 }
