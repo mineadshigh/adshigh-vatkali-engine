@@ -15,10 +15,7 @@
 
   <div class="canvas">
 
-    <!-- BACKGROUND DECOR -->
-
-    <div class="product-circle-main"></div>
-    <div class="product-circle-inner"></div>
+    <!-- DECOR -->
 
     <div class="dot-pattern top-right"></div>
     <div class="dot-pattern bottom-left"></div>
@@ -137,7 +134,6 @@
 /* ==================================================
    PRICE FITTING
    Fiyatın içeriğine dokunmaz.
-   Yalnızca çok uzun fiyatlarda fontu küçültür.
 ================================================== */
 
 function fitPrice() {
@@ -149,7 +145,7 @@ function fitPrice() {
 
   let size = 86;
   const minSize = 54;
-  const maxWidth = 430;
+  const maxWidth = 440;
 
   el.style.fontSize =
     size + "px";
@@ -170,7 +166,7 @@ function fitPrice() {
 
 
 /* ==================================================
-   WAIT FOR OUTFIT
+   WAIT FOR FONT
 ================================================== */
 
 async function prepareFrame() {
