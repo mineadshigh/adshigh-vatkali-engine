@@ -16,8 +16,9 @@ html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; 
 .net60-offer { position:absolute; left:65px; top:948px; width:342px; height:42px; margin:0; display:flex; align-items:baseline; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
 .net60-offer strong { font-size:48px; line-height:42px; font-weight:500; letter-spacing:.5px; }
 .net60-offer span { font-size:31px; line-height:36px; font-weight:300; letter-spacing:.2px; }
-.product-title { position:absolute; left:700px; top:823px; width:320px; margin:0; font-size:26px; line-height:31px; font-weight:400; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transform:scaleX(.93); transform-origin:right center; }
-.prices { position:absolute; right:60px; top:865px; display:flex; align-items:baseline; gap:31px; white-space:nowrap; font-size:34px; line-height:36px; font-weight:400; transform:scaleX(.94); transform-origin:right center; }
+.product-info { position:absolute; right:60px; top:823px; width:360px; display:flex; flex-direction:column; align-items:flex-end; gap:11px; }
+.product-title { width:320px; margin:0; font-size:26px; line-height:31px; font-weight:400; text-align:right; white-space:normal; overflow-wrap:break-word; transform:scaleX(.93); transform-origin:right top; }
+.prices { display:flex; align-items:baseline; gap:31px; white-space:nowrap; font-size:34px; line-height:36px; font-weight:400; transform:scaleX(.94); transform-origin:right center; }
 .old-price { color:#000; text-decoration:line-through; }
 .sale-price { color:#e31b23; }
 
