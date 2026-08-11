@@ -38,7 +38,7 @@ body {
 }
 
 /* ==================================================
-   DOT DETAILS
+   SUBTLE DOT DETAILS
 ================================================== */
 
 .dot-pattern {
@@ -49,42 +49,43 @@ body {
   background-image:
     radial-gradient(
       circle,
-      rgba(0, 0, 0, 0.13) 2px,
+      rgba(0, 0, 0, 0.12) 2px,
       transparent 2.8px
     );
 
   background-size: 17px 17px;
-  opacity: 0.22;
+  opacity: 0.18;
 
   pointer-events: none;
   z-index: 1;
 }
 
 .dot-pattern.top-right {
-  right: 25px;
+  right: 28px;
   top: 22px;
 }
 
 .dot-pattern.bottom-left {
-  left: 22px;
-  bottom: 35px;
+  left: 28px;
+  bottom: 28px;
 }
 
 /* ==================================================
    LOGO
+   CENTERED + SAFE
 ================================================== */
 
 .logo-area {
   position: absolute;
-  left: 58px;
+  left: 340px;
   top: 38px;
 
-  width: 440px;
-  height: 175px;
+  width: 360px;
+  height: 135px;
 
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
 
   z-index: 6;
 }
@@ -102,271 +103,18 @@ body {
 }
 
 /* ==================================================
-   LEFT CONTENT
-================================================== */
-
-.left-content {
-  position: absolute;
-  left: 58px;
-  top: 220px;
-
-  width: 405px;
-  height: 600px;
-
-  z-index: 6;
-}
-
-/* ==================================================
-   RED LINE
-================================================== */
-
-.brand-line {
-  position: absolute;
-  left: 0;
-  top: 0;
-
-  width: 92px;
-  height: 5px;
-
-  background: #ef3127;
-  border-radius: 5px;
-}
-
-/* ==================================================
-   PRODUCT TITLE
-
-   MAXIMUM 2 LINES
-   ELLIPSIS ONLY AFTER SECOND LINE
-================================================== */
-
-.title-area {
-  position: absolute;
-  left: 0;
-  top: 62px;
-
-  width: 405px;
-  height: 110px;
-
-  overflow: hidden;
-}
-
-.product-title {
-  width: 100%;
-
-  margin: 0;
-  padding: 0 0 6px 0;
-
-  color: #191919;
-
-  font-size: 36px !important;
-  line-height: 1.28 !important;
-  font-weight: 700;
-
-  letter-spacing: -0.8px;
-
-  text-align: left;
-
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 2 !important;
-
-  white-space: normal !important;
-
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-
-  word-break: normal;
-  overflow-wrap: normal;
-}
-
-/* ==================================================
-   DIVIDER
-================================================== */
-
-.content-divider {
-  position: absolute;
-  left: 0;
-  top: 205px;
-
-  width: 335px;
-  height: 2px;
-
-  background: #ededed;
-}
-
-/* ==================================================
-   PRICE
-================================================== */
-
-.price-area {
-  position: absolute;
-  left: 0;
-  top: 235px;
-
-  width: 405px;
-  height: 112px;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.product-price {
-  display: inline-block;
-
-  max-width: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  color: #ef3127;
-
-  font-size: 92px;
-  line-height: 1;
-
-  font-weight: 800;
-
-  letter-spacing: -4px;
-
-  white-space: nowrap;
-}
-
-/* ==================================================
-   SHIPPING CTA
-================================================== */
-
-.shipping-card {
-  position: absolute;
-  left: 0;
-  top: 385px;
-
-  width: 405px;
-  height: 110px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 24px;
-
-  background: #ef3127;
-  border-radius: 28px;
-
-  color: #ffffff;
-
-  box-shadow:
-    0 12px 26px rgba(239, 49, 39, 0.20);
-}
-
-/* ==================================================
-   TRUCK ICON
-================================================== */
-
-.shipping-icon {
-  position: relative;
-
-  flex: 0 0 68px;
-
-  width: 68px;
-  height: 55px;
-
-  margin-right: 20px;
-}
-
-.truck-body {
-  position: absolute;
-
-  left: 0;
-  top: 7px;
-
-  width: 41px;
-  height: 31px;
-
-  border: 4px solid #ffffff;
-  border-radius: 4px;
-}
-
-.truck-cabin {
-  position: absolute;
-
-  left: 39px;
-  top: 16px;
-
-  width: 24px;
-  height: 22px;
-
-  border: 4px solid #ffffff;
-  border-left: 0;
-
-  border-radius: 0 6px 4px 0;
-}
-
-.truck-wheel {
-  position: absolute;
-
-  bottom: 1px;
-
-  width: 12px;
-  height: 12px;
-
-  border-radius: 50%;
-
-  background: #ffffff;
-}
-
-.truck-wheel.one {
-  left: 8px;
-}
-
-.truck-wheel.two {
-  left: 46px;
-}
-
-/* ==================================================
-   SHIPPING TEXT
-================================================== */
-
-.shipping-text {
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.shipping-main,
-.shipping-sub {
-  color: #ffffff;
-
-  font-size: 25px;
-  line-height: 1;
-
-  font-weight: 800;
-
-  letter-spacing: -0.4px;
-
-  white-space: nowrap;
-}
-
-.shipping-sub {
-  margin-top: 8px;
-}
-
-/* ==================================================
    PRODUCT AREA
-
-   LARGE PRODUCT AREA
-   NO CROP
-   NO DISTORTION
+   LARGE BUT INSIDE CENTRAL SAFE ZONE
 ================================================== */
 
 .product-area {
   position: absolute;
 
-  left: 430px;
-  top: 180px;
+  left: 195px;
+  top: 170px;
 
-  width: 600px;
-  height: 650px;
+  width: 650px;
+  height: 500px;
 
   display: flex;
   align-items: center;
@@ -390,6 +138,196 @@ body {
   object-position: center;
 
   flex-shrink: 0;
+}
+
+/* ==================================================
+   PRODUCT TITLE
+   MAX 2 LINES
+   NO ELLIPSIS
+================================================== */
+
+.title-area {
+  position: absolute;
+
+  left: 215px;
+  top: 690px;
+
+  width: 610px;
+  height: 94px;
+
+  overflow: hidden;
+
+  z-index: 6;
+}
+
+.product-title {
+  display: block;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  color: #191919;
+
+  font-size: 37px;
+  line-height: 1.22;
+
+  font-weight: 700;
+
+  letter-spacing: -0.8px;
+
+  text-align: center;
+
+  white-space: normal;
+
+  overflow: hidden;
+
+  word-break: normal;
+  overflow-wrap: normal;
+
+  max-height: 90px;
+}
+
+/* ==================================================
+   SMALL RED DIVIDER
+================================================== */
+
+.title-divider {
+  position: absolute;
+
+  left: 460px;
+  top: 802px;
+
+  width: 120px;
+  height: 3px;
+
+  background: #ef3127;
+  border-radius: 4px;
+
+  z-index: 6;
+}
+
+/* ==================================================
+   SHIPPING CTA
+================================================== */
+
+.shipping-card {
+  position: absolute;
+
+  left: 330px;
+  top: 825px;
+
+  width: 380px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 25px;
+
+  border: 2px solid #ef3127;
+  border-radius: 25px;
+
+  background: #ffffff;
+  color: #ef3127;
+
+  z-index: 6;
+}
+
+/* ==================================================
+   TRUCK ICON
+================================================== */
+
+.shipping-icon {
+  position: relative;
+
+  flex: 0 0 62px;
+
+  width: 62px;
+  height: 51px;
+
+  margin-right: 20px;
+}
+
+.truck-body {
+  position: absolute;
+
+  left: 0;
+  top: 6px;
+
+  width: 38px;
+  height: 29px;
+
+  border: 4px solid #ef3127;
+  border-radius: 4px;
+}
+
+.truck-cabin {
+  position: absolute;
+
+  left: 36px;
+  top: 14px;
+
+  width: 22px;
+  height: 21px;
+
+  border: 4px solid #ef3127;
+  border-left: 0;
+
+  border-radius: 0 6px 4px 0;
+}
+
+.truck-wheel {
+  position: absolute;
+
+  bottom: 1px;
+
+  width: 11px;
+  height: 11px;
+
+  border-radius: 50%;
+
+  background: #ef3127;
+}
+
+.truck-wheel.one {
+  left: 8px;
+}
+
+.truck-wheel.two {
+  left: 43px;
+}
+
+/* ==================================================
+   SHIPPING TEXT
+================================================== */
+
+.shipping-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.shipping-main,
+.shipping-sub {
+  color: #ef3127;
+
+  font-size: 24px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.4px;
+
+  white-space: nowrap;
+}
+
+.shipping-sub {
+  margin-top: 8px;
 }
 
 /* ==================================================
@@ -422,7 +360,7 @@ body {
 }
 
 .footer-line {
-  width: 185px;
+  width: 165px;
   height: 2px;
 
   margin: 0 28px;
