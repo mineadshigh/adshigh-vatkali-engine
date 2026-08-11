@@ -34,80 +34,7 @@
     </div>
 
 
-    <!-- LEFT CONTENT -->
-
-    <div class="left-content">
-
-      <!-- RED LINE -->
-
-      <div class="brand-line"></div>
-
-
-      <!-- PRODUCT TITLE -->
-
-      <div class="title-area">
-
-        <div class="product-title">
-          {{title}}
-        </div>
-
-      </div>
-
-
-      <!-- DIVIDER -->
-
-      <div class="content-divider"></div>
-
-
-      <!-- PRICE -->
-
-      <div class="price-area">
-
-        <div
-          class="product-price"
-          id="productPrice"
-        >
-          {{price}}
-        </div>
-
-      </div>
-
-
-      <!-- SHIPPING CTA -->
-
-      <div class="shipping-card">
-
-        <div class="shipping-icon">
-
-          <div class="truck-body"></div>
-
-          <div class="truck-cabin"></div>
-
-          <div class="truck-wheel one"></div>
-
-          <div class="truck-wheel two"></div>
-
-        </div>
-
-
-        <div class="shipping-text">
-
-          <div class="shipping-main">
-            900 TL VE ÜZERİ
-          </div>
-
-          <div class="shipping-sub">
-            KARGO BEDAVA
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- PRODUCT IMAGE -->
+    <!-- PRODUCT -->
 
     <div class="product-area">
 
@@ -116,6 +43,57 @@
         src="{{product_image_primary}}"
         alt=""
       />
+
+    </div>
+
+
+    <!-- PRODUCT TITLE -->
+
+    <div class="title-area">
+
+      <div
+        class="product-title"
+        id="productTitle"
+      >
+        {{title}}
+      </div>
+
+    </div>
+
+
+    <!-- DIVIDER -->
+
+    <div class="title-divider"></div>
+
+
+    <!-- SHIPPING -->
+
+    <div class="shipping-card">
+
+      <div class="shipping-icon">
+
+        <div class="truck-body"></div>
+
+        <div class="truck-cabin"></div>
+
+        <div class="truck-wheel one"></div>
+
+        <div class="truck-wheel two"></div>
+
+      </div>
+
+
+      <div class="shipping-text">
+
+        <div class="shipping-main">
+          900 TL VE ÜZERİ
+        </div>
+
+        <div class="shipping-sub">
+          KARGO BEDAVA
+        </div>
+
+      </div>
 
     </div>
 
@@ -142,24 +120,31 @@
 <script>
 
 /* ==================================================
-   PRICE FITTING
-
-   PRICE VALUE IS NEVER CHANGED.
-   ONLY FONT SIZE IS REDUCED IF NECESSARY.
+   TITLE FIT
+   MAXIMUM 2 LINES
+   NO "..."
 ================================================== */
 
-function fitPrice() {
+function fitTitle() {
 
   const el =
-    document.getElementById("productPrice");
+    document.getElementById("productTitle");
 
   if (!el) return;
 
 
-  let fontSize = 92;
+  const original =
+    el.textContent
+      .replace(/\s+/g, " ")
+      .trim();
 
-  const minFontSize = 50;
-  const maxWidth = 400;
+
+  el.textContent = original;
+
+
+  let fontSize = 37;
+
+  const minFontSize = 31;
 
 
   el.style.fontSize =
@@ -167,7 +152,7 @@ function fitPrice() {
 
 
   while (
-    el.scrollWidth > maxWidth &&
+    el.scrollHeight > 90 &&
     fontSize > minFontSize
   ) {
 
@@ -182,7 +167,7 @@ function fitPrice() {
 
 
 /* ==================================================
-   WAIT FOR FONT
+   PREPARE
 ================================================== */
 
 async function prepareFrame() {
@@ -201,7 +186,7 @@ async function prepareFrame() {
   } catch (e) {}
 
 
-  fitPrice();
+  fitTitle();
 
 }
 
