@@ -1,23 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
 html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
 * { box-sizing:border-box; }
 .frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#fff; color:#000; }
 .product-frame { position:absolute; overflow:hidden; background:#f3f3f3; }
 .product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
-.variant-net40 .product-frame { left:37px; top:113px; width:1006px; height:1510px; }
-.net40-logo { position:absolute; left:366px; top:1716px; width:349px; height:46px; }
-.net40-logo img { position:absolute; left:50%; top:50%; display:block; width:389px; height:59px; object-fit:contain; transform:translate(-50%,-50%) scaleX(.955); transform-origin:center; }
-.variant-net40 .offer-panel { display:none; }
-.variant-net40plus20 .product-frame { left:105px; top:284px; width:870px; height:1304px; }
-.variant-net40plus20 .net40-logo { display:none; }
-.offer-panel { position:absolute; inset:0; }
-.campaign-title { position:absolute; left:279px; top:108px; width:523px; height:62px; margin:0; font-size:55px; line-height:62px; font-weight:700; letter-spacing:-1.4px; white-space:nowrap; }
-.campaign-offer { position:absolute; left:300px; top:174px; width:481px; height:52px; margin:0; color:#bd0707; font-size:40px; line-height:52px; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
-.campaign-offer .medium { font-weight:500; }
-.campaign-offer .regular { font-weight:400; }
-.campaign-offer strong { font-size:54px; font-weight:700; }
-.product-title { position:absolute; left:105px; top:1605px; width:530px; margin:0; font-size:32px; line-height:39px; font-weight:400; letter-spacing:-.2px; text-transform:uppercase; }
-.prices { position:absolute; right:105px; top:1603px; display:flex; flex-direction:column; align-items:flex-end; white-space:nowrap; }
-.old-price { font-size:32px; line-height:35px; font-weight:400; text-decoration:line-through; }
-.sale-price { color:#bd0707; font-size:40px; line-height:43px; font-weight:500; }
-.cta { position:absolute; left:781px; top:1691px; width:196px; height:53px; display:flex; align-items:center; justify-content:center; padding-bottom:2px; background:#000; color:#fff; font-size:27px; line-height:30px; font-weight:400; white-space:nowrap; }
+.net60-panel, .second50-panel { position:absolute; inset:0; }
+
+/* NET %60 — DİKEYnet60.psd (PSD yüksekliği 1921; render 1920) */
+.variant-net60 .product-frame { left:39px; top:38px; width:1001px; height:1500px; }
+.variant-net60 .second50-panel { display:none; }
+.net60-title { position:absolute; left:66px; top:1564px; width:398px; height:54px; margin:0; font-size:66px; line-height:54px; font-weight:500; letter-spacing:4.6px; white-space:nowrap; transform:scaleX(.90); transform-origin:left center; }
+.net60-label { position:absolute; left:62px; top:1652px; width:248px; height:33px; margin:0; font-size:31px; line-height:33px; font-weight:400; letter-spacing:.3px; white-space:nowrap; transform:scaleX(.95); transform-origin:left center; }
+.net60-offer { position:absolute; left:63px; top:1688px; width:390px; height:48px; margin:0; display:flex; align-items:baseline; white-space:nowrap; transform:scaleX(.925); transform-origin:left center; }
+.net60-offer strong { font-size:55px; line-height:48px; font-weight:500; letter-spacing:.5px; }
+.net60-offer span { font-size:35px; line-height:40px; font-weight:300; letter-spacing:.2px; }
+.product-info { position:absolute; right:60px; top:1565px; width:420px; display:flex; flex-direction:column; align-items:flex-end; gap:11px; }
+.product-title { width:420px; margin:0; font-size:32px; line-height:38px; font-weight:400; text-align:right; white-space:normal; overflow-wrap:break-word; transform:scaleX(.93); transform-origin:right top; }
+.prices { display:flex; align-items:baseline; gap:38px; white-space:nowrap; font-size:42px; line-height:44px; font-weight:400; transform:scaleX(.94); transform-origin:right center; }
+.old-price { color:#000; text-decoration:line-through; }
+.sale-price { color:#e31b23; }
+
+/* İKİNCİ ÜRÜNE NET %50 — DİKEY%50.psd */
+.variant-second50 .product-frame { left:108px; top:181px; width:864px; height:1294px; }
+.variant-second50 .net60-panel { display:none; }
+.archive-title { position:absolute; left:380px; top:68px; width:350px; height:43px; margin:0; font-size:50px; line-height:43px; font-weight:600; transform:scaleX(.93); transform-origin:left center; white-space:nowrap; }
+.archive-offer { position:absolute; left:209px; top:1535px; width:662px; height:96px; margin:0; display:flex; flex-direction:column; align-items:center; text-align:center; white-space:nowrap; font-size:30px; line-height:42px; font-weight:300; letter-spacing:.6px; }
+.archive-offer > span:first-child strong { font-size:41px; font-weight:500; }
+.archive-offer-main { font-size:48px; line-height:50px; font-weight:300; }
+.archive-offer-main strong { font-size:48px; font-weight:500; }
+.campaign-logo { position:absolute; left:417px; top:1739px; width:246px; height:32px; }
+.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain; }
