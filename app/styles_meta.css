@@ -1,37 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
 
 html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
 * { box-sizing:border-box; }
 .frame { position:relative; width:1080px; height:1080px; overflow:hidden; background:#fff; color:#000; }
-.product-frame { position:absolute; overflow:hidden; background:#f3f3f3; }
+.product-frame { position:absolute; left:92px; top:99px; width:588px; height:882px; overflow:hidden; background:#f3f3f3; }
 .product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
-.net60-panel, .second50-panel { position:absolute; inset:0; }
-
-/* NET %60 — KAREnet60.psd */
-.variant-net60 .product-frame-primary { left:18px; top:15px; width:515px; height:772px; }
-.variant-net60 .product-frame-secondary { left:547px; top:15px; width:515px; height:772px; }
-.variant-net60 .second50-panel { display:none; }
-.net60-title { position:absolute; left:68px; top:821px; width:398px; height:56px; margin:0; font-size:66px; line-height:56px; font-weight:500; letter-spacing:4.6px; white-space:nowrap; transform:scaleX(.90); transform-origin:left center; }
-.net60-label { position:absolute; left:64px; top:916px; width:208px; height:29px; margin:0; font-size:27px; line-height:29px; font-weight:400; letter-spacing:.3px; white-space:nowrap; }
-.net60-offer { position:absolute; left:65px; top:948px; width:342px; height:42px; margin:0; display:flex; align-items:baseline; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
-.net60-offer strong { font-size:48px; line-height:42px; font-weight:500; letter-spacing:.5px; }
-.net60-offer span { font-size:31px; line-height:36px; font-weight:300; letter-spacing:.2px; }
-.product-info { position:absolute; right:60px; top:823px; width:360px; display:flex; flex-direction:column; align-items:flex-end; gap:11px; }
-.product-title { width:320px; margin:0; font-size:26px; line-height:31px; font-weight:400; text-align:right; white-space:normal; overflow-wrap:break-word; transform:scaleX(.93); transform-origin:right top; }
-.prices { display:flex; align-items:baseline; gap:31px; white-space:nowrap; font-size:34px; line-height:36px; font-weight:400; transform:scaleX(.94); transform-origin:right center; }
-.old-price { color:#000; text-decoration:line-through; }
-.sale-price { color:#e31b23; }
-
-/* İKİNCİ ÜRÜNE NET %50 — kare%50.psd */
-.variant-second50 .product-frame-primary { left:45px; top:107px; width:578px; height:866px; }
-.variant-second50 .product-frame-secondary, .variant-second50 .net60-panel { display:none; }
-.archive-title { position:absolute; left:684px; top:220px; width:320px; height:43px; margin:0; font-size:50px; line-height:43px; font-weight:600; transform:scaleX(.93); transform-origin:left center; white-space:nowrap; }
-.archive-kicker { position:absolute; left:670px; top:363px; width:349px; height:28px; margin:0; display:flex; align-items:baseline; justify-content:center; white-space:nowrap; }
-.archive-kicker strong { font-size:30px; line-height:28px; font-weight:500; }
-.archive-kicker span { font-size:22px; line-height:25px; font-weight:300; }
-.second-product-label { position:absolute; left:741px; top:467px; width:206px; height:28px; margin:0; font-size:27px; line-height:28px; font-weight:300; text-align:center; white-space:nowrap; }
-.second-product-rate { position:absolute; left:758px; top:506px; width:175px; height:85px; margin:0; font-size:104px; line-height:85px; font-weight:500; letter-spacing:-3px; text-align:center; white-space:nowrap; }
-.second-product-discount { position:absolute; left:762px; top:596px; width:166px; height:47px; margin:0; font-size:50px; line-height:47px; font-weight:400; text-align:center; white-space:nowrap; }
-.campaign-note { position:absolute; left:697px; top:771px; width:294px; height:19px; margin:0; font-size:16px; line-height:19px; font-weight:300; text-align:center; white-space:nowrap; }
-.campaign-logo { position:absolute; left:759px; top:888px; width:173px; height:22px; }
+.campaign-panel { position:absolute; inset:0; }
+.campaign-title { position:absolute; left:732px; top:178px; width:225px; height:42px; margin:0; color:#ed1111; font-size:46px; line-height:42px; font-weight:700; letter-spacing:-1px; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
+.campaign-offer { position:absolute; left:729px; top:243px; width:269px; margin:0; display:flex; flex-direction:column; color:#000; font-size:28px; line-height:39px; font-weight:500; white-space:nowrap; transform:scaleX(.93); transform-origin:left top; }
+.campaign-offer strong { font-size:31px; font-weight:700; }
+.product-info { position:absolute; left:732px; top:484px; width:276px; display:flex; flex-direction:column; align-items:flex-start; gap:15px; }
+.product-title { width:276px; margin:0; font-size:23px; line-height:27px; font-weight:300; white-space:normal; overflow-wrap:break-word; transform:scaleX(.93); transform-origin:left top; }
+.prices { display:flex; align-items:baseline; gap:21px; color:#ed1111; font-size:24px; line-height:25px; font-weight:400; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
+.old-price { text-decoration:line-through; }
+.prices.single-price .old-price { display:none; }
+.prices.single-price .sale-price { color:#000; }
+.campaign-note { position:absolute; left:727px; top:764px; width:289px; margin:0; font-size:18px; line-height:23px; font-weight:300; white-space:nowrap; transform:scaleX(.93); transform-origin:left top; }
+.campaign-logo { position:absolute; left:732px; top:908px; width:195px; height:26px; }
 .campaign-logo img { display:block; width:100%; height:100%; object-fit:contain; }
