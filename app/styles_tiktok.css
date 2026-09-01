@@ -5,7 +5,7 @@ html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; 
 .frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#fff; color:#000; }
 .campaign-header { position:absolute; inset:0; }
 .campaign-title { position:absolute; left:406px; top:110px; width:268px; height:50px; margin:0; color:#ed1111; font-size:53px; line-height:50px; font-weight:700; letter-spacing:-1px; white-space:nowrap; text-align:center; transform:scaleX(.93); transform-origin:center; }
-.campaign-offer { position:absolute; left:209px; top:181px; width:662px; height:38px; margin:0; color:#000; font-size:35px; line-height:38px; font-weight:500; white-space:nowrap; text-align:center; transform:scaleX(.93); transform-origin:center; }
+.campaign-offer { position:absolute; left:209px; top:181px; width:662px; height:38px; margin:0; color:#000; font-size:35px; line-height:38px; font-weight:400; white-space:nowrap; text-align:center; transform:scaleX(.93); transform-origin:center; }
 .campaign-offer strong { font-size:40px; font-weight:700; }
 .product-frame { position:absolute; left:123px; top:282px; width:834px; height:1250px; overflow:hidden; background:#f3f3f3; }
 .product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
