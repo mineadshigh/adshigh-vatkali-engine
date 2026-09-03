@@ -7,40 +7,19 @@
 </head>
 <body>
   <main class="frame">
-    <header class="campaign-header">
+    <section class="campaign-panel">
       <h1 class="campaign-title">LAST CALL</h1>
-      <p class="campaign-offer">TÜM İNDİRİMLERE EK SEPETTE EKSTRA <strong>%20</strong></p>
-    </header>
+      <p class="campaign-offer">TÜM İNDİRİMLERE EK NET %20 İNDİRİM</p>
+      <div class="plus">+</div>
+      <div class="coupon-box"><strong>%20</strong><span>KUPON KODU:</span><b>VTK20</b></div>
+    </section>
+
     <div class="product-frame">
       <img class="product-image" src="{{product_image_primary}}" alt="" />
     </div>
-    <div class="product-info">
-      <h2 class="product-title">{{title}}</h2>
-      <div class="prices"><span class="old-price">{{price}}</span><span class="sale-price">{{sale_price}}</span></div>
-    </div>
-    <div class="campaign-logo"><img src="{{logo_url}}" alt="VATKALI" /></div>
+
+    <p class="campaign-note">// Kampanya 07.09.2026 10:00’a kadar tüm ürünlerde geçerlidir.</p>
+    <div class="campaign-logo"><img src="/vatkalilogo-beyaz.png" alt="VATKALI" /></div>
   </main>
-  <script>
-    (() => {
-      const priceBlock = document.querySelector(".prices");
-      const oldPrice = document.querySelector(".old-price");
-      const salePrice = document.querySelector(".sale-price");
-      const unresolved = /^\{\{.+\}\}$/;
-      const numericPrice = (value) => {
-        const digits = String(value || "").replace(/[^0-9]/g, "");
-        return digits ? Number(digits) : NaN;
-      };
-      const oldValue = oldPrice.textContent.trim();
-      const saleValue = salePrice.textContent.trim();
-      const oldNumber = numericPrice(oldValue);
-      const saleNumber = numericPrice(saleValue);
-      const hasSalePrice = saleValue && !unresolved.test(saleValue) && Number.isFinite(saleNumber);
-      const samePrice = hasSalePrice && Number.isFinite(oldNumber) && oldNumber === saleNumber;
-      if (!hasSalePrice || samePrice) {
-        salePrice.textContent = oldValue || saleValue;
-        priceBlock.classList.add("single-price");
-      }
-    })();
-  </script>
 </body>
 </html>
