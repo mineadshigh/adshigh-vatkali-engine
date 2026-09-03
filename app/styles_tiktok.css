@@ -14,4 +14,4 @@ html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; 
 .product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
 .campaign-note { position:absolute; left:161px; top:1634px; width:765px; margin:0; color:#fff; font-size:29px; line-height:32px; font-weight:300; text-align:center; white-space:nowrap; transform:scaleX(.93); transform-origin:center; }
 .campaign-logo { position:absolute; left:403px; top:1740px; width:313px; height:41px; }
-.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain;}
+.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain; }
