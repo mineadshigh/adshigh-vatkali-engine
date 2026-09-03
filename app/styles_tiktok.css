@@ -1,19 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&display=swap');
 
-html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
+html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; background:#000; font-family:"Outfit",Arial,sans-serif; }
 * { box-sizing:border-box; }
-.frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#fff; color:#000; }
-.campaign-header { position:absolute; inset:0; }
-.campaign-title { position:absolute; left:406px; top:110px; width:268px; height:50px; margin:0; color:#ed1111; font-size:53px; line-height:50px; font-weight:700; letter-spacing:-1px; white-space:nowrap; text-align:center; transform:scaleX(.93); transform-origin:center; }
-.campaign-offer { position:absolute; left:209px; top:181px; width:662px; height:38px; margin:0; color:#000; font-size:35px; line-height:38px; font-weight:400; white-space:nowrap; text-align:center; transform:scaleX(.93); transform-origin:center; }
-.campaign-offer strong { font-size:40px; font-weight:700; }
-.product-frame { position:absolute; left:123px; top:282px; width:834px; height:1250px; overflow:hidden; background:#f3f3f3; }
+.frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#000; color:#fff; }
+.campaign-panel { position:absolute; inset:0; }
+.campaign-title { position:absolute; left:416px; top:89px; width:251px; height:47px; margin:0; color:#ffff00; font-size:51px; line-height:47px; font-weight:600; white-space:nowrap; transform:scaleX(.93); transform-origin:left center; }
+.campaign-offer { position:absolute; left:208px; top:166px; width:664px; height:43px; margin:0; color:#fff; font-size:38px; line-height:43px; font-weight:500; text-align:center; white-space:nowrap; transform:scaleX(.93); transform-origin:center; }
+.plus { position:absolute; left:544px; top:243px; width:16px; height:25px; font-size:25px; line-height:25px; font-weight:500; text-align:center; }
+.coupon-box { position:absolute; left:295px; top:295px; width:499px; height:65px; display:flex; align-items:center; justify-content:center; gap:8px; border:1px solid #fff; color:#fff; font-size:35px; line-height:40px; font-weight:500; white-space:nowrap; transform:scaleX(.96); transform-origin:center; }
+.coupon-box strong { font-weight:500; }
+.coupon-box b { font-weight:600; }
+.product-frame { position:absolute; left:160px; top:413px; width:768px; height:1152px; overflow:hidden; background:#f3f3f3; }
 .product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
-.product-info { position:absolute; left:123px; top:1554px; width:834px; display:grid; grid-template-columns:1fr auto; column-gap:34px; align-items:start; }
-.product-title { width:515px; margin:0; font-size:32px; line-height:39px; font-weight:300; white-space:normal; overflow-wrap:break-word; transform:scaleX(.93); transform-origin:left top; }
-.prices { padding-top:2px; display:flex; align-items:baseline; justify-content:flex-end; gap:30px; color:#ed1111; font-size:31px; line-height:34px; font-weight:400; white-space:nowrap; transform:scaleX(.93); transform-origin:right center; }
-.old-price { text-decoration:line-through; }
-.prices.single-price .old-price { display:none; }
-.prices.single-price .sale-price { color:#000; }
-.campaign-logo { position:absolute; left:415px; top:1723px; width:250px; height:34px; }
-.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain; }
+.campaign-note { position:absolute; left:161px; top:1634px; width:765px; margin:0; color:#fff; font-size:29px; line-height:32px; font-weight:300; text-align:center; white-space:nowrap; transform:scaleX(.93); transform-origin:center; }
+.campaign-logo { position:absolute; left:403px; top:1740px; width:313px; height:41px; }
+.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain;}
