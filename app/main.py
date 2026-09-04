@@ -219,6 +219,12 @@ def get_template_and_css(design: str) -> tuple[str, str]:
             os.path.join(BASE_DIR, "styles_tiktok.css"),
         )
 
+    if design == "meta_4x5":
+    return (
+        os.path.join(BASE_DIR, "template_meta_4x5.html"),
+        os.path.join(BASE_DIR, "styles_meta_4x5.css"),
+    )
+
     return (
         os.path.join(BASE_DIR, "template_meta.html"),
         os.path.join(BASE_DIR, "styles_meta.css"),
