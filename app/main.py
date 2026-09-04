@@ -12,6 +12,8 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.async_api import async_playwright
 
+ET.register_namespace("g", "http://base.google.com/ns/1.0")
+
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
 FEED_URL_META = os.getenv(
@@ -254,9 +256,14 @@ def text_of(
     return (item.findtext(tag, default="") or "").strip()
 
 
-def set_image_link(item: ET.Element, new_url: str):
+def set_image_link(
+    item: ET.Element,
+    new_url: str,
+    additional_url: str = "",
+):
 
-    ns = {"g": "http://base.google.com/ns/1.0"}
+    ns_uri = "http://base.google.com/ns/1.0"
+    ns = {"g": ns_uri}
 
     img = item.find("g:image_link", ns)
 
@@ -265,6 +272,15 @@ def set_image_link(item: ET.Element, new_url: str):
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
+
+        for extra in item.findall("additional_image_link"):
+            item.remove(extra)
+
+        if additional_url:
+            ET.SubElement(
+                item,
+                f"{{{ns_uri}}}additional_image_link",
+            ).text = additional_url
 
         return
 
@@ -276,10 +292,27 @@ def set_image_link(item: ET.Element, new_url: str):
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
 
+        for extra in item.findall("g:additional_image_link", ns):
+            item.remove(extra)
+
+        if additional_url:
+            ET.SubElement(
+                item,
+                "additional_image_link",
+            ).text = additional_url
+
         return
 
-    ET.SubElement(item, "image_link").text = new_url
+    ET.SubElement(
+        item,
+        "image_link",
+    ).text = new_url
 
+    if additional_url:
+        ET.SubElement(
+            item,
+            "additional_image_link",
+        ).text = additional_url
 
 def extract_title(
     item: ET.Element,
@@ -1243,9 +1276,35 @@ async def feed_meta(request: Request):
             f"&v={sig}"
         )
 
+        portrait_design = "meta_4x5"
+
+        portrait_sig = build_sig(
+            product_id,
+            portrait_design,
+            title,
+            price,
+            sale,
+            primary,
+            fv,
+        )
+
+        portrait_render_url = (
+            f"{base_url}/render.png"
+            f"?product_id={quote_plus(product_id)}"
+            f"&title={quote_plus(title)}"
+            f"&price={quote_plus(price)}"
+            f"&sale_price={quote_plus(sale)}"
+            f"&product_image_primary={quote_plus(primary)}"
+            f"&design={quote_plus(portrait_design)}"
+            f"&w=1080&h=1350"
+            f"&fv={quote_plus(fv)}"
+            f"&v={portrait_sig}"
+        )
+
         set_image_link(
             item,
             render_url,
+            portrait_render_url,
         )
 
     xml_out = ET.tostring(
