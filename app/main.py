@@ -905,7 +905,7 @@ async def render_endpoint(
 
             logo_url = (
                 f"{base_url}/static/"
-                "vatkalilogo-beyaz.png"
+                "vatkalilogo.svg"
             )
 
     background_url = (
