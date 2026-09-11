@@ -12,8 +12,6 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from playwright.async_api import async_playwright
 
-ET.register_namespace("g", "http://base.google.com/ns/1.0")
-
 APP_BASE_URL = os.getenv("APP_BASE_URL", "").rstrip("/")
 
 FEED_URL_META = os.getenv(
@@ -33,6 +31,117 @@ FEED_URL_KAYA = os.getenv(
 
 RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
+
+
+ATTITUDE_PRODUCT_CODES = {
+    "VTK26-101-125-9",
+    "VTK26-101-106-10",
+    "VTK26-114-02-5",
+    "VTK26-101-99-5",
+    "VTK26-101-06-10",
+    "VTK26-120-04-7",
+    "VTK26-101-17-2",
+    "VTK26-101-17-10",
+    "VTK26-101-137-3",
+    "VTK26-101-87-3",
+    "VTK26-101-114-3",
+    "VTK26-101-110-3",
+    "VTK26-114-03-3",
+    "VTK26-101-93-3",
+    "VTK26-101-77-3",
+    "VTK26-101-94-3",
+    "VTK26-101-77-92",
+    "VTK26-101-136-92",
+    "VTK26-121-17-3",
+    "VTK26-121-17-10",
+    "VTK26-101-126-3",
+    "VTK26-101-106-3",
+    "VTK26-101-117-10",
+    "VTK26-101-124-3",
+    "VTK26-119-01-10",
+    "VTK26-119-01-39",
+    "VTK26-114-06-10",
+    "VTK26-120-05-24",
+    "VTK24-101-54-3",
+    "D-SAME-340-3",
+    "VTK26-101-104-3",
+    "VTK26-101-112-3",
+    "VTK26-114-03-10",
+    "VTK26-101-141-10",
+    "VTK26-101-119-10",
+    "D-SAME-346-45",
+    "D-SAME-333-13",
+    "D-SAME-336-3",
+    "VTK26-101-112-16",
+    "VTK26-101-96-3",
+    "VTK26-101-119-3",
+    "VTK26-101-108-3",
+    "VTK26-101-88-10",
+    "VTK26-120-06-7",
+    "VTK26-101-137-10",
+    "VTK26-101-97-10",
+    "VTK26-101-82-4",
+    "VTK26-114-05-3",
+    "D-SAME-333-10",
+    "D-SAME-241-10",
+    "VTK26-124-07-3",
+    "VTK26-124-06-10",
+    "VTK26-101-84-3",
+    "VTK26-101-128-13",
+    "VTK26-123-31-28",
+    "VTK26-123-30-10",
+    "VTK26-114-03-19",
+    "VTK26-101-121-3",
+    "VTK26-101-13-3",
+    "VTK26-101-128-3",
+    "VTK26-121-16-3",
+    "VTK26-121-16-10",
+    "VTK26-121-15-10",
+    "VTK26-121-15-24",
+    "VTK26-114-06-5",
+    "VTK26-101-131-16",
+    "D-SAME-337-10",
+    "VTK26-101-79-3",
+    "VTK26-101-150-3",
+    "VTK26-121-14-10",
+    "VTK26-121-13-3",
+    "VTK26-121-12-3",
+    "VTK26-121-14-3",
+    "VTK26-101-111-3",
+    "D-SAME-147-3",
+    "D-SAME-337-4",
+    "VTK26-114-05-10",
+    "VTK26-114-04-3",
+    "VTK26-101-38-10",
+    "VTK26-101-91-10",
+    "VTK26-101-109-2",
+    "VTK26-101-111-10",
+    "VTK26-101-38-3",
+    "VTK26-101-13-10",
+    "D-SAME-337-3",
+    "VTK26-101-37-89",
+    "VTK26-120-06-3",
+    "D-SAME-147-10",
+    "VTK26-101-150-2",
+    "D-SAME-269-7",
+}
+
+
+def get_variant_class(product_id: str) -> str:
+    normalized = (product_id or "").strip().upper()
+
+    is_attitude = any(
+        normalized == code
+        or normalized.startswith(code + "-")
+        for code in ATTITUDE_PRODUCT_CODES
+    )
+
+    return (
+        "variant-attitude"
+        if is_attitude
+        else "variant-standard"
+    )
+
 
 app = FastAPI()
 
@@ -256,14 +365,9 @@ def text_of(
     return (item.findtext(tag, default="") or "").strip()
 
 
-def set_image_link(
-    item: ET.Element,
-    new_url: str,
-    additional_url: str = "",
-):
+def set_image_link(item: ET.Element, new_url: str):
 
-    ns_uri = "http://base.google.com/ns/1.0"
-    ns = {"g": ns_uri}
+    ns = {"g": "http://base.google.com/ns/1.0"}
 
     img = item.find("g:image_link", ns)
 
@@ -272,15 +376,6 @@ def set_image_link(
 
         for extra in item.findall("g:additional_image_link", ns):
             item.remove(extra)
-
-        for extra in item.findall("additional_image_link"):
-            item.remove(extra)
-
-        if additional_url:
-            ET.SubElement(
-                item,
-                f"{{{ns_uri}}}additional_image_link",
-            ).text = additional_url
 
         return
 
@@ -292,27 +387,10 @@ def set_image_link(
         for extra in item.findall("additional_image_link"):
             item.remove(extra)
 
-        for extra in item.findall("g:additional_image_link", ns):
-            item.remove(extra)
-
-        if additional_url:
-            ET.SubElement(
-                item,
-                "additional_image_link",
-            ).text = additional_url
-
         return
 
-    ET.SubElement(
-        item,
-        "image_link",
-    ).text = new_url
+    ET.SubElement(item, "image_link").text = new_url
 
-    if additional_url:
-        ET.SubElement(
-            item,
-            "additional_image_link",
-        ).text = additional_url
 
 def extract_title(
     item: ET.Element,
@@ -911,6 +989,8 @@ async def render_endpoint(
         sale_price,
     )
 
+    variant_class = get_variant_class(product_id)
+
     template_path, css_path = get_template_and_css(
         design
     )
@@ -1062,6 +1142,11 @@ async def render_endpoint(
     html = html.replace(
         "{{product_id}}",
         product_id,
+    )
+
+    html = html.replace(
+        "{{variant_class}}",
+        variant_class,
     )
 
     html = html.replace(
@@ -1276,35 +1361,9 @@ async def feed_meta(request: Request):
             f"&v={sig}"
         )
 
-        portrait_design = "meta_4x5"
-
-        portrait_sig = build_sig(
-            product_id,
-            portrait_design,
-            title,
-            price,
-            sale,
-            primary,
-            fv,
-        )
-
-        portrait_render_url = (
-            f"{base_url}/render.png"
-            f"?product_id={quote_plus(product_id)}"
-            f"&title={quote_plus(title)}"
-            f"&price={quote_plus(price)}"
-            f"&sale_price={quote_plus(sale)}"
-            f"&product_image_primary={quote_plus(primary)}"
-            f"&design={quote_plus(portrait_design)}"
-            f"&w=1080&h=1350"
-            f"&fv={quote_plus(fv)}"
-            f"&v={portrait_sig}"
-        )
-
         set_image_link(
             item,
             render_url,
-            portrait_render_url,
         )
 
     xml_out = ET.tostring(
