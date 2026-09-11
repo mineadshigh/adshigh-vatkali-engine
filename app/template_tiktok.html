@@ -7,22 +7,79 @@
 </head>
 <body>
   <main class="frame">
-    <section class="campaign-panel">
-      <h1 class="campaign-title">SEZONUN SON İNDİRİMİ</h1>
-      <p class="campaign-offer">SEPETTE EKSTRA NET <strong>%40 İNDİRİM</strong></p>
-    </section>
-    <div class="product-frame">
-      <img class="product-image" src="{{product_image_primary}}" alt="" />
-    </div>
-    <div class="product-info">
-      <p class="product-title">{{title}}</p>
-      <div class="prices">
-        <span class="old-price {{old_hidden}}">{{price}}</span>
-        <span class="sale-price {{new_hidden}}">{{sale_price}}</span>
-        <span class="single-price {{single_hidden}}">{{price}}</span>
+    <div class="standard-design">
+      <section class="campaign-panel">
+        <h1 class="campaign-title">SEZONUN SON İNDİRİMİ</h1>
+        <p class="campaign-offer">SEPETTE EKSTRA NET <strong>%40 İNDİRİM</strong></p>
+      </section>
+      <div class="product-frame standard-product-frame">
+        <img class="product-image" src="{{product_image_primary}}" alt="" />
       </div>
+      <div class="product-info">
+        <p class="product-title">{{title}}</p>
+        <div class="prices">
+          <span class="old-price {{old_hidden}}">{{price}}</span>
+          <span class="sale-price {{new_hidden}}">{{sale_price}}</span>
+          <span class="single-price {{single_hidden}}">{{price}}</span>
+        </div>
+      </div>
+      <div class="campaign-logo"><img src="{{logo_url}}" alt="VATKALI" /></div>
     </div>
-    <div class="campaign-logo"><img src="{{logo_url}}" alt="" /></div>
+
+    <div class="attitude-design">
+      <div class="attitude-product-frame">
+        <img class="product-image" src="{{product_image_primary}}" alt="" />
+      </div>
+      <div class="attitude-new">NEW</div>
+      <div class="attitude-name">THE ATTITUDE</div>
+      <div class="attitude-season">26/27’FW</div>
+      <div class="attitude-offer">LANSMANA ÖZEL <strong>%10 OFF</strong></div>
+      <div class="attitude-logo"><img src="{{logo_url}}" alt="VATKALI" /></div>
+    </div>
   </main>
+
+  <script>
+    (() => {
+      const attitudeCodes = [
+        "VTK26-101-125-9", "VTK26-101-106-10", "VTK26-114-02-5",
+        "VTK26-101-99-5", "VTK26-101-06-10", "VTK26-120-04-7",
+        "VTK26-101-17-2", "VTK26-101-17-10", "VTK26-101-137-3",
+        "VTK26-101-87-3", "VTK26-101-114-3", "VTK26-101-110-3",
+        "VTK26-114-03-3", "VTK26-101-93-3", "VTK26-101-77-3",
+        "VTK26-101-94-3", "VTK26-101-77-92", "VTK26-101-136-92",
+        "VTK26-121-17-3", "VTK26-121-17-10", "VTK26-101-126-3",
+        "VTK26-101-106-3", "VTK26-101-117-10", "VTK26-101-124-3",
+        "VTK26-119-01-10", "VTK26-119-01-39", "VTK26-114-06-10",
+        "VTK26-120-05-24", "VTK24-101-54-3", "D-SAME-340-3",
+        "VTK26-101-104-3", "VTK26-101-112-3", "VTK26-114-03-10",
+        "VTK26-101-141-10", "VTK26-101-119-10", "D-SAME-346-45",
+        "D-SAME-333-13", "D-SAME-336-3", "VTK26-101-112-16",
+        "VTK26-101-96-3", "VTK26-101-119-3", "VTK26-101-108-3",
+        "VTK26-101-88-10", "VTK26-120-06-7", "VTK26-101-137-10",
+        "VTK26-101-97-10", "VTK26-101-82-4", "VTK26-114-05-3",
+        "D-SAME-333-10", "D-SAME-241-10", "VTK26-124-07-3",
+        "VTK26-124-06-10", "VTK26-101-84-3", "VTK26-101-128-13",
+        "VTK26-123-31-28", "VTK26-123-30-10", "VTK26-114-03-19",
+        "VTK26-101-121-3", "VTK26-101-13-3", "VTK26-101-128-3",
+        "VTK26-121-16-3", "VTK26-121-16-10", "VTK26-121-15-10",
+        "VTK26-121-15-24", "VTK26-114-06-5", "VTK26-101-131-16",
+        "D-SAME-337-10", "VTK26-101-79-3", "VTK26-101-150-3",
+        "VTK26-121-14-10", "VTK26-121-13-3", "VTK26-121-12-3",
+        "VTK26-121-14-3", "VTK26-101-111-3", "D-SAME-147-3",
+        "D-SAME-337-4", "VTK26-114-05-10", "VTK26-114-04-3",
+        "VTK26-101-38-10", "VTK26-101-91-10", "VTK26-101-109-2",
+        "VTK26-101-111-10", "VTK26-101-38-3", "VTK26-101-13-10",
+        "D-SAME-337-3", "VTK26-101-37-89", "VTK26-120-06-3",
+        "D-SAME-147-10", "VTK26-101-150-2", "D-SAME-269-7"
+      ];
+      const productId = "{{product_id}}".trim().toUpperCase();
+      const isAttitude = attitudeCodes.some(
+        code => productId === code || productId.startsWith(code + "-")
+      );
+      document.querySelector(".frame").classList.add(
+        isAttitude ? "variant-attitude" : "variant-standard"
+      );
+    })();
+  </script>
 </body>
 </html>
