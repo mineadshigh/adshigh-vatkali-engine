@@ -1,36 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&display=swap');
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1" />
+  <style>{{CSS}}</style>
+</head>
+<body>
+  <main class="frame {{variant_class}}">
+    <div class="standard-design">
+      <div class="product-frame standard-product-frame">
+        <img class="product-image" src="{{product_image_primary}}" alt="" />
+      </div>
+      <section class="campaign-panel">
+        <h1 class="campaign-title">SEZONUN SON<br />İNDİRİMİ</h1>
+        <p class="campaign-offer">SEPETTE EKSTRA NET <strong>%40</strong></p>
+        <div class="product-info">
+          <p class="product-title">{{title}}</p>
+          <div class="prices">
+            <span class="old-price {{old_hidden}}">{{price}}</span>
+            <span class="sale-price {{new_hidden}}">{{sale_price}}</span>
+            <span class="single-price {{single_hidden}}">{{price}}</span>
+          </div>
+        </div>
+        <div class="campaign-logo"><img src="{{logo_url}}" alt="VATKALI" /></div>
+      </section>
+    </div>
 
-html, body { width:1080px; height:1350px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
-* { box-sizing:border-box; }
-.frame { position:relative; width:1080px; height:1350px; overflow:hidden; background:#fff; color:#000; }
-.product-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
-.attitude-design { display:none; }
-.variant-attitude .standard-design { display:none; }
-.variant-attitude .attitude-design { display:block; }
-
-/* Mevcut 4:5 tasarım */
-.standard-product-frame { position:absolute; left:50px; top:210px; width:620px; height:930px; overflow:hidden; background:#f3f3f3; }
-.campaign-panel { position:absolute; inset:0; }
-.campaign-title { position:absolute; left:695px; top:325px; width:345px; margin:0; color:#dc1616; font-size:45px; line-height:54px; font-weight:600; letter-spacing:-1px; white-space:nowrap; }
-.campaign-offer { position:absolute; left:695px; top:428px; width:370px; margin:0; color:#000; font-size:31px; line-height:40px; font-weight:400; letter-spacing:-.7px; white-space:nowrap; transform:scaleX(.91); transform-origin:left center; }
-.campaign-offer strong { font-size:39px; font-weight:600; }
-.product-info { position:absolute; left:695px; top:660px; width:350px; display:flex; flex-direction:column; align-items:flex-start; }
-.product-title { width:100%; margin:0; font-size:29px; line-height:35px; font-weight:300; letter-spacing:-.3px; overflow-wrap:anywhere; }
-.prices { min-height:35px; margin-top:4px; display:flex; align-items:baseline; gap:35px; white-space:nowrap; font-size:29px; line-height:35px; font-weight:500; }
-.old-price { color:#111; text-decoration:line-through; }
-.sale-price { color:#dc1616; }
-.single-price { color:#111; }
-.campaign-logo { position:absolute; left:695px; top:1010px; width:281px; height:36px; }
-.campaign-logo img { display:block; width:100%; height:100%; object-fit:contain; filter:brightness(0); }
-
-/* THE ATTITUDE 4:5 — kare tasarımın oranı korunarak ortalandı */
-.attitude-product-frame { position:absolute; left:0; top:135px; width:722px; height:1080px; overflow:hidden; background:#c4bcaa; }
-.attitude-new { position:absolute; left:765px; top:415px; width:190px; color:#282828; font-size:86px; line-height:1; font-weight:500; white-space:nowrap; }
-.attitude-name { position:absolute; left:764px; top:501px; width:277px; color:#282828; font-size:41px; line-height:1; font-weight:200; white-space:nowrap; }
-.attitude-season { position:absolute; left:917px; top:543px; width:123px; color:#282828; font-size:29px; line-height:1; font-weight:100; white-space:nowrap; }
-.attitude-offer { position:absolute; left:767px; top:631px; width:277px; color:#282828; font-size:23px; line-height:1.2; font-weight:300; white-space:nowrap; }
-.attitude-offer strong { font-weight:600; }
-.attitude-logo { position:absolute; left:765px; top:984px; width:249px; height:32px; }
-.attitude-logo img { display:block; width:100%; height:100%; object-fit:contain; object-position:left center; filter:brightness(0); }
-
-.hidden { display:none !important; }
+    <div class="attitude-design">
+      <div class="attitude-product-frame">
+        <img class="product-image" src="{{product_image_primary}}" alt="" />
+      </div>
+      <div class="attitude-new">NEW</div>
+      <div class="attitude-name">THE ATTITUDE</div>
+      <div class="attitude-season">26/27’FW</div>
+      <div class="attitude-offer">LANSMANA ÖZEL <strong>%10 OFF</strong></div>
+      <div class="attitude-logo"><img src="{{logo_url}}" alt="VATKALI" /></div>
+    </div>
+  </main>
+</body>
+</html>
