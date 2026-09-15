@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8" />
-
   <style>
     {{CSS}}
   </style>
@@ -15,82 +14,105 @@
 
   <div class="canvas">
 
-    <!-- DECOR -->
+    <!--
+      Dekoratif alanlar.
+      Crop olması tasarımın anlamını bozmaz.
+    -->
+    <div class="corner top-left"></div>
+    <div class="corner bottom-right"></div>
 
-    <div class="dot-pattern top-right"></div>
-    <div class="dot-pattern bottom-left"></div>
+    <div class="dots top-right"></div>
+    <div class="dots bottom-left"></div>
 
 
     <!-- LOGO -->
 
     <div class="logo-area">
-
       <img
         class="logo"
         src="{{logo_url}}"
         alt=""
       />
-
     </div>
 
 
-    <!-- PRODUCT -->
+    <!-- ÜRÜN -->
 
     <div class="product-area">
-
       <img
         class="product-image"
         src="{{product_image_primary}}"
         alt=""
       />
-
     </div>
 
 
-    <!-- PRODUCT TITLE -->
+    <!-- ÜRÜN ADI -->
 
     <div class="title-area">
-
       <div
         class="product-title"
         id="productTitle"
-      >
-        {{title}}
-      </div>
-
+      >{{title}}</div>
     </div>
-
-
-    <!-- DIVIDER -->
 
     <div class="title-divider"></div>
 
 
-    <!-- SHIPPING -->
+    <!-- AVANTAJLAR -->
 
-    <div class="shipping-card">
+    <div class="benefits">
 
-      <div class="shipping-icon">
+      <!-- KARGO -->
 
-        <div class="truck-body"></div>
+      <div class="benefit shipping">
 
-        <div class="truck-cabin"></div>
+        <div class="benefit-icon">
 
-        <div class="truck-wheel one"></div>
+          <div class="truck-body"></div>
+          <div class="truck-cabin"></div>
 
-        <div class="truck-wheel two"></div>
+          <div class="truck-wheel one"></div>
+          <div class="truck-wheel two"></div>
+
+        </div>
+
+        <div class="benefit-text">
+
+          <div class="benefit-top">
+            900 TL VE ÜZERİ
+          </div>
+
+          <div class="benefit-bottom">
+            KARGO BEDAVA
+          </div>
+
+        </div>
 
       </div>
 
 
-      <div class="shipping-text">
+      <div class="benefit-separator"></div>
 
-        <div class="shipping-main">
-          900 TL VE ÜZERİ
+
+      <!-- GÜVEN -->
+
+      <div class="benefit trust">
+
+        <div class="benefit-icon">
+          <div class="shield"></div>
         </div>
 
-        <div class="shipping-sub">
-          KARGO BEDAVA
+        <div class="benefit-text">
+
+          <div class="benefit-top">
+            GÜVENLİ
+          </div>
+
+          <div class="benefit-bottom">
+            ALIŞVERİŞ
+          </div>
+
         </div>
 
       </div>
@@ -119,11 +141,30 @@
 
 <script>
 
-/* ==================================================
-   TITLE FIT
-   MAXIMUM 2 LINES
-   NO "..."
-================================================== */
+/*
+  Başlık:
+  - maksimum 2 satır
+  - önce font küçülür
+  - hâlâ sığmıyorsa kelime kelime kısalır
+  - "..." EKLENMEZ
+*/
+
+function titleFits(el) {
+
+  const styles = window.getComputedStyle(el);
+
+  const fontSize =
+    parseFloat(styles.fontSize);
+
+  const lineHeight =
+    parseFloat(styles.lineHeight);
+
+  const maxHeight =
+    lineHeight * 2 + 2;
+
+  return el.scrollHeight <= maxHeight;
+}
+
 
 function fitTitle() {
 
@@ -142,7 +183,7 @@ function fitTitle() {
   el.textContent = original;
 
 
-  let fontSize = 37;
+  let fontSize = 39;
 
   const minFontSize = 31;
 
@@ -151,8 +192,12 @@ function fitTitle() {
     fontSize + "px";
 
 
+  /*
+    Önce font küçült.
+  */
+
   while (
-    el.scrollHeight > 90 &&
+    !titleFits(el) &&
     fontSize > minFontSize
   ) {
 
@@ -160,15 +205,74 @@ function fitTitle() {
 
     el.style.fontSize =
       fontSize + "px";
+  }
+
+
+  /*
+    Minimum fontta bile
+    iki satırı geçiyorsa
+    kelimeleri azalt.
+
+    Ellipsis YOK.
+  */
+
+  if (!titleFits(el)) {
+
+    const words =
+      original.split(" ");
+
+
+    let low = 1;
+
+    let high =
+      words.length;
+
+    let best = "";
+
+
+    while (low <= high) {
+
+      const middle =
+        Math.floor(
+          (low + high) / 2
+        );
+
+
+      const candidate =
+        words
+          .slice(0, middle)
+          .join(" ");
+
+
+      el.textContent =
+        candidate;
+
+
+      if (titleFits(el)) {
+
+        best =
+          candidate;
+
+        low =
+          middle + 1;
+
+      } else {
+
+        high =
+          middle - 1;
+
+      }
+
+    }
+
+
+    el.textContent =
+      best;
 
   }
 
 }
 
-
-/* ==================================================
-   PREPARE
-================================================== */
 
 async function prepareFrame() {
 
@@ -196,5 +300,4 @@ prepareFrame();
 </script>
 
 </body>
-
 </html>
