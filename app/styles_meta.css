@@ -26,7 +26,7 @@ html, body {
   inset: 0;
 }
 
-.old-season-design { display: none; }
+.old-season-design { display: none; background: #fff; color: #000; }
 .variant-old-season .new-season-design { display: none; }
 .variant-old-season .old-season-design { display: block; }
 
@@ -106,7 +106,7 @@ html, body {
 }
 
 .discount-mark { position: absolute; left: 84px; top: 18px; width: 118px; height: 78px; }
-.discount-mark .percent { position: absolute; left: 16px; top: 24px; font-size: 22px; line-height: 22px; font-weight: 500; }
+.discount-mark .percent { position: absolute; left: 16px; top: 29px; font-size: 22px; line-height: 22px; font-weight: 500; }
 .discount-mark .number { position: absolute; left: 0; top: -1px; font-size: 100px; line-height: 100px; font-weight: 500; letter-spacing: -5px; }
 .discount-word { position: absolute; left: 219px; top: 34px; font-size: 44px; line-height: 48px; font-weight: 700; white-space: nowrap; }
 .new-price { position: absolute; right: 67px; top: 22px; font-size: 22px; line-height: 28px; font-weight: 300; white-space: nowrap; }
@@ -141,13 +141,13 @@ html, body {
   object-position: center center;
 }
 
-.old-offer { position: absolute; inset: 0; color: #fff; }
+.old-offer { position: absolute; inset: 0; color: #000; }
 .offer-block { position: absolute; }
 .offer-net { left: 623px; top: 456px; width: 155px; }
 .offer-extra { left: 833px; top: 451px; width: 222px; }
 .offer-label { display: block; height: 28px; font-size: 23px; line-height: 28px; font-weight: 400; white-space: nowrap; }
 .offer-rate { display: block; margin-top: 1px; font-size: 88px; line-height: 80px; font-weight: 400; letter-spacing: -4px; white-space: nowrap; }
-.offer-divider { position: absolute; left: 803px; top: 475px; width: 4px; height: 84px; background: #fff; }
+.offer-divider { position: absolute; left: 803px; top: 475px; width: 4px; height: 84px; background: #000; }
 .offer-word { position: absolute; left: 722px; top: 582px; font-size: 42px; line-height: 46px; font-weight: 700; white-space: nowrap; }
 
 .old-product-info {
@@ -155,7 +155,7 @@ html, body {
   left: 625px;
   top: 739px;
   width: 420px;
-  color: #fff;
+  color: #000;
 }
 
 .old-product-title {
@@ -180,4 +180,4 @@ html, body {
 }
 
 .old-price { text-decoration: line-through; text-decoration-thickness: 2px; }
-.final-price { color: #fff; }
+.final-price { color: #000; }
