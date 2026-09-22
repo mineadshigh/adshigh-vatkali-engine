@@ -1171,14 +1171,12 @@ async def render_endpoint(
 
     variant_class = get_variant_class(product_id)
 
-    campaign_price = discounted_tl(
-        price
-        if variant_class == "variant-new-season"
-        else (sale_price or price)
-    )
-
     price = format_tl(price)
     sale_price = format_tl(sale_price)
+
+    # Feed'deki sale_price nihai uygulama fiyatıdır.
+    # Kampanya şablonlarında ayrıca indirim hesaplanmaz.
+    campaign_price = sale_price or price
 
     old_hidden, new_hidden, single_hidden = hidden_flags(
         price,
