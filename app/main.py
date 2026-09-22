@@ -33,159 +33,264 @@ RENDER_CONCURRENCY = int(os.getenv("RENDER_CONCURRENCY", "4"))
 _render_sem = asyncio.Semaphore(RENDER_CONCURRENCY)
 
 
-DISCOUNT_10_PRODUCT_CODES = {
-    "VTK26-101-124-3",
+NEW_SEASON_PRODUCT_CODES = {
+    "VTK25-118-02-3",
+    "VTK26-114-04-10",
     "VTK26-114-04-3",
     "VTK26-101-128-13",
     "VTK26-101-128-3",
     "VTK26-114-05-10",
     "VTK26-114-05-3",
     "D-SAME-336-3",
+    "ETK-BD-23-023-3",
+    "D-SAME-289-10",
+    "D-SAME-289-3",
+    "VTK25-123-01-2",
     "VTK26-101-77-3",
     "VTK26-101-77-92",
     "VTK26-101-82-4",
     "VTK26-101-94-3",
     "VTK26-101-79-3",
     "VTK26-101-131-16",
-    "VTK26-101-141-10",
-    "VTK26-101-97-10",
-    "VTK26-101-84-3",
-    "VTK26-101-117-10",
+    "VTK26-124-04-10",
+    "VTK26-124-04-3",
+    "D-SAME-324-63",
     "VTK26-101-17-10",
     "VTK26-101-17-2",
+    "VTK26-101-17-3",
+    "VTK25-101-74-3",
+    "VTK26-101-97-10",
+    "VTK26-101-84-3",
+    "VTK25-101-72-3",
+    "VTK20-PNT01041-3",
     "D-SAME-335-3",
-    "VTK26-101-114-3",
+    "VTK25-101-12-10",
+    "VTK25-101-12-2",
+    "VTK25-101-12-3",
+    "VTK25-101-12-89",
     "VTK26-101-126-3",
     "VTK26-101-111-10",
     "VTK26-101-111-3",
     "VTK26-101-87-3",
+    "D-SAME-297-10",
+    "D-SAME-297-3",
+    "D-SAME-297-4",
     "VTK26-101-109-2",
     "VTK26-114-03-10",
+    "VTK26-114-03-13",
     "VTK26-114-03-19",
     "VTK26-114-03-3",
     "VTK26-101-104-3",
+    "D-SAME-290-3",
+    "VTK25-101-103-10",
+    "VTK25-101-103-3",
+    "D-SAME-337-10",
     "D-SAME-337-3",
     "D-SAME-337-4",
+    "VTK25-101-13-10",
+    "VTK25-101-13-3",
+    "VTK25-101-13-4",
     "D-SAME-338-88",
+    "VTK26-101-35-10",
+    "VTK26-101-35-2",
+    "VTK26-101-35-3",
+    "VTK26-101-35-56",
+    "VTK26-101-35-62",
+    "VTK26-101-35-7",
+    "VTK26-101-35-83",
+    "VTK26-101-35-88",
     "VTK26-114-06-10",
     "VTK26-114-06-3",
     "VTK26-114-06-5",
+    "CKT-BD-23-036-10",
+    "CKT-BD-23-036-2",
+    "CKT-BD-23-036-3",
     "VTK26-101-101-10",
+    "PNT-BD-23-034-10",
+    "PNT-BD-23-034-13",
+    "PNT-BD-23-034-2",
+    "PNT-BD-23-034-3",
+    "VTK26-121-15-10",
+    "VTK26-121-15-24",
     "VTK26-101-125-3",
     "VTK26-101-125-39",
     "VTK26-101-125-9",
-    "VTK26-101-108-3",
-    "VTK26-101-110-3",
     "VTK26-101-137-10",
     "VTK26-101-137-3",
+    "VTK26-121-11-19",
+    "VTK26-121-11-3",
+    "VTK26-101-110-3",
     "VTK26-101-130-10",
     "VTK26-101-130-13",
     "VTK26-101-130-3",
+    "D-SAME-159-3",
     "VTK24-101-54-3",
     "VTK26-101-119-10",
     "VTK26-101-119-3",
+    "VTK25-118-03-3",
+    "VTK25-112-07-2",
+    "VTK25-112-07-3",
+    "VTK26-124-06-10",
     "D-SAME-347-3",
+    "KBN-HF-22-165-3",
+    "D-SAME-300-2",
+    "D-SAME-300-89",
+    "VTK25-101-26-10",
+    "VTK25-101-26-3",
     "VTK26-101-0112-16",
     "VTK26-101-0112-3",
-    "VTK26-101-112-16",
-    "VTK26-101-112-3",
     "VTK26-101-99-5",
+    "VTK25-123-06-10",
+    "VTK25-123-06-3",
     "VTK26-101-38-10",
     "VTK26-101-38-3",
+    "VTK26-121-16-10",
+    "VTK26-121-16-3",
+    "VTK26-121-02-10",
+    "VTK26-121-02-3",
+    "VTK26-123-27-27",
+    "VTK26-123-31-28",
+    "VTK26-123-28-27",
     "VTK26-101-06-10",
+    "VTK26-101-06-3",
+    "VTK26-121-17-10",
+    "VTK26-121-17-3",
+    "VTK26-124-05-10",
+    "VTK26-124-05-75",
+    "VTK26-121-13-3",
+    "VTK26-121-14-10",
+    "VTK26-121-14-3",
+    "VTK26-123-32-27",
+    "VTK26-113-01-13",
     "D-SAME-241-10",
+    "VTK24-113-01-10",
+    "VTK26-119-01-10",
+    "VTK26-119-01-39",
+    "VTK26-124-07-3",
+    "VTK25-123-07-3",
+    "VTK25-123-07-5",
     "VTK26-101-102-3",
     "D-SAME-346-45",
     "VTK26-114-02-5",
     "VTK26-101-136-92",
-    "VTK26-101-37-89",
+    "VTK26-121-12-3",
     "VTK26-101-13-10",
     "VTK26-101-13-3",
+    "VTK26-123-30-10",
+    "D-SAME-270-3",
     "D-SAME-340-3",
+    "VTK25-122-08-3",
+    "VTK25-112-06-3",
+    "VTK26-123-29-28",
+    "VTK26-101-34-3",
     "D-SAME-333-10",
     "D-SAME-333-13",
     "D-SAME-333-3",
-    "VTK26-101-123-10",
+    "VTK25-114-14-5",
+    "VTK26-101-37-89",
+    "VTK25-101-73-10",
+    "VTK25-101-73-3",
+    "VTK26-101-117-10",
+    "D-SAME-298-13",
+    "D-SAME-298-3",
+    "VTK25-101-07-10",
+    "VTK25-101-07-13",
+    "VTK25-101-07-3",
+    "VTK26-101-114-3",
+    "VTK26-120-03-3",
     "VTK26-120-03-7",
     "VTK26-120-05-24",
+    "VTK26-120-05-7",
+    "D-SAME-269-10",
+    "D-SAME-269-52",
     "D-SAME-269-7",
+    "VTK25-113-08-10",
+    "VTK25-113-08-52",
+    "VTK25-113-08-7",
     "VTK26-120-06-3",
     "VTK26-120-06-7",
     "VTK26-120-04-3",
     "VTK26-120-04-7",
     "VTK26-120-04-87",
     "D-SAME-341-10",
+    "VTK25-101-106-10",
+    "VTK25-101-106-24",
+    "VTK25-101-106-3",
+    "VTK25-101-106-9",
     "D-SAME-350-10",
+    "VTK26-101-07-10",
+    "VTK26-101-07-13",
+    "VTK26-101-07-3",
+    "VTK25-122-02-3",
     "VTK26-101-134-3",
+    "VTK25-101-126-3",
     "D-SAME-339-3",
+    "VTK25-122-03-3",
     "VTK26-101-106-10",
     "VTK26-101-106-3",
-    "VTK26-101-88-10",
+    "VTK26-101-088-10",
+    "VTK24-119-11-3",
     "VTK26-101-93-3",
     "VTK26-101-91-10",
     "VTK26-101-96-3",
+    "VTK26-101-74-3",
     "VTK26-101-133-3",
     "VTK26-101-138-10",
 }
 
 
-DISCOUNT_40_PRODUCT_CODES = {
+OLD_SEASON_PRODUCT_CODES = {
     "VTK26-101-01-10",
-    "VTK26-114-04-10",
+    "VTK25-119-58-10",
+    "VTK25-119-58-3",
+    "VTK26-101-29-2",
     "D-SAME-296-10",
     "D-SAME-296-3",
-    "VTK21-0059-3",
-    "VTK26-101-31-30",
+    "VTK24-114-04-29",
+    "VTK24-114-04-9",
     "VTK26-101-31-3",
-    "VTK20-PNT1044-5",
+    "VTK26-101-31-30",
+    "VTK26-101-23-10",
     "VTK20-PNT1044-3",
+    "VTK20-PNT1044-5",
     "VTK25-101-74-3",
     "VTK25-101-88-10",
     "VTK25-101-88-24",
-    "VTK25-101-72-3",
-    "VTK25-101-12-2",
-    "VTK25-101-12-10",
-    "VTK25-101-12-3",
-    "VTK26-101-33-13",
     "VTK26-101-33-10",
+    "VTK26-101-33-13",
+    "VTK24-119-14-19",
     "VTK26-101-32-10",
     "VTK26-101-32-3",
     "VTK25-101-110-10",
     "VTK25-101-110-3",
     "VTK25-101-32-13",
-    "CKT-BD-23-036-2",
-    "CKT-BD-23-036-10",
-    "CKT-BD-23-036-3",
-    "PNT-BD-23-034-10",
-    "PNT-BD-23-034-3",
     "VTK21-JNS017-7",
-    "VTK25-101-102-3",
+    "VTK24-119-15-19",
+    "VTK24-119-15-3",
+    "VTK24-119-36-10",
+    "VTK24-119-36-3",
+    "VTK25-119-62-10",
+    "VTK24-119-13-3",
     "VTK26-101-03-10",
     "VTK26-101-03-3",
-    "VTK25-112-07-3",
-    "D-SAME-300-2",
-    "VTK25-101-26-10",
-    "VTK25-101-26-3",
-    "VTK25-123-07-5",
-    "VTK25-123-07-3",
+    "VTK26-101-22-75",
+    "VTK26-101-16-10",
+    "VTK26-101-16-2",
     "VTK26-101-09-13",
     "VTK26-101-11-3",
-    "VTK25-101-83-3",
+    "VTK25-119-72-27",
+    "VTK25-119-72-28",
+    "VTK24-119-21-10",
+    "VTK26-101-48-24",
     "VTK26-101-46-13",
-    "VTK24-118-03-2",
-    "VTK24-119-25-3",
-    "VTK25-101-07-10",
-    "VTK25-101-07-3",
-    "VTK26-120-02-87",
+    "VTK25-101-71-10",
     "VTK26-120-02-7",
+    "VTK26-120-02-87",
     "VTK26-120-01-3",
     "VTK25-101-16-10",
     "VTK26-101-15-3",
-    "VTK24-112-37-3",
     "VTK26-101-42-3",
-    "VTK25-101-126-3",
     "VTK24-114-11-3",
-    "VTK26-101-74-3",
 }
 
 
@@ -202,17 +307,17 @@ def _matches_product_code(product_id: str, codes: set[str]) -> bool:
 def get_variant_class(product_id: str) -> str:
     if _matches_product_code(
         product_id,
-        DISCOUNT_10_PRODUCT_CODES,
+        OLD_SEASON_PRODUCT_CODES,
     ):
-        return "variant-attitude"
+        return "variant-old-season"
 
     if _matches_product_code(
         product_id,
-        DISCOUNT_40_PRODUCT_CODES,
+        NEW_SEASON_PRODUCT_CODES,
     ):
-        return "variant-standard"
+        return "variant-new-season"
 
-    return "variant-standard"
+    return "variant-old-season"
 
 
 app = FastAPI()
@@ -311,6 +416,17 @@ def format_tl(price: str) -> str:
     n = int(round(v))
 
     return f"{n:,}".replace(",", ".") + " TL"
+
+
+def discounted_tl(price: str, discount: float = 0.20) -> str:
+    value = _parse_money_to_float(price)
+
+    if value is None:
+        return format_tl(price)
+
+    discounted = int(round(value * (1 - discount)))
+
+    return f"{discounted:,}".replace(",", ".") + " TL"
 
 
 def hidden_flags(price: str, sale: str):
@@ -1053,6 +1169,14 @@ async def render_endpoint(
     fv: str = Query(""),
 ):
 
+    variant_class = get_variant_class(product_id)
+
+    campaign_price = discounted_tl(
+        price
+        if variant_class == "variant-new-season"
+        else (sale_price or price)
+    )
+
     price = format_tl(price)
     sale_price = format_tl(sale_price)
 
@@ -1060,8 +1184,6 @@ async def render_endpoint(
         price,
         sale_price,
     )
-
-    variant_class = get_variant_class(product_id)
 
     template_path, css_path = get_template_and_css(
         design
@@ -1082,6 +1204,11 @@ async def render_endpoint(
         css = f.read()
 
     base_url = get_base_url(request)
+
+    white_logo_url = (
+        f"{base_url}/static/"
+        "vatkalilogo-beyaz.png"
+    )
 
     if not logo_url:
 
@@ -1104,6 +1231,9 @@ async def render_endpoint(
         "background_summer26.png"
     )
 
+    if design == "meta_v1" and not product_image_secondary_1:
+        product_image_secondary_1 = product_image_primary
+
     secondary_for_cache = (
         product_image_secondary_1
         if design == "meta_v1"
@@ -1118,7 +1248,10 @@ async def render_endpoint(
         product_image_primary=product_image_primary,
         product_image_secondary_1=secondary_for_cache,
         logo_url=logo_url,
-        design=f"{design}_{fv}",
+        design=(
+            f"{design}_{variant_class}_"
+            f"season2209_{fv}"
+        ),
         w=w,
         h=h,
     )
@@ -1156,6 +1289,7 @@ async def render_endpoint(
                 product_image_primary_data,
                 product_image_secondary_1_data,
                 logo_data,
+                white_logo_data,
                 background_data,
             ) = await asyncio.gather(
 
@@ -1175,6 +1309,11 @@ async def render_endpoint(
                 ),
 
                 to_data_uri(
+                    white_logo_url,
+                    client,
+                ),
+
+                to_data_uri(
                     background_url,
                     client,
                 ),
@@ -1185,6 +1324,7 @@ async def render_endpoint(
             (
                 product_image_primary_data,
                 logo_data,
+                white_logo_data,
                 background_data,
             ) = await asyncio.gather(
 
@@ -1195,6 +1335,11 @@ async def render_endpoint(
 
                 to_data_uri(
                     logo_url,
+                    client,
+                ),
+
+                to_data_uri(
+                    white_logo_url,
                     client,
                 ),
 
@@ -1237,6 +1382,11 @@ async def render_endpoint(
     )
 
     html = html.replace(
+        "{{white_logo_url}}",
+        white_logo_data,
+    )
+
+    html = html.replace(
         "{{background_url}}",
         background_data,
     )
@@ -1254,6 +1404,11 @@ async def render_endpoint(
     html = html.replace(
         "{{sale_price}}",
         sale_price,
+    )
+
+    html = html.replace(
+        "{{campaign_price}}",
+        campaign_price,
     )
 
     html = html.replace(
