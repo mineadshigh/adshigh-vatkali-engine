@@ -85,7 +85,7 @@ html, body {
 
 .new-discount { position: absolute; inset: 0; }
 .discount-mark { position: absolute; left: 639px; top: 43px; width: 136px; height: 87px; }
-.discount-mark .percent { position: absolute; left: 17px; top: 23px; font-size: 25px; line-height: 25px; font-weight: 500; }
+.discount-mark .percent { position: absolute; left: 17px; top: 28px; font-size: 25px; line-height: 25px; font-weight: 500; }
 .discount-mark .number { position: absolute; left: 0; top: 0; font-size: 105px; line-height: 105px; font-weight: 500; letter-spacing: -6px; }
 .discount-word { position: absolute; left: 786px; top: 43px; font-size: 52px; line-height: 56px; font-weight: 700; white-space: nowrap; }
 .app-label { position: absolute; left: 787px; top: 95px; width: 239px; height: 33px; display:flex; align-items:center; justify-content:center; color:#000; background:#fff; font-size:27px; line-height:30px; font-weight:500; white-space:nowrap; }
