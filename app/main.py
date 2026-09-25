@@ -294,6 +294,51 @@ OLD_SEASON_PRODUCT_CODES = {
 }
 
 
+CATALOG_NEW_SEASON_PRODUCT_CODES = {
+    "VTK26-101-77-92", "VTK26-101-136-92", "VTK26-114-02-5",
+    "VTK26-101-133-3", "VTK26-101-114-3", "VTK26-101-110-3",
+    "VTK26-101-82-4", "D-SAME-335-3", "D-SAME-333-10",
+    "VTK26-114-04-3", "D-SAME-337-4", "VTK26-101-0112-3",
+    "D-SAME-338-88", "VTK26-101-128-13", "D-SAME-350-10",
+    "VTK26-101-130-10", "VTK24-101-54-3", "VTK26-120-06-3",
+    "VTK26-101-119-10", "D-SAME-346-45", "D-SAME-333-3",
+    "VTK26-101-130-3", "D-SAME-333-13", "VTK26-101-138-10",
+    "VTK26-101-137-3", "VTK26-101-87-3", "VTK26-101-84-3",
+    "D-SAME-269-7", "VTK26-101-0112-16", "VTK26-101-96-3",
+    "VTK26-101-137-10", "VTK26-101-97-10", "VTK26-101-126-3",
+    "D-SAME-339-3", "VTK26-101-77-3", "VTK26-101-94-3",
+    "VTK26-101-134-3", "VTK26-101-99-5", "VTK26-101-17-10",
+    "VTK26-101-17-2", "VTK26-114-05-3", "VTK26-101-106-3",
+    "VTK26-101-125-3", "VTK26-101-106-10", "VTK26-114-03-3",
+    "VTK26-101-93-3", "VTK26-101-101-10", "VTK26-101-91-10",
+    "VTK26-114-05-10", "VTK26-101-79-3", "VTK26-114-03-10",
+    "VTK26-101-111-10", "VTK26-120-06-7", "D-SAME-241-10",
+    "VTK26-101-117-10", "VTK26-101-088-10", "VTK26-101-13-3",
+    "VTK26-120-04-87", "D-SAME-340-3", "VTK26-101-128-3",
+    "VTK26-101-06-10", "VTK26-120-04-7", "VTK26-114-06-10",
+    "VTK26-120-05-24", "VTK26-101-38-3", "D-SAME-347-3",
+    "VTK26-101-119-3", "VTK26-101-13-10", "VTK26-101-125-9",
+    "VTK26-101-125-39", "VTK26-101-38-10", "VTK26-101-130-13",
+    "VTK26-101-102-3", "VTK26-101-111-3", "VTK26-101-104-3",
+    "VTK26-101-109-2", "VTK26-120-03-7", "D-SAME-337-3",
+    "D-SAME-336-3", "VTK26-114-06-3", "VTK26-101-17-3",
+    "D-SAME-341-10", "VTK26-120-04-3", "VTK26-114-06-5",
+    "VTK26-101-131-16", "VTK26-101-37-89", "VTK26-114-03-19",
+    "VTK26-101-34-3", "VTK26-120-02-87",
+}
+
+BEST_SELLER_PRODUCT_CODES = {
+    "VTK20-PNT1044-5", "VTK20-PNT1044-3", "D-SAME-331-3",
+    "VTK25-101-74-3", "VTK25-101-72-3", "VTK25-101-12-3",
+    "VTK26-101-32-3", "VTK26-101-35-88", "CKT-BD-23-036-3",
+    "PNT-BD-23-034-3", "VTK21-JNS017-7", "VTK24-119-15-3",
+    "VTK24-119-15-19", "VTK24-119-36-3", "VTK24-119-36-10",
+    "VTK26-101-03-10", "VTK26-101-03-3", "VTK25-112-07-3",
+    "VTK25-101-26-3", "VTK24-119-21-10", "VTK25-101-07-3",
+    "VTK25-101-07-10", "VTK26-101-74-3",
+}
+
+
 def _matches_product_code(product_id: str, codes: set[str]) -> bool:
     normalized = (product_id or "").strip().upper()
 
@@ -307,17 +352,17 @@ def _matches_product_code(product_id: str, codes: set[str]) -> bool:
 def get_variant_class(product_id: str) -> str:
     if _matches_product_code(
         product_id,
-        OLD_SEASON_PRODUCT_CODES,
-    ):
-        return "variant-old-season"
-
-    if _matches_product_code(
-        product_id,
-        NEW_SEASON_PRODUCT_CODES,
+        CATALOG_NEW_SEASON_PRODUCT_CODES,
     ):
         return "variant-new-season"
 
-    return "variant-old-season"
+    if _matches_product_code(
+        product_id,
+        BEST_SELLER_PRODUCT_CODES,
+    ):
+        return "variant-best-seller"
+
+    return ""
 
 
 app = FastAPI()
@@ -1248,7 +1293,7 @@ async def render_endpoint(
         logo_url=logo_url,
         design=(
             f"{design}_{variant_class}_"
-            f"season2209_{fv}"
+            f"katalog2_{fv}"
         ),
         w=w,
         h=h,
@@ -1513,6 +1558,9 @@ async def feed_meta(request: Request):
             or ""
         ).strip()
 
+        if not get_variant_class(product_id):
+            continue
+
         title = extract_title(
             item,
             ns,
@@ -1677,6 +1725,9 @@ async def feed_tiktok(request: Request):
             or item.findtext("id")
             or ""
         ).strip()
+
+        if not get_variant_class(product_id):
+            continue
 
         title = extract_title(
             item,
