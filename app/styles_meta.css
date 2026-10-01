@@ -17,7 +17,7 @@ html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; 
 .d20-offer { position:absolute; left:740px; top:506px; width:315px; margin:0; font-size:25px; line-height:34px; font-weight:300; white-space:nowrap; }
 .d20-offer strong { font-size:28px; font-weight:700; }
 .d20-date { position:absolute; left:740px; top:740px; width:310px; margin:0; font-size:22px; line-height:28px; font-weight:300; white-space:nowrap; }
-.d20-logo { position:absolute; left:950px; top:844px; width:196px; height:25px; object-fit:contain; transform:rotate(-90deg); transform-origin:center; }
+.d20-logo { position:absolute; left:941px; top:937px; width:196px; height:25px; object-fit:contain; transform:rotate(-90deg); transform-origin:center; }
 
 /* %40 — kare.psd */
 .discount-40-design { background:#fff; }
@@ -31,4 +31,3 @@ html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; 
 .d40-prices .single-price { color:#cf0a0a; }
 .d40-date { position:absolute; left:737px; top:741px; width:265px; margin:0; font-size:18px; line-height:24px; font-weight:300; white-space:nowrap; }
 .d40-logo { position:absolute; left:736px; top:910px; width:179px; height:24px; object-fit:contain; object-position:left center; }
-
