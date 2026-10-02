@@ -426,19 +426,9 @@ def _matches_product_code(product_id: str, codes: set[str]) -> bool:
 
 
 def get_variant_class(product_id: str) -> str:
-    if _matches_product_code(
-        product_id,
-        DISCOUNT_20_PRODUCT_CODES,
-    ):
-        return "variant-discount-20"
-
-    if _matches_product_code(
-        product_id,
-        DISCOUNT_40_PRODUCT_CODES,
-    ):
-        return "variant-discount-40"
-
-    return ""
+    # Hafta sonu kampanyası feed'deki tüm ürünlerde geçerlidir.
+    # Ürün koduna göre tasarım ayrımı yapılmaz.
+    return "variant-weekend"
 
 
 app = FastAPI()
@@ -1369,7 +1359,7 @@ async def render_endpoint(
         logo_url=logo_url,
         design=(
             f"{design}_{variant_class}_"
-            f"oct20-40_{fv}"
+            f"weekend40_{fv}"
         ),
         w=w,
         h=h,
@@ -1634,9 +1624,6 @@ async def feed_meta(request: Request):
             or ""
         ).strip()
 
-        if not get_variant_class(product_id):
-            continue
-
         title = extract_title(
             item,
             ns,
@@ -1801,9 +1788,6 @@ async def feed_tiktok(request: Request):
             or item.findtext("id")
             or ""
         ).strip()
-
-        if not get_variant_class(product_id):
-            continue
 
         title = extract_title(
             item,
