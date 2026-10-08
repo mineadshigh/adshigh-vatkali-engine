@@ -8,11 +8,15 @@
 <body>
   <main class="frame">
     <div class="product-frame"><img src="{{product_image_primary}}" alt="" /></div>
-    <img class="logo" src="{{logo_url}}" alt="VATKALI" />
-    <div class="weekend-badge">BÜYÜK İNDİRİM FIRSATLARI</div>
-    <p class="offer-note">Tüm ürünlerde geçerli</p>
-    <div class="offer">SEPETTE <strong>%40 İNDİRİM</strong></div>
-    <p class="opportunity">Tekrarı olmayan fırsatlar</p>
+    <section class="campaign">
+      <h1 class="campaign-title">SONBAHAR İNDİRİMİ</h1>
+      <div class="discount">
+        <div class="discount-kicker">TÜM ÜRÜNLERDE</div>
+        <div class="discount-value"><span class="percent">%</span>40</div>
+        <div class="discount-suffix">’A VARAN</div>
+        <div class="discount-label">İNDİRİM</div>
+      </div>
+    </section>
     <section class="product-info">
       <p class="product-title">{{title}}</p>
       <div class="prices">
@@ -21,6 +25,7 @@
         <span class="single-price {{single_hidden}}">{{price}}</span>
       </div>
     </section>
+    <img class="logo" src="{{logo_url}}" alt="VATKALI" />
   </main>
 </body>
 </html>
