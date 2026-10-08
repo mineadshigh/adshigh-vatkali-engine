@@ -5,16 +5,18 @@ html, body { width:1080px; height:1920px; margin:0; padding:0; overflow:hidden; 
 .frame { position:relative; width:1080px; height:1920px; overflow:hidden; background:#fff; color:#000; }
 .hidden { display:none !important; }
 
-.logo { position:absolute; left:359px; top:56px; width:362px; height:46px; object-fit:contain; object-position:center; }
-.offer-note { position:absolute; left:82px; top:238px; width:280px; margin:0; font-size:27px; line-height:32px; font-weight:300; white-space:nowrap; }
-.opportunity { position:absolute; left:82px; top:269px; width:330px; margin:0; font-size:27px; line-height:32px; font-weight:300; white-space:nowrap; }
-.offer { position:absolute; left:80px; top:311px; width:433px; height:69px; padding:8px 19px 0; background:#000; color:#fff; font-size:35px; line-height:52px; font-weight:300; white-space:nowrap; }
-.offer strong { font-weight:700; }
-.product-info { position:absolute; left:722px; top:238px; width:260px; }
-.product-title { margin:0; font-size:24px; line-height:32px; font-weight:300; overflow-wrap:anywhere; }
-.prices { position:absolute; left:0; top:81px; display:flex; align-items:baseline; gap:10px; font-size:27px; line-height:34px; white-space:nowrap; }
-.old-price { color:#111; text-decoration:line-through; text-decoration-thickness:2px; }
-.prices .old-price { font-size:25px; line-height:31px; }
-.sale-price, .single-price { color:#111; font-size:36px; line-height:42px; font-weight:700; }
-.product-frame { position:absolute; left:82px; top:378px; width:916px; height:1376px; overflow:hidden; background:#eef1f3; }
+.campaign-header { position:absolute; left:80px; top:104px; width:920px; text-align:center; }
+.campaign-title { margin:0; font-size:45px; line-height:54px; font-weight:700; letter-spacing:-1px; white-space:nowrap; }
+.campaign-offer { margin:7px 0 0; font-size:35px; line-height:43px; font-weight:300; letter-spacing:-.5px; white-space:nowrap; }
+.campaign-offer strong { font-weight:600; }
+
+.product-frame { position:absolute; left:77px; top:265px; width:926px; height:1390px; overflow:hidden; background:#eef1f3; }
 .product-frame img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+
+.product-info { position:absolute; left:79px; top:1663px; width:924px; min-height:70px; }
+.product-title { position:absolute; left:0; top:0; width:545px; max-height:76px; margin:0; font-size:34px; line-height:38px; font-weight:300; overflow:hidden; overflow-wrap:anywhere; }
+.prices { position:absolute; right:0; top:0; display:flex; align-items:baseline; gap:23px; color:#c90000; font-size:34px; line-height:40px; font-weight:400; white-space:nowrap; }
+.old-price { text-decoration:line-through; text-decoration-thickness:2px; }
+.sale-price, .single-price { color:#c90000; }
+
+.logo { position:absolute; left:417px; top:1804px; width:246px; height:31px; object-fit:contain; object-position:center; }
