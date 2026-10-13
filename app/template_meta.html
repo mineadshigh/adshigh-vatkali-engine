@@ -6,17 +6,25 @@
   <style>{{CSS}}</style>
 </head>
 <body>
-  <main class="frame">
-    <div class="product-frame"><img src="{{product_image_primary}}" alt="" /></div>
+  <main class="frame {{variant_class}}">
+    <img class="logo" src="{{white_logo_url}}" alt="VATKALI" />
+
+    <div class="product-frame product-frame-primary">
+      <img src="{{product_image_primary}}" alt="" />
+    </div>
+    <div class="product-frame product-frame-secondary">
+      <img src="{{product_image_secondary_1}}" alt="" />
+    </div>
+
     <section class="campaign">
-      <h1 class="campaign-title">SONBAHAR İNDİRİMİ</h1>
-      <div class="discount">
-        <div class="discount-kicker">TÜM ÜRÜNLERDE</div>
-        <div class="discount-value"><span class="percent">%</span>40</div>
-        <div class="discount-suffix">’A VARAN</div>
-        <div class="discount-label">İNDİRİM</div>
+      <p class="campaign-kicker">Tüm ürünlerde geçerli</p>
+      <div class="discount-row">
+        <span class="discount-value">%40</span>
+        <span class="discount-suffix">’a varan</span>
       </div>
+      <p class="discount-label">İNDİRİM</p>
     </section>
+
     <section class="product-info">
       <p class="product-title">{{title}}</p>
       <div class="prices">
@@ -25,7 +33,8 @@
         <span class="single-price {{single_hidden}}">{{price}}</span>
       </div>
     </section>
-    <img class="logo" src="{{logo_url}}" alt="VATKALI" />
+
+    <p class="season">FALL WINTER ‘26/27</p>
   </main>
 </body>
 </html>
