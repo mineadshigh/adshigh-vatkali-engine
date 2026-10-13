@@ -1,25 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap');
 
-html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; background:#fff; font-family:"Outfit",Arial,sans-serif; }
+html, body { width:1080px; height:1080px; margin:0; padding:0; overflow:hidden; background:#000; font-family:"Outfit",Arial,sans-serif; }
 * { box-sizing:border-box; }
-.frame { position:relative; width:1080px; height:1080px; overflow:hidden; background:#fff; color:#000; }
+.frame { position:relative; width:1080px; height:1080px; overflow:hidden; background:#000; color:#fff; }
 .hidden { display:none !important; }
 
-.product-frame { position:absolute; left:46px; top:50px; width:655px; height:981px; overflow:hidden; background:#eef1f3; }
+.logo { position:absolute; left:84px; top:53px; width:270px; height:34px; object-fit:contain; object-position:left center; }
+
+.product-frame { position:absolute; overflow:hidden; background:#f4f4f4; }
 .product-frame img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.product-frame-primary { left:66px; top:135px; width:541px; height:810px; }
+.product-frame-secondary { left:675px; top:135px; width:334px; height:499px; }
 
-.campaign-title { position:absolute; left:749px; top:192px; width:290px; margin:0; font-size:29px; line-height:36px; font-weight:700; letter-spacing:-.7px; white-space:nowrap; }
-.discount { position:absolute; left:749px; top:451px; width:225px; height:180px; }
-.discount-kicker { position:absolute; left:0; top:0; font-size:23px; line-height:29px; font-weight:300; white-space:nowrap; }
-.discount-value { position:absolute; left:-5px; top:25px; height:96px; font-size:111px; line-height:96px; font-weight:300; letter-spacing:-6px; white-space:nowrap; }
-.discount-value .percent { font-size:.72em; vertical-align:12px; letter-spacing:-10px; }
-.discount-suffix { position:absolute; left:207px; top:37px; height:78px; font-size:15px; line-height:18px; font-weight:300; white-space:nowrap; writing-mode:vertical-rl; text-orientation:mixed; }
-.discount-label { position:absolute; left:2px; top:130px; width:221px; height:48px; display:flex; align-items:center; justify-content:center; padding-bottom:2px; background:#000; color:#fff; font-size:32px; line-height:40px; font-weight:500; letter-spacing:.5px; }
+.campaign { position:absolute; left:679px; top:658px; width:270px; }
+.campaign-kicker { margin:0; font-size:22px; line-height:28px; font-weight:300; white-space:nowrap; }
+.discount-row { position:relative; height:75px; margin-top:8px; }
+.discount-value { display:block; font-size:72px; line-height:72px; font-weight:500; letter-spacing:-4px; }
+.discount-suffix { position:absolute; left:158px; top:63px; font-size:13px; line-height:16px; font-weight:300; white-space:nowrap; transform:rotate(-90deg); transform-origin:left top; }
+.discount-label { margin:1px 0 0; font-size:45px; line-height:48px; font-weight:300; letter-spacing:-1px; }
 
-.product-info { position:absolute; left:747px; top:760px; width:287px; display:flex; flex-direction:column; align-items:flex-start; }
-.product-title { width:100%; max-height:60px; margin:0; font-size:23px; line-height:29px; font-weight:300; overflow:hidden; overflow-wrap:anywhere; }
-.prices { margin-top:6px; display:flex; align-items:baseline; flex-wrap:nowrap; gap:15px; color:#c90000; font-size:23px; line-height:29px; font-weight:400; white-space:nowrap; }
-.old-price { text-decoration:line-through; text-decoration-thickness:2px; }
-.sale-price, .single-price { color:#c90000; }
+.product-info { position:absolute; left:678px; top:868px; width:315px; display:flex; flex-direction:column; align-items:flex-start; }
+.product-title { width:100%; max-height:52px; margin:0; overflow:hidden; overflow-wrap:anywhere; font-size:22px; line-height:26px; font-weight:300; }
+.prices { margin-top:6px; display:flex; align-items:baseline; gap:15px; white-space:nowrap; font-size:21px; line-height:25px; }
+.old-price { color:#fff; font-weight:300; text-decoration:line-through; text-decoration-thickness:2px; }
+.sale-price, .single-price { color:#fff; font-size:23px; font-weight:600; }
 
-.logo { position:absolute; left:750px; top:1000px; width:246px; height:31px; object-fit:contain; object-position:left center; }
+.season { position:absolute; left:65px; top:982px; margin:0; font-size:25px; line-height:32px; font-weight:200; letter-spacing:.5px; white-space:nowrap; }
