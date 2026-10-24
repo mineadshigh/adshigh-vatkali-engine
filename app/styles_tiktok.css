@@ -1,1 +1,29 @@
 *{box-sizing:border-box}html,body{margin:0;padding:0;background:white;font-family:Arial,sans-serif;color:#000}.frame{position:relative;width:1080px;overflow:hidden;background:#fff}img{position:absolute;object-fit:contain}.primary,.secondary{object-fit:cover;background:#f6f6f6}.logo{width:300px;height:60px;left:390px}.offer{position:absolute;white-space:nowrap}.offer span{display:inline-block;background:#000;color:#fff;padding:3px 6px}.offer strong{display:block}.offer small{display:block;font-size:14px;line-height:19px;margin-top:14px}.details{position:absolute}.title{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.prices{display:flex;gap:16px;align-items:center;margin-top:6px;white-space:nowrap}.prices b{color:#ce383c}[hidden]{display:none!important}.frame{height:1920px}.logo{top:75px}.offer{left:74px;top:211px;font-size:36px;display:flex;align-items:center;gap:38px}.offer span{padding:5px 8px}.primary{left:75px;top:262px;width:930px;height:1396px}.details{left:74px;top:1670px;width:932px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;font-size:28px}.title{max-width:620px}.prices{font-size:29px;margin:0}
+/* Meta: kupon bandını büyüt */
+.offer {
+  left: 656px;
+  top: 150px;
+  width: 370px;
+  font-size: 21px;
+}
+
+.offer span {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 8px;
+  font-size: 32px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.offer strong {
+  margin-top: 8px;
+  font-size: 25px;
+}
+
+.offer small {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 19px;
+}
