@@ -8,10 +8,26 @@
   <main class="frame">
     <img class="primary"
          src="{{product_image_primary}}" alt="">
-    <img class="secondary"
-         src="{{product_image_secondary_1}}" alt="">
+
+    <h1 class="headline">VATKALI KASIMI</h1>
+
+    <div class="discount">
+      <span class="percent">%</span>
+      <b class="amount">40</b>
+      <span class="net">NET</span>
+      <strong>İNDİRİM</strong>
+    </div>
+
+    <div class="details">
+      <div class="title">{{title}}</div>
+      <div class="prices">
+        <del {{old_hidden}}>{{price}}</del>
+        <b>{{campaign_price}}</b>
+      </div>
+    </div>
+
     <img class="logo"
-         src="{{logo_url}}" alt="VATKALI">
+         src="{{white_logo_url}}" alt="VATKALI">
   </main>
 </body>
 </html>
