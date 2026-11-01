@@ -1229,12 +1229,12 @@ async def render_png(
                     timeout=15000,
                 )
 
-                try:
-                    await page.evaluate(
-                        "() => document.fonts.ready"
+                await page.evaluate("() => document.fonts.ready")
+                if 'data-renderReady' in html or 'dataset.renderReady' in html:
+                    await page.wait_for_function(
+                        "document.documentElement.dataset.renderReady === 'true'",
+                        timeout=10000,
                     )
-                except Exception:
-                    pass
 
                 await page.wait_for_timeout(300)
 
@@ -1290,7 +1290,7 @@ async def render_endpoint(
     fv: str = Query(""),
 ):
 
-    fv = "kasim-reference-v2-" + fv
+    fv = "psd-outfit-v3-" + fv
     variant_class = get_variant_class(product_id)
 
     # Feed fiyatı nihaidir; ek kampanya indirimi hesaplanmaz.
@@ -1304,8 +1304,8 @@ async def render_endpoint(
     )
 
     if design in {"meta_v1", "tiktok_v1"}:
-        price = price.removesuffix(" TL").removeprefix("₺").strip()
-        campaign_price = campaign_price.removesuffix(" TL").removeprefix("₺").strip()
+        price = ("₺" + price.removesuffix(" TL").removeprefix("₺").strip()) if price else ""
+        campaign_price = ("₺" + campaign_price.removesuffix(" TL").removeprefix("₺").strip()) if campaign_price else ""
 
     template_path, css_path = get_template_and_css(
         design
@@ -1595,7 +1595,7 @@ async def feed_meta(request: Request):
 
     fv = (
         request.query_params.get("v")
-        or ""
+        or "psd-outfit-v3"
     ).strip()
 
     async with httpx.AsyncClient(
@@ -1755,7 +1755,7 @@ async def feed_tiktok(request: Request):
 
     fv = (
         request.query_params.get("v")
-        or ""
+        or "psd-outfit-v3"
     ).strip()
 
     async with httpx.AsyncClient(
