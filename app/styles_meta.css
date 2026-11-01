@@ -1,10 +1,23 @@
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: #fff; }
-.frame { position: relative; width: 1080px; overflow: hidden; background: #fff; }
-.frame img { position: absolute; display: block; }
-.primary, .secondary { object-fit: cover; object-position: center; }
-.logo { object-fit: contain; }
+html, body { margin: 0; padding: 0; background: #000; color: #fff; font-family: Arial, sans-serif; }
+.frame { position: relative; width: 1080px; overflow: hidden; background: #000; }
+.primary, .logo, .headline, .discount, .details { position: absolute; }
+.primary { display: block; object-fit: cover; object-position: center; }
+.logo { display: block; object-fit: contain; }
+.headline { margin: 0; font-weight: 800; white-space: nowrap; }
+.details .title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.prices { display: flex; white-space: nowrap; }
+.prices b { color: #e00000; }
+[hidden] { display: none !important; }
 .frame { height: 1080px; }
-.primary { left: 0; top: 108px; width: 607px; height: 864px; }
-.secondary { left: 629px; top: 108px; width: 418px; height: 627px; }
-.logo { left: 658px; top: 837px; width: 363px; height: 64px; }
+.primary { left: 0; top: 0; width: 720px; height: 1080px; }
+.headline { left: 652px; top: 113px; padding: 13px 18px; background: #fff; color: #000; font-size: 45px; line-height: 48px; }
+.discount { left: 758px; top: 295px; width: 280px; height: 220px; }
+.percent { position: absolute; left: 0; top: 9px; font-size: 64px; font-weight: 700; }
+.amount { position: absolute; left: 28px; top: -10px; font-size: 180px; line-height: 175px; letter-spacing: -12px; }
+.net { position: absolute; right: 18px; top: 18px; font-size: 30px; background: #000; }
+.discount strong { position: absolute; left: 18px; top: 158px; font-size: 55px; line-height: 64px; }
+.details { left: 774px; top: 672px; width: 278px; }
+.title { font-size: 22px; line-height: 29px; height: 58px; }
+.prices { gap: 16px; margin-top: 18px; font-size: 31px; align-items: center; }
+.logo { left: 747px; top: 942px; width: 293px; height: 54px; }
