@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import hashlib
+from html import escape
 import os
 import re
 from urllib.parse import quote_plus, urlsplit, urlunsplit, parse_qsl, urlencode
@@ -1289,22 +1290,22 @@ async def render_endpoint(
     fv: str = Query(""),
 ):
 
-    fv = "kasim40-v1-" + fv
+    fv = "kasim-reference-v2-" + fv
     variant_class = get_variant_class(product_id)
 
     # Feed fiyatı nihaidir; ek kampanya indirimi hesaplanmaz.
     price = format_feed_tl(price)
     sale_price = format_feed_tl(sale_price)
     campaign_price = sale_price or price
-    if design in {"meta_v1", "tiktok_v1"}:
-        price = ("₺" + price.removesuffix(" TL")) if price else ""
-        sale_price = ("₺" + sale_price.removesuffix(" TL")) if sale_price else ""
-        campaign_price = sale_price or price
 
     old_hidden, new_hidden, single_hidden = hidden_flags(
         price,
         sale_price,
     )
+
+    if design in {"meta_v1", "tiktok_v1"}:
+        price = price.removesuffix(" TL").removeprefix("₺").strip()
+        campaign_price = campaign_price.removesuffix(" TL").removeprefix("₺").strip()
 
     template_path, css_path = get_template_and_css(
         design
@@ -1514,7 +1515,7 @@ async def render_endpoint(
 
     html = html.replace(
         "{{title}}",
-        title,
+        escape(title),
     )
 
     html = html.replace(
