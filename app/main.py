@@ -1289,12 +1289,17 @@ async def render_endpoint(
     fv: str = Query(""),
 ):
 
+    fv = "kasim40-v1-" + fv
     variant_class = get_variant_class(product_id)
 
     # Feed fiyatı nihaidir; ek kampanya indirimi hesaplanmaz.
     price = format_feed_tl(price)
     sale_price = format_feed_tl(sale_price)
     campaign_price = sale_price or price
+    if design in {"meta_v1", "tiktok_v1"}:
+        price = ("₺" + price.removesuffix(" TL")) if price else ""
+        sale_price = ("₺" + sale_price.removesuffix(" TL")) if sale_price else ""
+        campaign_price = sale_price or price
 
     old_hidden, new_hidden, single_hidden = hidden_flags(
         price,
