@@ -1,81 +1,67 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><style>{{CSS}}
-.meta-prices{position:absolute;left:780px;top:755px;display:flex;flex-wrap:nowrap;align-items:flex-start;gap:15px;width:max-content;white-space:nowrap;transform-origin:left top}
-.meta-prices>.psd-text{position:relative!important;left:0!important;top:0!important;flex:0 0 auto}
-.meta-prices>.price-old{margin-top:1px}
-</style></head>
-<body><main class="frame">
-<img class="primary" src="{{product_image_primary}}" alt="">
-<div class="heading-band"></div>
-<div class="psd-text headline" style="left:671px;top:135px" data-w="372" data-h="34"><span class="ink"><span class="run" style="font-weight:700">VATKALI KASIMI</span><i class="baseline"></i></span></div><div class="psd-text amount" style="left:792px;top:314px" data-w="196" data-h="130"><span class="ink"><span class="run" style="font-weight:700">40</span><i class="baseline"></i></span></div><div class="psd-text net" style="left:964px;top:319px" data-w="56" data-h="22"><span class="ink"><span class="run" style="font-weight:400">NET</span><i class="baseline"></i></span></div><div class="psd-text percent" style="left:764px;top:316px" data-w="40" data-h="48"><span class="ink"><span class="run" style="font-weight:600">%</span><i class="baseline"></i></span></div><div class="psd-text discount" style="left:782px;top:454px" data-w="216" data-h="53"><span class="ink"><span class="run" style="font-weight:800">İNDİRİM</span><i class="baseline"></i></span></div><div class="product-title" data-size="24" data-sx="0.95" data-sy="0.92" data-tracking="-10" data-width="278" data-leading="28.8">{{title}}</div>
-<div class="meta-prices"><div {{old_hidden}} class="psd-text price-old" style="left:780px;top:755px" data-w="112" data-h="23" data-fit="natural"><span class="ink"><span class="run" style="font-weight:300">{{price}}</span><i class="baseline"></i></span><span class="strike"></span></div><div class="psd-text price-new" style="left:907px;top:754px" data-w="148" data-h="24" data-fit="natural"><span class="ink"><span class="run" style="font-weight:600">{{campaign_price}}</span><i class="baseline"></i></span></div></div><img class="brand" src="data:image/png;base64,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" alt="VATKALI">
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <style>{{CSS}}</style>
+</head>
+<body>
+<main class="frame meta">
+  <img class="brand" src="{{frame_logo}}" alt="VATKALI">
+
+  <div class="psd-text discount" data-w="114" data-h="46">
+    <span class="ink"><span class="run" style="font-weight:800">%40</span><i class="baseline"></i></span>
+  </div>
+
+  <div class="psd-text net" data-w="40" data-h="17">
+    <span class="ink"><span class="run" style="font-weight:500">NET</span><i class="baseline"></i></span>
+  </div>
+
+  <div class="psd-text discount-word" data-w="78" data-h="22">
+    <span class="ink"><span class="run" style="font-weight:500">İNDİRİM</span><i class="baseline"></i></span>
+  </div>
+
+  <img class="primary"
+       src="{{product_image_primary}}" alt="">
+  <img class="secondary"
+       src="{{product_image_secondary_1}}" alt="">
+
+  <div class="psd-text november" data-w="116" data-h="30">
+    <span class="ink"><span class="run" style="font-weight:800">KASIM</span><i class="baseline"></i></span>
+  </div>
+
+  <div class="psd-text november-word" data-w="226" data-h="38">
+    <span class="ink"><span class="run" style="font-weight:800">İNDİRİMLERİ</span><i class="baseline"></i></span>
+  </div>
+
+  <section class="details">
+    <div class="product-title"
+         data-size="30.5065768640658"
+         data-width="410"
+         data-cap="34">{{title}}</div>
+
+    <div class="price-row" data-maxwidth="410">
+      <div {{old_hidden}}
+           class="psd-text old-price"
+           data-w="102"
+           data-h="22"
+           data-fit="natural"
+           data-reference="1.990 TL"
+           data-minwidth="105">
+        <span class="ink"><span class="run" style="font-weight:500">{{price}}</span><i class="baseline"></i></span>
+      </div>
+
+      <div class="sale-box">
+        <div class="psd-text sale-price"
+             data-w="96"
+             data-h="22"
+             data-fit="natural"
+             data-reference="1.194 TL">
+          <span class="ink"><span class="run" style="font-weight:700">{{campaign_price}}</span><i class="baseline"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
-<script>
-(async()=>{
-  await document.fonts.ready;
-  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
-  const fontFor=(weight)=>`${weight} 100px Outfit, Lira, sans-serif`;
-  function fitInk(el){
-    const ink=el.querySelector('.ink'),runs=[...ink.querySelectorAll('.run')];
-    let advance=0,min=Infinity,max=-Infinity,asc=0,desc=0;
-    for(const run of runs){
-      ctx.font=fontFor(getComputedStyle(run).fontWeight);
-      const m=ctx.measureText(run.textContent);
-      min=Math.min(min,advance-m.actualBoundingBoxLeft);
-      max=Math.max(max,advance+m.actualBoundingBoxRight);
-      asc=Math.max(asc,m.actualBoundingBoxAscent);desc=Math.max(desc,m.actualBoundingBoxDescent);
-      advance+=m.width;
-    }
-    if(!Number.isFinite(min)||max<=min)return;
-    let w=+el.dataset.w;const h=+el.dataset.h;
-    let sy=h/(asc+desc),sx=w/(max-min);
-    if(el.dataset.fit==='natural'){
-      sx=sy*(.95/.93);
-      if(el.closest('.meta-prices'))w=Math.max(el.classList.contains('price-old')?112:0,(max-min)*sx);
-      if((max-min)*sx>w){const ratio=w/((max-min)*sx);sx*=ratio;sy*=ratio;}
-    }
-    const baseline=ink.querySelector('.baseline').getBoundingClientRect().top-ink.getBoundingClientRect().top;
-    const shift=el.dataset.align==='right'?w-(max-min)*sx:0;
-    ink.style.transform=`matrix(${sx},0,0,${sy},${shift-min*sx},${-(baseline-asc)*sy})`;
-    el.style.width=w+'px';el.style.height=h+'px';
-    const strike=el.querySelector('.strike');
-    if(strike){strike.style.left=shift+'px';strike.style.width=(max-min)*sx+'px';}
-  }
-  document.querySelectorAll('.psd-text').forEach(fitInk);
-  function title(el){
-    const raw=el.textContent.trim(),size=+el.dataset.size,sx=+el.dataset.sx,sy=+el.dataset.sy;
-    const maxWidth=+el.dataset.width,leading=+el.dataset.leading,spacing=+el.dataset.tracking*size/1000;
-    ctx.font=`300 ${size}px Outfit`;ctx.letterSpacing=spacing+'px';
-    const width=t=>ctx.measureText(t).width*sx;
-    const lines=[];let line='';
-    for(const word of raw.split(/\s+/)){
-      if(width(word)>maxWidth){
-        if(line){lines.push(line);line='';}
-        let part='';
-        for(const ch of word){if(part&&width(part+ch)>maxWidth){lines.push(part);part=ch;}else part+=ch;}
-        line=part;continue;
-      }
-      const candidate=line?line+' '+word:word;
-      if(line&&width(candidate)>maxWidth){lines.push(line);line=word;}else line=candidate;
-    }
-    if(line)lines.push(line);
-    el.replaceChildren();
-    lines.forEach((text,i)=>{
-      const span=document.createElement('span');span.className='title-line';span.textContent=text;
-      span.style.fontSize=size+'px';span.style.lineHeight=size+'px';span.style.letterSpacing=spacing+'px';
-      span.style.top=i*leading+'px';span.style.transform=`scale(${sx},${sy})`;el.append(span);
-    });
-    const titleHeight=lines.length?(lines.length-1)*leading+size*sy:0;
-    el.style.height=titleHeight+'px';el.dataset.titleLines=lines.length;el.dataset.titleSize=size;
-    const prices=document.querySelector('.meta-prices');
-    prices.style.top=Math.max(755,el.offsetTop+titleHeight+33)+'px';
-    // Both prices stay on one line. Scale the pair together only when necessary.
-    const scale=Math.min(1,275/prices.offsetWidth);
-    prices.style.transform=`scale(${scale})`;prices.dataset.priceScale=scale;
-  }
-  document.querySelectorAll('.product-title').forEach(title);
-  await Promise.all([...document.images].map(im=>im.decode().catch(()=>{})));
-  document.documentElement.dataset.renderReady='true';
-})().catch(e=>{document.documentElement.dataset.renderError=String(e);});
-</script>
-</body></html>
+{{FRAME_SCRIPT}}
+</body>
+</html>
