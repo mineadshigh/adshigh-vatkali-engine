@@ -5,8 +5,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #971f1f;
-  color: #fff;
+  background: #fff;
+  color: #000;
 }
 
 .frame {
@@ -14,43 +14,49 @@ html, body {
   width: 1080px;
   height: 1080px;
   overflow: hidden;
-  background: #971f1f;
+  background: #fff;
   font-family: Outfit, sans-serif;
 }
 
-.primary, .secondary, .brand, .psd-text,
-.details, .product-title, .price-row {
+.primary, .brand, .psd-text, .campaign-bar,
+.special-bar, .details, .product-title, .price-row {
   position: absolute;
 }
 
-.primary, .secondary {
+.primary {
+  left: 0;
+  top: 0;
+  width: 721px;
+  height: 1080px;
   display: block;
+  object-fit: cover;
   object-position: center;
   background: #f6f6f6;
 }
 
-.primary {
-  left: 37px;
-  top: 167px;
-  width: 498px;
-  height: 746px;
-  object-fit: cover;
-}
-
-.secondary {
-  left: 545px;
-  top: 167px;
-  width: 498px;
-  height: 746px;
-  object-fit: contain;
-}
-
 .brand {
-  left: 37px;
-  top: 65px;
-  width: 374px;
-  height: 47px;
+  left: 778px;
+  top: 67px;
+  width: 261px;
+  height: 32px;
+  display: block;
   object-fit: contain;
+}
+
+.campaign-bar, .special-bar { background: #000; }
+
+.special-bar {
+  left: 756px;
+  top: 253px;
+  width: 306px;
+  height: 62px;
+}
+
+.campaign-bar {
+  left: 636px;
+  top: 593px;
+  width: 469px;
+  height: 73px;
 }
 
 .psd-text {
@@ -81,22 +87,31 @@ html, body {
   vertical-align: baseline;
 }
 
-.discount { left: 828px; top: 65px; }
-.net { left: 965px; top: 65px; }
-.discount-word { left: 965px; top: 89px; }
-.november { left: 70px; top: 958px; }
-.november-word { left: 70px; top: 1000px; }
+.special {
+  left: 814px;
+  top: 262px;
+  color: #fff;
+}
+
+.discount { left: 768px; top: 470px; }
+.discount-extra { left: 774px; top: 535px; }
+
+.extra-offer {
+  left: 666px;
+  top: 605px;
+  color: #fff;
+}
 
 .details {
-  left: 633px;
-  top: 966px;
-  width: 410px;
+  left: 778px;
+  top: 795px;
+  width: 280px;
 }
 
 .product-title {
   left: 0;
   top: 0;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .title-line {
@@ -105,19 +120,18 @@ html, body {
   top: 0;
   display: inline-block;
   white-space: pre;
-  font-weight: 500;
+  font-weight: 400;
   transform-origin: 0 0;
 }
 
 .price-row {
   left: 0;
-  top: 34px;
+  top: 86px;
   display: flex;
+  flex-direction: column;
   flex-wrap: nowrap;
-  align-items: flex-start;
-  gap: 14px;
+  gap: 15px;
   width: max-content;
-  white-space: nowrap;
   transform-origin: 0 0;
 }
 
@@ -126,23 +140,16 @@ html, body {
   flex: 0 0 auto;
 }
 
-.old-price { margin-top: 8px; }
+.old-price { margin-left: 2px; }
 
 .old-price:after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 43%;
-  height: 5px;
-  background: #fff;
-}
-
-.sale-box {
-  flex: 0 0 auto;
-  padding: 8px 7px 4px 11px;
-  background: #fff;
-  color: #971f1f;
+  left: -2px;
+  right: -4px;
+  top: 47%;
+  height: 2px;
+  background: #000;
 }
 
 [hidden] { display: none !important; }
