@@ -1,155 +1,32 @@
 {{FONT_CSS}}
-
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  color: #000;
-}
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1080px;
-  overflow: hidden;
-  background: #fff;
-  font-family: Outfit, sans-serif;
-}
-
-.primary, .brand, .psd-text, .campaign-bar,
-.special-bar, .details, .product-title, .price-row {
-  position: absolute;
-}
-
-.primary {
-  left: 0;
-  top: 0;
-  width: 721px;
-  height: 1080px;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  background: #f6f6f6;
-}
-
-.brand {
-  left: 778px;
-  top: 67px;
-  width: 261px;
-  height: 32px;
-  display: block;
-  object-fit: contain;
-}
-
-.campaign-bar, .special-bar { background: #000; }
-
-.special-bar {
-  left: 756px;
-  top: 253px;
-  width: 306px;
-  height: 62px;
-}
-
-.campaign-bar {
-  left: 636px;
-  top: 593px;
-  width: 469px;
-  height: 73px;
-}
-
-.psd-text {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.ink {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  white-space: pre;
-  font-size: 100px;
-  line-height: 100px;
-  transform-origin: 0 0;
-}
-
-.run {
-  font-family: Outfit, sans-serif;
-  font-size: 100px;
-}
-
-.baseline {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: baseline;
-}
-
-.special {
-  left: 814px;
-  top: 262px;
-  color: #fff;
-}
-
-.discount { left: 768px; top: 470px; }
-.discount-extra { left: 774px; top: 535px; }
-
-.extra-offer {
-  left: 666px;
-  top: 605px;
-  color: #fff;
-}
-
-.details {
-  left: 778px;
-  top: 795px;
-  width: 280px;
-}
-
-.product-title {
-  left: 0;
-  top: 0;
-  font-weight: 400;
-}
-
-.title-line {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  white-space: pre;
-  font-weight: 400;
-  transform-origin: 0 0;
-}
-
-.price-row {
-  left: 0;
-  top: 86px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 15px;
-  width: max-content;
-  transform-origin: 0 0;
-}
-
-.price-row .psd-text {
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.old-price { margin-left: 2px; }
-
-.old-price:after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -4px;
-  top: 47%;
-  height: 2px;
-  background: #000;
-}
-
-[hidden] { display: none !important; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;color:#000}
+.frame{position:relative;width:1080px;overflow:hidden;background:#fff;font-family:Outfit,sans-serif}
+.primary,.brand,.psd-text,.campaign-bar,.special-bar,.details,.product-title,.price-row{position:absolute}
+.primary{display:block;object-fit:cover;object-position:center;background:#f6f6f6}
+.brand{display:block;object-fit:contain}
+.campaign-bar,.special-bar{background:#000}
+.psd-text{margin:0;white-space:nowrap}
+.ink{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-size:100px;line-height:100px;transform-origin:0 0}
+.run{font-family:Outfit,sans-serif;font-size:100px}
+.baseline{display:inline-block;width:0;height:0;vertical-align:baseline}
+.product-title{left:0;top:0;font-weight:400}
+.title-line{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-weight:400;transform-origin:0 0}
+.price-row{display:flex;width:max-content;flex-wrap:nowrap;transform-origin:0 0}
+.price-row .psd-text{position:relative;flex:0 0 auto}
+.old-price:after{content:"";position:absolute;left:-2px;right:-4px;top:47%;height:2px;background:#000}
+.special,.special-continued,.extra-offer{color:#fff}
+[hidden]{display:none!important}
+.frame{height:1080px}
+.primary{left:0;top:0;width:721px;height:1080px}
+.brand{left:778px;top:67px;width:261px;height:32px}
+.special-bar{left:740px;top:200px;width:493px;height:96px}
+.special{left:769px;top:209px}
+.special-continued{left:826px;top:251px}
+.discount{left:768px;top:470px}
+.discount-extra{left:774px;top:535px}
+.campaign-bar{left:636px;top:593px;width:469px;height:73px}
+.extra-offer{left:666px;top:605px}
+.details{left:778px;top:795px;width:280px}
+.price-row{left:0;top:86px;flex-direction:column;gap:15px}
+.old-price{margin-left:2px}
