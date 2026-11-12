@@ -27,6 +27,12 @@ html,body{margin:0;padding:0;background:#fff;color:#000}
 .special-bar{left:653px;top:1719px;width:493px;height:96px}
 .special{left:683px;top:1728px}
 .special-continued{left:739px;top:1770px}
-.details{left:722px;top:269px;width:260px}
+.details{left:722px;top:229px;width:260px}
 .price-row{left:0;top:81px;flex-direction:row;align-items:flex-start;gap:5px}
 .old-price{margin-left:1px;margin-top:5px}
+
+.price-row.three-prices{flex-direction:column;align-items:flex-start;gap:4px;white-space:nowrap}
+.reference-amount,.markdown-amount{font-size:21px;line-height:23px}
+.cart-amount{display:inline-flex;align-items:baseline;gap:8px;background:#000;color:#fff;font-size:32px;line-height:34px;padding:3px 11px}
+.cart-amount span{font-size:16px;line-height:1}
+.cart-amount span:empty{display:none}
