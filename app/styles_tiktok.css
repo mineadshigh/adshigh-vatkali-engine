@@ -1,159 +1,32 @@
 {{FONT_CSS}}
-
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  color: #000;
-}
-
-.frame {
-  position: relative;
-  width: 1080px;
-  height: 1920px;
-  overflow: hidden;
-  background: #fff;
-  font-family: Outfit, sans-serif;
-}
-
-.primary, .brand, .psd-text, .campaign-bar,
-.special-bar, .details, .product-title, .price-row {
-  position: absolute;
-}
-
-.primary {
-  left: 98px;
-  top: 397px;
-  width: 883px;
-  height: 1324px;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  background: #f6f6f6;
-}
-
-.brand {
-  left: 359px;
-  top: 83px;
-  width: 362px;
-  height: 46px;
-  display: block;
-  object-fit: contain;
-}
-
-.campaign-bar, .special-bar { background: #000; }
-
-.campaign-bar {
-  left: 97px;
-  top: 331px;
-  width: 394px;
-  height: 68px;
-}
-
-.special-bar {
-  left: 739px;
-  top: 1719px;
-  width: 244px;
-  height: 70px;
-}
-
-.psd-text {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.ink {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  white-space: pre;
-  font-size: 100px;
-  line-height: 100px;
-  transform-origin: 0 0;
-}
-
-.run {
-  font-family: Outfit, sans-serif;
-  font-size: 100px;
-}
-
-.baseline {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: baseline;
-}
-
-.discount { left: 97px; top: 221px; }
-.discount-extra { left: 103px; top: 285px; }
-
-.extra-offer {
-  left: 115px;
-  top: 342px;
-  color: #fff;
-}
-
-.special {
-  left: 781px;
-  top: 1732px;
-  color: #fff;
-}
-
-.details {
-  left: 722px;
-  top: 269px;
-  width: 260px;
-}
-
-.product-title {
-  left: 0;
-  top: 0;
-  font-weight: 400;
-}
-
-.title-line {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  white-space: pre;
-  font-weight: 400;
-  transform-origin: 0 0;
-}
-
-.price-row {
-  left: 0;
-  top: 81px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  gap: 5px;
-  width: max-content;
-  transform-origin: 0 0;
-}
-
-.price-row .psd-text {
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.old-price {
-  margin-left: 1px;
-  margin-top: 5px;
-}
-
-.old-price:after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -4px;
-  top: 47%;
-  height: 2px;
-  background: #000;
-}
-
-[hidden] { display: none !important; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;color:#000}
+.frame{position:relative;width:1080px;overflow:hidden;background:#fff;font-family:Outfit,sans-serif}
+.primary,.brand,.psd-text,.campaign-bar,.special-bar,.details,.product-title,.price-row{position:absolute}
+.primary{display:block;object-fit:cover;object-position:center;background:#f6f6f6}
+.brand{display:block;object-fit:contain}
+.campaign-bar,.special-bar{background:#000}
+.psd-text{margin:0;white-space:nowrap}
+.ink{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-size:100px;line-height:100px;transform-origin:0 0}
+.run{font-family:Outfit,sans-serif;font-size:100px}
+.baseline{display:inline-block;width:0;height:0;vertical-align:baseline}
+.product-title{left:0;top:0;font-weight:400}
+.title-line{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-weight:400;transform-origin:0 0}
+.price-row{display:flex;width:max-content;flex-wrap:nowrap;transform-origin:0 0}
+.price-row .psd-text{position:relative;flex:0 0 auto}
+.old-price:after{content:"";position:absolute;left:-2px;right:-4px;top:47%;height:2px;background:#000}
+.special,.special-continued,.extra-offer{color:#fff}
+[hidden]{display:none!important}
+.frame{height:1920px}
+.brand{left:359px;top:83px;width:362px;height:46px}
+.discount{left:97px;top:221px}
+.discount-extra{left:103px;top:285px}
+.campaign-bar{left:97px;top:331px;width:394px;height:68px}
+.extra-offer{left:115px;top:342px}
+.primary{left:98px;top:397px;width:883px;height:1324px}
+.special-bar{left:653px;top:1719px;width:493px;height:96px}
+.special{left:683px;top:1728px}
+.special-continued{left:739px;top:1770px}
+.details{left:722px;top:269px;width:260px}
+.price-row{left:0;top:81px;flex-direction:row;align-items:flex-start;gap:5px}
+.old-price{margin-left:1px;margin-top:5px}
