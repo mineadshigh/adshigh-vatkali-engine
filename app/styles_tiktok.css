@@ -16,8 +16,10 @@ body{margin:0}
 .frame{height:1920px}
 .brand{left:54px;top:45px;width:452px;height:57px}
 .photo{left:54px;top:143px;width:972px;height:1456px}
-.promo{left:730px;top:39px}
-.promo strong{margin-top:7px}
+.promo{left:560px;right:54px;top:38px;text-align:right;line-height:38px;white-space:nowrap}
+.promo b{font-size:34px}
+.promo-checkout{display:flex;justify-content:flex-end;align-items:baseline;gap:8px;margin-top:8px;line-height:1}
+.promo strong{font-size:38px;line-height:40px;letter-spacing:-.5px}
 .details{left:53px;top:1623px;width:973px;display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
 .product-title{font-size:37px;min-width:0}
 .price-row{font-size:36px;flex:none}
