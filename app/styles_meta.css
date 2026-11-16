@@ -1,38 +1,25 @@
 {{FONT_CSS}}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#fff;color:#000}
-.frame{position:relative;width:1080px;overflow:hidden;background:#fff;font-family:Outfit,sans-serif}
-.primary,.brand,.psd-text,.campaign-bar,.special-bar,.details,.product-title,.price-row{position:absolute}
-.primary{display:block;object-fit:cover;object-position:center;background:#f6f6f6}
-.brand{display:block;object-fit:contain}
-.campaign-bar,.special-bar{background:#000}
-.psd-text{margin:0;white-space:nowrap}
-.ink{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-size:100px;line-height:100px;transform-origin:0 0}
-.run{font-family:Outfit,sans-serif;font-size:100px}
-.baseline{display:inline-block;width:0;height:0;vertical-align:baseline}
-.product-title{left:0;top:0;font-weight:400}
-.title-line{position:absolute;left:0;top:0;display:inline-block;white-space:pre;font-weight:400;transform-origin:0 0}
-.price-row{display:flex;width:max-content;flex-wrap:nowrap;transform-origin:0 0}
-.price-row .psd-text{position:relative;flex:0 0 auto}
-.old-price:after{content:"";position:absolute;left:-2px;right:-4px;top:47%;height:2px;background:#000}
-.special,.special-continued,.extra-offer{color:#fff}
+body{margin:0}
+.frame{position:relative;width:1080px;overflow:hidden;color:#fff;font-family:Outfit,Arial,sans-serif}
+.bg,.brand,.photo,.promo,.november,.details{position:absolute}
+.bg{inset:0;width:100%;height:100%}
+.brand{object-fit:contain}
+.photo{object-fit:cover;object-position:center}
+.promo{font-size:19px;line-height:19px;font-weight:300}
+.promo strong{display:block;font-size:52px;line-height:.98;font-weight:700;letter-spacing:-1px}
+.product-title{text-transform:uppercase;font-weight:500;overflow-wrap:anywhere;line-height:1.06}
+.price-row{display:flex;align-items:baseline;gap:.55em;flex-wrap:nowrap;width:max-content;white-space:nowrap;font-weight:700}
+.price-row del{text-decoration-thickness:.12em}
+.price-row strong{background:#fff;color:#901f21;padding:0 .3em;line-height:1.14}
 [hidden]{display:none!important}
-.frame{height:1080px}
-.primary{left:0;top:0;width:721px;height:1080px}
-.brand{left:778px;top:67px;width:261px;height:32px}
-.special-bar{left:740px;top:200px;width:493px;height:96px}
-.special{left:769px;top:209px}
-.special-continued{left:826px;top:251px}
-.discount{left:768px;top:470px}
-.discount-extra{left:774px;top:535px}
-.campaign-bar{left:636px;top:593px;width:469px;height:73px}
-.extra-offer{left:666px;top:605px}
-.details{left:778px;top:795px;width:280px}
-.price-row{left:0;top:86px;flex-direction:column;gap:15px}
-.old-price{margin-left:2px}
-
-.price-row.three-prices{flex-direction:column;align-items:flex-start;gap:4px;white-space:nowrap}
-.reference-amount,.markdown-amount{font-size:21px;line-height:23px}
-.cart-amount{display:inline-flex;align-items:baseline;gap:8px;background:#000;color:#fff;font-size:32px;line-height:34px;padding:3px 11px}
-.cart-amount span{font-size:16px;line-height:1}
-.cart-amount span:empty{display:none}
+ .frame{height:1080px}
+.brand{left:37px;top:65px;width:374px;height:47px}
+.photo{top:167px;width:498px;height:746px}
+.primary{left:37px}.secondary{left:545px}
+.november{left:750px;top:59px;width:294px;text-align:center;color:#edc452;font-size:23px;font-weight:500}
+.november strong{display:block;font-weight:700;font-size:33px;line-height:1.1;white-space:nowrap}
+.promo{left:75px;top:951px}
+.details{left:633px;top:960px;width:410px}
+.product-title{font-size:29px}
+.price-row{margin-top:4px;font-size:29px}
