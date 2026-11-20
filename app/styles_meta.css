@@ -1,27 +1,22 @@
 {{FONT_CSS}}
 *{box-sizing:border-box}
 body{margin:0}
-.frame{position:relative;width:1080px;overflow:hidden;color:#fff;font-family:Outfit,Arial,sans-serif}
-.bg,.brand,.photo,.promo,.november,.details{position:absolute}
-.bg{inset:0;width:100%;height:100%}
-.brand{object-fit:contain}
-.photo{object-fit:cover;object-position:center}
-.promo{font-size:19px;line-height:19px;font-weight:300}
-.promo strong{display:block;font-size:52px;line-height:.98;font-weight:700;letter-spacing:-1px}
-.product-title{text-transform:uppercase;font-weight:500;overflow-wrap:anywhere;line-height:1.06}
-.price-row{display:flex;align-items:baseline;gap:.55em;flex-wrap:nowrap;width:max-content;white-space:nowrap;font-weight:700}
-.price-row del{text-decoration-thickness:.12em}
-.price-row strong{background:#fff;color:#901f21;padding:0 .3em;line-height:1.14}
+.frame{position:relative;width:1080px;height:1080px;overflow:hidden;background:#000;color:#fff;font-family:Outfit,Arial,sans-serif}
+.brand,.photo,.friday,.year-label,.offer,.cart-panel,.details{position:absolute}
+.brand{left:778px;top:67px;width:261px;height:32px;object-fit:contain;filter:brightness(0) invert(1)}
+.friday{left:944px;top:96px;font-family:Georgia,serif;font-size:45px;line-height:51px;color:#fff}
+.photo{left:0;top:0;width:721px;height:1080px;object-fit:cover;object-position:center}
+.year-label{left:754px;top:260px;width:310px;height:40px;background:#fff;color:#000;font-size:25px;line-height:40px;text-align:center;font-weight:700;white-space:nowrap}
+.offer{left:768px;top:470px;color:#fff}
+.offer strong{display:block;font-size:76px;line-height:57px;font-weight:700;letter-spacing:-3px}
+.offer b{display:block;margin:8px 0 0 6px;font-size:34px;line-height:35px;font-weight:700;white-space:nowrap}
+.cart-panel{left:617px;top:586px;width:564px;height:88px;background:#000}
+.cart-offer{position:absolute;left:7px;top:7px;width:480px;height:73px;padding:9px 12px;background:#fff;color:#000;white-space:nowrap;font-size:39px;line-height:55px;font-weight:300}
+.cart-offer span{margin-right:10px}
+.cart-offer strong{font-weight:700}
+.details{left:779px;top:795px;width:260px}
+.product-title{font-size:26px;line-height:31px;font-weight:400;overflow-wrap:anywhere}
+.price-row{display:block;margin-top:27px;width:max-content;white-space:nowrap;font-size:26px;line-height:30px;font-weight:400}
+.price-row del{display:block;text-decoration-thickness:2px}
+.price-row strong{display:block;margin-top:4px;font-size:36px;line-height:40px;font-weight:700}
 [hidden]{display:none!important}
- .frame{height:1080px}
-.brand{left:37px;top:65px;width:374px;height:47px}
-.photo{top:167px;width:498px;height:746px}
-.primary{left:37px}.secondary{left:545px}
-.november{left:750px;top:59px;width:294px;text-align:center;color:#edc452;font-size:23px;font-weight:500}
-.november strong{display:block;font-weight:700;font-size:33px;line-height:1.1;white-space:nowrap}
-.promo{left:75px;top:951px}
-.promo b{font-size:34px;line-height:38px}
-.promo strong{margin-top:3px;font-size:38px;line-height:40px;letter-spacing:-.5px}
-.details{left:633px;top:960px;width:410px}
-.product-title{font-size:29px}
-.price-row{margin-top:4px;font-size:29px}
